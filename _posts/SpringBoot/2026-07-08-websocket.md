@@ -474,7 +474,7 @@ spring:
       enabled: true
 ```
 
-Java 21 부터는 virtual thread 를 사용할 수 있는데, 대규모 I/O 처리가 필요한 애플리케이션의 성능을 극대화할 수 있다.
+Java 21 부터는 virtual thread 를 사용할 수 있는데, 대규모 I/O 처리가 필요한 애플리케이션의 성능을 극대화할 수 있다. 위 설정만으로도 virtual thread 를 사용할 수 있다(원래는 Tomcat 의 일반 스레드를 사용함). 혹은 다음을 설정해주면 된다:
 
 ```java
 @Configuration
