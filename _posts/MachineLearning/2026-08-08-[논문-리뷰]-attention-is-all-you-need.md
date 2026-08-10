@@ -198,3 +198,5 @@ def forward(self, x, mask=None):
 ```
 
 이제 EncoderLayer 에 임베딩 벡터를 넣으면 된다.
+
+> 디코더 부터 포지셔널 인코딩은 다음에

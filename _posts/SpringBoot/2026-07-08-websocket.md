@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  WebSocket
-image: /assets/img/
+image: /assets/img/websocket.png
 date:   2026-07-08 16:09:15 +0900
 categories: 
 code_runner: false
