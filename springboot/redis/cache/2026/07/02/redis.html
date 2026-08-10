@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>Redis</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Redis | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Redis" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/springboot/redis/cache/2026/07/02/redis.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/springboot/redis/cache/2026/07/02/redis.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:image" content="https://seonghun120614.github.io/seonghun120614/assets/img/redis.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-07-02T07:00:19+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://seonghun120614.github.io/seonghun120614/assets/img/redis.png" />
+<meta property="twitter:title" content="Redis" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2026-07-02T07:00:19+00:00","datePublished":"2026-07-02T07:00:19+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"Redis","image":"https://seonghun120614.github.io/seonghun120614/assets/img/redis.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/springboot/redis/cache/2026/07/02/redis.html"},"url":"https://seonghun120614.github.io/seonghun120614/springboot/redis/cache/2026/07/02/redis.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/springboot/redis/cache/2026/07/02/redis.html">
+        <h2 class="post-title">Redis</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Jul 2, 2026</div><ul class="post-categories"><li>SpringBoot</li><li>Redis</li><li>Cache</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#redis-핵심-기능">Redis 핵심 기낭</a></li>
+  <li><a href="#왜-빠른가">왜 빠른가?</a></li>
+  <li><a href="#활용-패턴">활용 패턴</a>
+    <ul>
+      <li><a href="#1-config--caching">1. Config &amp; Caching</a></li>
+      <li><a href="#2-session-storage">2. Session Storage</a></li>
+      <li><a href="#3-real-time-queue">3. Real-time Queue</a>
+        <ul>
+          <li><a href="#real-time-ranking">Real-time Ranking</a></li>
+          <li><a href="#옵션-cache-miss-fallback">(옵션) Cache Miss Fallback</a></li>
+        </ul>
+      </li>
+      <li><a href="#4-distributed-lock">4. Distributed Lock</a></li>
+    </ul>
+  </li>
+  <li><a href="#redis-특징">Redis 특성</a></li>
+  <li><a href="#ttl-과-만료">TTL 과 만료</a></li>
+  <li><a href="#영속성">영속성</a></li>
+  <li><a href="#캐시-사용-시-주의할-문제">캐시 사용 시 주의할 문제</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>REmote DIctionary Server 메모리에 데이터를 저장하는 인메모리 데이터 저장소이다.</p>
+
+<h3 id="redis-핵심-기능">Redis 핵심 기능</h3>
+
+<ul>
+  <li><strong>인메모리(In-memory)</strong>: 데이터를 디스크가 아닌 RAM에 둠 → 매우 빠름(마이크로초 단위). 디스크 기반 RDB(수 밀리초)보다 수십 ~ 수백 배 빠름.</li>
+  <li><strong>Key-Value 구조</strong>: 기본은 키로 값을 저장/조회. 단, 값의 타입이 단순 문자열이 아니라 풍부함</li>
+  <li><strong>싱글 스레드</strong>: 명령을 한 번에 하나씩 순차 처리. 이게 Redis 이해의 핵심 열쇠</li>
+</ul>
+
+<h3 id="왜-빠른가">왜 빠른가?</h3>
+
+<ul>
+  <li>메모리 접근: 디스크 I/O가 없음</li>
+  <li>싱글 스레드 이벤트 루프: 동시성 제어를 위한 락(lock)이 필요 없어서 <strong>컨텍스트 스위칭</strong> 혹은 <strong>경합 비용</strong>이 없음, 즉, 락 오버헤드 제거 + 메모리 기반이라 오히려 단순하고 빠름</li>
+  <li>효율적 자료구조: 각 데이터 타입마다 최적화된 내부 구현</li>
+</ul>
+
+<h3 id="활용-패턴">활용 패턴</h3>
+
+<p>우선 Redis 서버를 띄우자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">d</span> <span class="o">-</span><span class="n">p</span> <span class="mi">6379</span><span class="o">:</span><span class="mi">6379</span> <span class="n">redis</span>
+</code></pre></div></div>
+
+<p>redis 와 통신하기 위해서는 다음 dependencies 를 추가한다:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+</code></pre></div></div>
+
+<p>구성 설정은 다음과 같이 해주면 소통할 수 있다.</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">data</span><span class="pi">:</span>
+    <span class="na">redis</span><span class="pi">:</span>
+      <span class="na">host</span><span class="pi">:</span> <span class="s">localhost</span>
+      <span class="na">port</span><span class="pi">:</span> <span class="m">6379</span>
+</code></pre></div></div>
+
+<h4 id="1-config--caching">1. Config &amp; Caching</h4>
+
+<p>DB 앞에서 Redis 를 두고 자주 사용하는 패턴은 Cache-Aside 패턴이다.</p>
+
+<ol>
+  <li>요청을 받은 쪽에서 서비스 단에 Redis 가 해당 요청을 가로채서 <code class="language-plaintext highlighter-rouge">Cache Hit</code> 이 되면 해당 value 를 변환해서 줌</li>
+  <li>만약 <code class="language-plaintext highlighter-rouge">Cache Miss</code> 가 뜨면 DB 를 조회해서 Redis 에 저장 후 변환하게 됨</li>
+</ol>
+
+<p>이를 통해 대용량 데이터 조회에 대해 이전에 조회한 이력이 있으면 캐시 값을 조회해보고 바로바로 반환할 수 있도록 캐싱이 가능하다. <code class="language-plaintext highlighter-rouge">@EnableCaching</code> 만 붙이면 바로 사용할 수 있지만, TTL과 JSON 직렬화를 지정하는 게 실무에선 필수다. 구성 설정은 서비스에 맞게 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RequiredArgsConstructor</span>
+<span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RedisCacheConfig</span> <span class="o">{</span>
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">CacheManager</span> <span class="nf">cacheManager</span><span class="o">(</span><span class="nc">RedisConnectionFactory</span> <span class="n">connectionFactory</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">RedisConnectionFactory</code> 는 redis 와의 커넥션을 만들어주는 팩토리 메서드 패턴 객체이다. 미리 만들어져 있기 때문에 주입 받아서 설정을 건드릴 때 사용하자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nf">RedisCacheConfiguration</span><span class="o">(</span><span class="nc">TtlFunction</span> <span class="n">ttlFunction</span><span class="o">,</span> <span class="nc">Boolean</span> <span class="n">cacheNullValues</span><span class="o">,</span> <span class="nc">Boolean</span> <span class="n">enableTimeToIdle</span><span class="o">,</span>
+        <span class="nc">Boolean</span> <span class="n">usePrefix</span><span class="o">,</span> <span class="nc">CacheKeyPrefix</span> <span class="n">keyPrefix</span><span class="o">,</span> <span class="nc">SerializationPair</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">keySerializationPair</span><span class="o">,</span>
+        <span class="nc">SerializationPair</span><span class="o">&lt;?&gt;</span> <span class="n">valueSerializationPair</span><span class="o">,</span> <span class="nc">ConversionService</span> <span class="n">conversionService</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="k">this</span><span class="o">.</span><span class="na">ttlFunction</span> <span class="o">=</span> <span class="n">ttlFunction</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">cacheNullValues</span> <span class="o">=</span> <span class="n">cacheNullValues</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">enableTimeToIdle</span> <span class="o">=</span> <span class="n">enableTimeToIdle</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">usePrefix</span> <span class="o">=</span> <span class="n">usePrefix</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">keyPrefix</span> <span class="o">=</span> <span class="n">keyPrefix</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">keySerializationPair</span> <span class="o">=</span> <span class="n">keySerializationPair</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">valueSerializationPair</span> <span class="o">=</span> <span class="o">(</span><span class="nc">SerializationPair</span><span class="o">&lt;</span><span class="nc">Object</span><span class="o">&gt;)</span> <span class="n">valueSerializationPair</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">conversionService</span> <span class="o">=</span> <span class="n">conversionService</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">RedisCacheConfiguration</code> 클래스를 만들어서 구성설정을 커스터마이징 할 수 있다. RedisConfiguration 은 위와 같은 인자들을 받아서 생성시킬 수 있다. 하지만 이 모든 것을 다 외울 필요는 없고 기본적으로 <code class="language-plaintext highlighter-rouge">defaultCacheConfig()</code> 만 가져와 setter 기능을 가진 메서드들을 이용해서 설정해주자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">RedisCacheConfiguration</span> <span class="n">config</span> <span class="o">=</span> <span class="nc">RedisCacheConfiguration</span><span class="o">.</span><span class="na">defaultCacheConfig</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">entryTtl</span><span class="o">(</span><span class="nc">Duration</span><span class="o">.</span><span class="na">ofMinutes</span><span class="o">(</span><span class="mi">5</span><span class="o">))</span>          <span class="c1">// TTL 5분</span>
+        <span class="o">.</span><span class="na">disableCachingNullValues</span><span class="o">()</span>                <span class="c1">// null은 캐싱 안 함</span>
+        <span class="o">.</span><span class="na">serializeValuesWith</span><span class="o">(</span>
+            <span class="c1">// TODO: SerializationPair&lt;?&gt; valueSerializationPair 넣기</span>
+        <span class="o">);</span>
+</code></pre></div></div>
+
+<p>5 분의 TTL 을 설정하고, null 값은 직렬화에서 무시하도록 <code class="language-plaintext highlighter-rouge">disableCachingNullValues()</code> 를 세팅한다. 여기서 <code class="language-plaintext highlighter-rouge">serializeValuesWith</code> 에는 <code class="language-plaintext highlighter-rouge">SerializationPair&lt;?&gt; valueSerializationPair</code> 을 넣어줘야 한다. 이 객체에는 <code class="language-plaintext highlighter-rouge">Serializer</code> 와 <code class="language-plaintext highlighter-rouge">Deserializer</code> 가 들어가 있어야 한다. 그렇다면 <code class="language-plaintext highlighter-rouge">SerializationPair</code> 에 그 해답이 있다. <code class="language-plaintext highlighter-rouge">SerializationPair</code> 는 인터페이스이고, 이 안의 <code class="language-plaintext highlighter-rouge">fromSerializer</code> 라는 함수에 우리가 가져왔던 의존성에 여기에 넣을 수 있는 구현체가 들어가있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">RedisSerializationContext</span><span class="o">.</span><span class="na">SerializationPair</span><span class="o">.</span><span class="na">fromSerializer</span><span class="o">(</span>
+    <span class="nc">RedisSerializer</span><span class="o">.</span><span class="na">json</span><span class="o">()</span>
+<span class="o">)</span>
+</code></pre></div></div>
+
+<p>위를 serializeValuesWith 에 넣어주면 되겠다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="nc">RedisCacheManager</span><span class="o">.</span><span class="na">builder</span><span class="o">(</span><span class="n">connectionFactory</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">cacheDefaults</span><span class="o">(</span><span class="n">redisCacheConfiguration</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>이제 return 값으로 <code class="language-plaintext highlighter-rouge">RedisCacheManager</code> 를 주기 때문에 빌더 패턴을 이용하여 <code class="language-plaintext highlighter-rouge">RedisCacheManager</code> 를 넘겨주면 된다. 이제 다 끝났다 캐싱 기능을 켜주고, 도메인을 하나 정의하고 이를 통해 캐싱해보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@EnableCaching</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RedisCacheConfig</span> <span class="o">{</span>
+
+<span class="nd">@SpringBootApplication</span>
+<span class="nd">@EnableCaching</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringRedisApplication</span> <span class="o">{</span>
+</code></pre></div></div>
+
+<p>Config 에 붙여도 되고 Application 에 직접 붙여도 된다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ProductRepository</span> <span class="kd">extends</span> <span class="nc">JpaRepository</span><span class="o">&lt;</span><span class="nc">Product</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;</span> <span class="o">{</span> <span class="o">}</span>
+
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"products"</span><span class="o">)</span>
+<span class="nd">@Getter</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Product</span> <span class="o">{</span>
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">SEQUENCE</span><span class="o">,</span> <span class="n">generator</span> <span class="o">=</span> <span class="s">"product_seq"</span><span class="o">)</span>
+    <span class="nd">@SequenceGenerator</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"product_seq"</span><span class="o">,</span> <span class="n">sequenceName</span> <span class="o">=</span> <span class="s">"product_seq"</span><span class="o">,</span> <span class="n">allocationSize</span> <span class="o">=</span> <span class="mi">50</span><span class="o">)</span>
+    <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/products"</span><span class="o">)</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductController</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">ProductService</span> <span class="n">productService</span><span class="o">;</span>
+
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">Product</span> <span class="nf">getProduct</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">productService</span><span class="o">.</span><span class="na">getProduct</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@PostMapping</span>
+    <span class="kd">public</span> <span class="nc">Product</span> <span class="nf">saveProduct</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">productService</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductService</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">ProductRepository</span> <span class="n">productRepository</span><span class="o">;</span>
+
+    <span class="nd">@Transactional</span><span class="o">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="nd">@Cacheable</span><span class="o">(</span><span class="n">cacheNames</span> <span class="o">=</span> <span class="s">"products"</span><span class="o">,</span> <span class="n">key</span> <span class="o">=</span> <span class="s">"#id"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">Product</span> <span class="nf">getProduct</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">productRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">id</span><span class="o">).</span><span class="na">orElseThrow</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="nc">Product</span> <span class="nf">save</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">productRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="k">new</span> <span class="nc">Product</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>필자는 Postgres 연동을 시켰다. MySQL 을 써도 된다. 서비스에서 주의 깊게 보아야 할 것은 <code class="language-plaintext highlighter-rouge">@Cacheable(cacheNames = "products", key = "#id")</code> 이다. 의미는 Redis 에서 products 라는 캐시에 id 값을 키로 찾아보고 있으면 메서드를 실행하지 않고 바로 해당 값을 가져와 반환(cache hit)하고, 아니라면 DB 에서 조회하여 이를 redis 에 저장하면서 반환한다(cache miss). 이 동작은 이 함수의 제어를 가로채어 동작하게 된다. Redis 에 저장되는 모습을 보자.</p>
+
+<p><img src="/assets/img/save-product.png" alt="save product" /></p>
+
+<p>한 product 를 생성하여 조회를 하여 지연시간 차이를 비교해보자.</p>
+
+<p><img src="/assets/img/retrieve-product.png" alt="retrieve product" /></p>
+
+<p>첫번째 조회이다. 첫번째는 cache miss 가 되어 DB 에 조회를 하여 redis 에 저장도 하고 응답도 보내는 구조이다.</p>
+
+<p><img src="/assets/img/2nd-retrieve-product.png" alt="2nd retrieve" /></p>
+
+<p>두번째 조회에서는 cache hit 가 발생하여 246ms 에서 47ms 로 줄어들은 것을 알 수 있다. 약 5배 빨라졌다.</p>
+
+<p><img src="/assets/img/3rd-retrieve-product.png" alt="3rd retrieve" /></p>
+
+<p>세번째 조회에서는 더 빨라졌다. 6ms 밖에 안걸리는 것을 볼 수 있다.</p>
+
+<p>두번째는 왜 세번째처럼 되지 않았을까? 그 이유는 다음과 같다:</p>
+
+<ol>
+  <li>Redis 연결 풀 초기화: Lettuce 커넥션 풀은 보통 lazy하게 초기화 되어서 2번째 요청에서 처음으로 Redis에 실제 연결을 맺느라 TCP 핸드셰이크 + 커넥션 셋업 비용이 한 번 발생하게 된다. 세번째부터는 미리 만들어져 있는 커넥션을 재사용하니 이런 과정을 거칠 필요가 없는 것이다.</li>
+  <li>JIT 컴파일: JVM은 처음엔 바이트코드를 인터프리터로 실행하다가, 자주 불리는 메서드를 감지하면 그때서야 네이티브 코드로 JIT 컴파일한다. 이는 Lazy Initialize 와 비슷한 맥락이다.</li>
+  <li>Jackson 웜업: JSON을 Product 객체로 되돌릴때 Jackson이 해당 타입의 리플렉션 정보를 처음 분석하게 되며, 이게 첫 역직렬화 때 이 분석 비용이 들기 때문이다.</li>
+</ol>
+
+<p>결국에는 Lazy 하게 동작하기 때문에 지연이 일어난 것이다. Redis 의 진짜 성능은 3번째 결과이다.</p>
+
+<h4 id="2-session-storage">2. Session Storage</h4>
+
+<p>여러 서버 인스턴스로 스케일아웃하면 세션을 각 서버 메모리에 두면 안 되고(요청이 다른 서버로 가면 세션 유실),<br />
+공유 세션 저장소가 필요함. 이때 Redis가 이런 역할을 하게 된다.</p>
+
+<p>JWT는 stateless라 로그아웃/무효화가 어렵다 했다. 하지만 Redis에 블랙리스트(무효화된 토큰)나 Refresh Token을 저장하면, 모든 인스턴스가 같은 Redis를 보므로 즉시 무효화가 가능해진다. TTL을 토큰 만료시간과 맞추면 자동 정리까지 되게 된다.</p>
+
+<p>이를 저번 JWT 구현체에 이어 업그레이드 해보자. 그 전에 Redis 에 직접 명령을 내릴 수 있는 <code class="language-plaintext highlighter-rouge">StringRedisTemplate</code> 설정을 해주어야 한다. 이를 이용해 Redis에 값을 넣고, 꺼내고, 지우고, TTL을 거는 모든 걸 할 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Bean</span>
+<span class="kd">public</span> <span class="nc">StringRedisTemplate</span> <span class="nf">stringRedisTemplate</span><span class="o">(</span><span class="nc">RedisConnectionFactory</span> <span class="n">cf</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">StringRedisTemplate</span><span class="o">(</span><span class="n">cf</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>위를 이용해 할 수 있는 메서드는 다음과 같다:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>메서드</th>
+      <th>Redis 자료구조</th>
+      <th>대응 명령어</th>
+      <th>쓰임새</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">opsForValue()</code></td>
+      <td>String (단순 값)</td>
+      <td><code class="language-plaintext highlighter-rouge">SET</code>, <code class="language-plaintext highlighter-rouge">GET</code></td>
+      <td>블랙리스트, 캐시, 카운터</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">opsForList()</code></td>
+      <td>List</td>
+      <td><code class="language-plaintext highlighter-rouge">LPUSH</code>, <code class="language-plaintext highlighter-rouge">RPOP</code></td>
+      <td>큐, 최근 목록</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">opsForSet()</code></td>
+      <td>Set</td>
+      <td><code class="language-plaintext highlighter-rouge">SADD</code>, <code class="language-plaintext highlighter-rouge">SISMEMBER</code></td>
+      <td>중복 없는 집합</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">opsForZSet()</code></td>
+      <td>Sorted Set</td>
+      <td><code class="language-plaintext highlighter-rouge">ZADD</code>, <code class="language-plaintext highlighter-rouge">ZRANGE</code></td>
+      <td>랭킹, 리더보드</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">opsForHash()</code></td>
+      <td>Hash</td>
+      <td><code class="language-plaintext highlighter-rouge">HSET</code>, <code class="language-plaintext highlighter-rouge">HGET</code></td>
+      <td>객체를 필드별로 저장</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>이제 이를 이용해 redis 에 직접 명령을 내리는 클래스를 구현하자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RequiredArgsConstructor</span>
+<span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RedisUtil</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">StringRedisTemplate</span> <span class="n">stringRedisTemplate</span><span class="o">;</span>
+
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">save</span><span class="o">(</span><span class="nc">String</span> <span class="n">prefix</span><span class="o">,</span>
+                     <span class="nc">String</span> <span class="n">userId</span><span class="o">,</span>
+                     <span class="nc">String</span> <span class="n">value</span><span class="o">,</span>
+                     <span class="kt">long</span> <span class="n">ttlMillis</span>
+    <span class="o">)</span> <span class="o">{</span>
+        <span class="n">stringRedisTemplate</span><span class="o">.</span><span class="na">opsForValue</span><span class="o">().</span><span class="na">set</span><span class="o">(</span>
+                <span class="n">prefix</span> <span class="o">+</span> <span class="n">userId</span><span class="o">,</span>
+                <span class="n">value</span><span class="o">,</span>
+                <span class="nc">Duration</span><span class="o">.</span><span class="na">ofMillis</span><span class="o">(</span><span class="n">ttlMillis</span><span class="o">)</span>
+        <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Transactional</span><span class="o">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValidAndEquals</span><span class="o">(</span><span class="nc">String</span> <span class="n">prefix</span><span class="o">,</span>
+                                    <span class="nc">String</span> <span class="n">userId</span><span class="o">,</span>
+                                    <span class="nc">String</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">stringRedisTemplate</span><span class="o">.</span><span class="na">opsForValue</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">userId</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">cur</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="k">return</span> <span class="n">cur</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Transactional</span><span class="o">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">get</span><span class="o">(</span><span class="nc">String</span> <span class="n">prefix</span><span class="o">,</span> <span class="nc">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">stringRedisTemplate</span><span class="o">.</span><span class="na">opsForValue</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">userId</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">delete</span><span class="o">(</span><span class="nc">String</span> <span class="n">prefix</span><span class="o">,</span>
+                       <span class="nc">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">stringRedisTemplate</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">userId</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>위를 이용해 RefreshToken 을 저장, 조회, 삭제하는 서비스를 만들자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RefreshTokenService</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">RedisUtil</span> <span class="n">redisUtil</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">PREFIX</span> <span class="o">=</span> <span class="s">"refresh:"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="no">TTL_MILLIS</span> <span class="o">=</span> <span class="mi">604800000L</span><span class="o">;</span>
+
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">save</span><span class="o">(</span><span class="nc">String</span> <span class="n">userId</span><span class="o">,</span> <span class="nc">String</span> <span class="n">refreshToken</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">redisUtil</span><span class="o">.</span><span class="na">save</span><span class="o">(</span>
+                <span class="no">PREFIX</span><span class="o">,</span>
+                <span class="n">userId</span><span class="o">,</span>
+                <span class="n">refreshToken</span><span class="o">,</span>
+                <span class="no">TTL_MILLIS</span>
+        <span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Transactional</span><span class="o">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValid</span><span class="o">(</span><span class="nc">String</span> <span class="n">userId</span><span class="o">,</span> <span class="nc">String</span> <span class="n">refreshToken</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">redisUtil</span><span class="o">.</span><span class="na">isValidAndEquals</span><span class="o">(</span><span class="no">PREFIX</span><span class="o">,</span> <span class="n">userId</span><span class="o">,</span> <span class="n">refreshToken</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">delete</span><span class="o">(</span><span class="nc">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">redisUtil</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="no">PREFIX</span><span class="o">,</span> <span class="n">userId</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이제 블랙리스트에 등록하는 서비스도 만들자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TokenBlacklistService</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">PREFIX</span> <span class="o">=</span> <span class="s">"blacklist:"</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">RedisUtil</span> <span class="n">redisUtil</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">blacklist</span><span class="o">(</span><span class="nc">String</span> <span class="n">jti</span><span class="o">,</span> <span class="kt">long</span> <span class="n">remainingMillis</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">remainingMillis</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="n">redisUtil</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="no">PREFIX</span><span class="o">,</span> <span class="n">jti</span><span class="o">,</span> <span class="s">"logout"</span><span class="o">,</span> <span class="n">remainingMillis</span><span class="o">);</span> <span class="c1">// 값은 아무거나 해도 무상관</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isBlacklisted</span><span class="o">(</span><span class="nc">String</span> <span class="n">jti</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">redisUtil</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="no">PREFIX</span><span class="o">,</span> <span class="n">jti</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>refresh 필터로 가서 데이터 소스를 사용하고 있는 코드를 리팩토링하자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">tokenBlacklistService</span><span class="o">.</span><span class="na">isBlacklisted</span><span class="o">(</span><span class="n">oldRefreshClaim</span><span class="o">.</span><span class="na">getId</span><span class="o">()))</span> <span class="o">{</span>
+    <span class="n">response</span><span class="o">.</span><span class="na">setStatus</span><span class="o">(</span><span class="nc">HttpStatus</span><span class="o">.</span><span class="na">UNAUTHORIZED</span><span class="o">.</span><span class="na">value</span><span class="o">());</span>
+    <span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="nc">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="o">);</span>
+    <span class="n">response</span><span class="o">.</span><span class="na">setCharacterEncoding</span><span class="o">(</span><span class="nc">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">.</span><span class="na">name</span><span class="o">());</span>
+    <span class="n">response</span><span class="o">.</span><span class="na">getWriter</span><span class="o">().</span><span class="na">write</span><span class="o">(</span><span class="s">"무효화된 토큰"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>refresh 필터에서 blacklist 가 있는지 여부를 검사해주면 된다. 그리고 리프레시를 저장하는 데이터 소스를 DB 로 두지 않고, 레디스가 저장하게 만들자. 그리고 이전에는 refresh 를 저장하지 않았다. 지금은 만들고 저장하는 코드까지 넣어주자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onAuthenticationSuccess</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span>
+                                    <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span>
+                                    <span class="nc">Authentication</span> <span class="n">authentication</span>
+<span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="nc">String</span><span class="o">[]</span> <span class="n">jtiRefreshToken</span> <span class="o">=</span> <span class="n">jwtProvider</span><span class="o">.</span><span class="na">createRefreshToken</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">roles</span><span class="o">);</span>
+
+    <span class="n">refreshTokenService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">jtiRefreshToken</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+
+    <span class="kt">var</span> <span class="n">accessCookie</span> <span class="o">=</span> <span class="n">cookieHandler</span><span class="o">.</span><span class="na">createCookie</span><span class="o">(</span><span class="s">"access_token"</span><span class="o">,</span>
+                                                    <span class="n">accessToken</span><span class="o">,</span>
+                                                    <span class="n">jwtProvider</span><span class="o">.</span><span class="na">getAccessExpirySeconds</span><span class="o">());</span>
+    <span class="kt">var</span> <span class="n">refreshCookie</span> <span class="o">=</span> <span class="n">cookieHandler</span><span class="o">.</span><span class="na">createCookie</span><span class="o">(</span><span class="s">"refresh_token"</span><span class="o">,</span>
+                                                    <span class="n">jtiRefreshToken</span><span class="o">[</span><span class="mi">1</span><span class="o">],</span>
+                                                    <span class="n">jwtProvider</span><span class="o">.</span><span class="na">getRefreshExpirySeconds</span><span class="o">());</span>
+
+    <span class="c1">//...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doFilterInternal</span><span class="o">(</span><span class="nc">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span>
+                                <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span>
+                                <span class="nc">FilterChain</span> <span class="n">filterChain</span>
+<span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+    <span class="c1">// Parsing</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">tokens</span> <span class="o">=</span> <span class="n">cookieHandler</span><span class="o">.</span><span class="na">getMap</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getCookies</span><span class="o">());</span>
+
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="c1">//...</span>
+        <span class="nc">String</span> <span class="n">jti</span> <span class="o">=</span> <span class="n">oldRefreshClaim</span><span class="o">.</span><span class="na">getId</span><span class="o">();</span>
+        <span class="nc">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">oldRefreshClaim</span><span class="o">.</span><span class="na">getSubject</span><span class="o">();</span>
+        <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">authorities</span> <span class="o">=</span> <span class="n">oldRefreshClaim</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"roles"</span><span class="o">,</span> <span class="nc">Set</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+        <span class="c1">// 만들기 전 jti black</span>
+        <span class="kt">var</span> <span class="n">remainingMillis</span> <span class="o">=</span> <span class="n">oldRefreshClaim</span><span class="o">.</span><span class="na">getExpiration</span><span class="o">().</span><span class="na">getTime</span><span class="o">()</span> <span class="o">-</span> <span class="nc">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+        <span class="n">tokenBlacklistService</span><span class="o">.</span><span class="na">blacklist</span><span class="o">(</span><span class="n">jti</span><span class="o">,</span> <span class="n">remainingMillis</span><span class="o">);</span>
+        <span class="nc">String</span> <span class="n">accessToken</span> <span class="o">=</span> <span class="n">jwtProvider</span><span class="o">.</span><span class="na">createAccessToken</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">authorities</span><span class="o">);</span>
+        <span class="nc">String</span><span class="o">[]</span> <span class="n">jtiRefreshToken</span> <span class="o">=</span> <span class="n">jwtProvider</span><span class="o">.</span><span class="na">createRefreshToken</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">authorities</span><span class="o">);</span>
+
+        <span class="c1">// 저장하여 refresh token 을 무효화 가능</span>
+        <span class="n">refreshTokenService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">jtiRefreshToken</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+
+        <span class="c1">// ...</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">JwtException</span> <span class="o">|</span> <span class="nc">IllegalArgumentException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">setStatus</span><span class="o">(</span><span class="nc">HttpStatus</span><span class="o">.</span><span class="na">UNAUTHORIZED</span><span class="o">.</span><span class="na">value</span><span class="o">());</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="nc">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="o">);</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">setCharacterEncoding</span><span class="o">(</span><span class="nc">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">.</span><span class="na">name</span><span class="o">());</span>
+        <span class="n">response</span><span class="o">.</span><span class="na">getWriter</span><span class="o">().</span><span class="na">write</span><span class="o">(</span><span class="s">"잘못된 형식"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이제 실제로 동작하는지 보자. 로그아웃 후에 curl 명령어를 이용해서 만료된 refresh 를 보내어 refresh 가 되도록 해보자. 액세스 시간도 짧게 줄이자.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-X</span> GET http://localhost:8080/ <span class="se">\</span>
+  <span class="nt">--cookie</span> <span class="s2">"refreshToken={토큰}"</span>
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP/1.1 401 
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age<span class="o">=</span>0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json<span class="p">;</span><span class="nv">charset</span><span class="o">=</span>UTF-8
+Content-Length: 16
+Date: Mon, 06 Jul 2026 10:45:13 GMT
+
+잘못된 형식
+</code></pre></div></div>
+
+<p>잘못된 형식이라고 나오게 된다. 즉, Blacklist 가 동작하고 있다는 의미이다.</p>
+
+<h4 id="3-real-time-queue">3. Real-time Queue</h4>
+
+<p>Sorted Set으로 리더보드, List로 작업 큐, Pub/Sub이나 Stream으로 메시징을 처리할 수 있다.</p>
+
+<h5 id="real-time-ranking">Real-time Ranking</h5>
+
+<p>Redis 에는 Sorted Set 자료구조를 활용해 이를 RAM 수준에서 다룰 수 있는 API 를 제공해준다.</p>
+
+<p>유저 점수를 이용해 상위 10 명의 사람을 조회하는 코드를 작성해야한다고 생각해보자. 유저 점수를 각각 저장하는 건 어떻게든 되지만, “상위 10명 뽑기” 를 하려면 전체를 다 읽어서 정렬해야 한다. 유저 100만 명이면 100만 개를 메모리로 가져와 정렬해야 한다. 이는 굉장히 부하가 걸리는 작업일 것이다. Redis 의 <code class="language-plaintext highlighter-rouge">Sorted Set</code> 은 삽입할 때부터 score 순으로 정렬된 상태를 유지하도록 만들 수 있다. 따라서,</p>
+
+<ul>
+  <li>점수 갱신: O(log N)</li>
+  <li>상위 N명 조회: O(log N + M)</li>
+  <li>특정 유저 순위 조회: O(log N)</li>
+</ul>
+
+<p>100만 명이 있어도 상위 10명을 (log 1,000,000 ~)밀리초 안에 뽑아낼 수 있을 것이다. 이를 <code class="language-plaintext highlighter-rouge">forOpsZSet()</code> 을 이용해 다루자.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Spring 메서드</th>
+      <th>Redis 명령</th>
+      <th>하는 일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>add(key, member, score)</td>
+      <td>ZADD</td>
+      <td>멤버 추가/점수 설정</td>
+    </tr>
+    <tr>
+      <td>incrementScore(key, member, delta)</td>
+      <td>ZINCRBY</td>
+      <td>점수 증가 (누적)</td>
+    </tr>
+    <tr>
+      <td>reverseRange(key, 0, 9)</td>
+      <td>ZREVRANGE</td>
+      <td>상위 10명 (높은 점수순)</td>
+    </tr>
+    <tr>
+      <td>reverseRangeWithScores(…)</td>
+      <td>ZREVRANGE WITHSCORES</td>
+      <td>점수까지 함께</td>
+    </tr>
+    <tr>
+      <td>reverseRank(key, member)</td>
+      <td>ZREVRANK</td>
+      <td>특정 멤버의 순위</td>
+    </tr>
+    <tr>
+      <td>score(key, member)</td>
+      <td>ZSCORE</td>
+      <td>특정 멤버의 점수</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>필자는 User 도메인과 layered architecture 로 구현하여 기본적인 CRUD 의 CR 만 구현하여 준비했다. 서비스 계층은 놔두도록하자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RankingService</span> <span class="o">{</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>랭킹 관련된 서비스만 이행하는 클래스를 선언하고, 레디스의 ZSet 을 다룰 유틸성 클래스를 선언하자. 그러기 위해서는 configuring 을 먼저한다.</p>
+
+<pre><code class="language-Java">@Bean
+public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    return new StringRedisTemplate(redisConnectionFactory);
+}
+</code></pre>
+
+<p>그 다음 이를 이용해 <code class="language-plaintext highlighter-rouge">RankUtil</code> 을 만들자. 이름은 아무거나 상관이 없다. 기본적으로 쓰는 함수 몇 개를 생성해보자(없어도 됩니다):</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">ZSetOperations</span><span class="o">.</span><span class="na">TypedTuple</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="nf">topN</span><span class="o">(</span><span class="nc">String</span> <span class="n">key</span><span class="o">,</span> <span class="kt">long</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">stringRedisTemplate</span><span class="o">.</span><span class="na">opsForZSet</span><span class="o">()</span>
+                                <span class="o">.</span><span class="na">reverseRangeWithScores</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">reverseRangeWithScores</code> 메서드로 top-N 을 불러오자. 자신이 랭킹도 궁금할 수 있으니 자신의 랭킹을 조회할 수 있는 함수도 만들자. 기본적으로 오름차순이기에 <code class="language-plaintext highlighter-rouge">reverseRank</code> 를 쓴다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">Double</span> <span class="nf">getScore</span><span class="o">(</span><span class="nc">String</span> <span class="n">key</span><span class="o">,</span> <span class="nc">String</span> <span class="n">member</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">stringRedisTemplate</span><span class="o">.</span><span class="na">opsForZSet</span><span class="o">().</span><span class="na">score</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">member</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>score 를 불러올때는 double 형태로 반환한다. 이제 이를 서비스 계층에서 다뤄서 응답에 맞춰 내보내면 된다.<br />
+하지만 이렇게 되면 우리는 임시 저장소에만 계속하여 값을 업데이트 하고 우리의 진짜 영속성을 가지는 DB 에는 저장이 안된다.<br />
+이를 다루는 두 가지 관점을 보자.</p>
+
+<ol>
+  <li>실시간(write-through)</li>
+</ol>
+
+<p>점수 올릴 때마다 Redis + DB 둘 다 갱신. 정합성 높지만 DB 부하 크다. 대용량에는 안맞지만 속도보다 정합성이 더 중요할 때 이를 쓴다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setScore</span><span class="o">(</span><span class="nc">String</span> <span class="n">key</span><span class="o">,</span> <span class="nc">String</span> <span class="n">member</span><span class="o">,</span> <span class="kt">double</span> <span class="n">score</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">stringRedisTemplate</span><span class="o">.</span><span class="na">opsForZSet</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">member</span><span class="o">,</span> <span class="n">score</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// ======================================================</span>
+
+<span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RankingService</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">RankingUtil</span> <span class="n">rankingUtil</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span> <span class="no">PREFIX</span> <span class="o">=</span> <span class="s">"ranking:game"</span><span class="o">;</span>
+
+    <span class="nd">@Transactional</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addScore</span><span class="o">(</span><span class="nc">String</span> <span class="n">userId</span><span class="o">,</span> <span class="kt">double</span> <span class="n">score</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="no">UUID</span><span class="o">.</span><span class="na">fromString</span><span class="o">(</span><span class="n">userId</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span><span class="s">"User Not Found"</span><span class="o">));</span>
+
+        <span class="c1">// DB update 먼저</span>
+        <span class="n">user</span><span class="o">.</span><span class="na">incrementScore</span><span class="o">(</span><span class="n">score</span><span class="o">);</span>
+
+        <span class="c1">// Redis Update 후순위</span>
+        <span class="n">rankingUtil</span><span class="o">.</span><span class="na">setScore</span><span class="o">(</span><span class="no">PREFIX</span><span class="o">,</span> <span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">user</span><span class="o">.</span><span class="na">getScore</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>DB 에 업데이트 후 redis 에 이 값을 추가한다. 이때 Redis 에서 오류가 뜬다고 해도 나중에 redis 에서 조회해서 업데이트가 되기 때문에, 원본 소스는 바뀌지 않기 때문에, 다음 조회 때 DB에서 복구되니 상관없다. 또한 값 업데이트를 두 번 안하기 때문에 정합성 측면에서도 어긋나지 않는다. 이제 controller 에서 이를 호출해주자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/api/ranking"</span><span class="o">)</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RankingController</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">RankingService</span> <span class="n">rankingService</span><span class="o">;</span>
+
+    <span class="nd">@PostMapping</span><span class="o">(</span><span class="s">"/score"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;</span> <span class="nf">addScore</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="nc">String</span> <span class="n">userId</span><span class="o">,</span>
+                                         <span class="nd">@RequestParam</span> <span class="kt">double</span> <span class="n">score</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">rankingService</span><span class="o">.</span><span class="na">addScore</span><span class="o">(</span><span class="n">userId</span><span class="o">,</span> <span class="n">score</span><span class="o">);</span>
+        <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">noContent</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="옵션-cache-miss-fallback">(옵션) Cache Miss Fallback</h5>
+
+<p>실시간 처리를 하다 보면, Redis 재시작/장애로 재시작하는 경우가 생길 수도 있다. 이때는 PREFIX 키 자체가 사라지며 이는 곧 상위 N명 조회 시 빈 리스트 결과를 주게 된다. 또한 자기 자신의 score 를 조회할 때에도 비어있기 때문에 조회가 안될 것이다. 이를 방지하기 위해 DB -&gt; Redis -&gt; 조회 가능 의 서비스 복구를 수행하는 DB에서 읽어서 Redis를 다시 채우는(cache warming) 걸로 해결하게 된다. 이를 DB 폴백 및 캐시 워밍 이라고 한다.</p>
+
+<p>이를 위해서 RedisUtil 에 데이터를 한꺼번에 올릴 수 있는 메서드를 작성하자.</p>
+
+<pre><code class="language-Java">/**
+ * Add {@code tuples} to a sorted set at {@code key}, or update its {@code score} if it already exists.
+ *
+ * @param key must not be {@literal null}.
+ * @param tuples must not be {@literal null}.
+ * @return {@literal null} when used in pipeline / transaction.
+ * @see &lt;a href="https://redis.io/commands/zadd"&gt;Redis Documentation: ZADD&lt;/a&gt;
+ */
+Long add(@NonNull K key, @NonNull Set&lt;@NonNull TypedTuple&lt;V&gt;&gt; tuples);
+</code></pre>
+
+<p>Redis 에서는 위 함수를 지원한다. <code class="language-plaintext highlighter-rouge">TypedTuple</code>을 만들어서 Set 형태로 보내주면 된다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addAll</span><span class="o">(</span><span class="nc">String</span> <span class="n">key</span><span class="o">,</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">ZSetOperations</span><span class="o">.</span><span class="na">TypedTuple</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="n">tuples</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">stringRedisTemplate</span><span class="o">.</span><span class="na">opsForZSet</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">tuples</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>위를 이용해 DB 에서 조회하여 Redis 에 업데이트 하는 코드를 service 계층에 작성해주자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span> <span class="nf">loadFromDbAndWarmCache</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findTop100ByOrderByScoreDesc</span><span class="o">();</span>
+    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">TypedTuple</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="n">tuples</span> <span class="o">=</span> <span class="n">users</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                                            <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">user</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">DefaultTypedTuple</span><span class="o">&lt;&gt;(</span><span class="n">user</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">user</span><span class="o">.</span><span class="na">getScore</span><span class="o">()))</span>
+                                            <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toSet</span><span class="o">());</span>
+    <span class="n">rankingUtil</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="no">PREFIX</span><span class="o">,</span> <span class="n">tuples</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">loadFromDbAndWarmCache</code> 가 실행된다는 소리는 redis 가 비어있다는 의미이며 이를 다시 조회하여 저장해준다. 이제 전체 조회를 만들어서 폴백을 하는지 보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">ZSetOperations</span><span class="o">.</span><span class="na">TypedTuple</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="nf">top100</span><span class="o">(</span><span class="nc">String</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">stringRedisTemplate</span><span class="o">.</span><span class="na">opsForZSet</span><span class="o">().</span><span class="na">reverseRangeWithScores</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">99</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="c1">// ================================</span>
+
+<span class="nd">@Transactional</span><span class="o">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">RankUsernameScore</span><span class="o">&gt;</span> <span class="nf">top100</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">TypedTuple</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="n">top100</span> <span class="o">=</span> <span class="n">rankingUtil</span><span class="o">.</span><span class="na">top100</span><span class="o">(</span><span class="no">PREFIX</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">top100</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">loadFromDbAndWarmCache</span><span class="o">();</span>
+        <span class="n">top100</span> <span class="o">=</span> <span class="n">rankingUtil</span><span class="o">.</span><span class="na">top100</span><span class="o">(</span><span class="no">PREFIX</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">TypedTuple</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="n">finalTop10</span> <span class="o">=</span> <span class="n">top100</span><span class="o">;</span>
+
+    <span class="k">return</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">finalTop10</span><span class="o">.</span><span class="na">size</span><span class="o">())</span>
+                    <span class="o">.</span><span class="na">mapToObj</span><span class="o">(</span><span class="n">i</span> <span class="o">-&gt;</span> <span class="nc">RankUsernameScore</span><span class="o">.</span><span class="na">fromTypedTuple</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="n">finalTop10</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">)))</span>
+                    <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="nl">Objects:</span><span class="o">:</span><span class="n">nonNull</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">toList</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="n">record</span> <span class="nf">RankUsernameScore</span><span class="o">(</span><span class="kt">long</span> <span class="n">rank</span><span class="o">,</span> <span class="nc">String</span> <span class="n">username</span><span class="o">,</span> <span class="kt">double</span> <span class="n">score</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">RankUsernameScore</span> <span class="nf">fromTypedTuple</span><span class="o">(</span><span class="kt">long</span> <span class="n">rank</span><span class="o">,</span> <span class="nc">TypedTuple</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">tuple</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">tuple</span><span class="o">.</span><span class="na">getScore</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">RankUsernameScore</span><span class="o">(</span><span class="n">rank</span><span class="o">,</span> <span class="n">tuple</span><span class="o">.</span><span class="na">getValue</span><span class="o">(),</span> <span class="n">tuple</span><span class="o">.</span><span class="na">getScore</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>유저를 몇 명 생성 후 top100 을 호출한 뒤 redis 를 restart 하여 다시 top100 을 실행시켜보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"&gt;&gt;&gt; Cache miss -&gt; Caching Warmup + DB Fallback 실행"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>위 줄을 DB Fallback 전에 분기문 안에서 넣어주고 실행하자.</p>
+
+<p><img src="../../assets/img/caching-warmup.png" alt="caching warmup" /></p>
+
+<p>빈 리스트를 반환하였을때, DB 를 읽어들여서 redis 를 다시 채워주고 다시 cache 를 조회하는 것을 볼 수 있다. 레디스가 비었을때, 즉 자신의 등수나 점수를 조회할때에도 이런 경우가 발생할 수 있는데 그때에도 이런 방식을 이용해서 할 수 있다(redis 에서 loading 할 사람들의 수를 인자로 받게 해주면 된다).</p>
+
+<ol>
+  <li>주기적(batch processing)</li>
+</ol>
+
+<p>평소엔 Redis만 다루며, 일정 주기(예: 5분/1시간)로 DB에 몰아서 저장한다. 대용량 트래픽이 보통 이렇게 처리된다.</p>
+
+<blockquote>
+  <p>이는 나중에 시간이 되면 공부하자.</p>
+</blockquote>
+
+<h4 id="4-distributed-lock">4. Distributed Lock</h4>
+
+<p>여러 서버가 동시에 같은 자원을 수정하려 할 때, Redis로 락을 걸어 동시성 제어한다.</p>
+
+<blockquote>
+  <p>이는 나중에 시간이 되면 공부하자.</p>
+</blockquote>
+
+<h3 id="redis-특성">Redis 특성</h3>
+
+<h4 id="ttl-과-만료">TTL 과 만료</h4>
+
+<p>Redis는 키마다 <strong>만료시간(TTL)</strong>을 걸 수 있다. EXPIRE key 3600 → 1시간 후 자동 삭제, 캐시, 세션, 락, 무효화 리스트에서 핵심적으로 쓰이며, 만료 방식은 lazy(접근 시 확인) + active(주기적 샘플링 삭제) 혼합으로 사용한다.</p>
+
+<h4 id="영속성">영속성</h4>
+
+<p>RAM 기반이지만 디스크에 백업하는 두 방식이 있다:</p>
+
+<ul>
+  <li>RDB(스냅샷) — 특정 시점 전체를 파일로 저장. 빠른 복구, 백업용. 단 스냅샷 사이 데이터는 유실 가능.</li>
+  <li>AOF(Append Only File) — 모든 쓰기 명령을 로그로 기록. 유실 적음, 복구 정확. 단 파일이 크고 느릴 수 있음</li>
+</ul>
+
+<h4 id="캐시-사용-시-주의할-문제">캐시 사용 시 주의할 문제</h4>
+
+<ol>
+  <li>캐시 정합성(Consistency) — DB는 바뀌었는데 캐시는 옛날 값이면? → 쓰기 시 캐시를 갱신(write-through)하거나 무효화(invalidate)하는 전략 필요.</li>
+  <li>캐시 스탬피드(Stampede) / Thundering Herd — 인기 키가 만료되는 순간 수많은 요청이 동시에 DB로 몰림 → TTL에 랜덤 지터 추가, 락으로 하나만 갱신하게 제어.</li>
+  <li>캐시 침투(Penetration) — 존재하지 않는 키를 계속 조회해 DB를 때림 → “없음” 자체를 짧은 TTL로 캐싱, 또는 Bloom Filter.</li>
+  <li>메모리 부족 시 축출(Eviction) — 메모리가 꽉 차면 정책에 따라 키를 버림.
+    <ul>
+      <li><strong>maxmemory-policy</strong>:<br />
+ allkeys-lru (가장 오래 안 쓴 것 삭제 — 가장 흔함)<br />
+ allkeys-lfu (가장 적게 쓴 것)<br />
+ volatile-* (TTL 있는 키만 대상)<br />
+ noeviction (축출 안 함, 쓰기 거부)</li>
+    </ul>
+  </li>
+</ol>
+
+<p><a href="https://github.com/seonghun120614/Spring-Redis">Spring Redis</a></p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/springboot/redis/cache/2026/07/02/redis.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/springboot/redis/cache/2026/07/02/redis.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

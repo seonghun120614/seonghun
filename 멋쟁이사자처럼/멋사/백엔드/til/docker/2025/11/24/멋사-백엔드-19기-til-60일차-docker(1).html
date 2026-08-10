@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 60일차 Docker(1)</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 60일차 Docker(1) | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 60일차 Docker(1)" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/docker/2025/11/24/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-60%EC%9D%BC%EC%B0%A8-docker(1).html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/docker/2025/11/24/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-60%EC%9D%BC%EC%B0%A8-docker(1).html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-11-24T00:44:26+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 60일차 Docker(1)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-11-24T00:44:26+00:00","datePublished":"2025-11-24T00:44:26+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 60일차 Docker(1)","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/docker/2025/11/24/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-60%EC%9D%BC%EC%B0%A8-docker(1).html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/docker/2025/11/24/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-60%EC%9D%BC%EC%B0%A8-docker(1).html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/docker/2025/11/24/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-60%EC%9D%BC%EC%B0%A8-docker(1).html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 60일차 Docker(1)</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Nov 24, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Docker</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+
+<ul>
+  <li><a href="#가상머신과-컨테이너">가상머신과 컨테이너</a>
+    <ul>
+      <li><a href="#가상머신">가상머신</a></li>
+      <li><a href="#컨테이너">컨테이너</a></li>
+    </ul>
+  </li>
+  <li><a href="#layer-구조와-caching-개념">Layer 구조와 Caching 개념</a></li>
+  <li><a href="#docker-아키텍처">Docker 아키텍처</a></li>
+  <li><a href="#dockerfile-베스트-프랙티스">Dockerfile 베스트 프랙티스</a></li>
+  <li><a href="#컨테이너-볼륨">컨테이너 볼륨</a>
+    <ul>
+      <li><a href="#named-volume">Named Volume</a></li>
+      <li><a href="#bind-mount">Bind Mount</a></li>
+    </ul>
+  </li>
+  <li><a href="#docker-storage-구조">Docker Storage 구조</a>
+    <ul>
+      <li><a href="#이미지-레이어">이미지 레이어</a></li>
+      <li><a href="#컨테이너-레이어">컨테이너 레이어</a></li>
+    </ul>
+  </li>
+  <li><a href="#docker-logging-방식">Docker Logging 방식</a>
+    <ul>
+      <li><a href="#기본-로그-방식-json-file">기본 로그 방식: json-file</a></li>
+      <li><a href="#local">local</a></li>
+      <li><a href="#journald">journald</a></li>
+      <li><a href="#syslog">syslog</a></li>
+      <li><a href="#fluentd--gelf--aws-logs--gcp-logs">Fluentd / GELF / AWS Logs / GCP Logs</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="가상머신과-컨테이너">가상머신과 컨테이너</h3>
+
+<h4 id="가상머신">가상머신</h4>
+
+<p>VM 이라고도 불리며, 하이퍼바이저를 통해 물리 서버 위에 여러 독립된 운영체제를 구동하는 방식이다. 따라서 Linux VM, Window VM 등등은 운영체제가 각각 필요하게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">┌──────────────────────────────────────────┐
+│       App A    │    App B    │  App C    │
+├────────────────┼─────────────┼───────────┤
+│   Guest OS 1   │ Guest OS 2  │ Guest OS 3│
+├────────────────┴─────────────┴───────────┤
+│          Hypervisor (VMware, VirtualBox) │
+├──────────────────────────────────────────┤
+│            Host Operating System         │
+├──────────────────────────────────────────┤
+│          Physical Infrastructure         │
+└──────────────────────────────────────────┘</code></pre></figure>
+
+<p><strong>장점</strong></p>
+<ul>
+  <li>커널까지 완전히 분리되어 있어 컨테이너보다 격리가 강함</li>
+  <li>일반 서버 처럼 다루면 되므로 레거시 시스템 운영에 적합하다</li>
+  <li>하이퍼바이저 기능을 활용하여 CPU/메모리 분리 배정이 가능하다</li>
+  <li>서로 다른 OS 를 병렬로 실행 가능하다.</li>
+</ul>
+
+<p><strong>단점</strong></p>
+<ul>
+  <li>게스트 OS 까지 포함하기 때문에 컨테이너 대비 CPU/RAM 오버헤드가 크다</li>
+  <li>VM 이미지가 GB 단위로 크고 배포/확장이 부담이 간다.</li>
+  <li>OS 전체가 올라가야 해서 올리는데 오래 걸린다.</li>
+</ul>
+
+<h4 id="컨테이너">컨테이너</h4>
+
+<p>컨테이너는 호스트 OS의 커널을 공유하면서, 애플리케이션 실행에 필요한 프로세스와 라이브러리를 격리해 독립된 실행 환경을 제공하는 방식이다.</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">┌─────────────────────────────────────────┐
+│   App A    │    App B    │    App C     │
+├────────────┼─────────────┼──────────────┤
+│  Libs/Bins │  Libs/Bins  │  Libs/Bins   │
+├────────────┴─────────────┴──────────────┤
+│      Docker Engine (Container Runtime)  │
+├─────────────────────────────────────────┤
+│        Host Operating System (Kernel)   │
+├─────────────────────────────────────────┤
+│         Physical Infrastructure         │
+└─────────────────────────────────────────┘</code></pre></figure>
+
+<p>위를 보면, 호스트 커널을 공유하는 것을 볼 수 있고, 이는 Linux <code class="language-plaintext highlighter-rouge">Namespaces</code>, <code class="language-plaintext highlighter-rouge">cgroups</code> 기반으로 커널을 공유하며 격리를 수행하게 된다. 그 아래의 Docker Engine 이 및 기타 컨테이너 런타임이 프로세스 격리와 자원 관리를 담당한다.</p>
+
+<p><strong>장점</strong></p>
+<ul>
+  <li>게스트 OS 가 없어 이미지가 작고 배포가 빠르다.</li>
+  <li>커널 공유 구조로 메모리와 CPU 오버헤드가 적다.</li>
+  <li>빌드, 테스트, 배포 속도가 매우 빠르다</li>
+  <li>하나의 서버에 많은 컨테이너를 올리기 쉽다.</li>
+</ul>
+
+<p><strong>단점</strong></p>
+<ul>
+  <li>동일한 커널 계열에서만 실행 가능</li>
+  <li>커널을 공유하므로 취약점이 있을 시 영향 범위 증가</li>
+  <li>커널 기능이 필요한 경우 VM 이 필요할 수도 있다.</li>
+</ul>
+
+<p>도커는 이런 컨테이너 아키텍처를 따라서 만들어졌다.</p>
+
+<h3 id="layer-구조와-caching-개념">Layer 구조와 Caching 개념</h3>
+
+<p>도커 이미지는 여러 개의 레이어로 구성된다. Dockerfile 의 각 명령어가 한 레이어를 생성하며, 레이어 캐싱을 통해 이전과 동일한 명령어 / 컨텍스트면 다시 빌드하지 않고 재사용할 수 있다. 위에서 아래로 평가되기 때문에 자주 변경되는 명령은 아래로, 변경이 적은 명령은 위로 배치하는 것이 효율적이다.</p>
+
+<p><strong>캐싱이 깨지는 케이스</strong></p>
+<ul>
+  <li>COPY 로 가져오는 소스가 변경됨</li>
+  <li>RUN 명령어 내부 내용이 변경됨</li>
+  <li>순서 변경</li>
+</ul>
+
+<h3 id="docker-아키텍처">Docker 아키텍처</h3>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">┌─────────────┐     REST API      ┌──────────────┐
+│   Docker    │ ←───────────────→ │   Docker     │
+│   Client    │                   │   Daemon     │
+│  (docker)   │                   │  (dockerd)   │
+└─────────────┘                   └──────────────┘
+                                         │
+                       ┌─────────────────┼─────────────────┐
+                       │                 │                 │
+                  ┌────▼────┐       ┌────▼────┐       ┌────▼────┐
+                  │ Images  │       │Container│       │ Network │
+                  └─────────┘       └─────────┘       └─────────┘
+                       │
+                  ┌────▼────┐
+                  │Registry │
+                  │(Hub/ECR)│
+                  └─────────┘</code></pre></figure>
+
+<p>우리는 도커 틀라이언트(도커 앱, 도커 CLI 등등)를 통해 dockerd 와 통신을 하고 직접적인 작업은 전부 dockerd 가 맡게 된다. dockerd 와 클라이언트 사이에서는 rest api 통신을 통해 주고 받게 된다(json 보냄).</p>
+
+<ul>
+  <li><strong>Docker Client</strong>: Docker CLI, Docker Desktop, Code Docker 확장 등이 모두 클라이언트에 속한다. 단지 명령어 전달만 수행한다.</li>
+</ul>
+
+<blockquote>
+  <p>Docker CLI는 REST API로 Docker 데몬과 통신<br />
+Unix 소켓(/var/run/docker.sock) 또는 TCP 사용<br />
+원격 Docker 호스트에도 연결 가능:</p>
+</blockquote>
+
+<p>docker -H tcp://192.168.1.100:2375 ps</p>
+
+<ul>
+  <li>
+    <p><strong>Docker Daemon</strong>: 컨테이너 관리, 이미지 관리, 네트워크 관리, 볼륨 관리, 로컬 이미지 저장, Registry 와 통신하여 push/pull 수행을 담당한다.</p>
+
+    <ul>
+      <li>
+        <p><strong>Containers</strong>: 이미지로부터 실행되는 실제 프로세스이며 네임스페이스와 cgroups 을 통해 독립된 실행 환경을 제공한다.</p>
+      </li>
+      <li>
+        <p><strong>Network</strong>: 컨테이너간 통신 구조(bridge, host, overlay 등)를 통해 컨테이너끼리 혹은 외부와 연결될 수 있도록 관리한다.</p>
+      </li>
+      <li>
+        <p><strong>Registry</strong>: 이미지 저장소이며 기본적으로 우리는 Image 를 Docker Hub 에서 가져오지만 이 외에도 AWS ECR, Github Registry 등등 사설 CR(Container Registry) 에게서도 얻을 수 있다.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>Public Registry 사용 시 주의사항:<br />
+신뢰할 수 있는 이미지만 사용 (Official Images 우선)<br />
+이미지 스캔 도구로 취약점 검사 (Trivy, Clair)<br />
+최신 버전 유지 및 정기적 업데이트</p>
+</blockquote>
+
+<p>docker hub 에서 image 는 검색하여 사용하자.</p>
+
+<h3 id="dockerfile-베스트-프랙티스">Dockerfile 베스트 프랙티스</h3>
+
+<ul>
+  <li>불필요 레이어 최소화(RUN 명령어들은 &amp;&amp; 로 묶기)</li>
+  <li>멀티 스테이지 빌드로 최종 이미지 크기 최소화</li>
+  <li>특정 태그 고정(latest 보다 버전 명시)</li>
+  <li>캐시 최적화를 고려한 명령 순서 구성</li>
+  <li><code class="language-plaintext highlighter-rouge">.dockerignore</code> 파일 적극 활용</li>
+  <li>root 실행 지양 -&gt; USER 로 앱 실행</li>
+  <li>가능한 슬림 이미지 사용(<code class="language-plaintext highlighter-rouge">alpine</code>, <code class="language-plaintext highlighter-rouge">distroless</code>, <code class="language-plaintext highlighter-rouge">slim</code>)</li>
+  <li>빌드 아티팩트(<code class="language-plaintext highlighter-rouge">node_modules</code>, …)를 직접 COPY 하지 말고 Docker 내부에서 빌드</li>
+</ul>
+
+<h3 id="컨테이너-볼륨">컨테이너 볼륨</h3>
+
+<p>컨테이너는 기본적으로 휘발성이기 때문에, 컨테이너를 지우면 내부 파일도 같이 삭제된다. 따라서 DB 데이터를 보존한다거나 로그를 저장한다거나 업로드 파일을 유지하거나 여러 컨테이너 간 데이터 공유 등등은 볼륨이 없이는 불가능한 작업이다.</p>
+
+<p>이를 해결하기 위해 Docker Volume 이라는 기능이 있다. 컨테이너 외부에 존재하면서 컨테이너와 연결되는 독립된 영구 저장소이다.</p>
+
+<ul>
+  <li>컨테이너 삭제해도 데이터 유지</li>
+  <li>여러 컨테이너가 같은 공간 공유 가능</li>
+  <li>OS 의 커널 기능을 이용해 빠르고 안전하게 마운트</li>
+</ul>
+
+<h4 id="named-volume">Named Volume</h4>
+
+<p>도커가 관리하는 따로 분리된 저장 공간이다.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker volume create mydata
+docker run <span class="nt">-v</span> mydata:/var/lib/mysql ...</code></pre></figure>
+
+<p>실제 호스트 물리 저장소 내의 <code class="language-plaintext highlighter-rouge">/var/lib/mysql</code> 에 존재하며, 도커가 알아서 관리를 하고, 별칭을 통하여 접근할 수 있다. 가장 많이 쓰이는 방식이다.</p>
+
+<h4 id="bind-mount">Bind Mount</h4>
+
+<p>호스트의 특정 경로를 그대로 컨테이너 내부에 연결한다.<br />
+여기서는 별칭이 없어 Named Volume 과는 차이가 있다.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker run <span class="nt">-v</span> /host/path:/container/path</code></pre></figure>
+
+<ul>
+  <li>개발에서 주로 사용</li>
+  <li>호스트 파일 시스템 구조에 의존</li>
+</ul>
+
+<p>하지만 운영환경에서는 관리가 어려워 잘 안씀</p>
+
+<h3 id="docker-storage-구조">Docker Storage 구조</h3>
+
+<p>Docker 의 저장 구조는 크게 3가지 레이어로 나뉜다.</p>
+
+<ol>
+  <li>이미지 레이어</li>
+  <li>컨테이너 레이어</li>
+  <li>볼륨</li>
+</ol>
+
+<p>3가지가 다 합쳐 컨테이너의 파일 시스템을 형성한다.</p>
+
+<h4 id="이미지-레이어">이미지 레이어</h4>
+
+<p>docker pull 하면 도커는 여러 개의 레이어로 분할된 파일 시스템을 저장한다.</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">ubuntu:latest
+├─ layer1 (기본 리눅스 파일)
+├─ layer2 (패키지 설치)
+└─ layer3 (환경설정)</code></pre></figure>
+
+<p>특징은 불변이라는 것이다.</p>
+
+<h4 id="컨테이너-레이어">컨테이너 레이어</h4>
+
+<p>컨테이너를 <code class="language-plaintext highlighter-rouge">docker run</code> 할 때 생성되는 레이어이며, Dockerfile 에 기록된 지시문들 하나하나와도 같다.</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">이미지 레이어 (RO)
+     +
+컨테이너 레이어 (RW)</code></pre></figure>
+
+<h4 id="볼륨">볼륨</h4>
+
+<p>외부에 있는 스토리지이다. 설명은 생략한다.</p>
+
+<h3 id="docker-logging-방식">Docker Logging 방식</h3>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">[컨테이너 내부]
+    │   stdout / stderr
+    ▼
+[containerd / dockerd]
+    │   (로그 드라이버로 전달)
+    ▼
+[Log Driver]  ← docker engine 설정으로 선택
+    ├─ json-file (기본)
+    ├─ local
+    ├─ journald
+    ├─ syslog
+    ├─ fluentd
+    ├─ awslogs
+    └─ gelf …</code></pre></figure>
+
+<p>도커는 컨테이너 내부에서 출력되는 stdout, stderr를 기반으로 로그를 처리하게 된다. docker 는 단순히 컨테이너의 출력 스트림을 수집한 뒤, 지정된 로그 드라이버에게 던져주는 구조가 된다.</p>
+
+<h4 id="기본-로그-방식-json-file">기본 로그 방식: json-file</h4>
+
+<p>대부분의 Linux Docker 환경에서는 기본적으로 json-file 로그 드라이버가 사용된다.</p>
+
+<ul>
+  <li>컨테이너마다 로그 파일이 생성됨</li>
+  <li>저장 위치: <code class="language-plaintext highlighter-rouge">/var/lib/docker/containers/&lt;container-id&gt;/&lt;container-id&gt;-json.log</code></li>
+</ul>
+
+<blockquote>
+  <p>이 파일은 로그가 쌓일수록 디스크를 많이 차지하기 때문에 운영에서는 <code class="language-plaintext highlighter-rouge">logrotate</code> 또는 다른 로그 드라이버 사용을 고려함</p>
+</blockquote>
+
+<h4 id="local">local</h4>
+
+<p>도커가 자체적으로 로그를 더 효율적으로 관리하는 방식이다.</p>
+
+<ul>
+  <li>바이너리 형태로 압축 및 저장</li>
+  <li>메타데이터 구분 쉬움</li>
+  <li>json-file 보다 빠르고 공간 효율 좋음</li>
+  <li>Docker Desktop 에서는 default 로 쓰는 경우도 있다</li>
+</ul>
+
+<p>운영환경에서는 json-file 대신 local 을 추천하는 경우가 많다.</p>
+
+<h4 id="journald">journald</h4>
+
+<p>시스템 데몬 로그(systemd-journald)에게 직접 전달되는 방식이며 로그가 OS의 <code class="language-plaintext highlighter-rouge">journalctl</code> 명령에서 확인이 가능하다. 이는 리눅스에서만 사용할 수 있다.</p>
+
+<h4 id="syslog">syslog</h4>
+
+<p>컨테이너 로그를 로컬 또는 원격 syslog 서버로 바로 전송한다.</p>
+
+<p>실무에서는 다음과 같은 환경에서 사용하게 된다:</p>
+<ul>
+  <li>On-premise 서버 클러스터</li>
+  <li>기존 syslog 인프라가 있었을 때</li>
+  <li>중앙화된 보안 로그 관리 필요</li>
+</ul>
+
+<h4 id="fluentd--gelf--aws-logs--gcp-logs">Fluentd / GELF / AWS Logs / GCP Logs</h4>
+
+<p>컨테이너 로그 -&gt; 외부 로그 수집 시스템으로 바로 전송</p>
+
+<ul>
+  <li>Fluentd -&gt; Elasticsearch, Loki, Splunk, Kafka</li>
+  <li>GELF -&gt; Graylog, logstash</li>
+  <li>awslogs -&gt; CloudWatch</li>
+  <li>gcp logging -&gt; Google Cloud Logging</li>
+</ul>
+
+<blockquote>
+  <p>Kubernetes 는 stdout -&gt; Fluentd -&gt; Elastic/Loki 로 들어가는 구조다.</p>
+</blockquote>
+
+<p><strong>Docker Logging 동작 원리</strong>
+Docker Engine은 다음을 한다:</p>
+<ol>
+  <li>컨테이너 프로세스의 stdout/stderr 파이프 FD를 잡는다</li>
+  <li>containerd-shim이 그 스트림을 읽는다</li>
+  <li>Docker Engine이 읽고 지정된 로그 드라이버에게 전달한다</li>
+  <li>따라서 컨테이너가 죽어도 로그는 이미 수집되어 저장됨</li>
+</ol>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/docker/2025/11/24/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-60%EC%9D%BC%EC%B0%A8-docker(1).html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/docker/2025/11/24/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-60%EC%9D%BC%EC%B0%A8-docker(1).html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

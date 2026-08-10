@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 66일차 미니프로젝트2 회고</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 66일차 미니프로젝트2 회고 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 66일차 미니프로젝트2 회고" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="수정중" />
+<meta property="og:description" content="수정중" />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/project/2025/11/30/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-66%EC%9D%BC%EC%B0%A8-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82-%ED%9A%8C%EA%B3%A0.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/project/2025/11/30/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-66%EC%9D%BC%EC%B0%A8-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82-%ED%9A%8C%EA%B3%A0.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-11-30T11:27:05+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 66일차 미니프로젝트2 회고" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-11-30T11:27:05+00:00","datePublished":"2025-11-30T11:27:05+00:00","description":"수정중","headline":"[멋사 백엔드 19기] TIL 66일차 미니프로젝트2 회고","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/project/2025/11/30/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-66%EC%9D%BC%EC%B0%A8-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82-%ED%9A%8C%EA%B3%A0.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/project/2025/11/30/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-66%EC%9D%BC%EC%B0%A8-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82-%ED%9A%8C%EA%B3%A0.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/project/2025/11/30/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-66%EC%9D%BC%EC%B0%A8-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82-%ED%9A%8C%EA%B3%A0.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 66일차 미니프로젝트2 회고</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Nov 30, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Project</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+<p>수정중</p>
+
+<h2 id="-목차">📂 목차</h2>
+
+<ul>
+  <li><a href="#spring-boot-빌드를-위한-gradle-의-필요-파일">Spring Boot 빌드를 위한 Gradle 의 필요 파일</a></li>
+  <li><a href="#nginx-의-기본-홈페이지-경로">Nginx 의 기본 홈페이지 경로</a></li>
+  <li><a href="#docker-container-의-자동-실행-경로">Docker Container 의 자동 실행 경로</a></li>
+  <li><a href="#nginxconf-환경마다-달리-가져가기">nginx.conf 환경마다 달리 가져가기</a></li>
+  <li><a href="#dbeaver디비버-public-key-retrieval-is-not-allowed">DBeaver(디비버) Public Key Retrieval is not allowed</a></li>
+  <li><a href="#db-와-back-container-간의-실행-시각-조정">DB 와 Back Container 간의 실행 시각 조정</a></li>
+  <li><a href="#webmvctest">WebMvcTest</a></li>
+  <li><a href="#bash-script-문자열-패턴-case-별-매칭">Bash script 문자열 패턴 case 별 매칭</a></li>
+  <li><a href=""></a></li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>미니프로젝트를 토대로 배운 점들을 나열</p>
+
+<h4 id="spring-boot-빌드를-위한-gradle-의-필요-파일">Spring Boot 빌드를 위한 Gradle 의 필요 파일</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">build.gradle</code></li>
+  <li><code class="language-plaintext highlighter-rouge">settings.gradle</code></li>
+  <li><code class="language-plaintext highlighter-rouge">src/main/*</code></li>
+  <li><code class="language-plaintext highlighter-rouge">src/test/*</code> -&gt; 테스트 하고 싶을때</li>
+  <li><code class="language-plaintext highlighter-rouge">gradlew</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gradle/</code></li>
+</ul>
+
+<p>혹은</p>
+
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tasks</span><span class="o">.</span><span class="na">named</span><span class="o">(</span><span class="s1">'bootBuildImage'</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">imageName</span> <span class="o">=</span> <span class="s2">"todo-app:0.1"</span>
+    <span class="n">environment</span> <span class="o">=</span> <span class="o">[</span>
+            <span class="s2">"BP_JVM_VERSION"</span><span class="o">:</span> <span class="s2">"21"</span>
+    <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./gradlew bootBuildImage    <span class="c"># 이미지 빌드</span>
+docker images               <span class="c"># 확인</span>
+</code></pre></div></div>
+
+<p>또한 gradle 문법을 사용하면 다음과 같이 인자로도 받을 수 있다.</p>
+
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tasks</span><span class="o">.</span><span class="na">named</span><span class="o">(</span><span class="s1">'bootBuildImage'</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">def</span> <span class="n">imgName</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="na">hasProperty</span><span class="o">(</span><span class="s1">'imageName'</span><span class="o">)</span>
+            <span class="o">?</span> <span class="n">project</span><span class="o">.</span><span class="na">property</span><span class="o">(</span><span class="s1">'imageName'</span><span class="o">)</span>
+            <span class="o">:</span> <span class="s1">'todo-back:latest'</span>
+    <span class="n">imageName</span> <span class="o">=</span> <span class="n">imgName</span>
+    <span class="n">environment</span> <span class="o">=</span> <span class="o">[</span>
+            <span class="s2">"BP_JVM_VERSION"</span><span class="o">:</span> <span class="s2">"21"</span>
+    <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>project 는 예약된 변수인 듯하다(추후에 공부 더 필요).</p>
+
+<h4 id="nginx-의-기본-홈페이지-경로">Nginx 의 기본 홈페이지 경로</h4>
+
+<p><code class="language-plaintext highlighter-rouge">/usr/share/nginx/html/</code></p>
+
+<h4 id="docker-container-의-자동-실행-경로">Docker Container 의 자동 실행 경로</h4>
+
+<p><code class="language-plaintext highlighter-rouge">/docker-entrypoint-initdb.d/</code> 폴더에 있는 <code class="language-plaintext highlighter-rouge">.sql</code>, <code class="language-plaintext highlighter-rouge">.sh</code>, <code class="language-plaintext highlighter-rouge">.sql.gz</code> 를 자동으로 실행</p>
+
+<h4 id="nginxconf-환경마다-달리-가져가기">nginx.conf 환경마다 달리 가져가기</h4>
+
+<p>만약 <code class="language-plaintext highlighter-rouge">/usr/share/nginx/html/nginx.conf</code> 에 설정파일이 위치되어 있다고 하면 <code class="language-plaintext highlighter-rouge">Dockerfile</code> 에서 아래와 같이 가져가면 될 듯하다.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CMD <span class="o">[</span><span class="s2">"sh"</span>, <span class="s2">"-c"</span>, <span class="s2">"nginx -c /usr/share/nginx/html/nginx-</span><span class="k">${</span><span class="nv">PROFILE</span><span class="k">}</span><span class="s2">.conf -g 'daemon off;'"</span><span class="o">]</span>
+</code></pre></div></div>
+
+<h4 id="dbeaver디비버-public-key-retrieval-is-not-allowed">DBeaver(디비버) Public Key Retrieval is not allowed</h4>
+
+<p>MySQL JDBC 연결 문자열에 붙여 쓰는 파라미터들이며, DBeaver 에서 MySQL 접속 시 자주 보는 오류인 <code class="language-plaintext highlighter-rouge">Public Key Retrieval is not allowed</code> 를 해결하는 설정이다.</p>
+
+<p>오류 원인은 MySQL 8.x 이상에서 caching_sha2_password 인증 방식을 사용할 때, 클라이언트(DBeaver, …) 가 서버로부터 암호화용 public key를 자동으로 받아오는 기능이 기본적으로 금지되어 있다.</p>
+
+<p>그래서 아래처럼 public key 자동 요청이 필요한 상황이면 오류가 뜨게 된다.</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">allowPublicKeyRetrieval=true&amp;useSSL=true</span>
+</code></pre></div></div>
+
+<h4 id="db-와-back-container-간의-실행-시각-조정">DB 와 Back Container 간의 실행 시각 조정</h4>
+
+<p>시간 상 DB 가 구동되는 시간보다 Back Container 가 구동되는 시간이 더 클 수 있다.<br />
+이때 사용할 수 있는게 healthcheck 이며, back 은 db 가 service healthy 한지 체크 후에<br />
+정상적으로 구동이 시작된다.</p>
+
+<div class="language-docker highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+...
+    depends_on:
+      db:
+        condition: service_healthy
+</code></pre></div></div>
+
+<h4 id="webmvctest">WebMvcTest</h4>
+
+<p>테스트를 하기 위해 다른 layer 를 올릴 필요 없이 테스트를 수행하고 싶다면 다음 애노테이션을 사용하자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@WebMvcTest</span><span class="o">(</span><span class="nc">TodoController</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h4 id="bash-script-문자열-패턴-case-별-매칭">Bash script 문자열 패턴 case 별 매칭</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>arg <span class="k">in</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
+    case</span> <span class="s2">"</span><span class="nv">$arg</span><span class="s2">"</span> <span class="k">in
+        </span><span class="nv">name</span><span class="o">=</span><span class="k">*</span><span class="p">)</span> <span class="nv">BACK_SERVER_NAME</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">arg</span><span class="p">#*=</span><span class="k">}</span><span class="s2">"</span> <span class="p">;;</span>
+        <span class="nv">version</span><span class="o">=</span><span class="k">*</span><span class="p">)</span> <span class="nv">VERSION</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">arg</span><span class="p">#*=</span><span class="k">}</span><span class="s2">"</span> <span class="p">;;</span>
+        no-execution<span class="p">)</span> <span class="nv">NO_EXEC</span><span class="o">=</span><span class="nb">true</span> <span class="p">;;</span>
+        <span class="k">*</span><span class="p">)</span>
+            <span class="nb">echo</span> <span class="s2">"알 수 없는 인자: </span><span class="k">${</span><span class="nv">arg</span><span class="k">}</span><span class="s2">"</span>
+            <span class="p">;;</span>
+    <span class="k">esac</span>
+<span class="k">done</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">args#*=</code>: # 으로 문자열 패턴 매칭되는 것들 제거, “(모든 문자열)=” 는 제거 후 남은거 반환</li>
+</ul>
+
+<h4 id="uri-복습">URI 복습</h4>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">scheme:[//[user[:password]@]host[:port]][/]path[?query][#fragment]</code></pre></figure>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/project/2025/11/30/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-66%EC%9D%BC%EC%B0%A8-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82-%ED%9A%8C%EA%B3%A0.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/project/2025/11/30/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-66%EC%9D%BC%EC%B0%A8-%EB%AF%B8%EB%8B%88%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B82-%ED%9A%8C%EA%B3%A0.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

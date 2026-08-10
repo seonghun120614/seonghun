@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>Custom Annotation</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Custom Annotation | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Custom Annotation" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="개발자가 정의할 수 있는 코드의 동작에 직접 영향을 줄 수 있는 메타데이터를 보자." />
+<meta property="og:description" content="개발자가 정의할 수 있는 코드의 동작에 직접 영향을 줄 수 있는 메타데이터를 보자." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/computerscience/java/2025/06/23/custom-annotation.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/computerscience/java/2025/06/23/custom-annotation.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-06-23T07:04:25+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Custom Annotation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-06-23T07:04:25+00:00","datePublished":"2025-06-23T07:04:25+00:00","description":"개발자가 정의할 수 있는 코드의 동작에 직접 영향을 줄 수 있는 메타데이터를 보자.","headline":"Custom Annotation","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/computerscience/java/2025/06/23/custom-annotation.html"},"url":"https://seonghun120614.github.io/seonghun120614/computerscience/java/2025/06/23/custom-annotation.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/computerscience/java/2025/06/23/custom-annotation.html">
+        <h2 class="post-title">Custom Annotation</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Jun 23, 2025</div><ul class="post-categories"><li>ComputerScience</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+<p>개발자가 정의할 수 있는 코드의 동작에 직접 영향을 줄 수 있는 메타데이터를 보자.</p>
+
+<h2 id="-한계점">🪛 한계점</h2>
+
+<p>기존 자바 어노테이션은 표준적인 용도에 국한되지만, 도메인 규칙이나 프로젝트별 특수한 요구사항을 반영하려면 개발자가 직접 어노테이션을 정의해야 하는 경우가 많다.</p>
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#annotation-정의">Annotation 정의</a>
+    <ul>
+      <li><a href="#target">@Target</a></li>
+      <li><a href="#retention">@Retention</a></li>
+      <li><a href="#documented">@Documented</a></li>
+      <li><a href="#inherited">@Inherited</a></li>
+    </ul>
+  </li>
+  <li><a href="#reflection을-활용한-커스텀-어노테이션-처리">Reflection을 활용한 커스텀 어노테이션 처리</a></li>
+  <li><a href="#reflection을-활용한-동적-프록시-설계">Reflection을 활용한 동적 프록시 설계</a>
+    <ul>
+      <li><a href="#동적-프록시-설계-구현">동적 프록시 설계 구현</a>
+        <ul>
+          <li><a href="#proxy-class-설계">Proxy Class 설계</a></li>
+          <li><a href="#️proxy-instance-생성">⭐️Proxy Instance 생성</a>
+            <ul>
+              <li><a href="#️첫-번째-인자-설명">⭐️첫 번째 인자 설명</a></li>
+              <li><a href="#두-번째-인자-설명">두 번째 인자 설명</a></li>
+              <li><a href="#세-번째-인자-설명">세 번째 인자 설명</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#annotation-attribute-정의">Annotation Attribute 정의</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="annotation-정의">Annotation 정의</h3>
+
+<p><code class="language-plaintext highlighter-rouge">java.lang.annotation</code> 에 커스텀 어노테이션 정의에 필요한 기능들이 다 들어가 있다.</p>
+
+<p>커스텀 어노테이션은 <code class="language-plaintext highlighter-rouge">@interface</code> 키워드로 선언되며, 이는 <strong>클래스나 인터페이스에 부가적인 메타데이터를 제공하는 특수한 문법</strong>이다. 어노테이션은 소스 코드의 의미를 확장하거나, <strong>컴파일러 또는 런타임 프로세서</strong>가 런타임에 특정 동작을 유도할 수 있도록 도와준다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Target</span><span class="o">({</span><span class="nc">ElementType</span><span class="o">.</span><span class="na">TYPE</span><span class="o">,</span> <span class="nc">ElementType</span><span class="o">.</span><span class="na">FIELD</span><span class="o">,</span> <span class="o">...})</span> <span class="c1">// 적용 대상</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="nc">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>                <span class="c1">// 유지 범위</span>
+<span class="nd">@Documented</span>                                         <span class="c1">// javadoc 포함 여부</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">MyAnnotation</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="nf">value</span><span class="o">()</span> <span class="k">default</span> <span class="s">""</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="nf">count</span><span class="o">()</span> <span class="k">default</span> <span class="mi">0</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="target">@Target</h4>
+
+<p>해당 어노테이션을 어디에 적용할지를 정한다.</p>
+
+<ul>
+  <li>ElementType.FIELD: 필드에 적용</li>
+  <li>ElementType.TYPE: 클래스, 인터페이스, enum 등에 적용</li>
+  <li>ElementType.METHOD: 메서드에 적용</li>
+  <li>ElementType.PARAMETER: 파라미터에 적용</li>
+  <li>ElementType.CONSTRUCTOR: 생성자에 적용
+…</li>
+</ul>
+
+<h4 id="retention">@Retention</h4>
+
+<p>어노테이션의 lifecycle 을 어디까지 유지할지(<strong>RetentionPolicy</strong>) 정의한다.</p>
+
+<p>JVM의 GC가 알아서 자원을 회수할 수 있도록 함.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">RetentionPolicy.SOURCE</code>: 컴파일 까지만 존재하고, .class 파일에도 존재하지 않도록 함</li>
+  <li><code class="language-plaintext highlighter-rouge">RetentionPolicy.CLASS</code>: 컴파일 시 클래스 파일엔 남지만, JVM 런타임 시점에서는 참조가 불가능함</li>
+  <li><code class="language-plaintext highlighter-rouge">RetentionPolicy.RUNTIME</code>: 런타임에도 유지되어서 <strong><a href="#reflection">리플렉션(Reflection)</a></strong> 가능, Bean Validation에는 필수로 들어가야 함
+    <ul>
+      <li><strong>Bean Validation</strong>이나 <strong>AOP</strong>, <strong>DI(의존성 주입)</strong> 프레임워크들이 런타임에 어노테이션 정보를 읽어 동작하기 때문에 <code class="language-plaintext highlighter-rouge">RUNTIME</code> 설정은 필수이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Spring 프레임워크에서는 이 동적 프록시 기법을 사용해 <strong>AOP(관점 지향 프로그래밍)</strong>, <strong>트랜잭션</strong>, <strong>Lazy loading</strong> 등을 구현한다. 예를 들어, <code class="language-plaintext highlighter-rouge">@Transactional</code>이 붙은 메서드는 내부적으로 <strong>프록시 객체가 DB 트랜잭션을 시작</strong>하고, <strong>예외 발생 시 롤백 처리를 수행</strong>한다. 동적 프록시 기법은 이 밑에 다룬다.</p>
+
+<h4 id="documented">@Documented</h4>
+
+<p>JavaDoc 문서 생성 시 포함되어야 함을 명시하고, 문서화가 필요한 공용 API를 만들 때 주로 사용한다.</p>
+
+<h4 id="inherited">@Inherited</h4>
+
+<p>자식 클래스에 상속시킬지 여부이다. 단, 필드/메서드에는 적용되지 않고 클래스 단위에서만 상속된다.</p>
+
+<h3 id="reflection을-활용한-커스텀-어노테이션-처리">Reflection을 활용한 커스텀 어노테이션 처리</h3>
+
+<p>Reflection은 그냥 메타 데이터를 읽을 수 있게 도와주는 패키지이다. Reflection 에서 제공하는 대표적인 기능들은 다음과 같다.</p>
+
+<p><strong>핵심 기능</strong></p>
+<ul>
+  <li>클래스 로딩: <code class="language-plaintext highlighter-rouge">Class.forName(...)</code></li>
+  <li>생성자 호출: <code class="language-plaintext highlighter-rouge">getDeclaredConstructor().newInstance()</code></li>
+  <li>필드 접근/변경: <code class="language-plaintext highlighter-rouge">getDeclaredField()</code>, <code class="language-plaintext highlighter-rouge">setAccessible()</code>, <code class="language-plaintext highlighter-rouge">set()</code></li>
+  <li>메서드 실행: <code class="language-plaintext highlighter-rouge">getDeclaredMethod()</code>, <code class="language-plaintext highlighter-rouge">invoke()</code></li>
+</ul>
+
+<p>실제로 밑과 같이 수행할 수 있다.</p>
+
+<p>커스텀 어노테이션 정의</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Target</span><span class="o">(</span><span class="nc">ElementType</span><span class="o">.</span><span class="na">FIELD</span><span class="o">)</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="nc">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">RequiredField</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="nf">message</span><span class="o">()</span> <span class="k">default</span> <span class="s">"This field is required."</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>엔티티 클래스 정의</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+    <span class="nd">@RequiredField</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ValidatorUtil</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">validateRequiredFields</span><span class="o">(</span><span class="nc">Object</span> <span class="n">obj</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IllegalAccessException</span> <span class="o">{</span>
+        <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">clazz</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="na">getClass</span><span class="o">();</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Field</span> <span class="n">field</span> <span class="o">:</span> <span class="n">clazz</span><span class="o">.</span><span class="na">getDeclaredFields</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">field</span><span class="o">.</span><span class="na">isAnnotationPresent</span><span class="o">(</span><span class="nc">RequiredField</span><span class="o">.</span><span class="na">class</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">field</span><span class="o">.</span><span class="na">setAccessible</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+                <span class="nc">Object</span> <span class="n">value</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">obj</span><span class="o">);</span>
+
+                <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="nc">RequiredField</span> <span class="n">ann</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="na">getAnnotation</span><span class="o">(</span><span class="nc">RequiredField</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+                    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"❌ Validation failed: "</span> <span class="o">+</span> <span class="n">ann</span><span class="o">.</span><span class="na">message</span><span class="o">());</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h3 id="reflection을-활용한-동적-프록시-설계">Reflection을 활용한 동적 프록시 설계</h3>
+
+<p>리플렉션을 활용하면 동적 프록시 설계에서 유용하게 쓸 수 있다.</p>
+
+<p>이때 프록시라는 것은 클라이언트와 실제 객체 사이에서 상호작용을 관리하는 또 다른 객체로 보면 되겠다. 예를 들어 일상에서는 TV를 조종하기 위해서 우리는 리모컨을 사용하게 된다. 여기서 TV는 실제 객체이며, 우리는 클라이언트이다. 리모컨은 <strong>proxy</strong> 가 된다.</p>
+
+<h4 id="동적-프록시-설계-구현">동적 프록시 설계 구현</h4>
+
+<p>우선 인터페이스와, 실제 객체를 보자.</p>
+
+<p>인터페이스 정의</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">AccountService</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">deposit</span><span class="o">(</span><span class="kt">int</span> <span class="n">amount</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>실제 객체 정의</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AccountServiceImpl</span> <span class="kd">implements</span> <span class="nc">AccountService</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deposit</span><span class="o">(</span><span class="kt">int</span> <span class="n">amount</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"💰 "</span> <span class="o">+</span> <span class="n">amount</span> <span class="o">+</span> <span class="s">"원 입금 완료"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위는 우리가 조작하고 싶어하는 객체이다. 조작할 객체를 프록시로 연결시키자.</p>
+
+<h5 id="proxy-class-설계">Proxy Class 설계</h5>
+<p><code class="language-plaintext highlighter-rouge">InvocationHandler</code> 는 메서드를 호출할 때마다 invoke 라는 메서드가 중간에 가로채어서 실행할 수 있게 한다. 밑의 <code class="language-plaintext highlighter-rouge">InvocationHandler</code> 를 구현한 <code class="language-plaintext highlighter-rouge">LoggingHandler</code> 클래스 정의가 있고 여기서 handler 가 호출된다면, invoke가 실행된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoggingHandler</span> <span class="kd">implements</span> <span class="nc">InvocationHandler</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Object</span> <span class="n">target</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">LoggingHandler</span><span class="o">(</span><span class="nc">Object</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">target</span> <span class="o">=</span> <span class="n">target</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">invoke</span><span class="o">(</span><span class="nc">Object</span> <span class="n">proxy</span><span class="o">,</span> <span class="nc">Method</span> <span class="n">method</span><span class="o">,</span> <span class="nc">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Throwable</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"🔍 호출 전: "</span> <span class="o">+</span> <span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="nc">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">target</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"✅ 호출 후: "</span> <span class="o">+</span> <span class="n">method</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>invoke로 오버라이딩 된 인자 proxy, method, args는 다음과 같은 의미를 가진다:</p>
+<ul>
+  <li>proxy: 실제로 method.invoke()가 호출된 프록시 객체 자기 자신</li>
+  <li>method: 호출된 메서드 정보(Method 클래스)</li>
+  <li>args: 전달된 인자들</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">InvocationHandler</code> 를 통해 실제 구현 객체와 클라이언트 사이에서 메서드를 수행하고 해당 메서드의 결과를 반환하도록 작성해주면 된다. 프록시를 만들기 위한 사전 설계가 끝난 상태이다. proxy 의 <strong><code class="language-plaintext highlighter-rouge">.getClass().getName()</code></strong> 을 하여서 이름까지 로깅에 출력해주면 더 좋다.</p>
+
+<h5 id="️proxy-instance-생성">⭐️Proxy Instance 생성</h5>
+
+<p>밑에서 Proxy Class 의 <code class="language-plaintext highlighter-rouge">newProxyInstance()</code> 통해 새로운 proxy 인스턴스를 만든다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">AccountService</span> <span class="n">target</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AccountServiceImpl</span><span class="o">();</span>
+
+<span class="nc">AccountService</span> <span class="n">proxy</span> <span class="o">=</span> <span class="o">(</span><span class="nc">AccountService</span><span class="o">)</span> <span class="nc">Proxy</span><span class="o">.</span><span class="na">newProxyInstance</span><span class="o">(</span>
+        <span class="n">target</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">(),</span>
+        <span class="k">new</span> <span class="nc">Class</span><span class="o">[]{</span><span class="nc">AccountService</span><span class="o">.</span><span class="na">class</span><span class="o">},</span>
+        <span class="k">new</span> <span class="nf">LoggingHandler</span><span class="o">(</span><span class="n">target</span><span class="o">)</span>
+<span class="o">);</span>
+
+<span class="n">proxy</span><span class="o">.</span><span class="na">deposit</span><span class="o">(</span><span class="mi">5000</span><span class="o">);</span></code></pre></figure>
+
+<p>반환하게 되는 것은 <strong><code class="language-plaintext highlighter-rouge">Object</code></strong> 이기 때문에 <strong>강제 캐스팅</strong> 수행을 통해 맞는 메서드를 수행 할 수 있도록 바꾼다.</p>
+
+<h6 id="️첫-번째-인자-설명">⭐️첫 번째 인자 설명</h6>
+
+<p>우선 이 프록시 설계는 <strong>런타임 도중</strong>에 <strong>JVM</strong>이 <strong>‘직접’</strong> 생성해야한다(RAM에 적재시켜야 한다). 이때 JVM은 <strong>프록시 클래스를 메모리에 로딩할 위치(클래스로더)</strong>를 알아야 한다. <strong>“어디서 로딩할지를 알려줘야”</strong> 하므로 우리는 첫번째 인자를 클래스 로더를 입력하게 된다.</p>
+
+<p>여기서 첫 번째 인자로 타겟 객체의 <strong>Class Loader</strong>를 그대로 사용하는 것이 일반적인데, 이렇게 하면 <strong>JVM은 실제 구현체가 로딩된 환경과 동일한 위치에 프록시 클래스도 함께 로딩시킬 수 있게 되</strong>고 <strong>클래스 충돌이나 접근 제한을 방지</strong>하는 데에도 유리하게 된다.</p>
+
+<p>정리하면 여기서는 실제 객체인 target의 <strong>Class Loader</strong> 에다가 <strong>Proxy Class</strong> 를 올리기 위해 JVM이 해당 Class Loader를 찾아서 Proxy Class를 올리게 된다.</p>
+
+<h6 id="두-번째-인자-설명">두 번째 인자 설명</h6>
+
+<p><code class="language-plaintext highlighter-rouge">new Class[]</code>에서는 생성할 프록시 객체가 어떤 인터페이스를 구현할 것인지를 명시한다.
+해당 인터페이스를 기반으로 프록시 클래스가 생성되기 때문에, 반드시 구현할 대상 인터페이스를 지정해주어야 한다.</p>
+
+<p>예를 들어, <code class="language-plaintext highlighter-rouge">AccountService</code> 인터페이스를 구현하도록 지정하면 프록시는 <code class="language-plaintext highlighter-rouge">AccountService</code>의 모든 메서드를 위임 처리할 수 있게 된다.</p>
+
+<p>여러 개의 인터페이스도 동시에 지정할 수 있다. 예를 들어 <code class="language-plaintext highlighter-rouge">PaymentService</code> 등을 함께 등록하면, 프록시 확장성 및 재사용성이 높은 설계를 할 수 있다.</p>
+
+<h6 id="세-번째-인자-설명">세 번째 인자 설명</h6>
+
+<p>마지막 인자는 InvocationHandler를 구현한 객체를 넘겨주는 부분이다. 이 핸들러는 프록시 객체의 메서드가 호출될 때 중간에서 가로채는 역할을 수행한다.</p>
+
+<p>핸들러 내부에서는 호출된 메서드 정보를 확인하고, 원하는 작업(<strong>로깅, 보안 검사, 트랜잭션 처리</strong> 등)을 수행한 뒤 실제 타겟 객체의 메서드를 실행시키고 그 결과를 반환한다.</p>
+
+<p>이러한 구조를 통해 공통 기능을 프록시 레벨에서 일관성 있게 주입할 수 있게 된다.</p>
+
+<h3 id="annotation-attribute-정의">Annotation Attribute 정의</h3>
+
+<p>애너테이션 안에는 멤버 변수, 메서드가 존재하지 않는다. 대신에 attribute(element) 가 존재한다.</p>
+
+<blockquote>
+  <p>타입 이름();
+타입 이름() default 값;</p>
+</blockquote>
+
+<p>으로 attribute를 annotation 안에 정의할 수 있다. 또한 애너테이션은 다음 타입들을 속성으로 사용할 수 있다:</p>
+
+<ul>
+  <li>primitives: int, long, float, boolean, double, char, byte, short, …</li>
+  <li>String</li>
+  <li>Class&lt;?&gt;</li>
+  <li>Enum</li>
+  <li>Annotations</li>
+  <li>위 타입들에 대한 Class&lt;?&gt;[] 배열</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">PrimitiveAttr</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="nf">age</span><span class="o">()</span> <span class="k">default</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="kt">boolean</span> <span class="nf">enabled</span><span class="o">()</span> <span class="k">default</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">StringAttr</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="nf">name</span><span class="o">()</span> <span class="k">default</span> <span class="err">“</span><span class="n">guest</span><span class="err">”</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">ClassAttr</span> <span class="o">{</span>
+    <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">targetClass</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Level</span> <span class="o">{</span>
+    <span class="no">LOW</span><span class="o">,</span> <span class="no">MEDIUM</span><span class="o">,</span> <span class="no">HIGH</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">EnumAttr</span> <span class="o">{</span>
+    <span class="nc">Level</span> <span class="nf">level</span><span class="o">()</span> <span class="k">default</span> <span class="nc">Level</span><span class="o">.</span><span class="na">MEDIUM</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">MetaInfo</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="nf">value</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">AnnotationAttr</span> <span class="o">{</span>
+    <span class="nc">MetaInfo</span> <span class="nf">info</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">ArrayAttr</span> <span class="o">{</span>
+    <span class="nc">String</span><span class="o">[]</span> <span class="nf">tags</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+    <span class="kt">int</span><span class="o">[]</span> <span class="nf">numbers</span><span class="o">()</span> <span class="k">default</span> <span class="o">{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">};</span>
+    <span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">classes</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+<span class="o">}</span></code></pre></figure>
+
+<hr />
+
+<h2 id="️-용어">✒️ 용어</h2>
+
+<h6 id="reflection">Reflection</h6>
+
+<p><code class="language-plaintext highlighter-rouge">java.lang.reflect</code>에서 런타임 시점에 클래스, 메서드, 필드, 생성자 등에 접근하고 조작할 수 있는 기능을 말하며, 일반적으로 코드 작성 시에 컴파일 타임에 어떤 클래스나 메서드를 호출할 지 결정하지만, 리플렉션은 실행 중에 동적으로 객체의 구조를 분석하여 수정할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">clazz</span> <span class="o">=</span> <span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"com.example.User"</span><span class="o">);</span>
+
+<span class="nc">Object</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">clazz</span><span class="o">.</span><span class="na">getDeclaredConstructor</span><span class="o">().</span><span class="na">newInstance</span><span class="o">();</span>
+
+<span class="nc">Field</span> <span class="n">field</span> <span class="o">=</span> <span class="n">clazz</span><span class="o">.</span><span class="na">getDeclaredField</span><span class="o">(</span><span class="s">"name"</span><span class="o">);</span>
+<span class="n">field</span><span class="o">.</span><span class="na">setAccessible</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span> <span class="c1">// 접근 제어자 무시</span>
+<span class="n">field</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">obj</span><span class="o">,</span> <span class="s">"홍길동"</span><span class="o">);</span>
+
+<span class="nc">Method</span> <span class="n">method</span> <span class="o">=</span> <span class="n">clazz</span><span class="o">.</span><span class="na">getDeclaredMethod</span><span class="o">(</span><span class="s">"getName"</span><span class="o">);</span>
+<span class="nc">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">obj</span><span class="o">);</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>  <span class="c1">// "홍길동"</span></code></pre></figure>
+
+<ul>
+  <li>setAccessible</li>
+  <li>isAnnotationPresent</li>
+  <li>getAnnotation</li>
+  <li>Proxy.newProxyInstance</li>
+</ul>
+
+<p>등등을 사용할 수 있다.</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/computerscience/java/2025/06/23/custom-annotation.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/computerscience/java/2025/06/23/custom-annotation.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

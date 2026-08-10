@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>7. Spring Data</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Spring Data | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Spring Data" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/07/27/7.-spring-data.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/07/27/7.-spring-data.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-07-27T04:50:14+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Spring Data" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-07-27T04:50:14+00:00","datePublished":"2025-07-27T04:50:14+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"Spring Data","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/07/27/7.-spring-data.html"},"url":"https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/07/27/7.-spring-data.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/computerscience/java/spring/2025/07/27/7.-spring-data.html">
+        <h2 class="post-title">7. Spring Data</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Jul 27, 2025</div><ul class="post-categories"><li>ComputerScience</li><li>Java</li><li>Spring</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-한계점">🪛 한계점</h2>
+<p>다양한 데이터 소스를 관리하려면 DAO 를 수행하는 객체들을 여러개 정의해야 한다.</p>
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#개요">개요</a>
+    <ul>
+      <li><a href="#java-persistence-api-jpa">Java Persistence API (JPA)</a></li>
+      <li><a href="#spring-template">Spring Template</a></li>
+      <li><a href="#repository">Repository</a></li>
+      <li><a href="#spring-data-modules">Spring Data Modules</a></li>
+    </ul>
+  </li>
+  <li><a href="#spring-boot-rdbms-연동하기">Spring Boot RDBMS 연동하기</a>
+    <ul>
+      <li><a href="#spring-boot-database-스키마-정의-및-초기-데이터-설정">Spring Boot Database 스키마 정의 및 초기 데이터 설정</a></li>
+      <li><a href="#spring-boot-mysql-database">Spring Boot MySQL Database</a>
+        <ul>
+          <li><a href="#properties-설정하기">properties 설정하기</a></li>
+          <li><a href="#testing">Testing</a></li>
+        </ul>
+      </li>
+      <li><a href="#spring-boot-postgresql-database-로-변경해보기">Spring Boot PostgreSQL Database 로 변경해보기</a>
+        <ul>
+          <li><a href="#properties-분리하기">properties 분리하기</a></li>
+          <li><a href="#postgre-sql-작성">Postgre SQL 작성</a></li>
+          <li><a href="#testing-1">Testing</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#spring-data-jpa-사용하기">Spring Data JPA 사용하기</a>
+    <ul>
+      <li><a href="#crudrepository">CrudRepository</a></li>
+      <li><a href="#entity-와-table">@Entity 와 @Table</a></li>
+      <li><a href="#crudrepository를-활용한-user-table-schema-구현">CrudRepository를 활용한 User Table Schema 구현</a></li>
+      <li><a href="#jpa-와-sql-사이의-db-초기화-고찰">JPA 와 sql 사이의 DB 초기화 고찰</a>
+        <ul>
+          <li><a href="#case-1-jpa가-테이블을-만들고-sql은-초기-데이터만-삽입">Case 1: JPA가 테이블을 만들고, SQL은 초기 데이터만 삽입</a></li>
+          <li><a href="#case-2-sql로-테이블을-정의하고-jpa는-건들지-않음">Case 2: SQL로 테이블을 정의하고, JPA는 건들지 않음</a></li>
+          <li><a href="#case-3-둘-다-사용했지만-충돌-발생-가능">Case 3: 둘 다 사용했지만 충돌 발생 가능</a></li>
+          <li><a href="#case-4-테스트-환경에서만-초기화">Case 4: 테스트 환경에서만 초기화</a></li>
+        </ul>
+      </li>
+      <li><a href="#testing-2">Testing</a></li>
+      <li><a href="#pagingandsortingrepository-를-활용한-페이징">PagingAndSortingRepository 를 활용한 페이징</a>
+        <ul>
+          <li><a href="#crudrepository-와-pagingandsortingrepository-를-통한-포스트-조회">CrudRepository 와 PagingAndSortingRepository 를 통한 포스트 조회</a></li>
+          <li><a href="#datajpatest와-autoconfiguretestdatabase-를-활용한-테스팅">@DataJpaTest와 @AutoConfigureTestDatabase 를 활용한 테스팅</a></li>
+          <li><a href="#datajpatest-와-activeprofiles-를-활용한-테스팅">@DataJpaTest 와 @ActiveProfiles 를 활용한 테스팅</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#spring-custom-repository">Spring Custom Repository</a>
+    <ul>
+      <li><a href="#norepositorybean-애너테이션">@NoRepositoryBean 애너테이션</a></li>
+      <li><a href="#spring-data-query">Spring Data Query</a></li>
+      <li><a href="#query-methods">Query Methods</a>
+        <ul>
+          <li><a href="#query-patternprefix">Query Pattern(Prefix)</a></li>
+          <li><a href="#attributeentity-field">Attribute(Entity Field)</a></li>
+          <li><a href="#조건-키워드">조건 키워드</a></li>
+          <li><a href="#연결자">연결자</a></li>
+          <li><a href="#정렬-조건">정렬 조건</a></li>
+        </ul>
+      </li>
+      <li><a href="#query-애너테이션">@Query 애너테이션</a></li>
+    </ul>
+  </li>
+  <li><a href="#criteria-api">Criteria API</a>
+    <ul>
+      <li><a href="#entitymanager">EntityManager</a></li>
+      <li><a href="#entitymanager-참조-및-criteriabuilder-선언">EntityManager 참조 및 CriteriaBuilder 선언</a></li>
+    </ul>
+  </li>
+  <li><a href="#spring-data-jpa--querydsl">Spring Data JPA &amp; QueryDSL</a>
+    <ul>
+      <li><a href="#querydsl-의존성-추가">QueryDSL 의존성 추가</a></li>
+      <li><a href="#querydslpredicateexecutor-인터페이스">QuerydslPredicateExecutor 인터페이스</a></li>
+    </ul>
+  </li>
+  <li><a href="#projection">Projection</a>
+    <ul>
+      <li><a href="#인터페이스-기반-프로젝션">인터페이스 기반 프로젝션</a></li>
+      <li><a href="#클래스-기반-프로젝션">클래스 기반 프로젝션</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>데이터 소스를 접근하기 위해 자주 쓰는 보일러 플레이트 코드들을 안쓰도록 하고, 다양한 데이터 소스에 대한 접근을 일관된 코드로 가져가서 개발자에게 편의성을 제공함과 동시에 다양한 메서드를 제공하기 위한 DAO 생성 템플릿을 지원한다.</p>
+
+<p>이를 위해 <strong><a href="#java-database-connectivity">JDBC(Java Database Connectivity)</a></strong> 를 활용해 DB에 연결, 쿼리를 만들기 위한 <strong><a href="#preparedstatement">PreparedStatement</a></strong>를 정의만 하면 내부적인 로직을 자동으로 짜주어서 DB 에 접근하는 세부 로직들을 다 안짜주어도 된다. 결과적으로 생산성이 비약적으로 늘어난다.</p>
+
+<p>우선 개념부터 보고 가자.</p>
+
+<h3 id="개요">개요</h3>
+
+<h4 id="java-persistence-api-jpa">Java Persistence API (JPA)</h4>
+
+<p>JPA는 자바 객체(Entity)를 데이터베이스에 매핑하기 위한 <strong><a href="#orm">ORM(Object-Relational Mapping)</a></strong> 표준 인터페이스이다.</p>
+
+<p>기본 구조는 다음과 같다:</p>
+<blockquote>
+  <p>Entity (자바 객체) → Persistence Provider (예: Hibernate, EclipseLink) → Database</p>
+</blockquote>
+
+<p>우리는 JPA가 정의한 <strong>인터페이스(API 명세)</strong>를 사용하고, 실제 동작은 Hibernate 등의 퍼시스턴스 제공자가 구현한다.</p>
+
+<p>즉, JPA는 표준을 정의하고, 구현체는 이를 따르는 방식으로 동작한다.</p>
+
+<h4 id="spring-template">Spring Template</h4>
+
+<p><strong>JDBC, JMS(Java Message Service), JNDI</strong> 등 공통적으로 사용하는 저수준 API에서는 DB 연결, 예외 처리, 자원 해제 등의 <strong>보일러플레이트 코드</strong>가 반복적으로 발생한다.</p>
+
+<p>Spring은 이러한 반복 작업을 줄이기 위해 <strong>Template 기반의 추상화 클래스</strong>를 제공한다.</p>
+
+<p>예를 들어 <code class="language-plaintext highlighter-rouge">JdbcTemplate</code>은 JDBC API를 사용할 때 필요한 <strong>연결, 쿼리 실행, 예외 처리, 자원 정리</strong> 등을 자동으로 처리해준다.</p>
+
+<blockquote>
+  <p>즉, 복잡한 try-catch 패턴 없이도 DB 작업을 간단하게 수행할 수 있다.</p>
+</blockquote>
+
+<p><strong>JdbcTemplate의 역할</strong></p>
+<ul>
+  <li>DB 연결 및 자원 해제 자동 처리</li>
+  <li><strong>SQLException</strong> → <strong>DataAccessException</strong> (스프링 공통 예외로 변환)</li>
+  <li>SQL 실행 및 결과 매핑 지원 (<code class="language-plaintext highlighter-rouge">query</code>, <code class="language-plaintext highlighter-rouge">update</code> 등)</li>
+</ul>
+
+<h4 id="repository">Repository</h4>
+
+<p>Spring에서 <strong>Repository</strong>는 전통적인 <strong>DAO(Data Access Object)</strong>의 역할을 수행하는 개념이다. <code class="language-plaintext highlighter-rouge">@Repository</code> 어노테이션을 사용해 <strong>데이터 접근 계층을 정의</strong>하며, 이는 <strong>Spring Data Commons</strong>에 포함된 여러 인터페이스들을 통해 기능이 확장된다.</p>
+
+<p><strong>Spring Data JPA</strong>나 <strong>JdbcTemplate</strong> 기반 <strong>Repository</strong>를 사용하면,</p>
+<ul>
+  <li>CRUD 메서드가 자동 생성되며</li>
+  <li>쿼리 메서드(<code class="language-plaintext highlighter-rouge">findByName</code>, <code class="language-plaintext highlighter-rouge">countByStatus</code> 등)도 자동 구현된다</li>
+  <li>DB 연결, 트랜잭션 처리, 예외(<strong><code class="language-plaintext highlighter-rouge">DataAccessExcpetion</code></strong>으로 일관된 처리) 변환 등은 모두 스프링이 자동으로 처리한다</li>
+  <li>Bean으로 등록</li>
+</ul>
+
+<blockquote>
+  <p>즉, <strong>인터페이스만 정의하면 구현 없이도 기본적인 데이터 접근 로직을 자동으로 생성</strong>해준다.</p>
+</blockquote>
+
+<h4 id="spring-data-modules">Spring Data Modules</h4>
+
+<ul>
+  <li>Spring Data Commons</li>
+  <li>Spring Data JDBC</li>
+  <li>Spring Data JPA</li>
+  <li>Spring Data MongoDB</li>
+  <li>Spring Data Redis</li>
+  <li>Spring Data REST</li>
+  <li>Spring Data Apache Casandra</li>
+  <li>…</li>
+</ul>
+
+<p>데이터 소스들마다 모듈들이 있어 굉장히 많은 모듈이 있다. 모듈들을 이해하기 위해 모듈을 계층적으로 나눌 수 있다.</p>
+
+<ul>
+  <li><strong>Spring Data Commons</strong>: Repository, CrudRepository, <strong>PagingAndSortingRepository</strong></li>
+  <li><strong>Spring Data Sub-modules</strong>: JDBC, JPA, MongoDB, Casandra</li>
+  <li><strong>DB Layer</strong>: JDBC-MySQL, JPA-PostgreSQL, MongoDB-MongoDB, …</li>
+</ul>
+
+<p>Spring Data Commons는 Data 서브 모듈들을 사용하기 위한 일관된 인터페이스를 개발자에게 제공하고, 서브 모듈은 각각의 다양한 DB에 연결되어 데이터 소스마다 코드 차이를 개발자가 굳이 몰라도 사용할 수 있도록 한다.</p>
+
+<h3 id="spring-boot-rdbms-연동하기">Spring Boot RDBMS 연동하기</h3>
+
+<p>우선 JPA를 사용하기 위해 다음 의존성을 추가한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">implementation</span><span class="o">(</span><span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">boot</span><span class="o">:</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">starter</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">jpa</span><span class="err">'</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">exclude</span> <span class="nl">group:</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">zaxxer</span><span class="err">'</span><span class="o">,</span> <span class="nl">module:</span> <span class="err">'</span><span class="nc">HikariCP</span><span class="err">'</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>여기서 HikariCP 말고 <strong><a href="#connection-pool">Connection Pool</a></strong> 로 다음을 설정한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">implementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">tomcat</span><span class="o">:</span><span class="n">tomcat</span><span class="o">-</span><span class="nl">jdbc:</span><span class="mf">10.1</span><span class="o">.</span><span class="mi">20</span><span class="err">'</span> <span class="c1">// 커넥션 풀 tomcat jdbc 사용</span></code></pre></figure>
+
+<p>커넥션 풀은 서비스마다 알맞은걸 사용하면 된다.</p>
+
+<h4 id="spring-boot-database-스키마-정의-및-초기-데이터-설정">Spring Boot Database 스키마 정의 및 초기 데이터 설정</h4>
+
+<p>데이터베이스 스키마를 정의하는 부분은 <code class="language-plaintext highlighter-rouge">resources/schema.sql</code>, <code class="language-plaintext highlighter-rouge">resources/data.sql</code> 에서 할 수 있다. 그 전에 *.sql을 사용하도록 하기 위해 spring 에서 다음 프로퍼티를 설정해주어야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="c"># application.properties
+</span>
+<span class="c"># always 내장DB, 외장DB든 상관 없이 항상 SQL 파일 실행
+# embedded(기본값) H2, HSQL 등의 내장 DB 에서만 SQL 파일 실행
+# never SQL 초기화 파일 실행 안함
+</span><span class="py">spring.sql.init.mode</span><span class="p">=</span><span class="s">always</span>
+
+<span class="c"># schema.sql + data.sql 사용을 명시
+</span><span class="py">spring.sql.init.schema-locations</span><span class="p">=</span><span class="s">classpath:schema.sql</span>
+<span class="py">spring.sql.init.data-locations</span><span class="p">=</span><span class="s">classpath:data.sql</span>
+
+<span class="c"># Hibernate가 테이블 만들지 않도록 설정
+</span><span class="py">spring.jpa.hibernate.ddl-auto</span><span class="p">=</span><span class="s">none</span>
+
+<span class="c"># JPA SQL 쿼리를 콘솔에 출력하도록 함
+</span><span class="py">spring.jpa.show-sql</span><span class="p">=</span><span class="s">true</span></code></pre></figure>
+
+<p>스키마를 설정한다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="o">//</span> <span class="k">schema</span><span class="p">.</span><span class="k">sql</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">USERS</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="nb">INT</span> <span class="n">AUTO_INCREMENT</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+  <span class="n">name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+  <span class="n">email</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="p">);</span></code></pre></figure>
+
+<p>기본적으로 핸들링 할 데이터를 추가해준다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="o">//</span> <span class="k">data</span><span class="p">.</span><span class="k">sql</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">USERS</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+<span class="k">SELECT</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'Alice'</span><span class="p">,</span> <span class="s1">'alice@example.com'</span>
+<span class="k">WHERE</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="p">(</span><span class="k">SELECT</span> <span class="mi">1</span> <span class="k">FROM</span> <span class="n">USERS</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">);</span></code></pre></figure>
+
+<p>데이터는 그냥 GPT 가 주는 예시로 했다.</p>
+
+<h4 id="spring-boot-mysql-database">Spring Boot MySQL Database</h4>
+
+<p>우선 mysql을 연결하기 위해 다음 의존성을 추가해줘야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">runtimeOnly</span> <span class="err">'</span><span class="nl">mysql:</span><span class="n">mysql</span><span class="o">-</span><span class="n">connector</span><span class="o">-</span><span class="nl">java:</span><span class="mf">8.0</span><span class="o">.</span><span class="mi">33</span><span class="err">'</span></code></pre></figure>
+
+<p>dev 환경에서 MySql server를 내부적으로 사용하기 위해 다음을 입력한다. <strong>포트는 3306</strong>이다.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker run <span class="nt">--name</span> mysql-dev <span class="se">\</span>
+  <span class="nt">-e</span> <span class="nv">MYSQL_ROOT_PASSWORD</span><span class="o">={</span>password<span class="o">}</span> <span class="se">\</span>
+  <span class="nt">-e</span> <span class="nv">MYSQL_DATABASE</span><span class="o">={</span>DB 이름<span class="o">}</span> <span class="se">\</span>
+  <span class="nt">-p</span> 3306:3306 <span class="se">\</span>
+  <span class="nt">-d</span> mysql:8</code></pre></figure>
+
+<h5 id="properties-설정하기">properties 설정하기</h5>
+<p>자주 사용되는 url과 password 등을 properties에 저장한다.</p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="c"># mysql.properties
+</span><span class="py">spring.datasource.url</span><span class="p">=</span><span class="s">jdbc:mysql://localhost:3306/{DB 이름}</span>
+<span class="py">spring.datasource.username</span><span class="p">=</span><span class="s">root</span>
+<span class="py">spring.datasource.password</span><span class="p">=</span><span class="s">1234</span>
+<span class="py">spring.datasource.driver-class-name</span><span class="p">=</span><span class="s">com.mysql.cj.jdbc.Driver</span></code></pre></figure>
+
+<p>필자는 <code class="language-plaintext highlighter-rouge">mysql.properties</code> 를 만들어, <code class="language-plaintext highlighter-rouge">application.properties</code>에</p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="py">spring.config.import</span><span class="p">=</span><span class="s">classpath:mysql.properties</span></code></pre></figure>
+
+<p>를 추가해줬다.</p>
+
+<p>다양한 방법으로 import 해준다. Spring Data 에서 자체적으로 <strong>DataSource</strong> 라는 싱글톤 객체에 우리가 정의한 spring.datasource 프로퍼티들을 토대로 자동으로 <strong>connection</strong> 을 생성해준다. 이를 log 찍어보자.</p>
+
+<h5 id="testing">Testing</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenDatasourceAvailableWhenAccessDetailsThenExpectDetails</span><span class="o">()</span>
+        <span class="kd">throws</span> <span class="nc">SQLException</span> <span class="o">{</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">dataSource</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"org.apache.tomcat.jdbc.pool.DataSource"</span><span class="o">);</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">dataSource</span><span class="o">.</span><span class="na">getConnection</span><span class="o">().</span><span class="na">getMetaData</span><span class="o">().</span><span class="na">getDatabaseProductName</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"MySQL"</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>기본적으로 예외 처리 또한 일관성 있게 지원해주기 때문에 메서드에 throws <strong>SQLException</strong> 만 넣어주면 exception 을 받을 수 있다. 이제 데이터 또한 들어갔는지를 살펴보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenUserWhenGetUserNameByIdThenGetUser</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="k">try</span><span class="o">(</span>
+            <span class="nc">Connection</span> <span class="n">cn</span> <span class="o">=</span> <span class="n">dataSource</span><span class="o">.</span><span class="na">getConnection</span><span class="o">();</span>
+            <span class="nc">PreparedStatement</span> <span class="n">ps</span> <span class="o">=</span> <span class="n">cn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="s">"SELECT name FROM USERS WHERE id=1"</span><span class="o">);</span>
+            <span class="nc">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+    <span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span>
+            <span class="n">assertThat</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"name"</span><span class="o">));</span>
+        <span class="k">else</span>
+            <span class="nf">fail</span><span class="o">(</span><span class="s">"No user found with id=1"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>현재 JPA Repository를 따로 정의하지 않았기 때문에, Spring Data JPA의 기능은 사용하지 않고 순수 JDBC 방식으로 테스트를 진행했다.</p>
+
+<h4 id="spring-boot-postgresql-database-로-변경해보기">Spring Boot PostgreSQL Database 로 변경해보기</h4>
+
+<p>Postgre 전용 db 를 사용하기 위한 임시 서버를 연다. <strong>포트는 5432</strong> 이다.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker run <span class="nt">--name</span> postgres-dev <span class="se">\</span>
+  <span class="nt">-e</span> <span class="nv">POSTGRES_USER</span><span class="o">={</span>username<span class="o">}</span> <span class="se">\</span>
+  <span class="nt">-e</span> <span class="nv">POSTGRES_PASSWORD</span><span class="o">={</span>password<span class="o">}</span> <span class="se">\</span>
+  <span class="nt">-e</span> <span class="nv">POSTGRES_DB</span><span class="o">={</span>DB 이름<span class="o">}</span> <span class="se">\</span>
+  <span class="nt">-p</span> 5432:5432 <span class="se">\</span>
+  <span class="nt">-d</span> postgres:15</code></pre></figure>
+
+<p>의존성을 추가해준다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">runtimeOnly</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">postgresql</span><span class="o">:</span><span class="n">postgresql</span><span class="err">'</span></code></pre></figure>
+
+<h5 id="properties-분리하기">properties 분리하기</h5>
+<p>postgre 를 사용할 때는 세팅 값이 바뀌어야 하므로 postgres, mysql 별로 properties 를 따로 만들어준다.</p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="c"># application-postgres.properties
+# DB Initialize
+</span><span class="py">spring.sql.init.schema-locations</span><span class="p">=</span><span class="s">classpath:db/postgres/schema.sql</span>
+<span class="py">spring.sql.init.data-locations</span><span class="p">=</span><span class="s">classpath:db/postgres/data.sql</span>
+
+<span class="c"># DataSource
+</span><span class="py">spring.datasource.url</span><span class="p">=</span><span class="s">jdbc:postgresql://localhost:5432/{DB 이름}</span>
+<span class="py">spring.datasource.username</span><span class="p">=</span><span class="s">{username}</span>
+<span class="py">spring.datasource.password</span><span class="p">=</span><span class="s">{password}</span>
+<span class="py">spring.datasource.driver-class-name</span><span class="p">=</span><span class="s">org.postgresql.Driver</span></code></pre></figure>
+
+<p>위를 만들어준다고 해서 자동으로 참조하지는 않는다. application.properties에서 다음을 넣어주면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="c"># application.properties
+</span><span class="py">spring.profiles.active</span><span class="p">=</span><span class="s">postgres</span></code></pre></figure>
+
+<p>이렇게 되면 db server 가 바뀔 때마다 이 property 만 바꿔주면 될 터이다.</p>
+
+<h5 id="postgre-sql-작성">Postgre SQL 작성</h5>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- shema.sql</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">USERS</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="nb">INT</span> <span class="k">GENERATED</span> <span class="n">ALWAYS</span> <span class="k">AS</span> <span class="k">IDENTITY</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+  <span class="n">name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+  <span class="n">email</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="p">);</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- data.sql</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">USERS</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+<span class="k">OVERRIDING</span> <span class="k">SYSTEM</span> <span class="n">VALUE</span>
+<span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'Alice'</span><span class="p">,</span> <span class="s1">'alice@example.com'</span><span class="p">)</span>
+<span class="k">ON</span> <span class="n">CONFLICT</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">DO</span> <span class="k">NOTHING</span><span class="p">;</span></code></pre></figure>
+
+<h5 id="testing-1">Testing</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenDatasourceAvailableWhenAccessDetailsThenExpectDetails</span><span class="o">()</span>
+        <span class="kd">throws</span> <span class="nc">SQLException</span> <span class="o">{</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">dataSource</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"org.apache.tomcat.jdbc.pool.DataSource"</span><span class="o">);</span>
+<span class="c1">//		assertThat(dataSource.getConnection().getMetaData().getDatabaseProductName())</span>
+<span class="c1">//				.isEqualTo("MySQL");</span>
+    <span class="n">assertThat</span><span class="o">(</span><span class="n">dataSource</span><span class="o">.</span><span class="na">getConnection</span><span class="o">().</span><span class="na">getMetaData</span><span class="o">().</span><span class="na">getDatabaseProductName</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"PostgreSQL"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenUserWhenGetUserNameByIdThenGetUser</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="k">try</span><span class="o">(</span>
+            <span class="nc">Connection</span> <span class="n">cn</span> <span class="o">=</span> <span class="n">dataSource</span><span class="o">.</span><span class="na">getConnection</span><span class="o">();</span>
+            <span class="nc">PreparedStatement</span> <span class="n">ps</span> <span class="o">=</span> <span class="n">cn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="s">"SELECT name FROM USERS WHERE id=1"</span><span class="o">);</span>
+            <span class="nc">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">ps</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span>
+    <span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span>
+            <span class="n">assertThat</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"name"</span><span class="o">));</span>
+        <span class="k">else</span>
+            <span class="nf">fail</span><span class="o">(</span><span class="s">"No user found with id=1"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>테스트에서 수정할 부분은 한가지 뿐이다(찾아보아라).</p>
+
+<h3 id="spring-data-jpa-사용하기">Spring Data JPA 사용하기</h3>
+
+<p>코드에서도 데이터베이스에 대한 명령을 수행할 수 있고, 이를 JPA를 통해 한다고 사전에 보았을 것이다. 여기서는 이 JPA의 가장 기본적인 <strong>Persistence Provider</strong> 의 <strong>Repository</strong> 를 본다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Indexed</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Repository</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">ID</span><span class="o">&gt;</span> <span class="o">{</span> <span class="o">}</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">Repository</code> 인터페이스를 파보면 제너릭 타입 T, ID 가 있음을 볼 수 있다. ID 는 행을 구분하는 즉, 레코드를 구분하는 컬럼 명 혹은 필드 명이다. T는 이 ID 의 타입을 선언한다.</p>
+
+<p>하지만 내부는 비어있는걸 볼 수 있는데 이를 <strong><a href="#marker-interface">Marker Interface</a></strong> 라고 한다.</p>
+
+<h4 id="crudrepository">CrudRepository</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Repository</code>를 상속 받는 <code class="language-plaintext highlighter-rouge">CrudRepository</code>를 보자. 자주 사용하는 놈이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@NoRepositoryBean</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CrudRepository</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">ID</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nc">Repository</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">ID</span><span class="o">&gt;</span> <span class="o">{</span>
+
+	<span class="o">&lt;</span><span class="no">S</span> <span class="kd">extends</span> <span class="no">T</span><span class="o">&gt;</span> <span class="no">S</span> <span class="nf">save</span><span class="o">(</span><span class="no">S</span> <span class="n">entity</span><span class="o">);</span>
+
+	<span class="o">&lt;</span><span class="no">S</span> <span class="kd">extends</span> <span class="no">T</span><span class="o">&gt;</span> <span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">S</span><span class="o">&gt;</span> <span class="nf">saveAll</span><span class="o">(</span><span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">S</span><span class="o">&gt;</span> <span class="n">entities</span><span class="o">);</span>
+
+	<span class="nc">Optional</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">findById</span><span class="o">(</span><span class="no">ID</span> <span class="n">id</span><span class="o">);</span>
+
+	<span class="kt">boolean</span> <span class="nf">existsById</span><span class="o">(</span><span class="no">ID</span> <span class="n">id</span><span class="o">);</span>
+
+	<span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">();</span>
+
+	<span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">findAllById</span><span class="o">(</span><span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">ID</span><span class="o">&gt;</span> <span class="n">ids</span><span class="o">);</span>
+
+	<span class="kt">long</span> <span class="nf">count</span><span class="o">();</span>
+
+	<span class="kt">void</span> <span class="nf">deleteById</span><span class="o">(</span><span class="no">ID</span> <span class="n">id</span><span class="o">);</span>
+
+	<span class="kt">void</span> <span class="nf">delete</span><span class="o">(</span><span class="no">T</span> <span class="n">entity</span><span class="o">);</span>
+
+	<span class="kt">void</span> <span class="nf">deleteAllById</span><span class="o">(</span><span class="nc">Iterable</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="no">ID</span><span class="o">&gt;</span> <span class="n">ids</span><span class="o">);</span>
+
+	<span class="kt">void</span> <span class="nf">deleteAll</span><span class="o">(</span><span class="nc">Iterable</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="no">T</span><span class="o">&gt;</span> <span class="n">entities</span><span class="o">);</span>
+
+	<span class="kt">void</span> <span class="nf">deleteAll</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>메서드 명은 설명 안해도 될 정도로 직관적이고 명확하다. 위 메서드를 다 지원하며, 굳이 이를 상속하는 구현체에 위 메서드를 다 구현해야 하는 수고를 덜 수 있다.</p>
+
+<p>이제 이를 사용해야 하는데, JVM은 DB 쪽 서버에서 정의된 스키마를 모르기에 Java 내에서 해당 레코드와 맞먹는 클래스를 구현해야 한다. 다음을 정의하자.</p>
+
+<h4 id="entity-와-table">@Entity 와 @Table</h4>
+
+<p>엔티티는 DB의 한 테이블에 매핑되는 <strong>도메인 객체(비즈니스 모델)</strong>이며, 스키마와 1:1로 대응될 수 있도록 정의된다. <code class="language-plaintext highlighter-rouge">USERS</code> 테이블에 대응되는 비즈니스 엔티티를 만들어보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">jakarta.persistence.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.*</span><span class="o">;</span>
+
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"USERS"</span><span class="o">)</span>
+<span class="nd">@Data</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Integer</span> <span class="n">id</span><span class="o">;</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">length</span> <span class="o">=</span> <span class="mi">100</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">length</span> <span class="o">=</span> <span class="mi">100</span><span class="o">,</span> <span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">User</span><span class="o">()</span> <span class="o">{}</span>
+    <span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="nc">String</span> <span class="n">email</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">email</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>NonNull 과 Data 어노테이션은 필자의 <a href="/seonghun120614/java/2025/06/09/lombok">Lombok</a> 글을 보자.
+<code class="language-plaintext highlighter-rouge">@NonNull</code>과 <code class="language-plaintext highlighter-rouge">@Data</code>는 Lombok 애노테이션이며, <code class="language-plaintext highlighter-rouge">@NonNull</code>은 생성자 인자에 null이 들어오지 않도록 런타임 검사를 수행한다.<br />
+<code class="language-plaintext highlighter-rouge">@Data</code>를 사용하더라도 <strong>Spring Data JPA는 생성자 기반 객체 생성을 하지 않을 수도 있기 때문에</strong>, 명시적 생성자를 선언해주는 것이 안정적이다.</p>
+</blockquote>
+
+<p>MySQL 기준으로 Java 의 타입과 DB 스키마의 필드 타입 매핑은 다음과 같다.</p>
+
+<ul>
+  <li>INT - Integer, int</li>
+  <li>BIGINT - Long</li>
+  <li>VARCHAR(n) - String</li>
+  <li>CHAR(n) - String</li>
+  <li>TEXT, LONGTEXT - String</li>
+  <li>BOOLEAN, TINYINT(1) - Boolean / boolean</li>
+  <li>DATE - java.time.LocalDate</li>
+  <li>DATETIME, TIMESTAMP - javatime.LocalDateTime</li>
+  <li>DECIMAL, NUMERIC, FLOAT, DOUBLE - java.math.BigDecimal</li>
+  <li>이진 관련 데이터 - byte[]</li>
+</ul>
+
+<p><strong>주의할 점</strong></p>
+<blockquote>
+  <p>int 는 null 을 허용하지 않기 때문에 자동으로 생성되는 ID의 값과 충돌 가능성이 있다<br />
+Integer이나 Long을 사용하여 null을 허용하고 DB 자체에 접근이 될때 미지정 상태로 넣어주면 DB에서 알아서 정의해줄 것이다.</p>
+</blockquote>
+
+<p>따라서, Long은 <strong>BIGINT AUTO_INCREMENT</strong> 와도 같고, Integer은 <strong>INT AUTO_INCREMENT</strong>와 같다. int 의 사용은 되도록 일반적인 필드에서만 사용하도록 하자. 그리고 이를 java 에서 사용하고 싶다면 <code class="language-plaintext highlighter-rouge">@GeneratedValue(strategy = GenerationType.IDENTITY)</code>를 추가하여 해당 필드가 AUTO_INCREMENT 임을 타 프로그래머와 제 3자에게 알려주자.</p>
+
+<p>또한, <strong>PK, FK, 누적값에 대한 필드에 대해서는 Long을 쓰는 것</strong>이 더 바람직하다.</p>
+
+<blockquote>
+  <p>TEXT 계열은 인덱싱 제한이 있기 때문에 검색 필드로는 사용 주의가 필요하다.</p>
+</blockquote>
+
+<p><strong>GenerationValue</strong></p>
+<ul>
+  <li>GeneratedType.Table: DB의 <strong>AUTO_INCREMENT를 사용하지 않고</strong> JPA 구현체가 ID를 직접 증가시키기 위해 직접 키 생성 전용 테이블을 만들어서 사용, schema 에서 AUTO_INCREMENT를 빼야 함.</li>
+  <li>GeneratedType.Identity: DB에서 생성된 식별자 컬럼에서 생성된 값을 기본키로 사용</li>
+  <li>GeneratedType.Sequence: 이름 그대로 JPA 구현체가 데이터베이스의 시퀀스를 사용하여 키를 생성하고 이를 기본키로 사용</li>
+  <li>GeneratedType.Auto: JPA 구현체가 기본 키 생ㅅ어 방식을 스스로 결정</li>
+</ul>
+
+<p><strong>TIP</strong></p>
+<blockquote>
+  <p>어노테이션 <code class="language-plaintext highlighter-rouge">@Column</code> 에 자체적으로 <code class="language-plaintext highlighter-rouge">length</code> 라는 인자를 받을 수 있는데 이를 설정해주는 걸로 VARCHAR 의 길이와 매핑이 된다.</p>
+</blockquote>
+
+<p>Java에는 <code class="language-plaintext highlighter-rouge">String</code>이 <code class="language-plaintext highlighter-rouge">null</code> 값을 가질 수도 있는데, 이를 제어하기 위해 <code class="language-plaintext highlighter-rouge">@Column(nullable = false)</code> 를 해주면 무조건 입력하도록 하게 할 수 있다(<code class="language-plaintext highlighter-rouge">unique</code> 인자도 있음).</p>
+
+<p>이제 정의된 Entity 를 Table Schema와 연결시키자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Data</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"USERS"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span></code></pre></figure>
+
+<p>이제 JPA 를 사용하기 위한 준비가 끝났다(<code class="language-plaintext highlighter-rouge">Repository</code> 사용 준비 끝).</p>
+
+<h4 id="crudrepository를-활용한-user-table-schema-구현">CrudRepository를 활용한 User Table Schema 구현</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.example.study.dao.entity.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Repository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.repository.CrudRepository</span><span class="o">;</span>
+
+<span class="nd">@Repository</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span> <span class="kd">extends</span> <span class="nc">CrudRepository</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;</span> <span class="o">{</span> <span class="o">}</span></code></pre></figure>
+
+<p>이제 JPA 에서 제공하는 <strong>CRUD, 쿼리 메서드</strong>들을 사용할 수 있게 된다. 나머지 필요한 메서드는 서비스가 요구하는 상황에 맞춰 그때그때 추가해주는게 바람직하다.</p>
+
+<h4 id="jpa-와-sql-사이의-db-초기화-고찰">JPA 와 sql 사이의 DB 초기화 고찰</h4>
+
+<p>이제 프로퍼티에 관해서 보자. 앞서 봤듯이 우리는 sql 문을 통해 초기 데이터들을 정의하고 테스트를 수행했는데 그렇다면, 단순 SQL 파일이 아닌 JPA 자체를 통해서도 초기 데이터를 설정할 수 있지 않을까 하는 의문이 생긴다.</p>
+
+<p>sql로 수행할 때, 다음 properties 들을 썼다:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">spring.jpa.hibernate.ddl-auto</code>: JPA가 ddl을 어떻게 처리할 지에 대해 명시
+    <ul>
+      <li>create-drop 은 엔티티를 기반으로 테이블 생성</li>
+      <li>create 는 엔터티를 기반으로 새 테이블 생성(기존 테이블 모두 삭제)</li>
+      <li>update 는 엔터티를 기반으로 스키마를 업데이트하며 기존 테이블이 있다면 수정하고 없으면 생성</li>
+      <li>validate 는 프로덕션 환경에서 스키마가 올바른지 확인</li>
+      <li>none 은 Hibernate 가 전혀 스키마를 관리하지 않는다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">spring.sql.init.mode</code>: <code class="language-plaintext highlighter-rouge">schema.sql</code>/<code class="language-plaintext highlighter-rouge">data.sql</code> 실행 여부 제어</li>
+</ul>
+
+<p>이제 이를 조금 바꿔가면서 케이스마다 어떤 프로퍼티 값을 가지게 해야할지 정리해보자.</p>
+
+<h5 id="case-1-jpa가-테이블을-만들고-sql은-초기-데이터만-삽입">Case 1: JPA가 테이블을 만들고, SQL은 초기 데이터만 삽입</h5>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="py">spring.jpa.hibernate.ddl-auto</span><span class="p">=</span><span class="s">create</span>
+<span class="py">spring.sql.init.mode</span><span class="p">=</span><span class="s">always</span></code></pre></figure>
+
+<p>create는 애플리케이션 시작 시 테이블을 모두 <strong>드롭 후 재생성</strong>하는 설정이다.<br />
+즉, 기존 데이터는 <strong>매번 삭제</strong>되며, 테스트나 개발 초기에만 사용하기 적합하다.</p>
+
+<p>이 설정에서는 JPA가 직접 스키마를 생성하므로, <code class="language-plaintext highlighter-rouge">schema.sql</code>은 무시되고 실행되지 않는다.<br />
+다만 <code class="language-plaintext highlighter-rouge">data.sql</code>은 <strong>JPA가 테이블 생성을 완료한 후에 실행되기 때문에</strong> 초기 데이터 삽입 용도로는 유효하다.</p>
+
+<h5 id="case-2-sql로-테이블을-정의하고-jpa는-건들지-않음">Case 2: SQL로 테이블을 정의하고, JPA는 건들지 않음</h5>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="py">spring.jpa.hibernate.ddl-auto</span><span class="p">=</span><span class="s">none</span>
+<span class="py">spring.sql.init.mode</span><span class="p">=</span><span class="s">always</span></code></pre></figure>
+
+<p>SQL 파일에 모든 테이블과 초기 데이터를 명시적으로 관리한다. 보통 실무에서 많이 사용한다.</p>
+
+<h5 id="case-3-둘-다-사용했지만-충돌-발생-가능">Case 3: 둘 다 사용했지만 충돌 발생 가능</h5>
+
+<p>update는 JPA 기준으로 테이블을 수정하려고 시도하며, 동시에 <code class="language-plaintext highlighter-rouge">schema.sql</code>이 적용되면
+서로의 구조가 충돌할 수 있다. 특히 컬럼 중복, 타입 불일치 시 오류 발생 가능하다.</p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="py">spring.jpa.hibernate.ddl-auto</span><span class="p">=</span><span class="s">update</span>
+<span class="py">spring.sql.init.mode</span><span class="p">=</span><span class="s">always</span></code></pre></figure>
+
+<p>유지보수가 어렵고 예측이 불가능하다. 비추천</p>
+
+<h5 id="case-4-테스트-환경에서만-초기화">Case 4: 테스트 환경에서만 초기화</h5>
+
+<p>내장 DB 전용이다.</p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="py">spring.jpa.hibernate.ddl-auto</span><span class="p">=</span><span class="s">create</span>
+<span class="py">spring.sql.init.mode</span><span class="p">=</span><span class="s">embedded</span></code></pre></figure>
+
+<p>내장 DB일 때만, <code class="language-plaintext highlighter-rouge">schema.sql</code>, <code class="language-plaintext highlighter-rouge">data.sql</code>이 실행되고,<br />
+실제 <strong>MySQL</strong>이나 <strong>PostgreSQL</strong>에서는 <code class="language-plaintext highlighter-rouge">schema.sql</code>, <code class="language-plaintext highlighter-rouge">data.sql</code>이 무시된다.</p>
+
+<p>서버를 올리고 나서는 JPA를 기준으로 돌아가게 된다.</p>
+
+<h4 id="testing-2">Testing</h4>
+
+<p>테스트를 하기 전에 위의 경우들에 맞춰 프로퍼티를 설정해주길 바란다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.example.study.dao.entity.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.*</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.*;</span>
+
+<span class="nd">@SpringBootTest</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserRepositoryTest</span> <span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="nc">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenCreateUserWhenLoadTheUserThenExpectExistedUser</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">(</span><span class="s">"IU"</span><span class="o">,</span> <span class="s">"1234"</span><span class="o">);</span>
+
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"IU"</span><span class="o">,</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="mi">1L</span><span class="o">).</span><span class="na">orElseThrow</span><span class="o">(</span>
+                <span class="o">()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">AssertionError</span><span class="o">(</span><span class="s">"User not found"</span><span class="o">)</span>
+        <span class="o">).</span><span class="na">getName</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenCreateUserWhenLoadTheUserThenExpectSameUser</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">,</span> <span class="s">"alice@alice.co.kr"</span><span class="o">);</span> <span class="c1">// 여기선 user id 가 null 이지만</span>
+        <span class="nc">User</span> <span class="n">savedUser</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span> <span class="c1">// 여기서는 user id가 자동 설정됨</span>
+
+        <span class="n">assertEquals</span><span class="o">(</span><span class="n">user</span><span class="o">,</span> <span class="n">savedUser</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenUpdateUserWhenLoadTheUserThenExpectUpdatedUser</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="mi">1L</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">AssertionError</span><span class="o">(</span><span class="s">"User not found"</span><span class="o">));</span>
+
+        <span class="n">user</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">"Bob"</span><span class="o">);</span>
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+
+        <span class="nc">User</span> <span class="n">foundUser</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="mi">1L</span><span class="o">).</span><span class="na">get</span><span class="o">();</span>
+
+        <span class="n">assertNotEquals</span><span class="o">(</span><span class="s">"IU"</span><span class="o">,</span> <span class="n">foundUser</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"Bob"</span><span class="o">,</span> <span class="n">foundUser</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenDeleteUserWhenLoadTheUserThenExpectNoUser</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">long</span> <span class="n">total</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">count</span><span class="o">();</span>
+        <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="mi">1L</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">AssertionError</span><span class="o">(</span><span class="s">"User not found"</span><span class="o">));</span>
+
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="n">total</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span><span class="n">userRepository</span><span class="o">.</span><span class="na">count</span><span class="o">());</span>
+
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">deleteAll</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">0L</span><span class="o">,</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">count</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>전부 통과해야 한다.</p>
+
+<h4 id="pagingandsortingrepository-를-활용한-페이징">PagingAndSortingRepository 를 활용한 페이징</h4>
+
+<p>어떤 쇼핑몰이든 게시물들이던 1000만 개의 포스트나 글들을 불러오는 것은 굉장히 무거운 작업이다. 따라서 많은 양의 데이터를 여러 페이지로 잘게 나눠서 조회한다면 page 만큼의 양만 조회하기 때문에 효율적이게 된다. 이런 기술을 <strong>Paging</strong> 이라고 한다.</p>
+
+<p>스프링 데이터에서는 <code class="language-plaintext highlighter-rouge">PagingAndSoringRepository</code> 인터페이스를 지원하며, <code class="language-plaintext highlighter-rouge">Repository</code> 를 상속 받는 클래스이다.</p>
+
+<h5 id="crudrepository-와-pagingandsortingrepository-를-통한-포스트-조회">CrudRepository 와 PagingAndSortingRepository 를 통한 포스트 조회</h5>
+
+<p>하기 전에 새로운 엔티티를 다루자. Paging 기능을 극한으로 활용할 수 있는 곳은 게시글, 상품 글들 보기 등등 일 것이다. 필자는 게시글로 Post 엔티티를 정의한다. 정의하기 전에 low-level의 DB 단에서 schema 를 정의한다.</p>
+
+<figure class="highlight"><pre><code class="language-mysql" data-lang="mysql">DROP TABLE IF EXISTS USERS;
+DROP TABLE IF EXISTS POSTS;
+
+CREATE TABLE USERS (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100)
+);
+
+CREATE TABLE POSTS (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  created_at DATETIME NOT NULL,
+  title VARCHAR(50),
+  content TEXT
+);</code></pre></figure>
+
+<p>초기 데이터도 삽입해준다(물론 필자는 <code class="language-plaintext highlighter-rouge">init.mode</code> 가 <code class="language-plaintext highlighter-rouge">never</code> 이지만 넣어줬다).</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="no">INSERT</span> <span class="no">INTO</span> <span class="nf">USERS</span> <span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">email</span><span class="o">)</span>
+<span class="no">SELECT</span> <span class="err">'</span><span class="nc">Alice</span><span class="err">'</span><span class="o">,</span> <span class="err">'</span><span class="n">alice</span><span class="nd">@example</span><span class="o">.</span><span class="na">com</span><span class="err">'</span><span class="o">;</span>
+
+<span class="no">INSERT</span> <span class="no">INTO</span> <span class="nf">POSTS</span> <span class="o">(</span><span class="n">time</span><span class="o">,</span> <span class="n">title</span><span class="o">,</span> <span class="n">content</span><span class="o">)</span>
+<span class="no">VALUES</span> <span class="o">(</span><span class="no">NOW</span><span class="o">(),</span> <span class="err">'</span><span class="nc">Spring</span> <span class="nc">Boot</span> <span class="nc">Intro</span><span class="err">'</span><span class="o">,</span> <span class="err">'</span><span class="nc">This</span> <span class="n">is</span> <span class="n">the</span> <span class="n">content</span> <span class="n">of</span> <span class="n">the</span> <span class="n">post</span><span class="o">.</span><span class="err">'</span><span class="o">);</span></code></pre></figure>
+
+<p>포스트를 선언하자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">com.example.study.dao.entity</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">jakarta.persistence.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.*</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.time.*</span><span class="o">;</span>
+
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"POSTS"</span><span class="o">)</span>
+<span class="nd">@Data</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Post</span> <span class="o">{</span>
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="nd">@Lob</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">LocalDateTime</span> <span class="n">createdAt</span><span class="o">;</span>
+
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">length</span> <span class="o">=</span> <span class="mi">50</span><span class="o">,</span> <span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">title</span><span class="o">;</span>
+
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">content</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Post</span><span class="o">()</span> <span class="o">{}</span>
+
+    <span class="kd">public</span> <span class="nf">Post</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="nc">LocalDateTime</span> <span class="n">createdAt</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="nc">String</span> <span class="n">title</span><span class="o">,</span> <span class="nd">@NonNull</span> <span class="nc">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">createdAt</span> <span class="o">=</span> <span class="n">createdAt</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이제 Repository를 선언해준다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.example.study.dao.entity.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.repository.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Repository</span><span class="o">;</span>
+
+<span class="nd">@Repository</span>
+<span class="kn">import</span> <span class="nn">com.example.study.dao.entity.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.repository.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Repository</span><span class="o">;</span>
+
+<span class="nd">@Repository</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">PostRepository</span> <span class="kd">extends</span> <span class="nc">PagingAndSortingRepository</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;,</span> <span class="nc">CrudRepository</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;</span> <span class="o">{</span> <span class="o">}</span></code></pre></figure>
+
+<p>테스트를 작성하자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.example.study.dao.entity.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.domain.*</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.time.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">jupiter</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.*;</span>
+
+<span class="nd">@SpringBootTest</span>
+<span class="kd">class</span> <span class="nc">PostRepositoryTest</span> <span class="o">{</span>
+    <span class="nd">@Autowired</span>
+    <span class="nc">PostRepository</span> <span class="n">postRepository</span><span class="o">;</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">readPostWhenLoadThePostThenExpectExistedPost</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// given</span>
+        <span class="nc">Post</span> <span class="n">post1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Post</span><span class="o">(</span>
+                <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2025</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">0</span><span class="o">),</span>
+                <span class="s">"Spring Boot Intro"</span><span class="o">,</span> <span class="s">"Introduction to Spring Boot"</span>
+        <span class="o">);</span>
+        <span class="nc">Post</span> <span class="n">post2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Post</span><span class="o">(</span>
+                <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2025</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">11</span><span class="o">,</span> <span class="mi">0</span><span class="o">),</span>
+                <span class="s">"JPA Basics"</span><span class="o">,</span> <span class="s">"Learn JPA with Spring"</span>
+        <span class="o">);</span>
+        <span class="nc">Post</span> <span class="n">post3</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Post</span><span class="o">(</span>
+                <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2025</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">12</span><span class="o">,</span> <span class="mi">0</span><span class="o">),</span>
+                <span class="s">"Testing with JUnit"</span><span class="o">,</span> <span class="s">"Unit testing guide"</span>
+        <span class="o">);</span>
+        <span class="nc">Post</span> <span class="n">post4</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Post</span><span class="o">(</span>
+                <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2025</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">13</span><span class="o">,</span> <span class="mi">0</span><span class="o">),</span>
+                <span class="s">"REST API"</span><span class="o">,</span> <span class="s">"Building REST APIs"</span>
+        <span class="o">);</span>
+        <span class="nc">Post</span> <span class="n">post5</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Post</span><span class="o">(</span>
+                <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2025</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">14</span><span class="o">,</span> <span class="mi">0</span><span class="o">),</span>
+                <span class="s">"Spring Security"</span><span class="o">,</span> <span class="s">"Securing applications"</span>
+        <span class="o">);</span>
+        <span class="nc">Post</span> <span class="n">post6</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Post</span><span class="o">(</span>
+                <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2025</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">15</span><span class="o">,</span> <span class="mi">0</span><span class="o">),</span>
+                <span class="s">"Advanced JPA"</span><span class="o">,</span> <span class="s">"Advanced JPA techniques"</span>
+        <span class="o">);</span>
+        <span class="n">postRepository</span><span class="o">.</span><span class="na">saveAll</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">post1</span><span class="o">,</span> <span class="n">post2</span><span class="o">,</span> <span class="n">post3</span><span class="o">,</span> <span class="n">post4</span><span class="o">,</span> <span class="n">post5</span><span class="o">,</span> <span class="n">post6</span><span class="o">));</span>
+        <span class="nc">Pageable</span> <span class="n">pageable</span> <span class="o">=</span> <span class="nc">PageRequest</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+
+        <span class="c1">// when</span>
+        <span class="nc">Page</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">page</span> <span class="o">=</span> <span class="n">postRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span><span class="n">pageable</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">page</span><span class="o">.</span><span class="na">getNumber</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="n">page</span><span class="o">.</span><span class="na">getSize</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="n">page</span><span class="o">.</span><span class="na">getNumberOfElements</span><span class="o">());</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="n">page</span><span class="o">.</span><span class="na">getTotalElements</span><span class="o">());</span>
+
+        <span class="c1">// then</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">posts</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="na">getContent</span><span class="o">();</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">posts</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">anyMatch</span><span class="o">(</span><span class="n">post</span> <span class="o">-&gt;</span>
+                        <span class="n">post</span><span class="o">.</span><span class="na">getId</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="mi">1L</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">post</span><span class="o">.</span><span class="na">getTitle</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"Spring Boot Intro"</span><span class="o">)),</span>
+                <span class="s">"ID가 1이고 제목이 'Spring Boot Intro'인 Post가 존재해야 한다."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="datajpatest와-autoconfiguretestdatabase-를-활용한-테스팅">@DataJpaTest와 @AutoConfigureTestDatabase 를 활용한 테스팅</h5>
+
+<p>우리는 테스트를 할 때 항상 <code class="language-plaintext highlighter-rouge">IoC</code> 에 <code class="language-plaintext highlighter-rouge">Bean</code> 을 전부 등록하고, 다 등록된 후에야 테스트를 수행하게 된다. 단위 테스트에 대해서는 테스트 할 컴포넌트와 의존적인 컴포넌트만 올리면ㄷ 되지만, 다른 컴포넌트까지 올려버리기 때문에 굉장히 비효율적이다. 따라서 이를 방지하기 위해 Spring 에서는 Data 에 대한 컴포넌트 끼리의 테스트 컨텍스트를 구분시켜주는 어노테이션을 지원해준다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">DataJpaTest</code> 를 사용하려면 다음과 같이 어노테이션을 테스트 클래스 레벨에 붙여준다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@DataJpaTest</span>
+<span class="nd">@AutoConfigureTestDatabase</span><span class="o">(</span><span class="n">replace</span> <span class="o">=</span> <span class="nc">AutoConfigureTestDatabase</span><span class="o">.</span><span class="na">Replace</span><span class="o">.</span><span class="na">NONE</span><span class="o">)</span></code></pre></figure>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">AutoConfigureTestDatabase</code> 의 역할은 기본적으로 테스트 수준에서의 DB는 In-memory 를 사용하여 데이터를 관리하기 때문에 이걸 참조하는 프로퍼티를 비활성화 해주어야 한다. 이는 <code class="language-plaintext highlighter-rouge">AutoConfigureTestDataBase</code> 를 통해 해당 인메모리 DB 로의 대체를 비활성화해주는 프로퍼티를 넣어주면 <code class="language-plaintext highlighter-rouge">application.properties</code> 의 DB 구성 설정을 따르게 된다.</p>
+
+<h5 id="datajpatest-와-activeprofiles-를-활용한-테스팅">@DataJpaTest 와 @ActiveProfiles 를 활용한 테스팅</h5>
+
+<p>스프링 데이터에서 자동으로 설정해주는 테스트 환경으로 하기가 싫을 때, properties 가 이미 test 환경에 대한 구성 설정 properties 파일이 있을 때는 다음 어노테이션 @ActiveProfiles 을 사용하여 우리가 db properties 를 설정만으로 바꾸 듯이 여기서도 사용할 수 있게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">...</span>
+
+<span class="nd">@DataJpaTest</span>
+<span class="nd">@ActiveProfiles</span><span class="o">(</span><span class="s">"test"</span><span class="o">)</span> <span class="c1">// application-test.properties 로드</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PostRepositoryTest</span> <span class="o">{</span>
+    <span class="o">...</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">application-test.properties</code> 를 설정해주도록 하자.</p>
+
+<h3 id="spring-custom-repository">Spring Custom Repository</h3>
+
+<p>실무에서는 <code class="language-plaintext highlighter-rouge">CRUD</code> 기능들 중에 front에게 굳이 노출하지 않아도 되는 API는 숨겨야 한다. 스프링 데이터의 레포지토리는 인터페이스를 사용하여 어플리케이션 도메인 객체를 관리하지만, 이 인터페이스들을 요구사항에 맞게 구현시키도록 한다.</p>
+
+<p>이는 근본적인 <code class="language-plaintext highlighter-rouge">Repository</code> 를 먼저 상속하는 인터페이스를 구현하여, 이를 해결할 수 있다. 예를들어 create, read 만 구현하고 싶다면 다음과 같이 근본 <code class="language-plaintext highlighter-rouge">repository</code> 를 정의할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">org.springframework.data.repository.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">BaseRepository</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">ID</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nc">Repository</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">ID</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="o">&lt;</span><span class="no">S</span> <span class="kd">extends</span> <span class="no">T</span><span class="o">&gt;</span> <span class="no">S</span> <span class="nf">save</span><span class="o">(</span><span class="no">S</span> <span class="n">entity</span><span class="o">);</span>
+    <span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="norepositorybean-애너테이션">@NoRepositoryBean 애너테이션</h4>
+<p>여기서 위처럼 interface를 선언하고 서비스를 구동하면 <code class="language-plaintext highlighter-rouge">BaseRepository</code> 라는 빈이 생성될 것이다. 즉 구현체가 만들어진다. 이를 방지하기 위해 <code class="language-plaintext highlighter-rouge">@NoRepositoryBean</code> 애너테이션을 사용하여서 이를 내려주자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">com.example.study.dao</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.repository.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">BaseRepository</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">ID</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nc">Repository</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">ID</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="o">&lt;</span><span class="no">S</span> <span class="kd">extends</span> <span class="no">T</span><span class="o">&gt;</span> <span class="no">S</span> <span class="nf">save</span><span class="o">(</span><span class="no">S</span> <span class="n">entity</span><span class="o">);</span>
+    <span class="nc">Iterable</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<h3 id="spring-data-query">Spring Data Query</h3>
+
+<p>스프링 데이터에서는 <code class="language-plaintext highlighter-rouge">Repository</code> 인터페이스를 통해 다양한 기본 <code class="language-plaintext highlighter-rouge">CRUD</code> 쿼리를 제공해주지만, 이보다 더 많고 다양한 쿼리들을 정의하고 싶을 수 있다. 엔티티의 프로퍼티에 조건을 걸어서 조회하거나 하나 이상의 프로퍼티를 기준으로 정렬 조회 같은 것도 하고 싶을 수 있다. 스프링 데이터는 다음 두 가지 방법을 지원한다.</p>
+
+<ul>
+  <li>Query Method: 인터페이스에 메서드의 이름을 패턴에 맞게 작성하면 스프링 데이터가 알아서 파싱하여 맞는 쿼리 만들어냄</li>
+  <li>선언적 Query: 필요한 쿼리문을 직접 작성해서 전달해주면 스프링 데이터가 이 쿼리를 실행</li>
+</ul>
+
+<h4 id="query-methods">Query Methods</h4>
+
+<p>Query Methods 는 스프링 데이터에서 주는 패턴만 잘 따르도록 메서드를 정의하면 알아서 쿼리를 실행한다.</p>
+
+<blockquote>
+  <p>[쿼리 패턴][속성 이름][조회 키워드][연결자][조건]</p>
+</blockquote>
+
+<p>다음 규칙을 가지며, 보통 맨 앞의 쿼리 패턴에는 다음이 올 수 있다.</p>
+
+<h5 id="query-patternprefix">Query Pattern(Prefix)</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>쿼리 패턴(Prefix)</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">findBy</code></td>
+      <td>조건에 맞는 데이터를 조회함 (가장 일반적)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">getBy</code></td>
+      <td><code class="language-plaintext highlighter-rouge">findBy</code>와 유사하지만, 반드시 결과가 있어야 함을 암시</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">readBy</code></td>
+      <td><code class="language-plaintext highlighter-rouge">findBy</code>와 유사, 읽기 동작 강조</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">queryBy</code></td>
+      <td>쿼리 수행의 의도를 강조하는 표현</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">countBy</code></td>
+      <td>조건에 맞는 데이터의 개수를 반환</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">existsBy</code></td>
+      <td>조건에 맞는 데이터의 존재 여부를 반환 (boolean)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">deleteBy</code></td>
+      <td>조건에 맞는 데이터를 삭제</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">removeBy</code></td>
+      <td><code class="language-plaintext highlighter-rouge">deleteBy</code>와 동일하게 작동, 표현의 차이만 있음</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>반환 타입에 따라 여러 개 인지 하나인지 알 수 있지만, 보통은 findAll 처럼 여러개가 반환되면 시그니처에 <code class="language-plaintext highlighter-rouge">All</code> 을 붙여 제 3자의 프로그래머에게 알려주는 것이 좋다.<br />
+또한 Optional을 반환으로 썼다는 것은 해당 타입이 0개 혹은 1개 인지를 말해준다. 존재하지 않다면 <code class="language-plaintext highlighter-rouge">.empty()</code> 메서드가 true 일터이다.</p>
+</blockquote>
+
+<h5 id="attributeentity-field">Attribute(Entity Field)</h5>
+
+<ul>
+  <li>CamelCase 로 작성</li>
+  <li>대소문자 구분 없음</li>
+</ul>
+
+<h5 id="조건-키워드">조건 키워드</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>조건 키워드</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Is</code>, <code class="language-plaintext highlighter-rouge">Equals</code></td>
+      <td>값이 일치함 (=)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Between</code></td>
+      <td>두 값 사이의 범위</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">LessThan</code>, <code class="language-plaintext highlighter-rouge">LessThanEqual</code></td>
+      <td>미만, 이하 조건 (&lt;, &lt;=)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">GreaterThan</code>, <code class="language-plaintext highlighter-rouge">GreaterThanEqual</code></td>
+      <td>초과, 이상 조건 (&gt;, &gt;=)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">IsNull</code>, <code class="language-plaintext highlighter-rouge">IsNotNull</code></td>
+      <td>null 여부 판단</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">Like</code>, <code class="language-plaintext highlighter-rouge">NotLike</code></td>
+      <td>SQL LIKE 문 (부분 일치)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">StartingWith</code>, <code class="language-plaintext highlighter-rouge">EndingWith</code>, <code class="language-plaintext highlighter-rouge">Containing</code></td>
+      <td>문자열 시작, 끝, 포함 여부 (LIKE 기반)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">In</code>, <code class="language-plaintext highlighter-rouge">NotIn</code></td>
+      <td>포함/제외된 값들 집합 (IN 조건)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">True</code>, <code class="language-plaintext highlighter-rouge">False</code></td>
+      <td>boolean 값 조건</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="연결자">연결자</h5>
+
+<p>설명 생략</p>
+<ul>
+  <li>And</li>
+  <li>Or</li>
+</ul>
+
+<h5 id="정렬-조건">정렬 조건</h5>
+
+<p>설명 생략</p>
+<ul>
+  <li>Asc</li>
+  <li>Desc</li>
+</ul>
+
+<blockquote>
+  <p>쿼리메서드는 반환되는 게 여러 개라면 Iterable, Stream 으로 반환되지만, Stream 을 쓸 때는 Transactional 사용을 유의해야 한다. 따로 다룰 수도 있다.<br />
+Stream은 <strong>map-reduce-filter</strong> 를 사용하여 대용량 데이터를 다룰 수 있다.</p>
+</blockquote>
+
+<h4 id="query-애너테이션을-활용한-커스텀-쿼리-선언">Query 애너테이션을 활용한 커스텀 쿼리 선언</h4>
+
+<p>두 번째 방법이며, 다양한 쿼리문 자체를 넣어 다음 장점을 가져갈 수 있다.</p>
+<ul>
+  <li>특정 DB에 특화된 기능을 사용하여 최적화된 쿼리를 활용하기 위함</li>
+  <li>두 개 이상의 테이블을 조인하기 위함</li>
+</ul>
+
+<p>NamedQuery, Query, QueryDSL 을 사용해 쿼리문을 직접 지정할 수 있다.</p>
+
+<h5 id="namedquery-애너테이션">@NamedQuery 애너테이션</h5>
+
+<p>자카르타 퍼시스턴스 쿼리 언어(Jakarta Persistence Query Lang., JPQL) 을 사용하여 쿼리를 정의한다. NamedQuery는 엔티티 클래스, 엔티티 클래스의 super 클래스에 정의하기 때문에 실제 repository 클래스가 행해야 하는 일을 이 애너테이션을 통해 엔티티에 클래스에 붙여버리면 책임분리가 안되며 프로그래머가 찾지도 못할 수 있다. 하지만 다양한 방법 중에 하나이므로 이것도 살펴본다.</p>
+
+<p>NamedQuery 는 인자로 다음을 가지고 있다:</p>
+<ul>
+  <li>name: 보통 엔티티명.쿼리명 형식을 따르도록 넣는다.</li>
+  <li>query: JPQL 로 작성된 문자열이며, SQL 과 유사하지만, 테이블과 컬럼 ㅐ신 엔티티 클래스와 그 속성을 참조한다. <code class="language-plaintext highlighter-rouge">?1</code>, <code class="language-plaintext highlighter-rouge">?2</code>와 같은 문자열은 <code class="language-plaintext highlighter-rouge">:paramName</code> 같은 이름 기반의 파라미터를 사용한다. 예를들어 <code class="language-plaintext highlighter-rouge">?email</code>을 사용한다면 repository 에서 API 선언으로 @Param(“email”) 로 매핑할 수 있다.</li>
+  <li>lockMode(선택)</li>
+  <li>hints(선택)</li>
+</ul>
+
+<p>NamedQuery를 여러개 쓰고 싶다면 <code class="language-plaintext highlighter-rouge">@NamedQueries</code>를 사용하면 된다.</p>
+
+<h5 id="query-애너테이션">@Query 애너테이션</h5>
+
+<p>위 NamedQuery를 사용하면 비즈니스 도메인 클래스가 데이터 저장/조회와 strictly coupling 이 발생한다. 따라서 해당 애너테이션의 위치를 옮겨야 한다. 이때 query를 통해 작성한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Repository</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">PostRepository</span> <span class="kd">extends</span> <span class="nc">PagingAndSortingRepository</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;,</span> <span class="nc">CrudRepository</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="nd">@Query</span><span class="o">(</span><span class="s">"SELECT p FROM 
+     p WHERE :keyword IN p.content"</span><span class="o">)</span>
+    <span class="nc">Iterable</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="nf">search</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">"keyword"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">keyword</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위와 같이 작성한다면 비즈니스 엔티티는 정의에 대한 책임, 레포지토리는 엔티티 관리와 생성, 삭제에 대한 책임으로 분리가 되며, 가독성 측면에서도 엔티티와 레포지토리 둘 다 안보아도 된다. 만약 native query를 사용하고 싶다면 다음과 같이 입력하면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Repository</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">PostRepository</span> <span class="kd">extends</span> <span class="nc">PagingAndSortingRepository</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;,</span> <span class="nc">CrudRepository</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="nd">@Query</span><span class="o">(</span><span class="s">"SELECT p FROM POSTS p WHERE p.content LIKE %:keyword%"</span><span class="o">)</span>
+    <span class="nc">Iterable</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="nf">search</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">"keyword"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">keyword</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>⭐️수정과 삭제에 대한 데이터 일관성 가져오기</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Modifying</span>
+<span class="nd">@Transactional</span>
+<span class="nd">@Query</span><span class="o">(</span><span class="s">"UPDATE POSTS p set p.content=:content WHERE p.id=:id"</span><span class="o">)</span>
+<span class="kt">int</span> <span class="nf">updateCourseRatingByName</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">,</span> <span class="nd">@Param</span><span class="o">(</span><span class="s">"content"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">content</span><span class="o">);</span></code></pre></figure>
+
+<ul>
+  <li>
+    <p>@Modifying 애너테이션: @Query 애너테이션과 같이 쓰며, 정의된 쿼리가 조회가 아닌 수정 작업을 한다는 것을 알려준다. Modifying 애너테이션을 붙이지 않은 데이터의 변경이 수반되는 쿼리를 사용하면 <code class="language-plaintext highlighter-rouge">InvalidDataAccessApiUsageException</code>의 예외가 발생한다.</p>
+  </li>
+  <li>
+    <p>@Transactional 애너테이션: 데이터 변경(예: INSERT, UPDATE, DELETE)과 같은 작업을 트랜잭션 단위로 관리하는 데 사용되며, 원자성을 보존하게 되어 작업이 모두 완료되거나(COMMIT) 취소(ROLLBACK) 단위로 사용하게 된다.</p>
+  </li>
+</ul>
+
+<p>중요하다. 다음 글을 읽기 전에는 Java 의 persistence 패키지를 보고 오자(Spring 섹션에서 안다룸).</p>
+
+<h3 id="criteria-api">Criteria API</h3>
+
+<p>위에서 사용된 애너테이션 내에서 사용되는 쿼리를 <strong>JPQL 쿼리</strong>라고 한다. JPQL을 <strong>컴파일 타입에서 검증할 수 없기</strong> 때문에 잘못 작성한 쿼리에 대한 문제는 런타임 에러로만 발견할 수 있다.</p>
+
+<p>이런 문제점을 방지하기 위해서 Criteria API를 사용하여 쿼리문을 문자열이 아닌 프로그램 소스처럼 작성하도록 하여 타입 안전성을 확보할 수 있다.</p>
+
+<h4 id="entitymanager">EntityManager</h4>
+
+<p>JPA 를 관리하는 객체인 EntityManager는 엔티티의 생명주기를 관리하는 애다. <code class="language-plaintext highlighter-rouge">javax.persistence.EntityManager</code> 의 인터페이스를 따라야 하며, Spring은 이를 참고하여 편리하게 사용할 수 있도록 할 뿐이다. Spring의 <code class="language-plaintext highlighter-rouge">EntityManager</code> 의 관리 범위는 다음과 같다.</p>
+
+<ul>
+  <li><strong>Managing Persistence Context</strong>: 영속성 컨텍스트라는 개념이 나오는데 DB에 실제로 저장하기 전에 1차적으로 저장하는 캐시와 유사하다. 여기서 미리 처리를 다 하고 이를 올리게 된다. git 에서 local 의 작업이 끝나고 최종 결과를 root 에 올리는 것과 유사하다.</li>
+  <li>Persisting Entity: 영속성 컨텍스트(Persist Context)가 있는데 여기에 저장되는 엔티티들은 보통 DB에 저장되기 직전 준비를 하고 있는 데이터들이다.</li>
+  <li><strong>Transaction Context</strong>: <code class="language-plaintext highlighter-rouge">EntityManager</code>는 <code class="language-plaintext highlighter-rouge">EntityTransaction</code> 인터페이스를 통해 데이터베이스 트랜잭션을 시작하고 커밋하며 롤백하는 기능을 제공한다. 하지만 스프링 같은 프레임워크에서는 보통 선언적 트랜잭션(<code class="language-plaintext highlighter-rouge">@Transactional</code>) 관리를 통해 자동으로 처리되게 된다.</li>
+  <li><strong>Query Creation and Excution</strong>: <code class="language-plaintext highlighter-rouge">createQuery()</code>, <code class="language-plaintext highlighter-rouge">createNamedQuery()</code>, <code class="language-plaintext highlighter-rouge">createNativeQuery()</code>, <code class="language-plaintext highlighter-rouge">getCriteriaBuilder()</code> 등을 통해 다양한 쿼리를 생성하고 실행하여 데이터를 조회하거나 조작할 수 있다.</li>
+</ul>
+
+<p>밑은 기본적으로 있어야 할 기능이기에 따로 뺐다.</p>
+
+<ul>
+  <li>Finding Entity: <code class="language-plaintext highlighter-rouge">find()</code> 메서드를 통해 PK 로 조회를 할 수 있다. 보통 find 보다는 <code class="language-plaintext highlighter-rouge">createQuery()</code>, <code class="language-plaintext highlighter-rouge">createNamedQuery()</code> 를 사용하여 조회를 하는 경우가 대부분이다.</li>
+  <li>Updating Entity: Persistence Context 의 entity 상태가 변경되면 트랜잭션이 commit 될 때 자동으로 변경 사항을 저장하게 된다.</li>
+  <li>Removing Entity: remove() 메서드는 영속성 컨텍스트에서 엔티티를 제거하며, 트랜잭션 commit 시 데이터베이스에서도 해당 엔티티가 삭제되도록 한다.</li>
+</ul>
+
+<p>이제 위를 참고하여 Criteria Query 를 작성해보자.</p>
+
+<h5 id="entitymanager-참조-및-criteriabuilder-선언">EntityManager 참조 및 CriteriaBuilder 선언</h5>
+
+<p>쿼리를 만들기 위해서, 엔티티를 관리하기 위해서 <code class="language-plaintext highlighter-rouge">EntityManager</code> 를 들고 와야 한다. Spring 의 Bean 에 자동으로 등록되는 <code class="language-plaintext highlighter-rouge">EntityManager</code> 를 테스트던 <code class="language-plaintext highlighter-rouge">Repository</code> 클래스 컨텍스트 쪽에서 자동주입으로 들고오자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Autowired</span>
+<span class="kd">private</span> <span class="nc">EntityManager</span> <span class="n">em</span><span class="o">;</span></code></pre></figure>
+
+<p>엔티티를 관리하기 위한, JPA를 사용하기 위한 준비가 끝났다. 이제 쿼리를 검증하기 위한 클래스를 가져오자. <code class="language-plaintext highlighter-rouge">CriteriaBuilder</code> 는 검증하기 위한 쿼리를 생성하기에 앞서 부분 부분 각 쿼리의 절(SELECT 절, WHERE 절 등등) 의 절과 Query의 뼈대를 만들기 위한 빌더 패턴이다.</p>
+
+<p>당연히 EntityManager 의 <code class="language-plaintext highlighter-rouge">getCriteriaBuilder()</code> 메서드를 통해 들고 올 수 있다(<code class="language-plaintext highlighter-rouge">EntityManager</code> 가 보통 다 가지고 있다).</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">CriteriaBuilder</span> <span class="n">cb</span> <span class="o">=</span> <span class="n">em</span><span class="o">.</span><span class="na">getCriteriaBuilder</span><span class="o">();</span></code></pre></figure>
+
+<p>쿼리의 뼈대를 생성하고 살을 채워넣자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 쿼리 뼈대 생성</span>
+<span class="nc">CriteriaQuery</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">criteriaQuery</span> <span class="o">=</span> <span class="n">cb</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="nc">Post</span><span class="o">.</span><span class="na">class</span><span class="o">);</span></code></pre></figure>
+
+<p>이제 살을 채워주자. 채워주기 전에 참조를 쉽게쉽게 코딩하기 위해 참조를 저장하는 것을 생성한다. 여기서 참조의 명세는 Root로 되어있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// SELECT * FROM Post 와 같은 격</span>
+<span class="nc">Root</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">root</span> <span class="o">=</span> <span class="n">criteriaQuery</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="nc">Post</span><span class="o">.</span><span class="na">class</span><span class="o">);</span></code></pre></figure>
+
+<p>쿼리 작성</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// SELECT * FROM Post as root WHERE root.title = "HA HA HA Example"</span>
+<span class="n">criteriaQuery</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">root</span><span class="o">)</span>
+        <span class="c1">// root.get("컬럼명") 으로 database 구성요소를 들고 올 수 있다.</span>
+        <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"title"</span><span class="o">),</span> <span class="s">"HA HA HA Example"</span><span class="o">));</span></code></pre></figure>
+
+<p>여기서 에러 처리를 위해 더 구분하고 싶다면 where 절의 <code class="language-plaintext highlighter-rouge">Predicate</code> 인스턴스를 넣는 곳을 분리시켜주면 된다. 위를 지우고 다음처럼 써보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">Predicate</span> <span class="n">condition</span> <span class="o">=</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"title"</span><span class="o">),</span> <span class="s">"HA HA HA Example"</span><span class="o">);</span></code></pre></figure>
+
+<p>만든걸 종합하면 다음과 같다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">givenSelectWhenLoadedTheDataThenExpectedResult</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Take CriteriaBuilder for handling Entity</span>
+        <span class="nc">CriteriaBuilder</span> <span class="n">cb</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">getCriteriaBuilder</span><span class="o">();</span>
+
+        <span class="c1">// Define Blueprint for Post CriteriaQuery</span>
+        <span class="nc">CriteriaQuery</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">cq</span> <span class="o">=</span> <span class="n">cb</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="nc">Post</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+        <span class="c1">// Write Statement</span>
+        <span class="nc">Root</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">cq</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="nc">Post</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="nc">Predicate</span> <span class="n">condition</span> <span class="o">=</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"title"</span><span class="o">),</span> <span class="s">"Hello World"</span><span class="o">);</span>
+
+        <span class="c1">// Merge</span>
+        <span class="n">cq</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">p</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">condition</span><span class="o">);</span>
+    <span class="o">}</span></code></pre></figure>
+
+<p>여기서는 타입 검사가 자동으로 일어나고 JPQL 쿼리를 직접 날 것으로 작성하지 않아도 쿼리를 날릴 수 있는 것을 볼 수 있다.</p>
+
+<p>이제 검증 쿼리가 아닌 실제 쿼리로 바꾸어서 결과를 fetch 해오자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">givenSelectWhenLoadedTheDataThenExpectedResult</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Take CriteriaBuilder for handling Entity</span>
+        <span class="nc">CriteriaBuilder</span> <span class="n">cb</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">getCriteriaBuilder</span><span class="o">();</span>
+
+        <span class="c1">// Define Blueprint for Post CriteriaQuery</span>
+        <span class="nc">CriteriaQuery</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">cq</span> <span class="o">=</span> <span class="n">cb</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="nc">Post</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+        <span class="c1">// Write Statement</span>
+        <span class="nc">Root</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">cq</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="nc">Post</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="nc">Predicate</span> <span class="n">condition</span> <span class="o">=</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"title"</span><span class="o">),</span> <span class="s">"Hello World"</span><span class="o">);</span>
+
+        <span class="c1">// Merge</span>
+        <span class="n">cq</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">p</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">condition</span><span class="o">);</span>
+
+        <span class="c1">// Actual Query Created</span>
+        <span class="nc">TypedQuery</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="n">cq</span><span class="o">);</span>
+
+        <span class="c1">// Fetch</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="n">query</span><span class="o">.</span><span class="na">getResultList</span><span class="o">().</span><span class="na">size</span><span class="o">(),</span> <span class="mi">0</span><span class="o">);</span>
+    <span class="o">}</span></code></pre></figure>
+
+<p>위와 살짝 다르긴 한데, 그래도 흐름은 동일하다.</p>
+
+<h3 id="spring-data-jpa--querydsl">Spring Data JPA &amp; QueryDSL</h3>
+
+<p>위에서는 Criteria API 와 스프링 데이터 JPA를 사용하여 데이터를 활용하는 방법을 봤는데, 위를 짜면서 느낀 것은 코드가 굉장히 긴 것을 볼 수 있다. 단순한 조회 쿼리를 작성하기 위해 저렇게나 많은 양의 코드가 필요하다. 여기서 대체재로 <code class="language-plaintext highlighter-rouge">QueryDSL</code>을 사용하는 것을 검토할 수 있다. 코드 작성량을 줄임과 동시에 검증 또한 컴파일 타임중에 할 수 있다.</p>
+
+<p>서드 파티 라이브러리인 <code class="language-plaintext highlighter-rouge">QueryDSL</code>은 다음 검증을 지원한다:</p>
+<ul>
+  <li>엔티티 타입이 실제로 존재하고 해당 엔티티를 DB에 저장 가능한가?</li>
+  <li>모든 프로퍼티가 엔티티에 실제로 존재하고 해당 프로퍼티를 DB에 저장 가능한가?</li>
+  <li>모든 SQL 연산자에는 적합한 타입이 사용되었나?</li>
+  <li>최종 쿼리가 문법적으로 올바른가?</li>
+</ul>
+
+<p>Spring Data는 QueryDSL을 사용할 수 있도록 <code class="language-plaintext highlighter-rouge">QuerydslPredicateExecutor</code> 인터페이스를 제공한다. 이를 보자. 하기 전에 위에 썼던 Criteria API 사용한 코드들은 다 지워버리자 :)</p>
+
+<h4 id="querydsl-의존성-추가">QueryDSL 의존성 추가</h4>
+
+<p>우선 의존성 추가를 해주자.</p>
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="n">plugins</span> <span class="o">{</span>
+    <span class="o">...</span>
+	<span class="c1">// 이 플러그인이 Q-클래스 생성 작업을 간편하게 해줌</span>
+	<span class="n">id</span> <span class="s2">"com.ewerk.gradle.plugins.querydsl"</span> <span class="n">version</span> <span class="s2">"1.0.10"</span>
+<span class="o">}</span>
+
+<span class="k">dependencies</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="c1">// querydsl Spring Boot 3.x 이상과 호환하려면 :jakarta classifier 를 사용</span>
+	<span class="n">implementation</span> <span class="s2">"com.querydsl:querydsl-jpa:5.0.0:jakarta"</span>
+	<span class="c1">// querydsl Q-class 생성을 위한 어노테이션 프로세서</span>
+	<span class="n">annotationProcessor</span> <span class="s1">'com.querydsl:querydsl-apt:5.0.0:jakarta'</span>
+<span class="o">}</span>
+
+<span class="c1">// Q 클래스들이 생성될 디렉토리 지정</span>
+<span class="kt">def</span> <span class="n">querydslDir</span> <span class="o">=</span> <span class="s2">"$buildDir/generated/querydsl"</span>
+
+<span class="c1">// QueryDSL Q-클래스 생성 설정</span>
+<span class="c1">// 이 플러그인은 Q-클래스가 생성될 경로를 지정하고 클린 작업을 자동으로 설정</span>
+<span class="n">querydsl</span> <span class="o">{</span>
+	<span class="n">jpa</span> <span class="o">=</span> <span class="kc">true</span> <span class="c1">// JPA를 사용할 경우 true로 설정</span>
+	<span class="n">querydslSourcesDir</span> <span class="o">=</span> <span class="n">querydslDir</span> <span class="c1">// Q-클래스 생성 경로</span>
+<span class="o">}</span></code></pre></figure>
+
+<ul>
+  <li>com.querydsl:querydsl-apt: 엔티티 클래스 바탕으로 <code class="language-plaintext highlighter-rouge">Q-타입 클래스</code>를 생성하기 위한 애너테이션 처리 도구, 만약 Course 클래스에 애너테이션을 넣어주면 QCourse 가 생성</li>
+  <li>com.querydsl:querydsl-jpa: JPA를 사용하는 어플리케이션에서 QueryDSL 을 사용 가능. 만약 MongoDB 를 사용하면 <code class="language-plaintext highlighter-rouge">querydsl-mongodb</code>로 바꿔주면 된다.</li>
+  <li>com.ewerk.gradle.plugins.querydsl: querydsl 블럭을 사용하여 querydsl의 q-class 생성 위치나 설정을 간편하게 해준다.</li>
+</ul>
+
+<blockquote>
+  <p>Q-class 라는 것은 QueryDSL을 사용할 때 데이터베이스 쿼리를 <strong>타입-세이프(Type-Safe)</strong>하게 작성할 수 있도록 도와주는 특별한 static 클래스<br />
+여기서 생성된 Q-class는 어플리케이션 소스코드로도 사용되기 때문에 outputDirectory 프로퍼티로 지정된 디렉터리는 프로젝트의 소스 디렉터리로도 지정되어야 한다.</p>
+</blockquote>
+
+<h4 id="querydslpredicateexecutor-인터페이스">QuerydslPredicateExecutor 인터페이스</h4>
+
+<p>보통 Repository 에 상속하여 QueryDSL 기능을 사용할 수 있게 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Repository</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span> <span class="kd">extends</span> <span class="nc">CrudRepository</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;,</span> <span class="nc">QuerydslPredicateExecutor</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="o">{</span> <span class="o">}</span></code></pre></figure>
+
+<p>이제 Q-class 를 생성하기 위해 터미널에서 다음을 입력한다.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">./gradlew clean build</code></pre></figure>
+
+<blockquote>
+  <p>build 후에 querydslDir 의 저장소에 Q-class 가 생성된 것을 볼 수 있다.<br />
+여기서는 우리가 정의했던 Entity 들의 Q-class 들이 있다.</p>
+</blockquote>
+
+<p>위처럼 쓰며, 다음 메서드를 기본적으로 지원해준다.</p>
+
+<ul>
+  <li>findOne</li>
+  <li>findAll</li>
+  <li>count</li>
+  <li>exists</li>
+  <li>findBy</li>
+</ul>
+
+<p>CrudRepository 도 findAll이 있지만, 이를 오버로딩한 메서드를 제공한다. 들어가는 인자가 Q-class 관련 변수들이며, 이는 동적이고 타입-세이프한 쿼리 기능을 제공하게 된다(QPE 사용 이유).</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenQueryDSLWhenLoadedTheDataThenExpectedResults</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">QUser</span> <span class="n">user</span> <span class="o">=</span> <span class="nc">QUser</span><span class="o">.</span><span class="na">user</span><span class="o">;</span>
+
+        <span class="nc">JPAQuery</span> <span class="n">query1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JPAQuery</span><span class="o">(</span><span class="n">em</span><span class="o">);</span>
+        <span class="n">query1</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">user</span><span class="o">).</span><span class="na">where</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">name</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="s">"IU"</span><span class="o">));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="n">query1</span><span class="o">.</span><span class="na">fetch</span><span class="o">().</span><span class="na">size</span><span class="o">(),</span> <span class="mi">0</span><span class="o">);</span>
+
+        <span class="nc">JPAQuery</span> <span class="n">query2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JPAQuery</span><span class="o">(</span><span class="n">em</span><span class="o">);</span>
+        <span class="n">query2</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">user</span><span class="o">).</span><span class="na">where</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">email</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="s">"ssss@gmail.com"</span><span class="o">).</span><span class="na">and</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">gt</span><span class="o">(</span><span class="mi">3</span><span class="o">)));</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="n">query2</span><span class="o">.</span><span class="na">fetch</span><span class="o">().</span><span class="na">size</span><span class="o">(),</span> <span class="mi">0</span><span class="o">);</span>
+
+        <span class="n">assertFalse</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">exists</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">name</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="s">"IU"</span><span class="o">)));</span>
+
+        <span class="nc">OrderSpecifier</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">descOrderSpecifier</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">desc</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">((</span><span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;</span> <span class="o">(</span>
+                <span class="o">(</span><span class="nc">Collection</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;)</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span><span class="n">descOrderSpecifier</span><span class="o">)</span>
+                <span class="o">)).</span><span class="na">size</span><span class="o">(),</span> <span class="mi">0</span><span class="o">);</span>
+    <span class="o">}</span></code></pre></figure>
+
+<h3 id="projection">Projection</h3>
+
+<p>엔티티를 조회할 때마다 테이블의 모든 컬럼은 조회할 필요가 없다. 이때, DB에는 프로젝션이라는 기능을 사용하는데 여기서도 사용할 수 있다.</p>
+
+<p>기본적으로 인터페이스 기반 프로젝션, 클래스 기반 프로젝션이 있다.</p>
+
+<h4 id="인터페이스-기반-프로젝션">인터페이스 기반 프로젝션</h4>
+
+<p>인터페이스 기반 프로젝션은 Repository 의 반환값을 임의로 설정한 인터페이스로 두고, 안에 관심있는 Column 들만 Getter 로 선언하여 Projection을 하도록 할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">PostInfo</span> <span class="o">{</span>
+    <span class="c1">// 엔티티의 'id' 필드에 직접 매핑</span>
+    <span class="nc">Long</span> <span class="nf">getId</span><span class="o">();</span>
+
+    <span class="c1">// 엔티티의 'title' 필드에 직접 매핑</span>
+    <span class="nc">String</span> <span class="nf">getTitle</span><span class="o">();</span>
+
+    <span class="c1">// 엔티티의 'createdAt' 필드에 직접 매핑</span>
+    <span class="nc">LocalDateTime</span> <span class="nf">getCreatedAt</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위는 인터페이스 기반 프로젝션에서 closed projection 이다. open projection은 SpEL을 사용하여 하는데, 이는 나중에 공부해도 무방하다.</p>
+
+<p>레포지토리에 이를 써보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Repository</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span> <span class="kd">extends</span> <span class="nc">CrudRepository</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;,</span> <span class="nc">QuerydslPredicateExecutor</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="c1">// 필요한 column, 관심있는 column 만 반환</span>
+    <span class="nc">Iterable</span><span class="o">&lt;</span><span class="nc">UserInfo</span><span class="o">&gt;</span> <span class="nf">findByName</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>테스트</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenFindUserDTOWhenLoadTheUserThenExpectedResult</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">(</span><span class="s">"seonghun"</span><span class="o">,</span> <span class="s">"seonghun@gmail.com"</span><span class="o">);</span>
+    <span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">UserInfo</span><span class="o">&gt;</span> <span class="n">userInfo</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">findByName</span><span class="o">(</span><span class="s">"seonghun"</span><span class="o">);</span>
+
+    <span class="n">userInfo</span><span class="o">.</span><span class="na">ifPresent</span><span class="o">(</span><span class="n">info</span> <span class="o">-&gt;</span> <span class="n">assertThrows</span><span class="o">(</span>
+            <span class="nc">NoSuchMethodException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span>
+            <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">clazz</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="na">getClass</span><span class="o">();</span>
+                <span class="n">clazz</span><span class="o">.</span><span class="na">getMethod</span><span class="o">(</span><span class="s">"getId"</span><span class="o">);</span>
+            <span class="o">},</span>
+            <span class="s">"UserDTO는 id를 인자로 가지지 않습니다."</span>
+    <span class="o">));</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">java.lang.reflect</code> 를 써서 테스트 가능하다.</p>
+
+<h4 id="클래스-기반-프로젝션">클래스 기반 프로젝션</h4>
+
+<p>인터페이스 대신 데이터 전송 객체라고 불리는 DTO 개념이 도입되고, 이는 자바 POJO 기반의 구현체로 DAO 계층과 서비스 계층 사이에서 데이터를 담당하게 된다(<code class="language-plaintext highlighter-rouge">Bridge</code> 패턴이다).</p>
+
+<p>DTO를 사용하려면 보통 @Query 가 동반된다. 메서드 마다 쿼리를 사용하여 새로 정의해줘야 하게 되고, 또한 DTO 클래스에 멤버 변수가 많아지면 많아진 만큼 생성자가 거대해진다. 이 예시는 바로 <a href="#dto-클래스를-사용한-projection">밑에서 다룬다</a>.</p>
+
+<h3 id="도메인-객체-관계-관리">도메인 객체 관계 관리</h3>
+
+<p>하나의 테이블에서 데이터를 조회하는 것은 상대적으로 쉽지만 회사의 크기가 커질수록 하나의 테이블에서만 데이터를 조회하진 않는다.</p>
+
+<p>엔티티 간에는 1:1 관계, 1:n 관계, n:1 관계, n:m 관계 등이 있다. 이를 DTO를 사용하여 구현해보자.</p>
+
+<h4 id="다대다-관계-관리">다대다 관계 관리</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Post</code> 와 <code class="language-plaintext highlighter-rouge">Comment</code> 의 관계는 다대다 관계로 볼 수 있다. 새로운 entity 인 <code class="language-plaintext highlighter-rouge">Comment</code> 를 정의하자</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Data</span>
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"COMMENTS"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Comment</span> <span class="o">{</span>
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span><span class="o">=</span><span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kt">long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">false</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">nullable</span><span class="o">=</span><span class="kc">false</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">description</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">Post</code> 와 <code class="language-plaintext highlighter-rouge">Comment</code> 는 서로 다대다 이기 때문에 이를 구현해주려면 두 도메인을 식별할 수 있는 데이터를 담은 조인 테이블이 따로 필요하다. 그러기 위해 <code class="language-plaintext highlighter-rouge">POSTS_COMMENTS</code> 라는 조인테이블을 만들어서 두 값의 pk 들을 모으면 된다.</p>
+
+<pre><code class="language-mermaid">erDiagram
+    POSTS ||--o{ POST_COMMENT : ""
+    COMMENTS ||--o{ POST_COMMENT : ""
+    POST_COMMENT {
+        long post_id FK "Post's ID"
+        long comment_id FK "Comment's ID"
+    }
+
+    POSTS {
+        Long id PK
+        String title
+        String content
+        DATETIME createdAt
+    }
+
+    COMMENTS {
+        long id PK
+        String name
+        String description
+    }
+</code></pre>
+
+<p>스키마를 위처럼 수정해주고 더 기준이 되는 주체의 엔티티 정의를 수정해주자.</p>
+
+<h5 id="manytomany">@ManyToMany</h5>
+
+<p>JPA 에서 지원해주는 애너테이션이고 두 테이블 간의 연관성을 표시해줄 수 있다. DB 자체에서는 다대다 관계를 지정해줄 수 없고, 이를 JPA가 자동으로 관리하도록 하게 해준다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Post</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="nd">@ManyToMany</span>
+    <span class="kd">private</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Comment</span><span class="o">&gt;</span> <span class="n">comments</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>멤버 변수로 위와 같이 지정해주면 된다. 매핑이 되는 엔티티에서는 다음과 같이 정의해준다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Comment</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="nd">@ManyToMany</span><span class="o">(</span><span class="n">mappedBy</span><span class="o">=</span><span class="s">"comments"</span><span class="o">)</span> <span class="c1">// 소유자의 멤버 변수명을 넣어줘야 함</span>
+    <span class="kd">private</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Post</span><span class="o">&gt;</span> <span class="n">posts</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>다대다의 관계에서는 항상 소유자와 비소유자가 존재하여서 소유자는 관계를 소유하는 입장이고, 비소유자는 참조되는 입장이다. 반면에 일대다에서는 다 쪽이 소유자이어야 하고, 일 쪽이 소유자가 된다면 다 쪽을 가르키는 참조 여러 개를 관리해야 하기 때문에 복잡해진다.</p>
+
+<p>다대다에서는 엔티티의 의미를 파악하여서 어떤 쪽을 소유자로 할지를 정해주어야 한다.</p>
+
+<h5 id="jointable">@JoinTable</h5>
+
+<p>관계의 소유자 쪽에 매핑 테이블 정보를 지정해서 조인 테이블을 정의할 수 있다. 만약 JoinTable이 지정되어지지 않으면 <strong>기본적으로 소유자 쪽 테이블 이름과 비소유자 쪽 테이블 이름을 _로 연결한 테이블이 자동적으로 생성된다.</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Post</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="nd">@ManyToMany</span>
+    <span class="nd">@JoinTable</span><span class="o">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s">"POSTS_COMMENTS"</span><span class="o">,</span>
+            <span class="n">joinColumns</span> <span class="o">=</span> <span class="o">{</span><span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"post_id"</span><span class="o">,</span> <span class="n">referencedColumnName</span><span class="o">=</span><span class="s">"id"</span><span class="o">,</span> <span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span> <span class="n">updatable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)},</span>
+            <span class="n">inverseJoinColumns</span> <span class="o">=</span> <span class="o">{</span><span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"comment_id"</span><span class="o">,</span> <span class="n">referencedColumnName</span><span class="o">=</span><span class="s">"id"</span><span class="o">,</span> <span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span> <span class="n">updatable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)}</span>
+    <span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Comment</span><span class="o">&gt;</span> <span class="n">comments</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">joinColumns</code> 속성과 <code class="language-plaintext highlighter-rouge">inverseJoinColumns</code> 속성을 통해 조인 테이블의 소유자 쪽인 <code class="language-plaintext highlighter-rouge">POSTS</code> 테이블의 식별자 컬럼을 가리키는 외래 키를 지정할 수 있고, <code class="language-plaintext highlighter-rouge">inverseJoinColumns</code> 는 조인 테이블의 비소유자 쪽의 <code class="language-plaintext highlighter-rouge">COMMENTS</code> 테이블의 외래 키를 참조하게 만들 수 있다. 여기서 <code class="language-plaintext highlighter-rouge">updatable</code> 이나 <code class="language-plaintext highlighter-rouge">nullable</code> 을 통해 어플리케이션이 해당 값을 변경하거나 null 값을 만들지 않도록 할 수 있다.</p>
+
+<p>이제 DTO 를 정의하여 해당 <code class="language-plaintext highlighter-rouge">JoinTable</code> 에 대한 필요한 필드만 조회하도록 해보자.</p>
+
+<h5 id="dto-클래스를-사용한-projection">DTO 클래스를 사용한 Projection</h5>
+
+<p>우선 주고 받게 될 불변 클래스 DTO 를 선언해주자. 불변이기 때문에 최신 문법인 <code class="language-plaintext highlighter-rouge">record</code> 를 써서 선언해주자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">record</span> <span class="nf">PostInfo</span><span class="o">(</span>
+        <span class="kt">long</span> <span class="n">id</span><span class="o">,</span>
+        <span class="nc">String</span> <span class="n">postTitle</span><span class="o">,</span>
+        <span class="nc">String</span> <span class="n">postContent</span><span class="o">,</span>
+        <span class="nc">String</span> <span class="n">commentName</span><span class="o">,</span>
+        <span class="nc">String</span> <span class="n">commentDescription</span>
+<span class="o">)</span> <span class="o">{</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이제 이를 활용하여 데이터를 가져오기 위해 repository 에 다음을 추가해준다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="nd">@Query</span><span class="o">(</span><span class="s">"SELECT new com.example.study.dao.dto.PostInfo(p.id, p.title, p.content, c.name, c.description) "</span> <span class="o">+</span>
+            <span class="s">"FROM Post p JOIN p.comments c"</span><span class="o">)</span>
+    <span class="nc">Iterable</span><span class="o">&lt;</span><span class="nc">PostInfo</span><span class="o">&gt;</span> <span class="nf">getPostInfo</span><span class="o">();</span></code></pre></figure>
+
+<p>p에서 썼던 comments 를 통해 <strong>HQL</strong> 를 Join 과 함께 쓸 수 있고, Join이 들어감과 동시에 정의했던 JoinTable을 참고하여 맞는 record에 대해서 전부 값들을 들고오게 된다.</p>
+
+<p><strong>테스트</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="nd">@BeforeEach</span>
+    <span class="kt">void</span> <span class="nf">setup</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Post</span> <span class="n">post1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Post</span><span class="o">(</span><span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2000</span><span class="o">,</span> <span class="mi">12</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">12</span><span class="o">,</span> <span class="mi">59</span><span class="o">),</span> <span class="s">"title"</span><span class="o">,</span> <span class="s">"content"</span><span class="o">);</span>
+        <span class="nc">Post</span> <span class="n">post2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Post</span><span class="o">(</span><span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">(),</span> <span class="s">"NOW"</span><span class="o">,</span> <span class="s">"THIS IS NOW"</span><span class="o">);</span>
+
+        <span class="nc">Comment</span> <span class="n">comment1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Comment</span><span class="o">(</span><span class="s">"HI"</span><span class="o">,</span> <span class="s">"WORLD"</span><span class="o">);</span>
+        <span class="nc">Comment</span> <span class="n">comment2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Comment</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">,</span> <span class="s">"World!"</span><span class="o">);</span>
+
+        <span class="n">post1</span><span class="o">.</span><span class="na">getComments</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="n">comment1</span><span class="o">);</span>
+        <span class="n">post1</span><span class="o">.</span><span class="na">getComments</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="n">comment2</span><span class="o">);</span>
+
+        <span class="n">postRepository</span><span class="o">.</span><span class="na">saveAll</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">post1</span><span class="o">,</span> <span class="n">post2</span><span class="o">));</span>
+        <span class="n">commentRepository</span><span class="o">.</span><span class="na">saveAll</span><span class="o">(</span><span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">comment1</span><span class="o">,</span> <span class="n">comment2</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">test</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Iterable</span><span class="o">&lt;</span><span class="nc">PostInfo</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">postRepository</span><span class="o">.</span><span class="na">getPostInfo</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n\n\n\n"</span><span class="o">);</span>
+        <span class="n">list</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">postInfo</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">postInfo</span><span class="o">.</span><span class="na">toString</span><span class="o">()));</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\n\n\n\n"</span><span class="o">);</span>
+    <span class="o">}</span></code></pre></figure>
+
+<hr />
+
+<h2 id="️-용어">✒️ 용어</h2>
+
+<h6 id="orm">ORM</h6>
+
+<p>객체와 DB 테이블을 매핑하여 객체 지향적으로 데이터베이스를 다룰 수 있도록 해주는 기술이다. SQL을 직접 작성하지 않아도 객체를 통해 데이터 조작이 가능하다.</p>
+
+<blockquote>
+  <p>예) 자바 클래스의 Member 정의와 DB의 member 테이블이 자동으로 매핑됨</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">Member</span> <span class="n">member</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="nc">Member</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="mi">1L</span><span class="o">);</span></code></pre></figure>
+
+<h6 id="java-database-connectivity-jdbc">Java Database Connectivity (JDBC)</h6>
+
+<p>관계형 데이터베이스(RDBMS)에 접근할 수 있도록 해주는 <strong>자바 표준 API</strong>이다.<br />
+자바 코드에서 <strong>SQL을 실행하고 결과를 가져오는 기능</strong>을 제공하는 저수준의 DB 연결 도구이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="s">"SELECT * FROM member WHERE id = ?"</span><span class="o">;</span>
+<span class="nc">PreparedStatement</span> <span class="n">pstmt</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+<span class="n">pstmt</span><span class="o">.</span><span class="na">setLong</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1L</span><span class="o">);</span>
+<span class="nc">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">pstmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">();</span></code></pre></figure>
+
+<p>JPA(ORM)를 사용한 코드와 비교해 보면, JDBC는 SQL과 연결 코드(보일러플레이트)를 <strong>직접 명시해야</strong> 하는 반면, JPA는 미리 정의된 메서드(<code class="language-plaintext highlighter-rouge">find</code>, <code class="language-plaintext highlighter-rouge">persist</code>, <code class="language-plaintext highlighter-rouge">remove</code> 등)를 통해 <strong>간결하고 추상화된 코드로 DB를 다룰 수 있다.</strong></p>
+
+<h6 id="preparedstatement">PreparedStatement</h6>
+
+<p>JDBC에서 <strong>SQL 구문을 미리 컴파일</strong>하여 실행하는 객체이다.<br />
+<strong>SQL Injection</strong> 방지, 성능 향상 등의 장점이 있으며,<br />
+<strong>동적 파라미터를 안전하게 바인딩</strong>할 수 있다.</p>
+
+<h6 id="connection-pool">Connection Pool</h6>
+
+<p>DB를 연결할 때는 네트워크 연결, 사용자 인증, 세션 설정 등 많은 작업이 필요하다. 매 요청마다 이를 새로하게 되면 속도 저하, 리소스 낭비가 된다.</p>
+
+<p>한 번만 만들어놓고 재사용하는 방식으로 커넥션 풀을 생성하면, 스레드를 여러 개 사용하여 사용자들이 여러명 있어도 새로 생성하지 않고, 스레드를 하나 꺼내서 사용하고 다 사용하면 풀에 반납하는 방식으로 작동한다.</p>
+
+<p>이렇게 하면 DB 연결 속도가 향상되며, 리소스 절약이 된다. Spring Boot에서는 HikariCP 라는 커넥션 풀을 기본적으로 사용하는데, tomcat-jdbc의 커넥션 풀을 사용해도 된다. 취향 차이이다.</p>
+
+<blockquote>
+  <p>예: maximum-pool-size 프로퍼티가 10, 유저가 동시 접근이 11명, 1명은 스레드(자원)이 반환될 때까지 기다려야 함.</p>
+</blockquote>
+
+<h6 id="marker-interface">Marker Interface</h6>
+
+<p>말 그대로 ‘표식’ 인터페이스이다. 아무 메서드도 수행하지 않고 이런 인터페이스이다 라는 메타 데이터만 주기 위해서 사용한다. 보통 java 를 뜯어내다 보면 다음을 볼 수 있는데 다음도 마커 인터페이스이다.</p>
+
+<ul>
+  <li>Serializable</li>
+  <li>Cloneable</li>
+  <li>Remote</li>
+</ul>
+
+<p>해당 interface를 통해 JVM 혹은 프레임워크 단에서 조건 분기 처리가 가능해지므로 가독성과 동작 제어가 뛰어나다.</p>
+
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/07/27/7.-spring-data.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/07/27/7.-spring-data.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

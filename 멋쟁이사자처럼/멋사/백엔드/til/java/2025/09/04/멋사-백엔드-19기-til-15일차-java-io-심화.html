@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 15일차 Java IO 심화</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 15일차 Java IO 심화 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 15일차 Java IO 심화" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-15%EC%9D%BC%EC%B0%A8-java-io-%EC%8B%AC%ED%99%94.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-15%EC%9D%BC%EC%B0%A8-java-io-%EC%8B%AC%ED%99%94.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-04T00:15:06+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 15일차 Java IO 심화" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-09-04T00:15:06+00:00","datePublished":"2025-09-04T00:15:06+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 15일차 Java IO 심화","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-15%EC%9D%BC%EC%B0%A8-java-io-%EC%8B%AC%ED%99%94.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-15%EC%9D%BC%EC%B0%A8-java-io-%EC%8B%AC%ED%99%94.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-15%EC%9D%BC%EC%B0%A8-java-io-%EC%8B%AC%ED%99%94.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 15일차 Java IO 심화</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Sep 4, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#java-io-심화">Java IO 심화</a>
+    <ul>
+      <li><a href="#inputstreambyte-stream">InputStream(Byte Stream)</a>
+        <ul>
+          <li><a href="#fileinputstream">FileInputStream</a></li>
+          <li><a href="#filterinputstream">FilterInputStream</a></li>
+          <li><a href="#objectinputstream">ObjectInputStream</a></li>
+        </ul>
+      </li>
+      <li><a href="#readerchar-stream">Reader(Char Stream)</a></li>
+      <li><a href="#outputstream">OutputStream</a></li>
+      <li><a href="#writer">Writer</a>
+        <ul>
+          <li><a href="#printwriter">PrintWriter</a></li>
+          <li><a href="#bufferedwriter">BufferedWriter</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="java-io-심화">Java IO 심화</h3>
+
+<p>해당 패키지는 기본적으로 실습을 많이 하여야 익숙해지는 듯하니, 다양한 입출력들을 연습해보길 바란다.</p>
+
+<p>우선 다음 흐름을 가져가자.</p>
+
+<blockquote>
+  <p>InputStream -&gt; Reader -&gt; System -&gt; Writer -&gt; OutputStream</p>
+</blockquote>
+
+<h4 id="inputstreambyte-stream">InputStream(Byte Stream)</h4>
+
+<p>이전 포스트에서 스트림 자체는 byte 씩 읽어오는 것이라고 했다.</p>
+
+<p>입력 스트림은 Java 애플리케이션에서 소스로부터 데이터를 읽는 데 사용되고 데이터는 파일, 배열, 주변 장치 또는 소켓 등 무엇이든 될 수 있다.<br />
+Java 에서 java.io.InputStream 클래스 는 모든 Java IO 입력 스트림의 기본 클래스이며 하위 클래스는 다음과 같이 있다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">AudioInputStream</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ByteArrayInputStream</code></li>
+  <li><code class="language-plaintext highlighter-rouge">FileInputStream</code></li>
+  <li><code class="language-plaintext highlighter-rouge">FilterInputStream</code></li>
+  <li><code class="language-plaintext highlighter-rouge">InputStream</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ObjectInputStream</code></li>
+  <li><code class="language-plaintext highlighter-rouge">PipedInputStream</code></li>
+  <li><code class="language-plaintext highlighter-rouge">SequenceInputStream</code></li>
+  <li><code class="language-plaintext highlighter-rouge">StringBufferInputStream</code></li>
+</ul>
+
+<p>다 쓰진 않는다. 자주 쓰일거 같은 것들을 선택하여 쓰면 된다.</p>
+
+<h5 id="fileinputstream">FileInputStream</h5>
+
+<p>당연하게도 File 을 입력 시킬 수 있다. 파일은 경로를 통해 설정할 수 있고, 설정 시에 소스가 정해진다.<br />
+다음 생성자들을 통해 소스를 설정할 수 있다.</p>
+
+<p><strong>생성자</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">FileInputStream(File file)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">FileInputStream(String name)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">FileInputStream(FileDescriptor fdObj)</code></li>
+</ul>
+
+<p>소스가 정해졌으면 stream 으로 데이터가 흐르도록 초기화가 끝난 것이고,</p>
+
+<p><strong>주요 메서드</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">read()</code>: 1 byte 읽기</li>
+  <li><code class="language-plaintext highlighter-rouge">read(byte[] b)</code>: b에 읽은 값들 저장</li>
+  <li><code class="language-plaintext highlighter-rouge">read(byte[] b, int off, int len)</code>: off 부터 len 길이 만큼의 byte 를 저장</li>
+</ul>
+
+<p>등을 통해 읽어들일 수 있다. 해당 class 는 <code class="language-plaintext highlighter-rouge">@Closable</code> 하기에 try-with-resources 문을 통해 자동으로 <code class="language-plaintext highlighter-rouge">close()</code> 메서드를 실행시켜준다.</p>
+
+<h5 id="filterinputstream">FilterInputStream</h5>
+
+<p>해당 클래스는 추상 클래스이고 protected 로 생성자가 보호되고 있다.</p>
+
+<p>해당 클래스의 하위 클래스가 또 있는데, 다음 두 클래스가 자주 사용되는 듯하다.</p>
+
+<p><strong>BufferedInputStream</strong></p>
+
+<p>생성자로는 다음으로 초기화 가능하다.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">BufferedInputStream(InputStream in)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">BufferedInputStream(InputStream in, int size)</code>: size 는 버퍼사이즈이다.</li>
+</ul>
+
+<p>기본적으로 상위클래스인 <code class="language-plaintext highlighter-rouge">FilterInputStream</code> 이 <code class="language-plaintext highlighter-rouge">read()</code> 세가지 메서드를 구현하기에 다 사용 가능하다.</p>
+
+<p><strong>DataInputStream</strong></p>
+
+<p>마찬가지로 <code class="language-plaintext highlighter-rouge">DataInputStream(InputStream in)</code> 을 통해 초기화를 하며,<br />
+특이하게도 여기에는 <code class="language-plaintext highlighter-rouge">DataInput</code> 이라는 인터페이스를 구현하고 있음을 볼 수 있다.</p>
+
+<p>DataInput 인터페이스를 구현하면 이는 binary stream 에서 바이트 단위로 데이터를 읽어와서<br />
+그것을 자바의 기본 자료형으로 재구성 할 수 있게 해준다. 따라서 우리는 <code class="language-plaintext highlighter-rouge">DataInputStream</code> 으로<br />
+읽어오기만 하더라도 자동으로 자바의 primitives 로 변환시켜준다는 것이다.</p>
+
+<p>예시를 보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.io.DataInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.FileInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DataInputExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">(</span><span class="nc">DataInputStream</span> <span class="n">dis</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DataInputStream</span><span class="o">(</span><span class="k">new</span> <span class="nc">FileInputStream</span><span class="o">(</span><span class="s">"data.bin"</span><span class="o">)))</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">number</span> <span class="o">=</span> <span class="n">dis</span><span class="o">.</span><span class="na">readInt</span><span class="o">();</span>        <span class="c1">// 4바이트 정수 읽기</span>
+            <span class="kt">double</span> <span class="n">price</span> <span class="o">=</span> <span class="n">dis</span><span class="o">.</span><span class="na">readDouble</span><span class="o">();</span>   <span class="c1">// 8바이트 실수 읽기</span>
+            <span class="kt">boolean</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">dis</span><span class="o">.</span><span class="na">readBoolean</span><span class="o">();</span>  <span class="c1">// 1바이트 불리언 읽기</span>
+            <span class="nc">String</span> <span class="n">text</span> <span class="o">=</span> <span class="n">dis</span><span class="o">.</span><span class="na">readUTF</span><span class="o">();</span>       <span class="c1">// Modified UTF-8 문자열 읽기</span>
+
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"number = "</span> <span class="o">+</span> <span class="n">number</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"price = "</span> <span class="o">+</span> <span class="n">price</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"flag = "</span> <span class="o">+</span> <span class="n">flag</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"text = "</span> <span class="o">+</span> <span class="n">text</span><span class="o">);</span>
+
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위는 메서드들을 통해 쉽게 캐스팅을 하지 않고도 값을 읽어올 수 있음을 볼 수 있다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">readBoolean()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readByte()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readChar()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readDouble()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readFloat()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readFully(byte[] b)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readFully(byte[] b, int off, int len)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readInt()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readLine()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readLong()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readShort()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readUnsignedByte()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readUnsignedShort()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">readUTF()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">skipBytes()</code></li>
+</ul>
+
+<p>기능들은 함수명 그대로이기에 설명은 생략한다.</p>
+
+<h5 id="objectinputstream">ObjectInputStream</h5>
+
+<p>자바 객체를 읽어오는 스트림이며, 바이트 단위 스트림을 기반으로 파일, 네트워크 등에서 <strong>직렬화(serialized)</strong> 된 객체를 <strong>복원(deserialize)</strong> 하는 객체이다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">primitive</code> 로 읽어오고 싶다면 <code class="language-plaintext highlighter-rouge">FilterInputStream</code> 의 <code class="language-plaintext highlighter-rouge">DataInputStream</code> 을, <code class="language-plaintext highlighter-rouge">Object</code> 로 읽어오고 싶다면 <code class="language-plaintext highlighter-rouge">ObjectInputStream</code> 을 쓰면 되겠다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">readObject()</code>: 객체를 읽어들인다. 이때 반환은 Object 이므로 명시적 형변환이 필요하다.</li>
+</ul>
+
+<blockquote>
+  <p>여기서 모든 InputStream 은 안에 InputStream 을 넣어 초기화를 할 수 있는 생성자가 있다는 것을 저번에 posting 으로 썼었는데, 이를 통해 기능들을 늘릴 수 있다고 말했었다. 따라서 ObjectInputStream 은 기본 생성자가 protected 라서 생성자 안에 InputStream 을 무조건 넣어야 함을 볼 수 있는데, 이는 ObjectInputStream 혼자서 초기화가 되는게 아님을 볼 수 있다.</p>
+</blockquote>
+
+<h4 id="readerchar-stream">Reader(Char Stream)</h4>
+
+<blockquote>
+  <p>Abstract class for reading character streams. The only methods that a subclass must implement are <code class="language-plaintext highlighter-rouge">read(char[], int, int)</code> and <code class="language-plaintext highlighter-rouge">close()</code>. Most subclasses, however, will override some of the methods defined here in order to provide higher efficiency, additional functionality, or both.</p>
+</blockquote>
+
+<p>추상 클래스이며, 문자열 흐름을 읽어오기 위해 쓰는 메서드이다. 즉 Char Stream 이라고 보면 된다.</p>
+
+<p><strong>주요 메서드</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">read(char[] cbuf)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">read(char[] cbuf, int off, int len)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">read(CharBuffer target)</code></li>
+</ul>
+
+<p><strong>주요 하위 클래스</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">InputStreamReader</code></li>
+  <li><code class="language-plaintext highlighter-rouge">BufferedReader</code></li>
+  <li><code class="language-plaintext highlighter-rouge">FileReader</code></li>
+</ul>
+
+<p>주요 예시들을 보자.</p>
+
+<p><strong>Character 를 맞는 decording method 설정해서 가져오기</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">InputStreamReaderExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">(</span>
+            <span class="nc">FileInputStream</span> <span class="n">fis</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileInputStream</span><span class="o">(</span><span class="s">"example.txt"</span><span class="o">);</span> <span class="c1">// 바이트 스트림</span>
+            <span class="nc">InputStreamReader</span> <span class="n">isr</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="n">fis</span><span class="o">,</span> <span class="s">"UTF-8"</span><span class="o">);</span> <span class="c1">// 문자 변환</span>
+            <span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="n">isr</span><span class="o">)</span> <span class="c1">// 한 줄씩 읽기 편하게</span>
+        <span class="o">)</span> <span class="o">{</span>
+            <span class="nc">String</span> <span class="n">line</span><span class="o">;</span>
+            <span class="k">while</span> <span class="o">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">line</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>File을 읽기 위한 BufferedReader 의 readLine 기능을 활용</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BufferedReaderExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">(</span>
+            <span class="nc">FileReader</span> <span class="n">fr</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileReader</span><span class="o">(</span><span class="s">"example.txt"</span><span class="o">);</span>      <span class="c1">// 문자 스트림</span>
+            <span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="n">fr</span><span class="o">)</span>          <span class="c1">// 버퍼링 + 편리한 readLine()</span>
+        <span class="o">)</span> <span class="o">{</span>
+            <span class="nc">String</span> <span class="n">line</span><span class="o">;</span>
+            <span class="k">while</span> <span class="o">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>           <span class="c1">// 한 줄씩 읽기</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">line</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="outputstream">OutputStream</h4>
+
+<p>주요 함수는 다음과 같다.</p>
+
+<ul>
+  <li>flush()</li>
+  <li>write(byte[] b)</li>
+  <li>write(byte[] b, int off, int len)</li>
+</ul>
+
+<blockquote>
+  <p>Flushable<br />
+Flushable 은 플러시될 수 있는 클래스의 대상이다. flush 메서드는 버퍼링된 출력을 기본 스트림에 쓰기 위해 호출된다.</p>
+</blockquote>
+
+<h4 id="writer">Writer</h4>
+
+<p><strong>Chaining Method</strong></p>
+<ul>
+  <li>append(char c): 단일 문자 추가</li>
+  <li>append(CharSequence csq): 문자 시퀀스 전체 추가</li>
+  <li>append(CharSequence csq, int start, int end): 문자 시퀀스 일부 추가</li>
+</ul>
+
+<blockquote>
+  <p>반환값이 자기 자신이라 체이닝 가능</p>
+</blockquote>
+
+<ul>
+  <li>write(int c): 단일 문자 스트림에 쓰기</li>
+  <li>write(char[] cbuf): 문자 배열 전체 스트림에 쓰기</li>
+  <li>write(char[], int off, int len)</li>
+  <li>write(String str): 문자열 전체 스트림에 쓰기</li>
+  <li>write(String str, int off, int len)</li>
+</ul>
+
+<h5 id="printwriter">PrintWriter</h5>
+
+<p>우리가 알고 있는 일반적인 print 기능이 들어가 있는 writer 이다. 필요하면 찾아서 쓰자.</p>
+
+<h5 id="bufferedwriter">BufferedWriter</h5>
+
+<p>단일 문자, 배열, 문자열 등을 효율적으로 읽고 쓸 수 있는 클래스이다.</p>
+
+<p>자바에서는 Writer 클래스가 문자를 출력 스트림에 바로 보내는 역할을 하는데, write() 를 호출하면 곧바로 해당 문자들이 기본 스트림(File, OutputStream) 으로 전달되게 된다.</p>
+
+<p>하지만 이렇게 바로 쓰면 특히 파일이나 네트워크 등에 비용이 큰 출력 작업에서는 굉장히 비효율적일 수 있다. 매번 writer() 가 호출될 때마다 문자를 byte 로 변환시키고 출력 스트림에 전송시켜야 하기에 이를 방지하고자 다음처럼 BufferedWriter 의 기능을 가지면서 일정량의 데이터가 모일 때 한 번에 출력하도록 하면 좋다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.io.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BufferedWriterExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">(</span>
+            <span class="nc">PrintWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PrintWriter</span><span class="o">(</span>
+                <span class="k">new</span> <span class="nf">BufferedWriter</span><span class="o">(</span>
+                    <span class="k">new</span> <span class="nf">FileWriter</span><span class="o">(</span><span class="s">"foo.out"</span><span class="o">)</span>
+                <span class="o">)</span>
+            <span class="o">)</span>
+        <span class="o">)</span> <span class="o">{</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello, BufferedWriter!"</span><span class="o">);</span>
+            <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"이제 출력이 훨씬 효율적입니다."</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-15%EC%9D%BC%EC%B0%A8-java-io-%EC%8B%AC%ED%99%94.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-15%EC%9D%BC%EC%B0%A8-java-io-%EC%8B%AC%ED%99%94.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

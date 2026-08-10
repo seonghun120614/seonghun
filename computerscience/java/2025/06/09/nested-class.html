@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>Nested Class</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Nested Class | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Nested Class" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/computerscience/java/2025/06/09/nested-class.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/computerscience/java/2025/06/09/nested-class.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-06-09T07:47:41+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Nested Class" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-06-09T07:47:41+00:00","datePublished":"2025-06-09T07:47:41+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"Nested Class","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/computerscience/java/2025/06/09/nested-class.html"},"url":"https://seonghun120614.github.io/seonghun120614/computerscience/java/2025/06/09/nested-class.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/computerscience/java/2025/06/09/nested-class.html">
+        <h2 class="post-title">Nested Class</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Jun 9, 2025</div><ul class="post-categories"><li>ComputerScience</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-한계점">🪛 한계점</h2>
+
+<p>Java 의 특정 클래스에는 다른 클래스가 없다면 아무 쓸모가 없는 클래스가 있을 수 있다.<br />
+가령 다음 Entry 라는 클래스를 보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Map.class</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Map</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
+<span class="c1">// Entry.class</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Entry</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span> <span class="no">V</span><span class="o">&gt;</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span></code></pre></figure>
+
+<p>Map 안의 구성요소로 자리잡은 Entry 는 다른 클래스에선 전혀 쓸모가 없는 클래스가 된다.
+이렇게 된다면 파일 구조 자체를 Entry 를 따로 만들 필요 없고, 이는 <strong>응집도(Cohesion)</strong>가 떨어지는 구조가 된다.</p>
+
+<p>따라서 Java 에서는 이를 위해 Nested Class 를 지원한다</p>
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#nested-class-의-사용으로-인한-logical-grouping">Nested Class 의 사용으로 인한 Logical Grouping</a></li>
+  <li><a href="#encapsulation-와-노출-최소화">Encapsulation 와 노출 최소화</a></li>
+  <li><a href="#static-을-통한-상태를-공유할지-말지-명시적-선택-가능">static 을 통한 상태를 공유할지 말지 명시적 선택 가능</a></li>
+  <li><a href="#nested-class-의-용도">Nested Class 의 용도</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="nested-class-의-사용으로-인한-logical-grouping">Nested Class 의 사용으로 인한 Logical Grouping</h3>
+
+<p>위 클래스를 아래와 같이 바꾸자:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Map.class</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Map</span> <span class="o">{</span> 
+    <span class="o">...</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Entry</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span> <span class="no">V</span><span class="o">&gt;</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>결과적으로 <strong>응집도가 높아지며</strong>, 읽는 사람의 눈에도 한눈에 파악할 수 있게 된다.</p>
+
+<hr />
+
+<h3 id="encapsulation-와-노출-최소화">Encapsulation 와 노출 최소화</h3>
+
+<p>외부적으로 이를 쓰는 클래스는 굳이 절대 쓸 일 없는 보조 클래스인 Entry 가 어떻게 흘러가는지 알 필요가 없다. 따라서 다음과 같이 바꿀 수도 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Map.class</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Map</span> <span class="o">{</span> 
+    <span class="o">...</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Entry</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span> <span class="no">V</span><span class="o">&gt;</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이를 통해 API 인터페이스 surface 를 줄이고, <strong>유지보수성</strong>을 가져가게 된다.</p>
+
+<hr />
+
+<h3 id="static-을-통한-상태를-공유할지-말지-명시적-선택-가능">static 을 통한 상태를 공유할지 말지 명시적 선택 가능</h3>
+
+<p>static 이면 독립적인 클래스로(상위 클래스에 종속되지 않음), 바깥 인스턴스 없이도 동작한다. non-static 이면 outer class 의 인스턴스 상태에 의존한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Map.class</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Map</span> <span class="o">{</span> 
+    <span class="o">...</span>
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">Entry</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span> <span class="no">V</span><span class="o">&gt;</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Entry 는 굳이 독립적으로 존재하면 안되기에 static 을 빼준다.</p>
+
+<hr />
+
+<h3 id="nested-class-의-용도">Nested Class 의 용도</h3>
+
+<ul>
+  <li>외부 클래스의 인스턴스 없이도 의미가 있을 때</li>
+  <li>Builder, DTO 구조화, Enum 안의 상태 표현 등에 쓰이게 된다.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Person</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">name</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="nc">Person</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<hr />
+
+<h2 id="-관련-글">📁 관련 글</h2>
+<ul>
+  <li><a href="/seonghun120614/java/spring/2025/06/09/3.-spring-boot-custom-property.html">3. Spring Boot Custom Property</a></li>
+</ul>
+
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/computerscience/java/2025/06/09/nested-class.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/computerscience/java/2025/06/09/nested-class.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 37일차 Spring MVC 기초</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 37일차 Spring MVC 기초 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 37일차 Spring MVC 기초" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/16/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-37%EC%9D%BC%EC%B0%A8-Spring-mvc-%EA%B8%B0%EC%B4%88.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/16/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-37%EC%9D%BC%EC%B0%A8-Spring-mvc-%EA%B8%B0%EC%B4%88.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-16T04:55:33+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 37일차 Spring MVC 기초" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-10-16T04:55:33+00:00","datePublished":"2025-10-16T04:55:33+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 37일차 Spring MVC 기초","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/16/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-37%EC%9D%BC%EC%B0%A8-Spring-mvc-%EA%B8%B0%EC%B4%88.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/16/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-37%EC%9D%BC%EC%B0%A8-Spring-mvc-%EA%B8%B0%EC%B4%88.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/16/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-37%EC%9D%BC%EC%B0%A8-Spring-mvc-%EA%B8%B0%EC%B4%88.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 37일차 Spring MVC 기초</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Oct 16, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li><li>Spring</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#spring-mvc">Spring MVC</a>
+    <ul>
+      <li><a href="#controller-설계">Controller 설계</a>
+        <ul>
+          <li><a href="#requestmapping">@RequestMapping</a></li>
+          <li><a href="#pathvariable">@PathVariable</a></li>
+          <li><a href="#requestparam">@RequestParam</a></li>
+          <li><a href="#requestbody">@RequestBody</a></li>
+          <li><a href="#️-requestheader">⭐️ @RequestHeader</a></li>
+          <li><a href="#고급-옵션">고급 옵션</a></li>
+        </ul>
+      </li>
+      <li><a href="#model--view">Model &amp; View</a></li>
+      <li><a href="#thymeleaf">Thymeleaf</a>
+        <ul>
+          <li><a href="#️-spring-의-model-bindingresult-바인딩-처리-및-thymeleaf-의-bindingresult-호출">⭐️ Spring 의 Model, BindingResult 바인딩 처리 및 Thymeleaf 의 BindingResult 호출</a></li>
+          <li><a href="#️-modelattribute-와-thymeleaf-사이의-생략-관계-정리">⭐️ @ModelAttribute 와 Thymeleaf 사이의 생략 관계 정리</a></li>
+        </ul>
+      </li>
+      <li><a href="#forwarding-과정">Forwarding 과정</a></li>
+      <li><a href="#redirecting-과정">Redirecting 과정</a></li>
+      <li><a href="#forward-vs-redirect-비교-요약">Forward vs Redirect 비교 요약</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="spring-mvc">Spring MVC</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Model-View-Controller</code> 패턴을 기반으로 하는 웹 애플리케이션 프레임워크</p>
+
+<ul>
+  <li>Model: 비즈니스 데이터 + 로직</li>
+  <li>View: 사용자에게 보여지는 화면 (HTML, JSON 등)</li>
+  <li>Controller: 요청을 받고 Model과 View 를 연결</li>
+</ul>
+
+<p><img src="/seonghun120614/img/spring-mvc-pattern.png" alt="spring-mvc-pattern.png" /></p>
+
+<p>Spring 은 MVC 2.0 버전 패턴으로 위와 같이 적용하고 있다. DispatcherServlet 은 모든 HTTP 요청의 진입점이며, 톰캣과 디스패쳐가 연결되어 있다. 처리 과정을 자세히 살펴보자.</p>
+
+<ol>
+  <li>브라우저에서 요청, <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 이 받음</li>
+  <li><code class="language-plaintext highlighter-rouge">HandlerMapping</code>가 어떤 <code class="language-plaintext highlighter-rouge">Controller</code> 가 이 요청을 처리할지 찾음</li>
+  <li><code class="language-plaintext highlighter-rouge">HandlerAdapter</code>가 알맞은 <code class="language-plaintext highlighter-rouge">Controller</code> 메서드를 호출함</li>
+  <li><code class="language-plaintext highlighter-rouge">Controller</code> 는 메서드 호출 받았을 때, <code class="language-plaintext highlighter-rouge">Model</code> 데이터를 만들고 <code class="language-plaintext highlighter-rouge">View</code> 이름을 반환하게 된다.
+    <ul>
+      <li>모델을 어떤 view 에 적용시켜줄지를 알려주어야 하니 view 이름을 반환하는 것이다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">ViewResolver</code> 가 <code class="language-plaintext highlighter-rouge">View</code> 객체를 생성한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">View</code> 는 생성된 Model 을 읽어들여서 데이터를 적용한다</li>
+  <li><code class="language-plaintext highlighter-rouge">View</code> 가 사용자에게 결과를 전달한다.</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Browser Request
+      ↓
+DispatcherServlet
+      ↓
+HandlerMapping → 어떤 Controller인지 결정
+      ↓
+HandlerAdapter → Controller 호출
+      ↓
+Controller → Model 생성 / View 이름 반환
+      ↓
+ViewResolver → View 객체 생성
+      ↓
+View → 사용자에게 HTML / JSON 응답</code></pre></figure>
+
+<p>개발자가 관여할 것은 보라색 뿐이다. 이제 이를 설계해보자.</p>
+
+<h4 id="controller-설계">Controller 설계</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/users"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserController</span> <span class="o">{</span>
+
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">UserDto</span> <span class="nf">getUser</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">userService</span><span class="o">.</span><span class="na">getUserById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@PostMapping</span><span class="o">(</span><span class="s">"/"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">UserDto</span> <span class="nf">createUser</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="nc">UserDto</span> <span class="n">userDto</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">userService</span><span class="o">.</span><span class="na">createUser</span><span class="o">(</span><span class="n">userDto</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>하나하나 뜯어본다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">@Controller</code> 는 Spring MVC에서 웹 요청을 처리하는 클래스임을 나타내는 애너테이션이다. 즉, 이 클래스 안의 메서드들이 HTTP 요청과 응답을 담당하게 된다.</p>
+
+<p><strong>역할</strong></p>
+<ul>
+  <li>클래스 레벨에 붙음 → 이 클래스가 <code class="language-plaintext highlighter-rouge">Controller</code> 임을 Spring 에 알림</li>
+  <li>Spring Bean 으로 등록 → IoC 컨테이너에서 관리</li>
+</ul>
+
+<blockquote>
+  <p>⭐️ 중요: <strong>@RestController</strong> = <code class="language-plaintext highlighter-rouge">@Controller</code> + <code class="language-plaintext highlighter-rouge">@ResponseBody</code> 의 결합이며 반환값을 <strong>JSON, HTTP Body</strong> 로 바로 전달하고 싶을 때 쓴다.</p>
+</blockquote>
+
+<h5 id="requestmapping">@RequestMapping</h5>
+
+<p><code class="language-plaintext highlighter-rouge">Controller</code> 에 들어가는 함수들은 전부 제 기능을 하기 위해 <code class="language-plaintext highlighter-rouge">@RequestMapping</code> 이 주로 붙는다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/users"</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="nc">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">getAllUsers</span><span class="o">()</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span></code></pre></figure>
+
+<p>이때 위 애너테이션은 다음과도 같다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/users"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">getAllUsers</span><span class="o">()</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span></code></pre></figure>
+
+<p>더 쉽게 제공하는 편이다. 이런게 4개 더 있다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>매핑 어노테이션</th>
+      <th>설명</th>
+      <th>예시</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">@GetMapping</code></td>
+      <td>GET 요청 처리</td>
+      <td><code class="language-plaintext highlighter-rouge">@GetMapping("/users")</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">@PostMapping</code></td>
+      <td>POST 요청 처리</td>
+      <td><code class="language-plaintext highlighter-rouge">@PostMapping("/users")</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">@PutMapping</code></td>
+      <td>PUT 요청 처리</td>
+      <td><code class="language-plaintext highlighter-rouge">@PutMapping("/users/{id}")</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">@DeleteMapping</code></td>
+      <td>DELETE 요청 처리</td>
+      <td><code class="language-plaintext highlighter-rouge">@DeleteMapping("/users/{id}")</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">@PatchMapping</code></td>
+      <td>PATCH 요청 처리</td>
+      <td><code class="language-plaintext highlighter-rouge">@PatchMapping("/users/{id}")</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/users"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserController</span> <span class="o">{</span>
+
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getUser</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"사용자 조회: "</span> <span class="o">+</span> <span class="n">id</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@PostMapping</span><span class="o">(</span><span class="s">"/"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">createUser</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="nc">String</span> <span class="n">userName</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"사용자 생성: "</span> <span class="o">+</span> <span class="n">userName</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@PutMapping</span><span class="o">(</span><span class="s">"/put/{id}"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">updateUser</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">,</span> <span class="nd">@RequestBody</span> <span class="nc">String</span> <span class="n">newName</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"사용자 수정: "</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="s">" -&gt; "</span> <span class="o">+</span> <span class="n">newName</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@DeleteMapping</span><span class="o">(</span><span class="s">"/delete/{id}"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">deleteUser</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"사용자 삭제: "</span> <span class="o">+</span> <span class="n">id</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@PatchMapping</span><span class="o">(</span><span class="s">"/patch/{id}"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">patchUser</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">,</span> <span class="nd">@RequestBody</span> <span class="nc">String</span> <span class="n">newEmail</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"사용자 이메일 수정: "</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="s">" -&gt; "</span> <span class="o">+</span> <span class="n">newEmail</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위와 같이 사용 가능하다. 여기서 잘 보면 <code class="language-plaintext highlighter-rouge">@RequestMapping</code> 어노테이션을 클래스 레벨에 두어 내부 메서드 레벨의 <code class="language-plaintext highlighter-rouge">@RequestMapping</code> 들에 대해서 prefix 를 적용하는 것처럼 된다.</p>
+
+<p>이제 파라미터에 대한 매핑을 보자.</p>
+
+<p><strong>파라미터 매핑</strong>
+| 어노테이션        | 설명                                  |
+|——————|————————————|
+| <code class="language-plaintext highlighter-rouge">@PathVariable</code>   | <strong>URL 경로의 변수 값</strong>을 매핑          |
+| <code class="language-plaintext highlighter-rouge">@RequestParam</code>   | <strong>쿼리 파라미터 값</strong>을 매핑             |
+| <code class="language-plaintext highlighter-rouge">@RequestBody</code>    | <strong>요청 Body(JSON 등)를 객체</strong>로 매핑   |
+| <code class="language-plaintext highlighter-rouge">@RequestHeader</code>  | <strong>HTTP Header 값</strong> 매핑             |
+| <code class="language-plaintext highlighter-rouge">@CookieValue</code>    | <strong>쿠키 값</strong> 매핑                     |
+| <code class="language-plaintext highlighter-rouge">@ModelAttribute</code> | <strong>폼 데이터를 객체</strong>에 바인딩           |</p>
+
+<p>하나하나 다 중요한 것들이니 자세히 본다.</p>
+
+<h5 id="pathvariable">@PathVariable</h5>
+
+<p>Url 에 있는 값을 그대로 받을 수도 있다. 이는 사용자 검색을 더 편리하게 할 수 있고, 스크래핑 정보도 제공하기 편리하게 할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/users/{id}"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getUser</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"사용자 조회: "</span> <span class="o">+</span> <span class="n">id</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="requestparam">@RequestParam</h5>
+
+<p>url 전체의 query 부분으로 key-value 를 보낼때 이를 받게 할 수도 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// GET /users/search?name=홍길동&amp;age=20</span>
+<span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/search"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">searchUser</span><span class="o">(</span>
+        <span class="nd">@RequestParam</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span>
+        <span class="nd">@RequestParam</span> <span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"검색 사용자: "</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">", 나이: "</span> <span class="o">+</span> <span class="n">age</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/search"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">searchUser</span><span class="o">(</span>
+        <span class="nd">@RequestParam</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"name"</span><span class="o">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span> <span class="n">defaultValue</span> <span class="o">=</span> <span class="s">"익명"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span>
+        <span class="nd">@RequestParam</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"age"</span><span class="o">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span> <span class="n">defaultValue</span> <span class="o">=</span> <span class="s">"0"</span><span class="o">)</span> <span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"검색 사용자: "</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">", 나이: "</span> <span class="o">+</span> <span class="n">age</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">// GET /users/filter?roles=ADMIN&amp;roles=USER&amp;roles=GUEST</span>
+<span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/filter"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">filterUsers</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">roles</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"필터 역할: "</span> <span class="o">+</span> <span class="n">roles</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">PostMapping</code> 을 통해서 form 으로 <code class="language-plaintext highlighter-rouge">password</code>, <code class="language-plaintext highlighter-rouge">username</code> 등도 받을 수 있다.</p>
+
+<blockquote>
+  <p>여러 개를 받을 때는 &amp;로 연결하고 key 를 중복해서 선언해주면 된다.</p>
+</blockquote>
+
+<h5 id="requestbody">@RequestBody</h5>
+
+<p>보통 API 만들 용도로 쓰인다 왜냐면 body 자체가 구조화된 데이터 형태로 들어와야 자바 객체로 변환하기 편하며, 클라이언트가 보낸 JSON 등의 데이터를 객체로 직접 받을 때 사용하면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@PostMapping</span><span class="o">(</span><span class="s">"/"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">createUser</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="nc">UserDto</span> <span class="n">userDto</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"사용자 생성: "</span> <span class="o">+</span> <span class="n">userDto</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">", 나이: "</span> <span class="o">+</span> <span class="n">userDto</span><span class="o">.</span><span class="na">getAge</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">@RequestBody</code>: HTTP 요청의 Body 부분(JSON, XML, 텍스트 등)을 자바 객체로 바로 변환해주는 역할(보통 JSON 등으로 매핑)</p>
+</blockquote>
+
+<h5 id="️-requestheader">⭐️ @RequestHeader</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="cm">/*
+ GET /users/header
+ Authorization: Bearer abc123
+ User-Agent: Chrome
+*/</span>
+
+<span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/header"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getHeader</span><span class="o">(</span>
+        <span class="nd">@RequestHeader</span><span class="o">(</span><span class="s">"Authorization"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">authHeader</span><span class="o">,</span>
+        <span class="nd">@RequestHeader</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"User-Agent"</span><span class="o">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span> <span class="nc">String</span> <span class="n">userAgent</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="k">return</span> <span class="s">"인증 헤더: "</span> <span class="o">+</span> <span class="n">authHeader</span> <span class="o">+</span> <span class="s">", 브라우저: "</span> <span class="o">+</span> <span class="n">userAgent</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>보통 인증 토큰이 있는지 없는지 판별할 때 쓸 수 있겠다.</p>
+
+<ul>
+  <li>토큰 인증</li>
+  <li>API 키 검증</li>
+</ul>
+
+<h5 id="고급-옵션">고급 옵션</h5>
+
+<p><code class="language-plaintext highlighter-rouge">RequestMapping</code> 에서 붙일 수 있는 옵션이며, 단순히 요청 뿐 아니라 형식, 파라미터, 헤더에 따라 매핑을 더 세밀히 제어할 수 있도록 한다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>옵션</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">consumes</code></td>
+      <td>요청 Content-Type 제한 (<code class="language-plaintext highlighter-rouge">application/json</code>)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">produces</code></td>
+      <td>응답 Content-Type 지정 (<code class="language-plaintext highlighter-rouge">application/json</code>)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">params</code></td>
+      <td>특정 요청 파라미터 존재 여부로 매핑</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">headers</code></td>
+      <td>특정 HTTP 헤더 존재 여부로 매핑</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>사용 예시</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">consumes</code> 는 <strong>요청 Content-Type</strong> 을 제한하는데, 쉽게 말해서 JSON 요청만 처리하게 제한하도록 할 수 있고 다른 다양한 것들이 있다.</p>
+
+<p><strong>consumes</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@PostMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/users"</span><span class="o">,</span> <span class="n">consumes</span> <span class="o">=</span> <span class="s">"application/json"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">createUser</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="nc">UserDto</span> <span class="n">userDto</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"JSON으로 사용자 생성: "</span> <span class="o">+</span> <span class="n">userDto</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>produces 는 <strong>응답의 Content-Type</strong> 을 지정한다. 위랑 다르다. 만약 다음과 같이 입력되었다면 JSON 형태로만 응답하도록 지정하는 것과 같다.</p>
+
+<p><strong>produces</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/users/{id}"</span><span class="o">,</span> <span class="n">produces</span> <span class="o">=</span> <span class="s">"application/json"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">UserDto</span> <span class="nf">getUser</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">UserDto</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="s">"홍길동"</span><span class="o">,</span> <span class="mi">25</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>params 는 특정 쿼리 파라미터 조건이 있을 때만 매핑을 하게 된다. 예를 들어 admin 이라는 parameter key 에 value 로 <code class="language-plaintext highlighter-rouge">true</code> 가 아니라면 해당 함수는 매핑이 안되게 된다. 따라서 두 메서드는 다른 메서드로 동작되고 중복 선언으로 오류가 안뜬다.</p>
+
+<p><strong>params</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 예: /users/search?admin=true 일 때만 매핑됨</span>
+<span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/users/search"</span><span class="o">,</span> <span class="n">params</span> <span class="o">=</span> <span class="s">"admin=true"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">searchAdminUsers</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"관리자 계정 검색"</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">// 예: /users/search?role=user 일 때만 매핑됨</span>
+<span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/users/search"</span><span class="o">,</span> <span class="n">params</span> <span class="o">=</span> <span class="s">"role=user"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">searchNormalUsers</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"일반 사용자 검색"</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>headers 는 요청이 오는 HTTP 헤더에 조건이 있을때만 매핑을 하게 된다. 브라우저 별로 사용하는 API 가 달라서 그에 호환되는 처리를 할 수도 있다.</p>
+
+<p><strong>headers</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/users/version"</span><span class="o">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="s">"X-API-VERSION=1"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getUserV1</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"API Version 1 호출됨"</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/users/version"</span><span class="o">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="s">"X-API-VERSION=2"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getUserV2</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"API Version 2 호출됨"</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이제 Model 과 View 를 보자.</p>
+
+<h4 id="model--view">Model &amp; View</h4>
+
+<p>모델은 단순히 데이터를 담는 통(Bean) 이며, 요청과 응답 사이에서 데이터를 전달하는 핵심 매개체이다. Spring MVC 에서는 다음 3가지 형태로 <code class="language-plaintext highlighter-rouge">Model</code> 을 다룬다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">org.springframework.ui.Model</code>: 단순 key-value 저장소</li>
+  <li><code class="language-plaintext highlighter-rouge">ModelMap</code>: Model 과 유사하나 <code class="language-plaintext highlighter-rouge">LinkedHashMap</code> 기반</li>
+  <li><code class="language-plaintext highlighter-rouge">ModelAndView</code>: <code class="language-plaintext highlighter-rouge">Model</code> + <code class="language-plaintext highlighter-rouge">ViewName</code> 을 한번에 관리</li>
+</ul>
+
+<ol>
+  <li>사용자의 요청이 들어오면 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 이 해당 <code class="language-plaintext highlighter-rouge">Controller</code> 메서드를 호출한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Controller</code> 메서드는 비즈니스 로직을 수행하고, 그 결과를 <code class="language-plaintext highlighter-rouge">Model</code> 에 담는다.</li>
+  <li><code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 은 <code class="language-plaintext highlighter-rouge">Model</code> 에 담긴 데이터를 <code class="language-plaintext highlighter-rouge">View</code> 에 전달한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">View(예: Thymeleaf, JSP)</code> 는 <code class="language-plaintext highlighter-rouge">${key}</code> 또는 <code class="language-plaintext highlighter-rouge">*{key}</code> 문법으로 데이터를 참조한다.</li>
+</ol>
+
+<p><strong>String 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Controller</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/example"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExampleController</span> <span class="o">{</span>
+
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/model"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">modelExample</span><span class="o">(</span><span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Model에 데이터 담기</span>
+        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="s">"Hello, Model!"</span><span class="o">);</span>
+        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"number"</span><span class="o">,</span> <span class="mi">42</span><span class="o">);</span>
+
+        <span class="c1">// view 이름 반환 (hello.html)</span>
+        <span class="k">return</span> <span class="s">"hello"</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>ModelMap 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Controller</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/example"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExampleController</span> <span class="o">{</span>
+
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/modelmap"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">modelMapExample</span><span class="o">(</span><span class="nc">ModelMap</span> <span class="n">modelMap</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// ModelMap에 데이터 담기</span>
+        <span class="n">modelMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="s">"Hello, ModelMap!"</span><span class="o">);</span>
+        <span class="n">modelMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"number"</span><span class="o">,</span> <span class="mi">123</span><span class="o">);</span>
+
+        <span class="c1">// view 이름 반환 (hello.html)</span>
+        <span class="k">return</span> <span class="s">"hello"</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>ModelAndView 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Controller</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/example"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExampleController</span> <span class="o">{</span>
+
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/modelandview"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">ModelAndView</span> <span class="nf">modelAndViewExample</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">ModelAndView</span> <span class="n">mav</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ModelAndView</span><span class="o">();</span>
+
+        <span class="c1">// view 이름 지정</span>
+        <span class="n">mav</span><span class="o">.</span><span class="na">setViewName</span><span class="o">(</span><span class="s">"hello"</span><span class="o">);</span>
+
+        <span class="c1">// 데이터 추가</span>
+        <span class="n">mav</span><span class="o">.</span><span class="na">addObject</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="s">"Hello, ModelAndView!"</span><span class="o">);</span>
+        <span class="n">mav</span><span class="o">.</span><span class="na">addObject</span><span class="o">(</span><span class="s">"number"</span><span class="o">,</span> <span class="mi">999</span><span class="o">);</span>
+
+        <span class="k">return</span> <span class="n">mav</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>redirect 방식은 <code class="language-plaintext highlighter-rouge">ModelAndView("redirect:(path)")</code> 처럼 <code class="language-plaintext highlighter-rouge">ModelAndView</code> 에서도 사용 가능하다.</p>
+</blockquote>
+
+<h4 id="thymeleaf">Thymeleaf</h4>
+
+<p>Java spring 에서 자주 사용하는 HTML 렌터링 서버사이드 템플릿 엔진이다.</p>
+
+<p>기본 구조는 다음과 같고, <code class="language-plaintext highlighter-rouge">resorces/templates/</code> 폴더에 html 을 저장하게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">xmlns:th=</span><span class="s">"http://www.thymeleaf.org"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Thymeleaf 예제<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1</span> <span class="na">th:text=</span><span class="s">"${message}"</span><span class="nt">&gt;</span>Hello<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span></code></pre></figure>
+
+<p>꼭 html 에 태그로 <code class="language-plaintext highlighter-rouge">xmlns:th="http://www.thymeleaf.org"</code> 를 넣어주어야 한다. th 는 자유다. Thymeleaf 는 <code class="language-plaintext highlighter-rouge">View</code> 계층에 포함되는 애이며, 여기에 들어가는 데이터들이 전부 <code class="language-plaintext highlighter-rouge">Model</code> 에서 가져오게 되겠다.</p>
+
+<p><strong>텍스트 표현</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">th:text="${var}</code>: 변수 값 출력</li>
+  <li><code class="language-plaintext highlighter-rouge">th:utext="${var}</code>: HTML 태그를 포함한 문자열 출력 (escape 안함)</li>
+  <li><code class="language-plaintext highlighter-rouge">th:inline="text"</code>: 텍스트 인라인 표현 가능 <code class="language-plaintext highlighter-rouge">${var}</code> 사용</li>
+</ul>
+
+<p><strong>속성 바인딩</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">th:href="@{/home}"</code>: 링크 URL 바인딩</li>
+  <li><code class="language-plaintext highlighter-rouge">th:src="@{/images/logo.png}"</code>: 이미지 src 바인딩</li>
+  <li><code class="language-plaintext highlighter-rouge">th:class="@{condition ? 'active' : ''}</code> 조건부 클래스 적용</li>
+</ul>
+
+<p><strong>조건문</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">th:if</code>: 조건이 <code class="language-plaintext highlighter-rouge">true</code> 면 해당 태그 렌더링</li>
+  <li><code class="language-plaintext highlighter-rouge">th:unless</code>: 조건이 <code class="language-plaintext highlighter-rouge">false</code> 면 해당 태그 렌더링</li>
+</ul>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">&lt;p th:text="${user.age &gt;= 18 ? '성인' : '미성년'}"&gt;&lt;/p&gt;</code> 처럼 쓸 수도 있다.</p>
+</blockquote>
+
+<p><strong>반복문</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">th:each="(for 내부 변수) : ${var}"</code>: 컬렉션 반복</li>
+</ul>
+
+<p><strong>URL 링크 처리</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">th:href=@{경로}</code>: 컨텍스트 경로 자동 적용이 된다. <code class="language-plaintext highlighter-rouge">${}</code> 와 같이 경로 안에 파라미터 포함 가능</li>
+</ul>
+
+<blockquote>
+  <p>실습 코드에서는 다음과 같이 되어 있는데, <code class="language-plaintext highlighter-rouge">&lt;a th:href="@{/users/{id}(id=${user.id})}"&gt;View Profile&lt;/a&gt;</code> {} 는 단순 변수이며 $ 나 * 등이 없다. 이때는 () 를 통해 id 에 직접 넣을 수 있도록 할 수 있다.</p>
+</blockquote>
+
+<p><strong>변수 표현식</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">${var}</code>: 일반 변수</li>
+  <li><code class="language-plaintext highlighter-rouge">*{field}</code>: form 객체의 field (<code class="language-plaintext highlighter-rouge">th:object</code> 안에서)</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">&lt;!--</span> <span class="nc">Form</span> <span class="n">처리</span> <span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="n">form</span> <span class="nl">th:</span><span class="n">action</span><span class="o">=</span><span class="s">"@{/users}"</span> <span class="nl">th:</span><span class="n">object</span><span class="o">=</span><span class="s">"${userForm}"</span> <span class="n">method</span><span class="o">=</span><span class="s">"post"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">input</span> <span class="n">type</span><span class="o">=</span><span class="s">"text"</span> <span class="nl">th:</span><span class="n">field</span><span class="o">=</span><span class="s">"*{username}"</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="n">input</span> <span class="n">type</span><span class="o">=</span><span class="s">"email"</span> <span class="nl">th:</span><span class="n">field</span><span class="o">=</span><span class="s">"*{email}"</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="n">button</span> <span class="n">type</span><span class="o">=</span><span class="s">"submit"</span><span class="o">&gt;</span><span class="nc">Submit</span><span class="o">&lt;/</span><span class="n">button</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span></code></pre></figure>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">#{msg.key}</code>: 메시지 국제화(i18n)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">messages.properties</code> 에 <code class="language-plaintext highlighter-rouge">greeting=안녕하세요, {0}님</code>의 key-value 가 있다고 쳐보자.<br />
+  Thymeleaf 를 쓰는 HTML 에서는 다음과 같이 쓸 수 있다.<br />
+  <code class="language-plaintext highlighter-rouge">&lt;p th:text="#{greeting(${user.name})}"&gt;기본 인사&lt;/p&gt;</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">~{template}</code>: fragment/template 참조 아래를 통해 더 자세히 살펴보자.</li>
+</ul>
+
+<p><strong>th:replace</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">&lt;!--</span> <span class="n">header</span><span class="o">.</span><span class="na">html</span> <span class="o">--&gt;</span>
+<span class="o">&lt;!--</span> <span class="n">fragment</span> <span class="n">등록</span> <span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="nl">th:</span><span class="n">fragment</span><span class="o">=</span><span class="s">"header"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">사이트</span> <span class="n">헤더</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+
+<span class="o">&lt;!--</span> <span class="n">main</span><span class="o">.</span><span class="na">html</span> <span class="o">--&gt;</span>
+<span class="o">&lt;!--</span> <span class="n">fragment</span> <span class="n">사용</span> <span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="nl">th:</span><span class="n">replace</span><span class="o">=</span><span class="s">"header :: header"</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span></code></pre></figure>
+
+<p>템플릿의 위치는 <code class="language-plaintext highlighter-rouge">application.yml</code> 이나 프로퍼티에 <code class="language-plaintext highlighter-rouge">spring.thymeleaf.prefix=classpath:/templates/</code>, <code class="language-plaintext highlighter-rouge">spring.thymeleaf.suffix=.html</code> 처럼 기본적으로 넣어져있고, 이를 따로 지정하여 넣어줄 수 있다. 이때 그 하위의 html 에 대한 Thymeleaf 문법으로 작성된 문서들이 다 불러와지고, fragment 도 그때 등록된다. 추가로 더 알아볼 것은 <code class="language-plaintext highlighter-rouge">ClassLoaderTemplateResolver</code> 을 통해서도 이런 template 위치를 코드 내에서도 지정 가능하다(나중에 알아보자).</p>
+
+<p>위 코드르 보면 :: 를 통해 자바의 정적 참조 문법과 비슷하며, <code class="language-plaintext highlighter-rouge">th:replace</code> 를 통해 <code class="language-plaintext highlighter-rouge">(파일 경로) :: (fragment 명)</code> 을 써서 지정 가능하다.</p>
+
+<p><strong>실습</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">&lt;!--</span> <span class="n">fragments</span><span class="o">/</span><span class="n">header</span><span class="o">.</span><span class="na">html</span> <span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="n">header</span> <span class="nl">th:</span><span class="n">fragment</span><span class="o">=</span><span class="s">"header"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">nav</span> <span class="kd">class</span><span class="err">="</span><span class="nc">navbar</span><span class="s">"&gt;
+        &lt;a th:href="</span><span class="err">@</span><span class="o">{/}</span><span class="s">"&gt;Home&lt;/a&gt;
+        &lt;a th:href="</span><span class="err">@</span><span class="o">{/</span><span class="n">about</span><span class="o">}</span><span class="s">"&gt;About&lt;/a&gt;
+        &lt;a th:href="</span><span class="err">@</span><span class="o">{/</span><span class="n">contact</span><span class="o">}</span><span class="s">"&gt;Contact&lt;/a&gt;
+    &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;!-- fragments/footer.html --&gt;
+&lt;footer th:fragment="</span><span class="n">footer</span><span class="s">"&gt;
+    &lt;p&gt;&amp;copy; 2024 My Application&lt;/p&gt;
+&lt;/footer&gt;
+
+&lt;!-- main.html --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th="</span><span class="nl">http:</span><span class="c1">//www.thymeleaf.org"&gt;</span>
+<span class="o">&lt;</span><span class="n">head</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">title</span><span class="o">&gt;</span><span class="nc">My</span> <span class="nc">App</span><span class="o">&lt;/</span><span class="n">title</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">head</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">div</span> <span class="nl">th:</span><span class="n">replace</span><span class="o">=</span><span class="s">"~{fragments/header :: header}"</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">main</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="nc">Main</span> <span class="nc">Content</span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+        <span class="o">&lt;!--</span> <span class="nc">Page</span> <span class="n">specific</span> <span class="n">content</span> <span class="o">--&gt;</span>
+    <span class="o">&lt;/</span><span class="n">main</span><span class="o">&gt;</span>
+
+    <span class="o">&lt;</span><span class="n">div</span> <span class="nl">th:</span><span class="n">replace</span><span class="o">=</span><span class="s">"~{fragments/footer :: footer}"</span><span class="o">&gt;&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">html</span><span class="o">&gt;</span></code></pre></figure>
+
+<blockquote>
+  <p>fragment 의 단점은 경로 지정을 정확히 해주어야만 한다.</p>
+</blockquote>
+
+<p><strong>폼 처리</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">th:action</code>: form 제출 URL</li>
+  <li><code class="language-plaintext highlighter-rouge">th:method</code>: form method</li>
+  <li><code class="language-plaintext highlighter-rouge">th:field</code>: input, select, textarea value 바인딩</li>
+</ul>
+
+<p><strong>기타 유용 속성</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">th:value</code></li>
+  <li><code class="language-plaintext highlighter-rouge">th:checked</code></li>
+  <li><code class="language-plaintext highlighter-rouge">th:selected</code></li>
+  <li><code class="language-plaintext highlighter-rouge">th:disabled</code></li>
+  <li><code class="language-plaintext highlighter-rouge">th:style</code></li>
+  <li><code class="language-plaintext highlighter-rouge">th:onclick</code></li>
+</ul>
+
+<blockquote>
+  <p>가장 중요한 것은 <code class="language-plaintext highlighter-rouge">th:(HTML 의 속성 명)</code> 의 형태를 띠며, 값 내부에 java 코드를 일부 집어넣을 수 있다는 것이다. 굳이 외우지 말자.</p>
+</blockquote>
+
+<h5 id="️-spring-의-model-bindingresult-바인딩-처리-및-thymeleaf-의-bindingresult-호출">⭐️ Spring 의 Model, BindingResult 바인딩 처리 및 Thymeleaf 의 BindingResult 호출</h5>
+
+<p>교육을 들은 후 아예 프로젝트를 새로 만들어 사용하고 있을때 User 의 회원가입 요청을 받아 Post 로 요청을 주는 것을 하고 있었는데, 입력 검증으로 validate 를 하고 있을때, <code class="language-plaintext highlighter-rouge">BindingResult</code> 에서는 잘 뜨던 오류 메시지들이, 유독 thymeleaf 템플릿에서는 렌더링이 안되어서 검증 실패 오류 메시지가 안넘어가는 것을 알아내던 도중 다음 사실을 알았다.</p>
+
+<p>다음은 문제의 코드이다.</p>
+
+<p><strong>view</strong></p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">th:action=</span><span class="s">"@{/user/register}"</span> <span class="na">th:object=</span><span class="s">"${userRegisterDto}"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"username"</span><span class="nt">&gt;</span>Username<span class="nt">&lt;/label&gt;&lt;br/&gt;</span>
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"username"</span> <span class="na">th:field=</span><span class="s">"*{username}"</span> <span class="na">required</span><span class="nt">&gt;&lt;br/&gt;</span>
+	<span class="nt">&lt;span</span> <span class="na">th:if=</span><span class="s">"${#fields.hasErrors('username')}"</span> <span class="na">th:errors=</span><span class="s">"*{username}"</span> <span class="na">style=</span><span class="s">"color:red;"</span><span class="nt">&gt;&lt;/span&gt;&lt;br/&gt;</span>
+
+	<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"email"</span><span class="nt">&gt;</span>Email<span class="nt">&lt;/label&gt;&lt;br/&gt;</span>
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"email"</span> <span class="na">th:field=</span><span class="s">"*{email}"</span> <span class="na">required</span><span class="nt">&gt;&lt;br/&gt;</span>
+	<span class="nt">&lt;span</span> <span class="na">th:if=</span><span class="s">"${#fields.hasErrors('email')}"</span> <span class="na">th:errors=</span><span class="s">"*{email}"</span> <span class="na">style=</span><span class="s">"color:red;"</span><span class="nt">&gt;&lt;/span&gt;&lt;br/&gt;</span>
+    ...</code></pre></figure>
+
+<p><strong>controller</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/register"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">registerForm</span><span class="o">(</span><span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"userRegisterDto"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">UserRegisterDTO</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">));</span>
+    <span class="k">return</span> <span class="s">"user/registerForm"</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="nd">@PostMapping</span><span class="o">(</span><span class="s">"/register"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">register</span><span class="o">(</span><span class="nd">@Valid</span> <span class="nc">UserRegisterDTO</span> <span class="n">userRegisterDto</span><span class="o">,</span> <span class="nc">BindingResult</span> <span class="n">result</span><span class="o">,</span> <span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">hasErrors</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"userRegisterDto"</span><span class="o">,</span> <span class="n">userRegisterDto</span><span class="o">);</span>
+        <span class="k">return</span> <span class="s">"user/registerForm"</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="o">...</span></code></pre></figure>
+
+<p>위의 상황을 먼저 정리해보자.</p>
+
+<p><strong>Spring 이 Model 과 BindingResult 로의 바인딩 과정</strong></p>
+
+<ul>
+  <li>Spring 은 자동으로 <code class="language-plaintext highlighter-rouge">Model</code> 에 Attribute 를 바인딩 할 때, 다음 기본명명규칙을 사용한다.
+    <ul>
+      <li><strong>클래스 명</strong>을 기준으로 한다.</li>
+      <li>Ex) <code class="language-plaintext highlighter-rouge">UserRegisterDTO userRegisterDto</code> -&gt; <code class="language-plaintext highlighter-rouge">userRegisterDTO</code> 를 키로하여 바인딩</li>
+    </ul>
+  </li>
+  <li>Spring 은 <code class="language-plaintext highlighter-rouge">BindingResult</code> 의 에러 정보를 자동으로 저장할 때, 다음 규칙을 사용한다.
+    <ul>
+      <li><strong>클래스 명</strong>을 키로 하고 에러 정보를 저장한다</li>
+      <li>Ex) <code class="language-plaintext highlighter-rouge">@Valid UserRegisterDTO userRegisterDto</code>가 있다면 <code class="language-plaintext highlighter-rouge">userRegisterDTO</code> 를 키로 하고 에러 정보를 저장</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Thymeleaf 의 Error 정보를 들고 오는 과정</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Thymeleaf</code> 는 <code class="language-plaintext highlighter-rouge">th:object</code> 의 값을 키로 하여 <code class="language-plaintext highlighter-rouge">BindingResult</code> 에게 해당 키에 대한 정보를 들고오게 된다.
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">th:object</code> 명</strong>을 키로 하고 에러 정보를 들고온다</li>
+      <li>Ex) <code class="language-plaintext highlighter-rouge">th:object="userRegisterDto"</code> 라면, <code class="language-plaintext highlighter-rouge">BindingResult</code> 의 <code class="language-plaintext highlighter-rouge">userRegisterDto</code> 의 에러 정보를 들고 오게 됨</li>
+    </ul>
+  </li>
+</ul>
+
+<p>문제 상황 정리는 끝났다. 여기서 잘못된 점은 바로 모델에게 내가 직접 주입하여서 빈을 넣었기 때문이다. 즉 스프링은 정의된 약속대로 흘러가야 하는데 내가 이를 명명 규칙을 무시하고 모델에 <code class="language-plaintext highlighter-rouge">addAttribute</code> 를 토대로 넣어버린다면 어디에선가 오류가 생긴다는 것이다.</p>
+
+<p>따라서 <code class="language-plaintext highlighter-rouge">Thymeleaf</code> 는 <code class="language-plaintext highlighter-rouge">userRegisterDto</code> 를 들고와야 하는데, <code class="language-plaintext highlighter-rouge">BindingResult</code> 가 알고 있는 것은 <strong>Class 명명 규칙을 따르기 때문에 <code class="language-plaintext highlighter-rouge">userRegisterDTO</code> 에 저장된 에러 정보를 못들고 오고 빈 text 만을 렌더링 하게 되는 것이다. 이는 오류로 뜨지도 않고 알 방법도 없다.</strong></p>
+
+<p>따라서 다음으로 바꿔야 한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">thymeleaf</code> 의 <code class="language-plaintext highlighter-rouge">th:object</code> 를 수정하고, <code class="language-plaintext highlighter-rouge">Model</code> 에 들어가는 key 값도 같게 수정</li>
+  <li><code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 채택</li>
+</ul>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">ModelAttribute</code> 를 상세히 보자.</p>
+
+<h5 id="️-modelattribute-와-thymeleaf-사이의-생략-관계-정리">⭐️ @ModelAttribute 와 Thymeleaf 사이의 생략 관계 정리</h5>
+
+<p><code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 가 우선 뭔지 봐야 한다. <code class="language-plaintext highlighter-rouge">RetentionPolicy</code> 로는 함수, 인자에 사용하고, 메서드 매개변수 또는 메서드 반환 값을 이름이 지정된 모델 속성과 바인딩하여 웹 뷰에 노출하는 애너테이션이다.</p>
+
+<p>즉, 다시 말해서, <code class="language-plaintext highlighter-rouge">(name 옵션 값) : (메서드 매개변수 값)</code>, <code class="language-plaintext highlighter-rouge">(name 옵션 값) : (메서드 반환 값)</code> 으로 모델에 바인딩하여 웹 뷰에 노출한다는 것이다.</p>
+
+<p>이때 만약 name 옵션을 생략하면 어떻게 될까? 기본적으로 위에서 봤다시피 클래스 이름에서 첫 글자를 소문자로 바꾼 것을 기본 모델 이름으로 사용하며, 메서드에서도 마찬가지로 반환 타입 클래스 이름에서 첫 글자를 소문자로 바꾼 것을 사용하게 된다.</p>
+
+<p><strong><em>따라서 우리는 항상 클래스 명을 따라가야 함을 잊지 말아야 한다.</em></strong></p>
+
+<p><strong>@ModelAttribute 를 사용한 Thymeleaf 의 th:object 생략</strong></p>
+
+<p>object 없이 그냥 key-value 만을 넘겨주었을 때, <code class="language-plaintext highlighter-rouge">th:object</code> 없이 <code class="language-plaintext highlighter-rouge">*{}</code> 를 그대로 사용할 수 있게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">th:action=</span><span class="s">"@{/user/register}"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"username"</span><span class="nt">&gt;</span>Username<span class="nt">&lt;/label&gt;&lt;br/&gt;</span>
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"username"</span> <span class="na">th:field=</span><span class="s">"*{username}"</span> <span class="na">required</span><span class="nt">&gt;&lt;br/&gt;</span>
+	<span class="nt">&lt;span</span> <span class="na">th:if=</span><span class="s">"${#fields.hasErrors('username')}"</span> <span class="na">th:errors=</span><span class="s">"*{username}"</span> <span class="na">style=</span><span class="s">"color:red;"</span><span class="nt">&gt;&lt;/span&gt;&lt;br/&gt;</span>
+
+	<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"email"</span><span class="nt">&gt;</span>Email<span class="nt">&lt;/label&gt;&lt;br/&gt;</span>
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"email"</span> <span class="na">th:field=</span><span class="s">"*{email}"</span> <span class="na">required</span><span class="nt">&gt;&lt;br/&gt;</span>
+	<span class="nt">&lt;span</span> <span class="na">th:if=</span><span class="s">"${#fields.hasErrors('email')}"</span> <span class="na">th:errors=</span><span class="s">"*{email}"</span> <span class="na">style=</span><span class="s">"color:red;"</span><span class="nt">&gt;&lt;/span&gt;&lt;br/&gt;</span>
+
+	<span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"password"</span><span class="nt">&gt;</span>Password<span class="nt">&lt;/label&gt;&lt;br/&gt;</span>
+	<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"password"</span> <span class="na">id=</span><span class="s">"password"</span> <span class="na">th:field=</span><span class="s">"*{password}"</span> <span class="na">required</span><span class="nt">&gt;&lt;br/&gt;</span>
+	<span class="nt">&lt;span</span> <span class="na">th:if=</span><span class="s">"${#fields.hasErrors('password')}"</span> <span class="na">th:errors=</span><span class="s">"*{password}"</span> <span class="na">style=</span><span class="s">"color:red;"</span><span class="nt">&gt;&lt;/span&gt;&lt;br/&gt;</span>
+
+	<span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>Submit<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/form&gt;</span></code></pre></figure>
+
+<p><strong>@ModelAttribute 의 생략을 이용한 Thymeleaf 의 th:object 자동 바인딩</strong></p>
+
+<p>이걸 말하기 전에 <code class="language-plaintext highlighter-rouge">HandlerMethodArgumentResolver</code> 을 먼저 보아야 한다. 스프링이 내부적으로 어떻게 argument 를 해결하는지를 보자.</p>
+
+<p>스프링 MVC 는 컨트롤러 메서드 매개변수를 처리할 때 <code class="language-plaintext highlighter-rouge">HandlerMethodArgumentResolver</code> 를 사용하게 된다. 이 놈은 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code> 가 결정된 컨트롤러 메서드를 호출하려고 준비한 후에 실행되는 애이고, 다음 역할을 한다:</p>
+
+<ul>
+  <li>컨트롤러 메서드의 매개변수를 해석하고</li>
+  <li><strong>필요한 객체를 생성 및 바인딩</strong></li>
+</ul>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code> 는 <code class="language-plaintext highlighter-rouge">HandlerMethodArgumentResolver</code> 가 만들어준 값으로 메서드를 호출하게 된다.</p>
+
+<blockquote>
+  <p>매개변수가 스프링이 관리할 수 있는 POJO 라면, <code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 가 자동 적용된다.</p>
+</blockquote>
+
+<p>이때 스프링이 바인딩을 다음과 같이 하게 된다.</p>
+
+<ol>
+  <li>스프링이 새 객체를 생성하게 된다(빈 생성자를 토대로 함).</li>
+  <li>⭐️ HTTP 요청 파라미터가 있다면 setter 나 field 를 통해 객체에 값을 채운다.
+    <ul>
+      <li>Ex) <code class="language-plaintext highlighter-rouge">UserRegisterDTO</code> 에 <code class="language-plaintext highlighter-rouge">username</code>, <code class="language-plaintext highlighter-rouge">email</code> 등이 있다고 치면, 쿼리 스트링에<br />
+ <code class="language-plaintext highlighter-rouge">?username=park&amp;email=a@b.com</code> 으로 있으면 자동으로 채워줌</li>
+    </ul>
+  </li>
+  <li>객체를 모델에 기본 이름(class 이름의 첫 글자를 소문자로 바꾼 명칭) 으로 자동 추가한다.</li>
+  <li>뷰에서 <code class="language-plaintext highlighter-rouge">th:object="${기본 이름}"</code> 으로 사용할 수 있게 된다</li>
+</ol>
+
+<blockquote>
+  <p>TIP. 따라서 <code class="language-plaintext highlighter-rouge">GET</code> 요청일 때는 보통 비어 있는 DTO 를 생성하여서 <strong>form backing object</strong> 로 사용하게 된다.<br />
+TIP. <code class="language-plaintext highlighter-rouge">POST</code> 요청 시에는 <code class="language-plaintext highlighter-rouge">HTTP</code> 파라미터가 채워진 DTO 가 전달되게 될 것이다.</p>
+</blockquote>
+
+<p>이제 언제 이런 자동 바인딩이 일어나는 지를 살펴보자.</p>
+
+<p><strong>자동 바인딩이 일어나는 규칙</strong></p>
+
+<ol>
+  <li>POJO 객체
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 가 자동 적용됨</li>
+      <li><code class="language-plaintext highlighter-rouge">GET</code>/<code class="language-plaintext highlighter-rouge">POST</code> 상관 없이 HTTP 파라미터를 객체 필드에 바인딩</li>
+      <li>자동 모델 이름으로 클래스명 첫 글자 소문자로 함(이게 싫으면 <code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 쓰기)</li>
+    </ul>
+  </li>
+  <li>특별한 타입 (<code class="language-plaintext highlighter-rouge">Model</code>, <code class="language-plaintext highlighter-rouge">HttpServletRequest</code>, <code class="language-plaintext highlighter-rouge">BindingResult</code>, <code class="language-plaintext highlighter-rouge">Principal</code> 등)
+    <ul>
+      <li>POJO 객체 바인딩과는 별도로 스프링이 직접 제공하며,</li>
+      <li>모델에 자동으로 추가가 안된다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">BindingResult</code>
+    <ul>
+      <li><strong>항상 바로 앞의 <code class="language-plaintext highlighter-rouge">@Valid</code> 또는 <code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 객체와 쌍으로 사용</strong>하도록 되어 있고, 다른 POJO 객체와 순서가 섞이면 오류가 발생하게 된다.</li>
+    </ul>
+  </li>
+</ol>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">BindingResult</code> 는 항상 POJO 객체와 1:1 로 쌍을 이루면서 등장한다. 따라서 POJO 가 2개면 <code class="language-plaintext highlighter-rouge">BindingResult</code> 인자도 2개 들어가야 한다.</p>
+</blockquote>
+
+<p>이것들만 지키면 항상 자동 바인딩은 일어난다.</p>
+
+<h5 id="forwarding-과정">Forwarding 과정</h5>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">Forwarding</code> 이 어떻게 동작하는지 완벽히 이해가 가능하다.</p>
+
+<ol>
+  <li>HTTP <code class="language-plaintext highlighter-rouge">POST</code> 요청을 통해 WAS 를 거쳐 <code class="language-plaintext highlighter-rouge">HttpServletRequest</code> 와 <code class="language-plaintext highlighter-rouge">HttpServletResponse</code> 를 생성하게 된다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">HttpServletRequest</code> 와 <code class="language-plaintext highlighter-rouge">HttpServletResponse</code> 객체는 요청-응답 생명주기를 대표하는 객체</li>
+    </ul>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 가 이를 받고 받은 <code class="language-plaintext highlighter-rouge">HttpRequest</code> 에서의 path 를 <code class="language-plaintext highlighter-rouge">HandlerMapping</code> 에 주게 된다.</p>
+  </li>
+  <li>받은 path 에 알맞은 mapping 함수를 <code class="language-plaintext highlighter-rouge">Controller</code> 에서 골라지게 된다.
+    <ul>
+      <li>정확히는 <code class="language-plaintext highlighter-rouge">HandlerMapping</code> 목록을 순회하며, 이 URL 요청을 처리할 수 있는 <code class="language-plaintext highlighter-rouge">Controller</code> 의 메서드를 탐색한다.</li>
+      <li>찾은 결과를 <code class="language-plaintext highlighter-rouge">HandlerExecutionChain</code> 객체로 래핑 후 반환한다.</li>
+      <li>여기에 실제 <code class="language-plaintext highlighter-rouge">Controller</code> 메서드와 <code class="language-plaintext highlighter-rouge">Interceptor</code> 체인이 포함되게 된다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 은 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code> 를 통해 받았던 데이터(<code class="language-plaintext highlighter-rouge">header</code>, <code class="language-plaintext highlighter-rouge">body</code> 등등)를 <code class="language-plaintext highlighter-rouge">Controller</code> 에 넘겨 주게 된다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Controller</code> 마다 호출 방식이 다르기 때문에 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 은 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code> 를 사용해 호출 과정을 추상화한다.</li>
+      <li>Spring 은 기본적으로 <code class="language-plaintext highlighter-rouge">RequestMappingHandlerAdapter</code> 를 사용하고, <code class="language-plaintext highlighter-rouge">ArgumentResolver</code> 와 <code class="language-plaintext highlighter-rouge">ReturnValueHandler</code> 체계를 통하여 매개변수를 분석(<code class="language-plaintext highlighter-rouge">@RequestParam</code>, <code class="language-plaintext highlighter-rouge">@ModelAttribute</code>, <code class="language-plaintext highlighter-rouge">@RequestBody</code> 등)하고, 반환값을 해석 하게 된다(<code class="language-plaintext highlighter-rouge">String</code>, <code class="language-plaintext highlighter-rouge">ModelAndView</code>, <code class="language-plaintext highlighter-rouge">ResponseBody</code> 등)</li>
+    </ul>
+  </li>
+  <li>
+    <p>이제 <code class="language-plaintext highlighter-rouge">Controller</code> 는 내부적으로 비즈니스 로직을 실행시켜 알맞은 결과값을 반환 후</p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Model</code> 을 통해 넘겨줄 데이터들을 정해준 후에 뷰 이름을 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code> 에게 반환하게 된다.
+    <ul>
+      <li>여기서 <code class="language-plaintext highlighter-rouge">Controller</code> 가 리턴한 값을 받아 <code class="language-plaintext highlighter-rouge">ModelAndView</code> 객체로 통합하게 된다.</li>
+      <li>만약 반환 타입이 <code class="language-plaintext highlighter-rouge">String</code> 이면 <code class="language-plaintext highlighter-rouge">viewName</code> 으로 해석하고,</li>
+      <li>별도로 <code class="language-plaintext highlighter-rouge">Model</code> 에 저장된 데이터를 함께 담는다.</li>
+      <li>이때 4번 단계에서 <code class="language-plaintext highlighter-rouge">ModelAndView</code>, <code class="language-plaintext highlighter-rouge">ResponseBody</code> 등으로 리턴하면 수행 단계가 조금 달라지긴 한다. 그 자체를 그대로 사용하게 된다.</li>
+    </ul>
+  </li>
+</ol>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">ModelAndView</code> 로 이미 <code class="language-plaintext highlighter-rouge">Controller</code> 에서 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code> 에게 반환되었다면 6번 과정은 생략하고 다음 단계로 이동한다.</p>
+</blockquote>
+
+<ol>
+  <li>그러고 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 이 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code> 로 부터 받은 <code class="language-plaintext highlighter-rouge">viewName</code> 을 가지고, <code class="language-plaintext highlighter-rouge">ViewResolver</code> 에게 어떤 view 를 쓸 지를 정하게 되고,
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 은 <code class="language-plaintext highlighter-rouge">viewName</code> 을 <code class="language-plaintext highlighter-rouge">ViewResolver</code> 에게 넘긴다(<code class="language-plaintext highlighter-rouge">ModelAndView</code> 를 받았다면 이 과정은 없다).</li>
+      <li><code class="language-plaintext highlighter-rouge">ViewResolver</code> 는 논리 뷰 이름(logical view name) 을 물리적 리소스 경로로 변환하여 <code class="language-plaintext highlighter-rouge">View</code> 객체(<code class="language-plaintext highlighter-rouge">ThymeleafView</code>, <code class="language-plaintext highlighter-rouge">JstlView</code> 등)으로 변환한다 (<code class="language-plaintext highlighter-rouge">ThymeleafViewResolver</code>, <code class="language-plaintext highlighter-rouge">InternalResourceViewResolver</code> 등이 <code class="language-plaintext highlighter-rouge">ViewResolver</code> 의 대표적 구현체이다)</li>
+      <li>최종적으로 <code class="language-plaintext highlighter-rouge">View</code> 가 생성된다.</li>
+    </ul>
+  </li>
+  <li>그 다음 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 은 받았던 <code class="language-plaintext highlighter-rouge">HttpServletResponse</code> 와 함께 View 로 <code class="language-plaintext highlighter-rouge">forwarding</code> 을 해주고,
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 은 선택된 <code class="language-plaintext highlighter-rouge">View</code> 객체의 <code class="language-plaintext highlighter-rouge">render()</code> 메서드를 호출하고, 이때 <code class="language-plaintext highlighter-rouge">HttpServletRequest</code>, <code class="language-plaintext highlighter-rouge">HttpServletResponse</code> 이 전달된다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">View</code> 에서는 <code class="language-plaintext highlighter-rouge">ViewResolver</code> 를 통해 알맞은 <code class="language-plaintext highlighter-rouge">View</code> 가 생성되고, <code class="language-plaintext highlighter-rouge">View</code> 는 <code class="language-plaintext highlighter-rouge">Model</code> 을 참조하여서 결과들을 가져오고 완전한 문서를 만들게 된다
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">View</code> 는 <code class="language-plaintext highlighter-rouge">Model</code> 의 데이터를 참조하고, 렌더링 결과는 <code class="language-plaintext highlighter-rouge">HttpServletResponse</code> 의 body 로 직접 작성되게 된다.</li>
+      <li>렌더링이 끝나면 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 이 <code class="language-plaintext highlighter-rouge">response.flushBuffer()</code> 후 요청-응답 객체는 소멸된다.</li>
+    </ul>
+  </li>
+</ol>
+
+<h5 id="redirecting-과정">Redirecting 과정</h5>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">Redirecting</code> 이 어떻게 동작하는지 완벽히 이해가 가능하다.</p>
+
+<p><strong>Controller 의 return 값이 <code class="language-plaintext highlighter-rouge">"redirect:"</code> 접두어를 포함한 String 일 때</strong></p>
+
+<ol>
+  <li>
+    <p>사용자가 <code class="language-plaintext highlighter-rouge">POST</code> 요청을 보낸다. WAS(Tomcat 등)가 이를 받아 <code class="language-plaintext highlighter-rouge">HttpServletRequest</code>, <code class="language-plaintext highlighter-rouge">HttpServletResponse</code> 객체를 생성하고 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 에게 요청을 전달한다.</p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 은 요청의 URI 정보를 확인하여 <code class="language-plaintext highlighter-rouge">HandlerMapping</code> 에게 어떤 <code class="language-plaintext highlighter-rouge">Controller</code> 가 처리해야 하는지 조회를 맡긴다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">HandlerMapping</code> 은 요청 정보를 기반으로 적절한 <code class="language-plaintext highlighter-rouge">@RequestMapping</code> 메서드를 찾아 <code class="language-plaintext highlighter-rouge">HandlerExecutionChain</code> 으로 감싸 반환한다.</li>
+      <li>이 객체에는 <strong>Controller 메서드</strong>와 <strong>Interceptor 체인</strong>이 포함된다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 은 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code> 를 통해 해당 <code class="language-plaintext highlighter-rouge">Controller</code> 메서드를 실행한다.
+    <ul>
+      <li>이때 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code> 는 <code class="language-plaintext highlighter-rouge">ArgumentResolver</code>, <code class="language-plaintext highlighter-rouge">ReturnValueHandler</code> 를 통해 요청 데이터를 파라미터에 바인딩하고, 반환 타입(<code class="language-plaintext highlighter-rouge">String</code>, <code class="language-plaintext highlighter-rouge">ModelAndView</code>, <code class="language-plaintext highlighter-rouge">ResponseBody</code>) 을 분석한다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Controller</code> 가 비즈니스 로직을 처리한 후, <code class="language-plaintext highlighter-rouge">return "redirect:/users/welcome";</code> 처럼 <code class="language-plaintext highlighter-rouge">"redirect:"</code> 로 시작하는 문자열을 반환한다.
+    <ul>
+      <li>이 접두어는 Spring MVC 내부에서 <strong>RedirectView</strong> 로 자동 변환되도록 트리거한다.</li>
+    </ul>
+  </li>
+  <li>⭐️ <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 은 반환된 뷰 이름을 확인하고, <code class="language-plaintext highlighter-rouge">"redirect:"</code> 접두어가 포함되어 있음을 감지하면 <strong><code class="language-plaintext highlighter-rouge">RedirectView</code></strong> 를 생성한다.
+    <ul>
+      <li>⭐️ 이때는 <strong>ViewResolver</strong> 를 거치지 않는다.</li>
+      <li>⭐️ 대신 <code class="language-plaintext highlighter-rouge">RedirectView</code> 의 <code class="language-plaintext highlighter-rouge">render()</code> 가 호출되어 <code class="language-plaintext highlighter-rouge">HttpServletResponse</code> 에 <code class="language-plaintext highlighter-rouge">302 Found</code> 상태 코드와 <code class="language-plaintext highlighter-rouge">Location</code> 헤더를 설정한다.</li>
+    </ul>
+  </li>
+  <li>응답이 클라이언트(브라우저)로 전송된다.
+    <ul>
+      <li>응답 헤더 예시:
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP/1.1 302 Found
+Location: /users/welcome
+</code></pre></div>        </div>
+      </li>
+      <li>브라우저는 이를 보고 <code class="language-plaintext highlighter-rouge">/users/welcome</code> 으로 <strong>새로운 GET 요청</strong>을 자동으로 보낸다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>새로운 GET 요청이 발생하면 WAS 는 다시 <code class="language-plaintext highlighter-rouge">HttpServletRequest</code>, <code class="language-plaintext highlighter-rouge">HttpServletResponse</code> 를 새로 생성하고, 다시 1~4번의 <strong>Forwarding 과정</strong>과 동일한 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 처리 흐름을 거친다.</p>
+  </li>
+  <li>이때, 이전 요청의 <code class="language-plaintext highlighter-rouge">Model</code> 데이터는 유지되지 않는다.
+    <ul>
+      <li>대신 <code class="language-plaintext highlighter-rouge">RedirectAttributes.addFlashAttribute()</code> 로 추가된 데이터는 <strong>일시적 세션(FlashMap)</strong> 에 저장되어 새 요청 시점에 한 번만 사용된다.</li>
+      <li>이후 요청이 완료되면 <code class="language-plaintext highlighter-rouge">FlashMap</code> 데이터는 자동 소멸된다.</li>
+    </ul>
+  </li>
+  <li>새로운 <code class="language-plaintext highlighter-rouge">Controller</code> 메서드(<code class="language-plaintext highlighter-rouge">/users/welcome</code>) 가 호출되고, 뷰 렌더링이 완료되면 최종 HTML 응답이 브라우저에 전달된다.</li>
+</ol>
+
+<blockquote>
+  <p>즉, Redirect 는 <strong>“요청이 두 번 일어난다”</strong>.<br />
+첫 번째 요청은 서버의 302 응답으로 끝나고,<br />
+두 번째 요청이 실제 결과 페이지를 렌더링한다.<br />
+따라서 Forward 와 달리 <strong>URL 이 바뀌며, Model 데이터는 유지되지 않는다.</strong></p>
+</blockquote>
+
+<h5 id="forward-vs-redirect-비교-요약">Forward vs Redirect 비교 요약</h5>
+
+<table>
+  <thead>
+    <tr>
+      <th>구분</th>
+      <th>Forward</th>
+      <th>Redirect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>요청 횟수</td>
+      <td>1회</td>
+      <td>2회 (POST → GET)</td>
+    </tr>
+    <tr>
+      <td>URL 변경</td>
+      <td>❌ 그대로 유지</td>
+      <td>✅ 변경됨</td>
+    </tr>
+    <tr>
+      <td>데이터 전달</td>
+      <td><code class="language-plaintext highlighter-rouge">Model</code> 로 전달</td>
+      <td><code class="language-plaintext highlighter-rouge">FlashAttribute</code> 로 1회 전달</td>
+    </tr>
+    <tr>
+      <td>처리 방식</td>
+      <td>서버 내부 이동</td>
+      <td>클라이언트 재요청</td>
+    </tr>
+    <tr>
+      <td>주 용도</td>
+      <td>단순 뷰 렌더링</td>
+      <td><code class="language-plaintext highlighter-rouge">PRG(Post-Redirect-Get)</code> 패턴, URL 노출 변경 등</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">Forward</code> 는 “서버 내부 이동”<br />
+<code class="language-plaintext highlighter-rouge">Redirect</code> 는 “클라이언트 재요청”<br />
+— 이 한 줄만 정확히 기억하면, Spring MVC 흐름은 완전히 잡은 것이다.</p>
+</blockquote>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/16/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-37%EC%9D%BC%EC%B0%A8-Spring-mvc-%EA%B8%B0%EC%B4%88.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/16/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-37%EC%9D%BC%EC%B0%A8-Spring-mvc-%EA%B8%B0%EC%B4%88.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

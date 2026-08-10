@@ -1,0 +1,15 @@
+.profile-container {
+  display: grid;
+  grid-template-columns: auto 1fr; /* 첫 번째 열은 이미지 크기, 두 번째 열은 남은 공간 */
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-image img {
+  width: 200px;
+  border-radius: 50%;
+}
+
+.profile-text {
+  /* 추가적인 스타일링 */
+}

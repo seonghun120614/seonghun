@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>1.3 Computer System Architecture</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>1.3 Computer System Architecture | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="1.3 Computer System Architecture" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="컴퓨터 시스템은 프로세서의 수와 배치 구조에 따라 다양한 아키텍처로 구분된다. 본 글에서는 단일 프로세서 시스템부터 멀티프로세서, 클러스터 시스템까지 주요 구조를 체계적으로 살펴본다." />
+<meta property="og:description" content="컴퓨터 시스템은 프로세서의 수와 배치 구조에 따라 다양한 아키텍처로 구분된다. 본 글에서는 단일 프로세서 시스템부터 멀티프로세서, 클러스터 시스템까지 주요 구조를 체계적으로 살펴본다." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/13/1.3-computer-system-architecture.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/13/1.3-computer-system-architecture.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-06-13T05:25:51+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="1.3 Computer System Architecture" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-06-13T05:25:51+00:00","datePublished":"2025-06-13T05:25:51+00:00","description":"컴퓨터 시스템은 프로세서의 수와 배치 구조에 따라 다양한 아키텍처로 구분된다. 본 글에서는 단일 프로세서 시스템부터 멀티프로세서, 클러스터 시스템까지 주요 구조를 체계적으로 살펴본다.","headline":"1.3 Computer System Architecture","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/13/1.3-computer-system-architecture.html"},"url":"https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/13/1.3-computer-system-architecture.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/computerscience/os/2025/06/13/1.3-computer-system-architecture.html">
+        <h2 class="post-title">1.3 Computer System Architecture</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Jun 13, 2025</div><ul class="post-categories"><li>ComputerScience</li><li>OS</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+<p>컴퓨터 시스템은 프로세서의 수와 배치 구조에 따라 다양한 아키텍처로 구분된다. 본 글에서는 단일 프로세서 시스템부터 멀티프로세서, 클러스터 시스템까지 주요 구조를 체계적으로 살펴본다.</p>
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#131-single-processor-systems">1.3.1 Single-Processor Systems</a>
+    <ul>
+      <li><a href="#single-core">Single Core</a></li>
+      <li><a href="#special-purpose-processor">Special-purpose Processor</a></li>
+    </ul>
+  </li>
+  <li><a href="#132-multiprocessor-systems">1.3.2 Multiprocessor Systems</a>
+    <ul>
+      <li><a href="#symmetric-multiprocessing-smp">Symmetric MultiProcessing, SMP</a></li>
+      <li><a href="#multi-core-system">Multi-Core System</a></li>
+      <li><a href="#확장성의-한계와-numa">확장성의 한계와 NUMA</a></li>
+      <li><a href="#blade-server">Blade Server</a></li>
+    </ul>
+  </li>
+  <li><a href="#133-cluster-systems">1.3.3 Cluster System</a>
+    <ul>
+      <li><a href="#high-availability-service">High Availability Service</a></li>
+      <li><a href="#cluster-structures">Cluster Structures</a></li>
+      <li><a href="#parallel-cluster--hpc">Parallel Cluster &amp; HPC</a></li>
+      <li><a href="#wan-clustering--shared-disk">WAN Clustering &amp; Shared Disk</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>일반적인 컴퓨터 시스템은 사용되는 범용 <strong><a href="#processor">프로세서</a></strong>의 수에 따라 대략적으로 분류 가능하다.</p>
+
+<h3 id="131-single-processor-systems">1.3.1 Single-Processor Systems</h3>
+
+<p>컴퓨터 시스템은 <strong>사용되는 프로세서 수와 구조</strong>에 따라 다음과 같이 구분된다.</p>
+
+<h4 id="single-core">Single Core</h4>
+
+<ul>
+  <li>하나의 <strong><a href="#cpu">CPU</a></strong> + <strong>하나의 <a href="#core">Core</a></strong>를 가지는 시스템이다.</li>
+  <li>CPU는 <strong><a href="#general-purpose-instruction-set">General-purpose Instruction Set</a></strong> 및 <strong><a href="#사용자-프로세스">사용자 프로세스</a></strong>를 실행 가능하다.</li>
+</ul>
+
+<h4 id="special-purpose-processor">Special-purpose Processor</h4>
+
+<ul>
+  <li>디스크, 키보드, 그래픽 컨트롤러등에 <strong>전용 마이크로프로세서</strong>가 탑재된 걸 <strong>특수 목적 프로세서</strong>라고 한다.</li>
+  <li><strong><a href="#special-purpose-instruction-set">Special-purpose Instruction Set</a></strong>만을 실행하고, 일반적인 프로세스를 실행하지 않는다.</li>
+  <li>운영체제가 이들을 직접 제어하거나 상태를 모니터링 한다.</li>
+</ul>
+
+<blockquote>
+  <p>예시
+디스크 컨트롤러 마이크로프로세서: 메인 CPU로 부터 요청을 받아서 자체 <strong><a href="#disk-queue">Disk Queue</a> 및 <a href="#scheduling-algorithm">Scheduling Algorithm</a></strong>을 실행
+키보드 내부 마이크로 프로세서: <strong>키 입력을 감지하고 코드로 변환</strong>하여 CPU로 전송하는 마이크로 프로세서가 내장</p>
+</blockquote>
+
+<p>다른 시스템이나 상황에서는 이러한 특수 목적 프로세서가 하드웨어에 저수준 컴포넌트로 내장되어 있다. 운영체제는 이들과 직접 통신은 못하고 프로세서가 독립적으로 작업을 수행하게 된다.</p>
+
+<p><strong>특수 목적 마이크로 프로세서가 여러개 있다고 시스템이 멀티 프로세서 시스템이 되는 것은 아니다.</strong></p>
+
+<h3 id="132-multiprocessor-systems">1.3.2 Multiprocessor Systems</h3>
+
+<p>단일 처리는 느릴 수 있고 CPU가 연산 처리하는데 있어 다수의 Device의 요청을 받게 되면 지연될 수 있다.</p>
+
+<p>이러한 시스템은 컴퓨터 하나에 두 개 이상의 Processor를 가지는 형태로 구성하여 <strong><a href="#throughput">Throughput(처리량)</a></strong>과 속도를 늘릴 수 있다. 프로세서들은 <strong><a href="#computer-bus">Computer Bus</a></strong>를 공유하며 <strong><a href="#clock-signal">Clock Signal</a></strong>, 메모리, 주변 장치를 공유한다. 하지만 <strong>N개의 프로세서를 사용한다고 해서 성능이 N배 빨라지는 것은 아니다.</strong></p>
+
+<p>이는 각 구성 요소들이 제대로 작동하도록 유지하는 데 드는 오버헤드가 발생하기 때문이며, 공유 자원에 대한 <strong><a href="#contention">Contention(경합)</a></strong> 도 추가로 발생하기 때문에 기대에 못미치는 성능 향상을 얻을 수 있다.</p>
+
+<p>멀티프로세서 시스템에서도 두 가지로 크게 나눌 수 있다.</p>
+
+<h4 id="symmetric-multiprocessing-smp">Symmetric MultiProcessing, SMP</h4>
+
+<p>각 CPU 프로세서가 동등한 입장에서 운영체제의 기능과 사용자 프로세스를 모두 처리할 수 있는 시스템을 <strong>Symmetric MultiProcessing System</strong> 이라고 한다.</p>
+
+<p><img src="/seonghun120614/assets/img/symmetric-multiprocessing-architecture.png" alt="symmetric-multiprocessing-architecture" /></p>
+
+<p>각 CPU는 자신만의 <strong><a href="#register-set">Register Set</a></strong>과 <strong>Local Cache</strong>를 가지고 있지만, 모든 프로세서는 <strong>System Bus</strong>를 통해 물리적 메모리를 공유한다.</p>
+
+<p>장점으로는:</p>
+<ul>
+  <li>N개의 CPU가 있다면 N개의 프로세스가 동시에 실행이 가능하다.</li>
+  <li>전체 시스템의 성능이 크게 저하되지 않는다.</li>
+</ul>
+
+<p>단점으로는 어떤 CPU 는 <strong>Idle</strong> 인 반면, 다른 CPU 는 <strong>Overrloaded</strong> 상태가 되는 비효율이 발생할 수 있다.</p>
+
+<p>이런 비효율성은 프로세서 간에 특정 데이터 구조나 자원을 공유함으로써 이를 완화할 수 있다. 시스템은 <strong>프로세스나 자원을 동적으로 여러 프로세서 사이에서 공유할 수 있어서 프로세서 간 작업량의 편차를 줄이는데 도움</strong>이 많이 된다.</p>
+
+<p>하지만 공유에 있어서 <strong>자원의 제어권을 명백히 구분해야하기 때문에 매우 신중하게 설계</strong>되어야 한다.</p>
+
+<h4 id="multi-core-system">Multi-Core System</h4>
+
+<p>멀티프로세서 시스템에서 <strong>하나의 칩에 여러 연산 코어가 존재하는 멀티 코어 시스템</strong>도 포함된다.</p>
+
+<p><img src="/seonghun120614/assets/img/a-dual-core-design-with-two-cores-on-the-same-chip.png" alt="a-dual-core-design-with-two-cores-on-the-same-chip" /></p>
+
+<ul>
+  <li><strong><a href="#on-chip-communication">칩 내부의 코어 간 통신(on-chip communication)</a></strong> 이 <strong>칩 간 통신(between-chip communication)</strong>보다 훨씬 빠르기 때문에 단일 코어를 여러 칩에 나눠 배치하는 구조보다 더 효율적</li>
+  <li>전력을 훨씬 더 적게 소비</li>
+  <li>각 코어는 <strong>Register Set</strong> + <strong><a href="#l1-cache">L1 Cache</a></strong> 보유, 각 프로세스는 <strong><a href="#l2-cache">L2 Cache</a></strong>를 통해 칩끼리 메모리 공유</li>
+</ul>
+
+<p>운영체제 입장에서는 N개의 일반적인 CPU 처럼 보이게 된다.</p>
+
+<p>따라서 운영체제 설계자와 어플리케이션 프로그래머에게 이러한 처리 코어들을 효율적으로 활용해야 할 부담을 가지게 되는데 이는 추후에 다룬다.</p>
+
+<p><strong>연산 처리 계층적 구조 정리</strong></p>
+<ul>
+  <li>Processor (물리적 칩)
+    <ul>
+      <li>Core (실제 연산 단위)
+        <ul>
+          <li>Register Set (가장 빠르고 가장 작은 기억장소)</li>
+          <li>L1 Cache (코어별 고속 캐시)</li>
+          <li>L2 Cache (대부분 코어 간 공유되는 캐시)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="확장성의-한계와-numa">확장성의 한계와 NUMA</h4>
+
+<p>멀티 프로세서 시스템에 CPU를 추가하면 계산 성능은 증가하지만, 무한히 확장되지는 않는다. 또한 <strong>CPU를 너무 많이 추가하면 시스템 버스에 대한 경쟁이 병목되어서 성능이 오히려 저하</strong>가 된다.</p>
+
+<p>이를 해결하기 위해</p>
+<ul>
+  <li>각 CPU에 <strong><a href="#전용-로컬-메모리">전용 로컬 메모리</a></strong>를 제공</li>
+  <li>CPU 간에는 <strong><a href="#system-interconnect">System Interconnect</a></strong> 로 연결 -&gt; <strong>모든 CPU가 하나의 물리적 주소 공간 보유</strong></li>
+</ul>
+
+<p><img src="/seonghun120614/assets/img/NUMA-multiprocessing-architecture.png" alt="NUMA-multiprocessing-architecture" /></p>
+
+<h4 id="blade-server">Blade Server</h4>
+
+<p>여러 개의 <strong><a href="#processor-board">Processor Board</a></strong>, <strong><a href="#io-board">I/O Board</a></strong>, <strong><a href="#network-board">Network Board</a></strong> 등이 하나의 <strong><a href="#chassis">Chassis</a></strong> 안에 포함된 시스템이다.</p>
+
+<p>각 블레이드 <strong>Processor Board</strong>가 독립적으로 부팅되고, 자체 운영체제를 실행하는 구조이며, 여러 개의 독립적인 멀티프로세서 시스템으로 구성된다.</p>
+
+<p><strong>멀티프로세서 시스템</strong>이 한 시스템 내의 <strong>CPU 확장을 다룬다</strong>면, <strong>클러스터 시스템</strong>은 <strong>여러 독립적인 시스템(= Node)을 확장</strong>하여 하나의 논리적 시스템처럼 작동하게 한다.</p>
+
+<h3 id="133-cluster-systems">1.3.3 Cluster Systems</h3>
+
+<p><strong>여러 독립적인 노드(멀티코어 컴퓨터 시스템)</strong>를 네트워크로 느슨하게 연결하여 구성한 시스템이며, 공유 저장소를 사용하여 각 노드끼리 <strong><a href="#lan">LAN</a> / <a href="#infiniband">InfiniBand</a> 등</strong>으로 상호 통신을 한다.</p>
+
+<h4 id="high-availability-service">High Availability Service</h4>
+
+<p>Cluster System 은 기본적으로 <strong><a href="#high-availability">High Availability</a></strong> 를 제공한다. High Availability 는 일부 노드가 장애가 발생하여도 서비스는 계속 지속될 때 얻을 수 있다.</p>
+
+<p>고가용성은 다음 두 개념을 만족하는 개념이다:</p>
+<ul>
+  <li><strong>Graceful Degradation</strong>: 일부 하드웨어가 고장나도 남은 자원으로 서비스 유지</li>
+  <li><strong>Fault Tolerance</strong>: 단일 구성 요소(노드)가 고장나도 시스템이 끊김 없이 계속 동작</li>
+</ul>
+
+<p>이렇게 봤을 때 <strong>Clustering System</strong> 은 다음 두 가지로 분류될 수 있다.</p>
+
+<h4 id="cluster-structures">Cluster Structures</h4>
+
+<ul>
+  <li><strong>Asymmetric</strong>: 한 노드는 <strong><a href="#hot-stanby-mode">Hot-stanby Mode</a></strong>, 나머지 노드가 작업을 수행</li>
+  <li><strong>Symmetric</strong>: 여러 호스트가 동시에 다수의 실행 가능한 어플리케이션을 실행하며 상호 모니터링 수행</li>
+</ul>
+
+<h4 id="parallel-cluster--hpc">Parallel Cluster &amp; HPC</h4>
+
+<p>클러스터를 병렬 처리 환경으로 사용하여 연산 성능을 극대화 가능</p>
+<ul>
+  <li>여러 노드가 동일한 저장소에 접근 가능</li>
+  <li>프로그램을 여러 작업 단위로 나눠 여러 노드에서 병렬 실행</li>
+  <li>모든 노드의 계산 결과를 통합하여 최종 결과물 생성</li>
+</ul>
+
+<h4 id="wan-clustering--shared-disk">WAN Clustering &amp; Shared Disk</h4>
+
+<ul>
+  <li><a href="#wan-wide-area-network">WAN</a> 환경에서도 클러스터 가능</li>
+  <li><strong>Parallel Cluster</strong>는 여러 노드가 동일한 <strong>저장소(공유 디스크)</strong>에 동시에 접근하지만 일반 OS는 동시 접근 미지원</li>
+  <li>이때 동시에 데이터를 접근해야하는 경우는 락 관리 및 접근 제어가 필요하게 된다 -&gt; <strong><a href="#distributed-lock-manager-dlm">Distributed Lock Manager(DLM)</a></strong> 소프트웨어 사용</li>
+</ul>
+
+<hr />
+
+<h2 id="️-용어">✒️ 용어</h2>
+
+<h6 id="cpu">CPU</h6>
+
+<p>명령어들을 수행하는 하드웨어이다.</p>
+
+<h6 id="core">Core</h6>
+
+<p><strong>명령어를 실행</strong>하고 데이터를 저장하기 위한 <strong>Register 집합을 포함하는 구성요소이며 CPU의 가장 기본적 연산 단위</strong>이다.</p>
+
+<h6 id="processor">Processor</h6>
+
+<p>하나 이상의 코어를 포함할 수 있는 연산 장치로, 일반적으로는 <strong>하나의 물리적인 CPU 칩</strong>을 말한다.</p>
+
+<h6 id="multicore">Multicore</h6>
+
+<p>다수의 Core들을 동일 CPU 에 배치한 형태이다.</p>
+
+<h6 id="multiprocessor">Multiprocessor</h6>
+
+<p>다수의 프로세서를 포함하는 형태이다.</p>
+
+<h6 id="smp-symmetric-multiprocessing">SMP (Symmetric Multiprocessing)</h6>
+
+<p>각 CPU가 동등한 권한으로 OS와 사용자 작업을 수행하는 구조로, 물리 메모리를 공유함</p>
+
+<h6 id="l1-cache">L1 Cache</h6>
+
+<p>각 코어에 직접 연결된 매우 작은 용량의 고속 캐시 메모리</p>
+
+<h6 id="l2-cache">L2 Cache</h6>
+
+<p>같은 칩 내부의 여러 코어가 공유하는 중간 속도의 캐시 메모리</p>
+
+<h6 id="numa-non-uniform-memory-access">NUMA (Non-Uniform Memory Access)</h6>
+
+<p>각 CPU에 전용 메모리를 두고, 전체적으로는 공유 주소 공간을 유지하는 구조</p>
+
+<h6 id="on-chip-communication">On-Chip Communication</h6>
+
+<p>동일한 칩 내부에서 발생하는 통신으로, 매우 빠르고 전력 효율이 높음</p>
+
+<h6 id="blade-server-1">Blade Server</h6>
+
+<p>여러 개의 독립적인 시스템 보드(CPU, I/O, 네트워크 등)를 하나의 섀시에 탑재한 서버 형태</p>
+
+<h6 id="processor-board">Processor Board</h6>
+
+<p>CPU와 메모리 등이 탑재된 <strong>블레이드 서버의 핵심 연산 유닛</strong>. 각 블레이드 서버는 <strong>각각의 독립적인 Processor Board를 가지고 있어 자체적으로 연산과 처리가 가능</strong>하다.</p>
+
+<h6 id="io-board">I/O Board</h6>
+
+<p>입출력 장치와의 연결을 담당하는 보드. 디스크, 키보드, 마우스, USB 등 다양한 장치와의 인터페이스를 제공한다. <strong>입출력 흐름을 제어하고 데이터 전송을 중재하는 역할</strong>을 한다.</p>
+
+<h6 id="network-board">Network Board</h6>
+
+<p>네트워크 통신을 위한 전용 보드이며, 이더넷, 파이버 채널 등 다양한 네트워크 형태를 지원한다.</p>
+
+<ul>
+  <li>서버 간 통신이나 외부와의 연결을 담당</li>
+  <li>서버의 데이터 흐름과 트래픽 처리에 중요한 역할을 함</li>
+  <li>고속 전송을 위해 전용 네트워크 컨트롤러가 탑재</li>
+</ul>
+
+<h6 id="general-purpose-instruction-set">General-purpose Instruction Set</h6>
+
+<p>운영체제와 사용자 애플리케이션에서 사용하는 일반적인 계산, 논리, 제어, 데이터 이동 등의 명령들을 포함한 CPU의 명령어 집합이다.</p>
+
+<ul>
+  <li><strong>ADD, MOV, JMP, LOAD, STORE, AND, OR</strong> 등이 있음</li>
+  <li>범용 CPU는 이 명령어들을 기반으로 모든 종류의 소프트웨어를 실행할 수 있음</li>
+  <li>이는 특정 작업만 수행하는 <strong>전용 명령어 집합(special-purpose instruction set)</strong> 과 대비됨</li>
+</ul>
+
+<h6 id="special-purpose-instruction-set">Special-purpose Instruction Set</h6>
+
+<p><strong>특정 하드웨어 장치를 제어하기 위한 제한된 기능의 명령어 집합</strong>으로, 범용 명령어와 달리 <strong>일반적인 계산이나 논리 연산은 수행하지 않는다</strong>.</p>
+
+<ul>
+  <li>주로 디스크 컨트롤러, 키보드, 그래픽 카드 등에 내장된 <strong>마이크로프로세서에서 사용됨</strong></li>
+  <li>일반 사용자 프로그램은 직접 사용할 수 없으며, 운영체제가 <strong>장치 드라이버를 통해 간접적으로 제어</strong>함</li>
+</ul>
+
+<blockquote>
+  <p>예: <strong>START_IO, RESET_DEVICE, SCAN_KEY</strong> 등의 간단한 명령 포함</p>
+</blockquote>
+
+<h6 id="disk-queue">Disk Queue</h6>
+
+<p>디스크 큐(Disk Queue)는 <strong>디스크 I/O 요청들이 저장되는 대기열(queue)</strong>로, 운영체제가 처리해야 할 디스크 접근 요청들을 일정한 순서에 따라 관리하기 위해 사용된다.</p>
+
+<ul>
+  <li>디스크에 대한 읽기/쓰기 요청이 발생하면, 해당 요청은 큐에 추가된다.</li>
+  <li>디스크는 한 번에 하나의 요청만 처리할 수 있기 때문에, 요청들을 순차적으로 관리해야 한다.</li>
+  <li>운영체제는 <strong>특정 디스크 스케줄링 알고리즘을 통해 큐에 있는 요청들의 처리 순서를 결정</strong>한다.</li>
+  <li>요청의 처리 순서에 따라 디스크의 처리 시간, 평균 대기 시간, 응답 시간 등이 달라질 수 있다.</li>
+  <li>디스크 큐는 특히 <strong>하드디스크(HDD)</strong>에서 성능에 큰 영향을 미친다 (<strong>헤드 이동 시간 존재</strong>).</li>
+  <li>SSD에서는 물리적 움직임이 없지만, 여전히 I/O 요청 관리를 위해 디스크 큐 개념은 유지된다.</li>
+</ul>
+
+<p>디스크 큐는 <strong>운영체제가 디스크 접근 요청을 최적화하고, 전체 시스템의 I/O 성능을 향상시키는 핵심 메커니즘</strong>이다.</p>
+
+<h6 id="scheduling-algorithm">Scheduling Algorithm</h6>
+
+<p>스케줄링 알고리즘은 어떤 객체을 우선적으로 핸들링할지 결정하는 방법이다. 여기 운영체제에서의 스케줄링 알고리즘은 다음 기능을 수행한다:</p>
+<ul>
+  <li>다중 프로그래밍 시스템에서 동시에 실행 대기 중인 여러 프로세스 중 하나를 선택해야 한다.</li>
+  <li>선택 기준과 방식에 따라 시스템의 공정성, 응답 시간, 처리량, 자원 활용률 등이 달라진다.</li>
+  <li>CPU 스케줄링 외에도 디스크 스케줄링, 네트워크 패킷 스케줄링 등 다양한 분야에 활용된다.</li>
+</ul>
+
+<h6 id="throughput">Throughput</h6>
+
+<p>단위 시간 당 시스템이 처리한 작업의 양이며, 작업의 기준은 프로세스 수, 페이지 수, 전송된 비트 수 등등 다양하다.</p>
+
+<h6 id="contention">Contention</h6>
+
+<p>여러 프로세스나 장치가 동시에 하나의 자원을 사용하려고 할 때 발생하는 충돌 현상을 경합이라고 한다.</p>
+
+<blockquote>
+  <p>두 개의 프로세스가 동시에 프린터를 사용하려 하면 한쪽은 기다려야 한다.
+이러한 경합이 많아지면 전체 시스템 성능이 저하될 수 있다.</p>
+</blockquote>
+
+<h6 id="사용자-프로세스">사용자 프로세스</h6>
+
+<p>일반 사용자가 실행하는 응용 프로그램이나 작업을 의미하며, 운영체제가 생성하고 관리하는 프로세스 중 하나이다.</p>
+
+<blockquote>
+  <p>예: 웹 브라우저, 텍스트 편집기, 게임 등</p>
+</blockquote>
+
+<h6 id="전용-로컬-메모리">전용 로컬 메모리</h6>
+
+<p>NUMA 구조에서 각 CPU가 독립적으로 접근 가능한 메모리 공간을 의미하며, 해당 CPU가 직접 연결되어 빠르게 접근할 수 있는 메모리이다.</p>
+
+<blockquote>
+  <p>다른 CPU가 접근할 경우 지연(latency)이 발생할 수 있음</p>
+</blockquote>
+
+<h6 id="clock-signal">Clock Signal</h6>
+
+<p>컴퓨터의 모든 부품이 <strong>동기화된 속도로 작동하도록 주기적으로 발생하는 신호</strong>로, CPU를 비롯한 각 하드웨어 장치가 일정한 타이밍에 동작하게 만든다.</p>
+
+<blockquote>
+  <p>예: 3.0GHz의 Clock Signal는 1초에 30억 번 신호가 발생함을 의미함</p>
+</blockquote>
+
+<h6 id="system-interconnect">System Interconnect</h6>
+
+<p>여러 CPU의 전용 로컬 메모리를 서로 연결하는 고속 데이터 통신 경로이다.<br />
+연결은 <strong>고속 버스, 크로스바, HyperTransport, Intel QPI</strong> 등 다양하다.</p>
+
+<p>이때 Interconnect 를 통한 <strong>원격 메모리 접근은 지연(latency)</strong>이 크므로 운영체제가 CPU 스케줄링 시 최대한 로컬 메모리를 사용하도록 조정해야 한다.</p>
+
+<h6 id="chassis">Chassis</h6>
+
+<p>서버나 컴퓨터 시스템에서 <strong>여러 개의 보드(Processor, I/O, Network 등)</strong> 를 물리적으로 탑재하고 고정하는 <strong>외형적 하드웨어 프레임</strong> 또는 케이스를 의미한다.</p>
+
+<h6 id="lan">LAN</h6>
+
+<p>LAN(Local Area Network)은 <strong>좁은 지역 내(예: 집, 학교, 회사 등)</strong>에서 컴퓨터나 장치들을 연결하는 네트워크이며 짧은 거리에서 빠른 속도로 데이터 전송이 가능하다.</p>
+
+<p>보통 <strong>이더넷(Ethernet)</strong>방식으로 구성되고, 하나의 공유된 자원(프린터, 파일 서버 등)을 여러 장치가 사용할 수 있도록 해준다. <strong>라우터, 스위치, 허브 등의 네트워크 장비가 사용</strong>된다.</p>
+
+<p><strong>봐도 모르면 네트워크를 공부하고 오자</strong></p>
+
+<h6 id="register-set">Register Set</h6>
+
+<p><strong>CPU 코어(칩) 내부에 내장</strong>된 고속의 작은 저장장치 집합으로, 연산에 직접 사용되는 <strong>데이터를 일시적으로 저장</strong>한다. 명령어 실행 중에 자주 접근해야 하는 <strong>데이터(피연산자, 주소, 결과 등)</strong>를 빠르게 처리할 수 있도록 하고 <strong>RAM보다 훨씬 빠르지만 용량은 매우 작다</strong>.</p>
+
+<p>CPU마다 여러 종류의 레지스터를 가짐(이는 위에서 이미 다뤘다):</p>
+<ul>
+  <li><strong>General-purposed Registers</strong>: 연산 대상 데이터를 임시로 저장</li>
+  <li><strong>Special-purposed Registers</strong>: 프로그램 카운터(PC), 명령어 레지스터(IR), 스택 포인터(SP) 등</li>
+  <li>⭐️<strong>Flag Register</strong>: 연산 결과 상태(오버플로우, 0인지 등)를 저장</li>
+</ul>
+
+<p>Register Set은 CPU 칩에 직접 포함되어 있어 처리 속도를 극대화하는 데 핵심적인 역할을 한다.</p>
+
+<h6 id="infiniband">InfiniBand</h6>
+
+<p>고속 데이터 전송을 위한 서버 간 통신 인터페이스(고속 네트워크 아키텍처).
+주로 슈퍼컴퓨터나 데이터센터에서 사용되며, 낮은 지연 시간과 <strong>높은 대역폭(수십~수백 Gbps)</strong>을 제공한다. <strong>메모리 간 직접 접근(RDMA)</strong>을 지원해 CPU 부담을 줄이고 효율을 높인다. <strong>이더넷보다 빠르고 안정적이지만, 비용과 설정 난이도가 상대적으로 높다</strong>.</p>
+
+<h6 id="high-availability">High Availability</h6>
+
+<p>시스템을 가능한 한 멈추지 않도록 설계하는 개념이며, 서버나 네트워크 장애 발생 시에도 서비스가 계속 작동하도록 중복 구성을 통해 대비한다.</p>
+
+<blockquote>
+  <p>예: 이중화된 서버, 자동 장애 전환(failover), 클러스터링 등.
+목표는 서비스 다운타임 최소화와 신뢰성 극대화
+주로 금융, 병원, 통신 등 서비스 중단이 치명적인 분야에서 중요하게 사용됨</p>
+</blockquote>
+
+<h6 id="hot-standby-mode">Hot-standby Mode</h6>
+
+<p>예비 시스템이 항상 작동 준비 상태로 대기하는 방식이다.</p>
+
+<p>주 시스템(Main System, Main Node)이 장애를 일으키면, <strong>즉시 예비 시스템(Standby System)</strong>으로 자동 전환(failover)되어 서비스가 중단되지 않도록 한다.</p>
+
+<p>Hot-standby는 주 시스템과 데이터를 실시간으로 동기화하거나 거의 실시간에 가깝게 유지한다.</p>
+
+<ul>
+  <li>예비 시스템이 항상 켜져 있고, 자원을 소비함</li>
+  <li>전환 속도가 매우 빠름 → 서비스 중단 시간 거의 없음</li>
+  <li>비용이 높지만 <strong>High Availability</strong>가 요구되는 환경에 적합함</li>
+</ul>
+
+<blockquote>
+  <p>예: 금융 서버, 통신 장비, 항공 관제 시스템 등.</p>
+</blockquote>
+
+<h6 id="wan-wide-area-network">WAN (Wide Area Network)</h6>
+
+<p><strong>광범위한 지역(도시, 국가, 대륙 간)</strong>을 연결하는 네트워크이다. 인터넷도 WAN의 일종이며, LAN이나 MAN을 서로 연결해주는 구조이고 속도는 LAN보다 느릴 수 있지만, 넓은 거리의 통신이 가능하게 한다.</p>
+
+<p><strong>통신 사업자의 인프라(광케이블, 위성 등)를 사용</strong>하며, 라우팅, 보안, 대역폭 제어가 중요함.</p>
+
+<h6 id="distributed-lock-manager-dlm">Distributed Lock Manager (DLM)</h6>
+
+<p>분산 시스템에서 자원 접근 충돌을 방지하기 위한 잠금 관리 시스템이다.</p>
+
+<p>여러 노드(서버)가 동시에 공유 자원(파일, 데이터베이스 등)에 접근할 때 <strong>상호 배타성(Mutual Exclusion)</strong>을 보장한다. DLM은 자원의 <strong>소유권(lock ownership)</strong>을 추적하고, 잠금 요청 간 충돌을 조정하여 데이터 일관성을 유지한다.</p>
+
+<hr />
+
+<h2 id="-출처">🔗 출처</h2>
+<ul>
+  <li>도서: <a href="">Operating System Concepts 10th Edition</a></li>
+</ul>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/13/1.3-computer-system-architecture.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/13/1.3-computer-system-architecture.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

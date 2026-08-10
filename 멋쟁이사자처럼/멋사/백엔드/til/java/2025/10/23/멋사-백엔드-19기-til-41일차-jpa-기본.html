@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 41일차 JPA 기본</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 41일차 JPA 기본 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 41일차 JPA 기본" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/10/23/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-41%EC%9D%BC%EC%B0%A8-jpa-%EA%B8%B0%EB%B3%B8.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/10/23/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-41%EC%9D%BC%EC%B0%A8-jpa-%EA%B8%B0%EB%B3%B8.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-23T00:16:59+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 41일차 JPA 기본" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-10-23T00:16:59+00:00","datePublished":"2025-10-23T00:16:59+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 41일차 JPA 기본","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/10/23/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-41%EC%9D%BC%EC%B0%A8-jpa-%EA%B8%B0%EB%B3%B8.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/10/23/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-41%EC%9D%BC%EC%B0%A8-jpa-%EA%B8%B0%EB%B3%B8.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/10/23/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-41%EC%9D%BC%EC%B0%A8-jpa-%EA%B8%B0%EB%B3%B8.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 41일차 JPA 기본</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Oct 23, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#jpa">JPA</a>
+    <ul>
+      <li><a href="#orm">ORM</a></li>
+      <li><a href="#JPA-장점">JPA 장점</a></li>
+      <li><a href="#jdbc-와-jpa-차이">JDBC 와 JPA 차이</a></li>
+      <li><a href="#jpa-클래스-다이어그램">JPA 클래스 다이어그램</a>
+        <ul>
+          <li><a href="#entitymanagerfactory-인터페이스">EntityManagerFactory 인터페이스</a></li>
+          <li><a href="#entitymanager">EntityManager</a></li>
+        </ul>
+      </li>
+      <li><a href="#entity">@Entity</a>
+        <ul>
+          <li><a href="#entity-lifecycle">Entity Lifecycle</a></li>
+          <li><a href="#entity-동등성">Entity 동등성</a></li>
+          <li><a href="#entity-구현">Entity 구현</a></li>
+        </ul>
+      </li>
+      <li><a href="#persistence-context">Persistence Context</a>
+        <ul>
+          <li><a href="#비영속-엔티티-처리">비영속 엔티티 처리</a></li>
+          <li><a href="#1차-캐시">1차 캐시</a></li>
+        </ul>
+      </li>
+      <li><a href="#transaction">Transaction</a>
+        <ul>
+          <li><a href="#jpa-entity-manager-factory-관리">JPA Entity Manager Factory 관리</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="jpa">JPA</h3>
+
+<p>이전에 배웠던 JDBC 는 테이블을 기준으로 했다면, JPA 는 객체를 기준으로 DB 의 상태를 업데이트를 한다. 자바에석 객체와 관계형 데이터베이스를 매핑(ORM) 하기 위한 표준 인터페이스를 JPA 라고 한다. 따라서 SQL 을 따로 직접 쓰지 않고 객체만을 수정하는 것으로 DB를 다룰 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">plugins</span> <span class="o">{</span>
+    <span class="n">id</span> <span class="err">'</span><span class="n">java</span><span class="err">'</span>
+<span class="o">}</span>
+
+<span class="n">group</span> <span class="o">=</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">example</span><span class="err">'</span>
+<span class="n">version</span> <span class="o">=</span> <span class="err">'</span><span class="mf">1.0</span><span class="o">-</span><span class="no">SNAPSHOT</span><span class="err">'</span>
+
+<span class="n">repositories</span> <span class="o">{</span>
+    <span class="n">mavenCentral</span><span class="o">()</span>
+<span class="o">}</span>
+
+<span class="n">dependencies</span> <span class="o">{</span>
+    <span class="n">implementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">hibernate</span><span class="o">:</span><span class="n">hibernate</span><span class="o">-</span><span class="nl">core:</span><span class="mf">6.4</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="na">Final</span><span class="err">'</span>
+    <span class="n">implementation</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">mysql</span><span class="o">:</span><span class="n">mysql</span><span class="o">-</span><span class="n">connector</span><span class="o">-</span><span class="nl">j:</span><span class="mf">8.3</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+    <span class="n">implementation</span> <span class="err">'</span><span class="n">jakarta</span><span class="o">.</span><span class="na">persistence</span><span class="o">:</span><span class="n">jakarta</span><span class="o">.</span><span class="na">persistence</span><span class="o">-</span><span class="nl">api:</span><span class="mf">3.1</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+    <span class="n">implementation</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">slf4j</span><span class="o">:</span><span class="n">slf4j</span><span class="o">-</span><span class="nl">simple:</span><span class="mf">2.0</span><span class="o">.</span><span class="mi">13</span><span class="err">'</span>
+    <span class="n">compileOnly</span> <span class="nl">group:</span> <span class="err">'</span><span class="n">org</span><span class="o">.</span><span class="na">projectlombok</span><span class="err">'</span><span class="o">,</span> <span class="nl">name:</span> <span class="err">'</span><span class="n">lombok</span><span class="err">'</span><span class="o">,</span> <span class="nl">version:</span> <span class="err">'</span><span class="mf">1.18</span><span class="o">.</span><span class="mi">32</span><span class="err">'</span>
+<span class="o">}</span>
+
+<span class="n">test</span> <span class="o">{</span>
+    <span class="n">useJUnitPlatform</span><span class="o">()</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이런 구현체의 기술은 <code class="language-plaintext highlighter-rouge">hibernate</code> 사가 만들었고 이를 바탕으로 인터페이스 표준화 되었다.</p>
+
+<h4 id="orm">ORM</h4>
+
+<p>여기서 ORM은 객체 지향 프로그래밍 언어와 관계형 데이터베이스 간의 데이터를 변환하는 프로그래밍 기술이며, 매개변수를 일일히 binding 시킬 필요 없이 객체만 저장하면 hibernate 가 알아서 ORM 기술을 통해 SQL 문을 생성해준다.</p>
+
+<h4 id="jpa-장점">JPA 장점</h4>
+
+<ul>
+  <li>SQL 작성량 감소</li>
+  <li>유지보수 용이</li>
+  <li>DB 에 독립적인 코드</li>
+  <li>객체 지향적인 코드 작성 가능</li>
+</ul>
+
+<h4 id="jdbc-와-jpa-차이">JDBC 와 JPA 차이</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>구분</th>
+      <th>JDBC</th>
+      <th>JPA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>코드 작성</td>
+      <td>SQL 직접 작성</td>
+      <td>객체 중심, SQL 자동 생성</td>
+    </tr>
+    <tr>
+      <td>데이터 변환</td>
+      <td>ResultSet 수동 매핑</td>
+      <td>자동 매핑</td>
+    </tr>
+    <tr>
+      <td>생산성</td>
+      <td>낮음 (반복 코드 많음)</td>
+      <td>높음 (보일러플레이트 제거)</td>
+    </tr>
+    <tr>
+      <td>유지보수</td>
+      <td>SQL 수정 시 여러 곳 변경</td>
+      <td>엔티티 변경으로 자동 반영</td>
+    </tr>
+    <tr>
+      <td>DB 독립성</td>
+      <td>낮음 (DB별 SQL 차이)</td>
+      <td>높음 (Dialect로 자동 처리)</td>
+    </tr>
+    <tr>
+      <td>학습 곡선</td>
+      <td>낮음</td>
+      <td>높음</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="jpa-클래스-다이어그램">JPA 클래스 다이어그램</h4>
+
+<p>간단히 보자.</p>
+
+<p><img src="/seonghun120614/assets/img/jpa_architecture.png" alt="jpa_architecture.png" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">Hibernate Core</code> 는 실제 구현체이다. 우리는 Interface 만 보고 사용하는데, 인터페이스들 내부를 보자.</p>
+
+<h5 id="entitymanagerfactory-인터페이스">EntityManagerFactory 인터페이스</h5>
+
+<p>JPA 의 핵심 구성요소 중 하나이다. DB 와의 연결을 관리하고 <code class="language-plaintext highlighter-rouge">EntityManager</code> 를 생성하는 역할을 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">EntityManagerFactory</span> <span class="n">emf</span> <span class="o">=</span> <span class="nc">Persistence</span><span class="o">.</span><span class="na">createEntityManagerFactory</span><span class="o">(</span><span class="s">"unitName"</span><span class="o">);</span>
+<span class="nc">EntityManager</span> <span class="n">em</span> <span class="o">=</span> <span class="n">emf</span><span class="o">.</span><span class="na">createEntityManager</span><span class="o">();</span></code></pre></figure>
+
+<p>따라서 <code class="language-plaintext highlighter-rouge">EntityManager</code> 는 factory 에서 최초로 생성되게 된다. <code class="language-plaintext highlighter-rouge">EntityManagerFActory</code> 는 당므 역할을 가진다.</p>
+
+<ul>
+  <li>생성 책임: <code class="language-plaintext highlighter-rouge">EntityManager</code> 객체를 생성</li>
+  <li>DB 설정 관리: <code class="language-plaintext highlighter-rouge">persistence.xml</code> 또는 yml 의 설정 정보를 읽어 DB 연결 구성</li>
+  <li>비용이 큼: 생성 시 많은 초기화 작업이 일어나므로, 어플리케이션 당 하나만 생성하는 것이 일반적</li>
+</ul>
+
+<h5 id="entitymanager">EntityManager</h5>
+
+<p><code class="language-plaintext highlighter-rouge">EntityManagerFactory</code> 에서 만들어지는 <code class="language-plaintext highlighter-rouge">EntityManager</code> 라는 것은 DB 와의 모든 상호작용을 처리하는 인터페이스이며, <code class="language-plaintext highlighter-rouge">Persistence Context</code> 라는 저장소에 엔티티를 저장하고 관리하는 것을 수행한다.</p>
+
+<ul>
+  <li>엔티티 저장: <code class="language-plaintext highlighter-rouge">persist()</code></li>
+  <li>조회: <code class="language-plaintext highlighter-rouge">find()</code></li>
+  <li>수정: 영속 상태의 엔티티를 변경하면, 트랜잭션 커밋을 통해 자동 반영(Dirty Checking)</li>
+  <li>삭제: <code class="language-plaintext highlighter-rouge">remove()</code></li>
+</ul>
+
+<p>우리가 자주 다루는 객체이며, DB 와 가장 교류가 많이 일어나는 객체이다. 여기서 관리되는 객체를 IoC 컨테이너에서 관리하는 Bean 것처럼 별칭을 붙이는데 <code class="language-plaintext highlighter-rouge">Entity</code> 라고 한다.</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">EntityManager</code> 는 스레드 안전하지 않다. 따라서 각 트랜잭션마다 따로 <code class="language-plaintext highlighter-rouge">EntityManagerFactory</code> 를 통해 <code class="language-plaintext highlighter-rouge">EntityManager</code> 를 생성하는 것이 좋다.</p>
+</blockquote>
+
+<h4 id="entity">@Entity</h4>
+
+<p>JPA 를 쓰기 전에 다음 의존성을 추가해준다.</p>
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="c1">// JPA API (표준 인터페이스)</span>
+<span class="n">implementation</span> <span class="s1">'jakarta.persistence:jakarta.persistence-api:3.1.0'</span>
+
+<span class="c1">// Hibernate (JPA 구현체)</span>
+<span class="n">implementation</span> <span class="s1">'org.hibernate:hibernate-core:6.4.4.Final'</span></code></pre></figure>
+
+<p>모르면 위는 검색하면 된다. 엔티티를 정의하기 위해 <code class="language-plaintext highlighter-rouge">@Entity</code> 애너테이션을 비즈니스 도메인 쪽에 쓸 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Entity</span>  <span class="c1">// JPA에게 이 클래스가 테이블과 매핑된다고 알림</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"users"</span><span class="o">)</span>  <span class="c1">// (선택) 테이블 이름 지정</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+
+    <span class="nd">@Id</span>  <span class="c1">// 기본 키(PK) 지정</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>  <span class="c1">// 자동 증가</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">50</span><span class="o">)</span>  <span class="c1">// 컬럼 속성 정의</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
+
+    <span class="c1">// 기본 생성자 (필수)</span>
+    <span class="kd">protected</span> <span class="nf">User</span><span class="o">()</span> <span class="o">{}</span>
+
+    <span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">String</span> <span class="n">email</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">email</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Getter/Setter</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">@Entity</code> 가 해당 클래스가 Entity 로써, JPA 에게 알리는 역할을 한다. 기본적으로 이런 Table 과의 ORM 은 1:1 로 매핑이 되어야 하며, 반드시 식별자가 필요하여서 <code class="language-plaintext highlighter-rouge">@Id</code> 로 기본키를 지정하여야 한다.</p>
+
+<p><strong>규칙</strong></p>
+<ul>
+  <li>1:1 로 테이블과 매핑</li>
+  <li><code class="language-plaintext highlighter-rouge">@Id</code> 식별자 필요</li>
+  <li>기본 생성자 필요</li>
+  <li><code class="language-plaintext highlighter-rouge">final</code> 금지(필드던 클래스던)</li>
+</ul>
+
+<p>또 위와 같이 설정하면 끝이 아니라, <code class="language-plaintext highlighter-rouge">persistence.xml</code> 을 통해 EntityManagerFactory 의 설정을 통해 관리할 엔티티를 추가해줘야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;persistence</span> <span class="na">xmlns=</span><span class="s">"http://java.sun.com/xml/ns/persistence"</span>
+             <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+             <span class="na">xsi:schemaLocation=</span><span class="s">"http://java.sun.com/xml/ns/persistence
+                                 http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"</span>
+             <span class="na">version=</span><span class="s">"2.0"</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;persistence-unit</span> <span class="na">name=</span><span class="s">"UserPU"</span> <span class="na">transaction-type=</span><span class="s">"RESOURCE_LOCAL"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;provider&gt;</span>org.hibernate.jpa.HibernatePersistenceProvider<span class="nt">&lt;/provider&gt;</span>
+        <span class="nt">&lt;class&gt;</span>com.example.jpa.User<span class="nt">&lt;/class&gt;</span>
+
+        <span class="nt">&lt;properties&gt;</span>
+            <span class="c">&lt;!-- 데이터베이스 연결 설정 --&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"jakarta.persistence.jdbc.driver"</span>
+                      <span class="na">value=</span><span class="s">"com.mysql.cj.jdbc.Driver"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"jakarta.persistence.jdbc.url"</span>
+                      <span class="na">value=</span><span class="s">"jdbc:mysql://localhost:3306/exampledb"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"jakarta.persistence.jdbc.user"</span>
+                      <span class="na">value=</span><span class="s">"user"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"jakarta.persistence.jdbc.password"</span>
+                      <span class="na">value=</span><span class="s">"user1234"</span><span class="nt">/&gt;</span>
+
+            <span class="c">&lt;!-- Hibernate 설정 --&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"hibernate.dialect"</span>
+                      <span class="na">value=</span><span class="s">"org.hibernate.dialect.MySQLDialect"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"hibernate.hbm2ddl.auto"</span>
+                      <span class="na">value=</span><span class="s">"update"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"hibernate.show_sql"</span>
+                      <span class="na">value=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"hibernate.format_sql"</span>
+                      <span class="na">value=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/properties&gt;</span>
+    <span class="nt">&lt;/persistence-unit&gt;</span>
+<span class="nt">&lt;/persistence&gt;</span></code></pre></figure>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">persistence-unit</code> 태그가 보일텐데, 이 태그가 하나의 영속성 컨텍스트의 단위를 정의하는 태그이다. name 이 <code class="language-plaintext highlighter-rouge">persistence-unit</code> 을 식별하는 이름이며, 나머지 옵션들은 다음과 같다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">transaction-type="RESOURCE_LOCAL"</code>: 트랜잭션 타입</li>
+  <li><code class="language-plaintext highlighter-rouge">provider</code>: JPA 구현체를 지정하는 부분이며 hibernate 사에서 만든 구현체를 넣어주면 된다.</li>
+  <li><code class="language-plaintext highlighter-rouge">class</code>: 이 persistence-unit 에서 관리할 엔티티 클래스를 명시한다(나머지는 그냥 복붙을 하면 되지만, 이는 개발자가 넣어줘야 한다).</li>
+  <li><code class="language-plaintext highlighter-rouge">properties</code>: 이는 자바의 프로퍼티 설정하는 것과 똑같다. 생략한다.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">hibernate.dialect</code>: SQL 문법 에서 파생된 문법들에 맞춰 자동으로 지정하는 프로퍼티</li>
+      <li><code class="language-plaintext highlighter-rouge">hibernate.hbm2ddl.auto</code>: 엔티티 기반으로 DDL 스크립트를 자동 처리하는 동작을 지정하는 프로퍼티 시작, <code class="language-plaintext highlighter-rouge">create</code>, <code class="language-plaintext highlighter-rouge">update</code>, <code class="language-plaintext highlighter-rouge">create-drop</code>, <code class="language-plaintext highlighter-rouge">validate</code>, <code class="language-plaintext highlighter-rouge">none</code> 이 있음</li>
+      <li><code class="language-plaintext highlighter-rouge">hibernate.show_sql</code>: hibernate 가 실행하는 SQL 을 콘솔에 출력할지 여부</li>
+      <li><code class="language-plaintext highlighter-rouge">hibernate.format_sql</code>: 로그로 출력되는 SQL 을 보기 좋게 포매팅</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">create</code>: 기존 테이블 삭제 후 재생성<br />
+<code class="language-plaintext highlighter-rouge">create-drop</code>: 종료 시 테이블 삭제<br />
+<code class="language-plaintext highlighter-rouge">update</code>: 변경사항만 반영<br />
+<code class="language-plaintext highlighter-rouge">validate</code>: 스키마 검증만 수행<br />
+<code class="language-plaintext highlighter-rouge">none</code>: 아무 작업도 하지 않음</p>
+</blockquote>
+
+<p>이제 Entity 를 관리하기 위한 준비를 마쳤으면 엔티티가 어떻게 생성되고 끝나는지도 보자.</p>
+
+<h5 id="entity-lifecycle">Entity Lifecycle</h5>
+
+<p>엔티티는 기본적으로 4가지 상태를 가진다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>상태(State)</th>
+      <th>설명</th>
+      <th>주요 특징</th>
+      <th>전이 메서드 및 조건</th>
+      <th>DB 반영 시점</th>
+      <th>비고</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>New (비영속, Transient)</td>
+      <td>엔티티가 생성되었지만 영속성 컨텍스트에 등록되지 않은 상태</td>
+      <td>- JPA가 관리하지 않음<br />- 식별자(ID) 미할당<br />- DB와 무관</td>
+      <td><code class="language-plaintext highlighter-rouge">em.persist(entity)</code> → Persistent(영속)</td>
+      <td>없음</td>
+      <td>new 키워드로 생성된 엔티티</td>
+    </tr>
+    <tr>
+      <td>Managed (영속, Persistent)</td>
+      <td>영속성 컨텍스트에 의해 관리되는 상태</td>
+      <td>- 1차 캐시에 저장됨<br />- 변경 감지(Dirty Checking) 가능<br />- 트랜잭션 커밋 시 DB 반영</td>
+      <td>- <code class="language-plaintext highlighter-rouge">persist()</code>로 등록<br />- <code class="language-plaintext highlighter-rouge">find()</code> 또는 JPQL 조회 시<br />- <code class="language-plaintext highlighter-rouge">merge()</code> 결과로 반환될 때</td>
+      <td><code class="language-plaintext highlighter-rouge">flush()</code> 또는 트랜잭션 commit 시점</td>
+      <td><code class="language-plaintext highlighter-rouge">em.detach()</code>, <code class="language-plaintext highlighter-rouge">em.clear()</code>, <code class="language-plaintext highlighter-rouge">em.close()</code>로 분리 가능</td>
+    </tr>
+    <tr>
+      <td>Detached (준영속, Detached)</td>
+      <td>한때 영속이었으나 현재 컨텍스트와 분리된 상태</td>
+      <td>- 변경 감지 안 됨<br />- DB 반영 불가<br />- 동일 ID 새 조회 가능</td>
+      <td>- <code class="language-plaintext highlighter-rouge">em.detach(entity)</code><br />- <code class="language-plaintext highlighter-rouge">em.clear()</code> (전체 제거)<br />- <code class="language-plaintext highlighter-rouge">em.close()</code> (종료)<br />- 트랜잭션 종료 후</td>
+      <td>없음</td>
+      <td>다시 영속화하려면 <code class="language-plaintext highlighter-rouge">em.merge(entity)</code> 필요</td>
+    </tr>
+    <tr>
+      <td>Removed (삭제 예약, Removed)</td>
+      <td>엔티티가 삭제 예약된 상태</td>
+      <td>- DB에서 삭제될 예정<br />- 아직 컨텍스트에는 존재 (삭제 플래그)</td>
+      <td><code class="language-plaintext highlighter-rouge">em.remove(entity)</code></td>
+      <td><code class="language-plaintext highlighter-rouge">flush()</code> 또는 <code class="language-plaintext highlighter-rouge">commit()</code> 시점에 DELETE 실행</td>
+      <td><code class="language-plaintext highlighter-rouge">em.persist()</code>로 다시 영속화 가능 (삭제 취소 효과)</td>
+    </tr>
+    <tr>
+      <td>Deleted (DB 삭제됨)</td>
+      <td>실제로 DB에서 삭제 완료된 상태</td>
+      <td>- 트랜잭션 커밋 후 DELETE 반영 완료</td>
+      <td>트랜잭션 커밋 완료 시</td>
+      <td>이미 DB에서 제거됨</td>
+      <td>이후 재사용 불가</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="entity-동등성">Entity 동등성</h5>
+
+<p>JPA 에서 엔티티 동일성을 이해하기 위해 크게 두 가지를 구분해야 한다.</p>
+
+<ol>
+  <li>객체 동일성(Object Identity): 자바의 두 객체가 메모리 상 같은 인스턴스인지 여부</li>
+  <li>논리적 동일성(Entity Identity): 엔티티 PK 를 통해 같은지 판별</li>
+</ol>
+
+<p>이를 통해 다음을 보자.</p>
+
+<h5 id="entity-구현">Entity 구현</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">jakarta.persistence.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Getter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.NoArgsConstructor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Setter</span><span class="o">;</span>
+
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"jpa_user"</span><span class="o">)</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="nd">@Getter</span>
+<span class="nd">@Setter</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">String</span> <span class="n">email</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">email</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">@GenearatedValue</code>를 볼 수 있는데, 해당 필드가 DB 테이블의 자동 생성 기능을 이용하고 있고, 그 기능이 어떤 타입인지를 써주면 id 가 <code class="language-plaintext highlighter-rouge">null</code> 이더라도 <code class="language-plaintext highlighter-rouge">Persist Context</code> 에 들어갔을때 아이디를 자동 생성해준다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">GeneratedType.IDENTITY</code>: MySQL 의 AUTO_INCREMENT 와 매핑</li>
+  <li><code class="language-plaintext highlighter-rouge">GeneratedType.SEQUENCE</code>: Oracle 이나 PostgreSQL 의 SEQUENCE 자료구조와 매핑</li>
+  <li><code class="language-plaintext highlighter-rouge">GeneratedType.TABLE</code></li>
+  <li><code class="language-plaintext highlighter-rouge">GeneratedType.AUTO</code>: JPA 구현체가 자동으로 생성</li>
+</ul>
+
+<h4 id="persistence-context">Persistence Context</h4>
+
+<p>영속성 컨텍스트라고 하며, 영속성 컨텍스트는 <strong>1차 캐시</strong>라 봐도 무방하다. 내부적으로 엔티티를 관리할 때 중요한 것은 Entity 의 구별법인데, 여기서 영속성 컨텍스트는 <strong>논리적 동일성</strong>을 따르고, 따라서 같음을 구현하고 싶을때는 <code class="language-plaintext highlighter-rouge">equals()</code> 와 <code class="language-plaintext highlighter-rouge">hashCode()</code> 를 PK 기반으로 구현</p>
+
+<blockquote>
+  <p>엔티티 동일성</p>
+
+  <p>JPA 에서 엔티티 동일성을 이해할 시 크게 두 가지를 구분</p>
+
+  <ol>
+    <li>객체 동일성(Object Identity): 자바 == 연산자를 이용해 두 객체가 메모리 상 같은 인스턴스인지 여부</li>
+    <li>논리적 동일성(Entity Identity): 엔티티 PK 를 통해 같은지 판별</li>
+  </ol>
+</blockquote>
+
+<p>Detached 엔티티와의 동등성을 검증할 때는 <strong>PK 가 같아도 서로 다른 자바 객체</strong>일 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">User</span> <span class="n">detachedUser</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">();</span>
+<span class="n">detachedUser</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="mi">1L</span><span class="o">);</span>
+
+<span class="nc">User</span> <span class="n">managedUser</span> <span class="o">=</span> <span class="n">em</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="mi">1L</span><span class="o">);</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">detachedUser</span> <span class="o">==</span> <span class="n">managedUser</span><span class="o">);</span> <span class="c1">// false</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">detachedUser</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">managedUser</span><span class="o">));</span> <span class="c1">// true, equals를 PK 기반으로 구현했다면</span></code></pre></figure>
+
+<ul>
+  <li>영속성 컨텍스트 내: 같은 PK → 같은 객체</li>
+  <li>영속성 컨텍스트 밖: PK 가 같아도 다른 객체 (<code class="language-plaintext highlighter-rouge">equals()</code> 는 PK 기반이면 true)</li>
+  <li><code class="language-plaintext highlighter-rouge">equals</code> / <code class="language-plaintext highlighter-rouge">hashCode</code>: PK 기반으로 구현하는 것이 일반적(Lombok 을 씀)</li>
+</ul>
+
+<p><strong>동등성 구현 원칙</strong></p>
+<ol>
+  <li><strong>식별자(id) 기반 비교</strong>: 데이터베이스 행을 대표하는 id 로 비교</li>
+  <li><strong>일관성 유지</strong>: <code class="language-plaintext highlighter-rouge">equals()</code> 가 <code class="language-plaintext highlighter-rouge">true</code> 면 <code class="language-plaintext highlighter-rouge">hashCode()</code> 도 같은 값 반환</li>
+  <li><strong>null 처리</strong>: 비영속 엔티티는 <code class="language-plaintext highlighter-rouge">id</code> 가 <code class="language-plaintext highlighter-rouge">null</code> 일 수 있으므로 <code class="language-plaintext highlighter-rouge">null</code> 처리 필수</li>
+  <li><strong>복합 키</strong>: <code class="language-plaintext highlighter-rouge">id</code> 가 여러 필드로 구성되면 모든 필드로 비교</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// equals 메서드: id 기반 비교</span>
+
+<span class="nd">@Override</span> 
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="k">this</span> <span class="o">==</span> <span class="n">o</span><span class="o">)</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span> <span class="c1">// 1. 같은 참조면 true </span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">getClass</span><span class="o">()</span> <span class="o">!=</span> <span class="n">o</span><span class="o">.</span><span class="na">getClass</span><span class="o">())</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span> <span class="c1">// 2. null 또는 다른 클래스면 false</span>
+	<span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="o">(</span><span class="nc">User</span><span class="o">)</span> <span class="n">o</span><span class="o">;</span> 
+	<span class="k">return</span> <span class="n">id</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">id</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">id</span><span class="o">);</span> <span class="c1">// 3. id가 있고 같으면 true </span>
+<span class="o">}</span> 
+
+<span class="c1">// hashCode 메서드: id 기반</span>
+<span class="nd">@Override</span> 
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span> 
+	<span class="k">return</span> <span class="n">id</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">?</span> <span class="n">id</span><span class="o">.</span><span class="na">hashCode</span><span class="o">()</span> <span class="o">:</span> <span class="mi">0</span><span class="o">;</span> <span class="c1">// id가 없으면 0 반환 </span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="비영속-엔티티-처리">비영속 엔티티 처리</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">User</span> <span class="n">user1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">,</span> <span class="s">"alice@example.com"</span><span class="o">);</span>  <span class="c1">// id = null  </span>
+<span class="nc">User</span> <span class="n">user2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">,</span> <span class="s">"alice@example.com"</span><span class="o">);</span>  <span class="c1">// id = null  </span>
+  
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">user1</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">user2</span><span class="o">));</span>  <span class="c1">// false (id가 둘 다 null)</span>
+
+<span class="nc">Set</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">&lt;&gt;();</span>
+<span class="n">users</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">user1</span><span class="o">);</span>
+
+<span class="n">em</span><span class="o">.</span><span class="na">persist</span><span class="o">(</span><span class="n">user1</span><span class="o">);</span>  <span class="c1">// id 할당됨 (예: id = 1)  </span>
+<span class="c1">// 문제: HashSet에서 hashCode 변경으로 user1을 찾을 수 없음</span></code></pre></figure>
+
+<p>이를 해결하기 위해 엔티티를 컬렉션에 추가하기 전에 영속화하거나, 비즈니스 키 사용 비즈니스 키는 우선 유일해야 하며 not null 이어야 함. 따라서 다음과 같이 구현:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Column</span><span class="o">(</span><span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span> <span class="c1">// 비즈니스 키</span></code></pre></figure>
+
+<p>이는 DB 레벨에서의 검증이지 실제 비영속 엔티티를 선언할때 이게 된다는 아니다. 이러고 다음을 구현한다:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span> 
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="k">this</span> <span class="o">==</span> <span class="n">o</span><span class="o">)</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span> 
+	<span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">getClass</span><span class="o">()</span> <span class="o">!=</span> <span class="n">o</span><span class="o">.</span><span class="na">getClass</span><span class="o">())</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span> 
+	<span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="o">(</span><span class="nc">User</span><span class="o">)</span> <span class="n">o</span><span class="o">;</span> 
+	<span class="k">return</span> <span class="n">email</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">email</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">email</span><span class="o">);</span> <span class="c1">// email로 비교 </span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span> 
+	<span class="k">return</span> <span class="n">email</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">?</span> <span class="n">email</span><span class="o">.</span><span class="na">hashCode</span><span class="o">()</span> <span class="o">:</span> <span class="mi">0</span><span class="o">;</span> 
+<span class="o">}</span></code></pre></figure>
+
+<p>이렇게 하더라도 단점이 존재(비즈니스 키 변경시 문제 발생)</p>
+
+<p><strong>따라서 실무에서는</strong></p>
+<ul>
+  <li><strong>논리적 동등성 사용</strong></li>
+  <li><strong>컬렉션 사용 전 영속화</strong></li>
+  <li><strong>불변 비즈니스 키 존재 시</strong>: <code class="language-plaintext highlighter-rouge">email</code>, <code class="language-plaintext highlighter-rouge">username</code> 등 불변 필드로 구현 가능</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Column</span><span class="o">(</span><span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span> <span class="n">updatable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="c1">// 불변 필드, Setter 은 없애도록, JPA 가 UPDATE 문에서 컬럼 제외, 비즈니스 키로써 적합</span>
+<span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span></code></pre></figure>
+
+<ul>
+  <li><strong>Lombok 사용</strong>: <code class="language-plaintext highlighter-rouge">@EqualsAndHashCode(onlyExplicitlyIncluded = true)</code> + <code class="language-plaintext highlighter-rouge">@EqualsAndHashCode.Include</code> 사용, 롬복은 자동으로 <code class="language-plaintext highlighter-rouge">equals()</code>, <code class="language-plaintext highlighter-rouge">hashCode()</code> 를 제공함, 하지만 가변 필드를 사용하면 <code class="language-plaintext highlighter-rouge">equals</code> / <code class="language-plaintext highlighter-rouge">hashCode</code> 변경 가능성이 존재하여 위 코드 예시의 <code class="language-plaintext highlighter-rouge">@Column</code> 과 합쳐서 사용하여서 <code class="language-plaintext highlighter-rouge">equals()</code> 와 <code class="language-plaintext highlighter-rouge">hashCode() </code>에서 해당 <code class="language-plaintext highlighter-rouge">@EqualsAndHashCode.Include</code>가 있는 필드만을 동등성 검증에 포함시켜줌</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">lombok.EqualsAndHashCode</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.persistence.*</span><span class="o">;</span>
+
+<span class="nd">@Entity</span>
+<span class="nd">@EqualsAndHashCode</span><span class="o">(</span><span class="n">onlyExplicitlyIncluded</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="nd">@EqualsAndHashCode</span><span class="o">.</span><span class="na">Include</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">,</span> <span class="n">updatable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="nc">String</span> <span class="n">email</span><span class="o">,</span> <span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">email</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="1차-캐시">1차 캐시</h5>
+
+<p>영속성 컨텍스트는 1차 캐시가 있음으로써 DB 와의 트래픽을 줄일 수 있다. 처음 엔티티 매니저에게 요청을 하면 엔티티 매니저는 요청을 토대로 <code class="language-plaintext highlighter-rouge">Persistence Context</code> 의 1차 캐시에 해당 객체가 있는지를 본다. 만약 찾고자 하는게 없다면 다음 과정을 거친다:</p>
+
+<p><strong>read 과정</strong></p>
+<ol>
+  <li>1차 캐시에 있으면 해당 객체를 반환하고 없다면 다음 과정을 거친다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Entity Manager</code> 는 빈 객체를 통해서 DB 에게 다시 요청한다(즉 SELECT 쿼리문을 던질 것이다)</li>
+  <li><code class="language-plaintext highlighter-rouge">Entity Manager</code> 는 해당 객체를 받고 데이터를 <code class="language-plaintext highlighter-rouge">Persistence Context</code> 에게 알리며</li>
+  <li><code class="language-plaintext highlighter-rouge">Persistence Context</code> 는 이를 다시 1차 캐시에 저장한다(없었기 때문)</li>
+  <li>그러고 result 를 반환한다.</li>
+</ol>
+
+<p>따라서 영속성 컨텍스트는 알아서 PK 를 기준으로 하여 객체의 메모리 관리를 진행하게 된다. DB 접근 횟수를 줄이기 때문에 성능 최적화 기능도 한다.</p>
+
+<h4 id="transaction">Transaction</h4>
+
+<p>마지막으로 트랜잭션 클래스를 보자. 트랜잭션은 DB 작업의 논리적 단위라고 하며, 여러 작업을 하나로 묶어서 모두 성공하거나 실패하거나 두 상태 중 하나로만 되도록 하는 단위이며 특징으로는 ACID 를 가진다.</p>
+
+<p>JPA 에서의 트랜잭션은 DB 의 트랜잭션이랑 의미 차이는 많이 없지만 JPA 에서는 트랜잭션 단위로 영속성 컨텍스트를 관리하게 되고 1차 캐시에 있는 변경 사항을 DB에 반영하고 싶을 때 <code class="language-plaintext highlighter-rouge">commit()</code> 을 하며 <code class="language-plaintext highlighter-rouge">rollback()</code> 으로 persistence context 에서 진행중인 작업을 이전의 commit 상태로 바꿀 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">EntityManager</span> <span class="n">em</span> <span class="o">=</span> <span class="n">emf</span><span class="o">.</span><span class="na">createEntityManager</span><span class="o">();</span>
+<span class="nc">EntityTransaction</span> <span class="n">tx</span> <span class="o">=</span> <span class="n">em</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">();</span>
+
+<span class="k">try</span> <span class="o">{</span>
+    <span class="n">tx</span><span class="o">.</span><span class="na">begin</span><span class="o">();</span>  <span class="c1">// 트랜잭션 시작</span>
+
+    <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">,</span> <span class="s">"alice@example.com"</span><span class="o">);</span>
+    <span class="n">em</span><span class="o">.</span><span class="na">persist</span><span class="o">(</span><span class="n">user</span><span class="o">);</span> <span class="c1">// 1차 캐시에 저장, DB에는 아직 반영 X</span>
+
+    <span class="n">user</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">"Alice Updated"</span><span class="o">);</span> <span class="c1">// Dirty Checking으로 변경 추적</span>
+
+    <span class="n">tx</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span> <span class="c1">// DB에 INSERT + UPDATE 실행</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">tx</span><span class="o">.</span><span class="na">rollback</span><span class="o">();</span> <span class="c1">// 실패 시 DB 반영 취소</span>
+<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+    <span class="n">em</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위 코드를 사용하여 <code class="language-plaintext highlighter-rouge">EntityTransaction</code> 을 가져올 수 있고, 실패시 롤백 까지의 구현을 try-catch 로 할 수 있다.</p>
+
+<h4 id="jpa-entity-manager-factory-관리">JPA Entity Manager Factory 관리</h4>
+
+<p>이렇게 보면 엔티티 매니저는 트랜잭션의 시작과 끝에서만 생존하여 메모리에 상주되어야 하므로 함수 내부에서 선언되고 삭제되어야 한다. 이때 이를 만드는 <code class="language-plaintext highlighter-rouge">EntityManagerFactory</code> 를 통해서 만들게 되는데, 이를 Singleton 으로 두며, 어플리케이션이 종료될때 factory 자원을 회수할 수 있도록 만드는 코드가 다음과 같다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JPAUtil</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">EntityManagerFactory</span> <span class="n">emfInstance</span> <span class="o">=</span>
+			<span class="nc">Persistence</span><span class="o">.</span><span class="na">createEntityManagerFactory</span><span class="o">(</span><span class="s">"lionPU"</span><span class="o">);</span>
+
+	<span class="c1">// Java 어플리케이션이 종료될 때 자동으로 close()메소드가 호출되도록 합니다.</span>
+	<span class="kd">static</span> <span class="o">{</span>
+		<span class="nc">Runtime</span><span class="o">.</span><span class="na">getRuntime</span><span class="o">().</span><span class="na">addShutdownHook</span><span class="o">(</span><span class="k">new</span> <span class="nc">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">emfInstance</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"---- emf close ---"</span><span class="o">);</span>
+				<span class="n">emfInstance</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+			<span class="o">}</span>
+		<span class="o">}));</span>
+	<span class="o">}</span>
+
+	<span class="kd">private</span> <span class="nf">JPAUtil</span><span class="o">()</span> <span class="o">{}</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">EntityManagerFactory</span> <span class="nf">getEntityManagerFactory</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">emfInstance</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">EntityManagerFactory</code> 는 스레드 안전하기 때문에 저렇게 선언한다고 한들 만들어지는 <code class="language-plaintext highlighter-rouge">EntityManager</code> 끼리의 충돌은 없다. <code class="language-plaintext highlighter-rouge">static</code> 블록은 클래스가 JVM 에 로드될 때 딱 한 번 실행되는 코드이다. 여기서 어플리케이션 하나에 하나가 생성되는 <code class="language-plaintext highlighter-rouge">Runtime</code> 객체를 들고와 <code class="language-plaintext highlighter-rouge">addShutdownHook</code> 를 걸고 있는 것을 볼 수 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">hook</code> 라는 것은 특정 트리거가 실행될 때 실행되는 함수를 말하며 이벤트라고 봐도 무방하다. 따라서 <code class="language-plaintext highlighter-rouge">shutdown</code> 되면 해당 <code class="language-plaintext highlighter-rouge">Thread</code> 를 실행하는 것을 정의하고 있다(emf의 자원 회수). 중요한 것은 이렇게 <code class="language-plaintext highlighter-rouge">static</code> 으로 자원을 회수하도록 코드화 하는 것이다. 다른 클래스에서 해당 자원을 회수하기 위해 회수하는 코드를 추가한다면 SRP 가 훼손될 수 있다.</p>
+
+<p>위 방식 말고도 또 다른 방식으로는 Spring 의 이벤트 리스너를 사용하는 것이다(스프링을 가용할 환경이 된다면 쓰도록 한다).</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EMFCleanup</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">EntityManagerFactory</span> <span class="n">emf</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">EMFCleanup</span><span class="o">(</span><span class="nc">EntityManagerFactory</span> <span class="n">emf</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">emf</span> <span class="o">=</span> <span class="n">emf</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@EventListener</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onApplicationEvent</span><span class="o">(</span><span class="nc">ContextClosedEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">emf</span><span class="o">.</span><span class="na">isOpen</span><span class="o">())</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"---- emf close (Spring) ----"</span><span class="o">);</span>
+            <span class="n">emf</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>활용은 이 정도만 하면 된다. 나머지 고급 개념들은 다음 포스트에서 다룬다.</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/10/23/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-41%EC%9D%BC%EC%B0%A8-jpa-%EA%B8%B0%EB%B3%B8.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/10/23/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-41%EC%9D%BC%EC%B0%A8-jpa-%EA%B8%B0%EB%B3%B8.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

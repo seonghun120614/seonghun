@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>1.5 Resource Management</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>1.5 Resource Management | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="1.5 Resource Management" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/16/1.5-resource-management.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/16/1.5-resource-management.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-06-16T09:43:01+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="1.5 Resource Management" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-06-16T09:43:01+00:00","datePublished":"2025-06-16T09:43:01+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"1.5 Resource Management","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/16/1.5-resource-management.html"},"url":"https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/16/1.5-resource-management.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/computerscience/os/2025/06/16/1.5-resource-management.html">
+        <h2 class="post-title">1.5 Resource Management</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Jun 16, 2025</div><ul class="post-categories"><li>ComputerScience</li><li>OS</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<p>운영체제는 자원관리가 철저히 되어야 한다. 시스템의 CPU, 메모리 공간, 파일 저장 공간, 입출력 장치 등 다양한 자원들을 어떻게 관리하는지 대략적으로 본다.</p>
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#151-process-management">1.5.1 자원 관리</a>
+    <ul>
+      <li><a href="#단일-스레드-프로세스와-멀티-스레드-프로세스">단일 스레드 프로세스와 멀티 스레드 프로세스</a></li>
+      <li><a href="#운영체제의-프로세스-관리-기능">운영체제의 프로세스 관리 기능</a></li>
+    </ul>
+  </li>
+  <li><a href="#152-memory-management">1.5.2 Memory Management</a>
+    <ul>
+      <li><a href="#프로그램-실행을-위한-메모리-역할">프로그램 실행을 위한 메모리 역할</a></li>
+      <li><a href="#여러-프로그램-동시-실행을-위한-메모리-관리">여러 프로그램 동시 실행을 위한 메모리 관리</a></li>
+      <li><a href="#운영체제의-메모리-관리-역할">운영체제의 메모리 관리 역할</a></li>
+    </ul>
+  </li>
+  <li><a href="#153-file-system-management">1.5.3 File-System Management</a>
+    <ul>
+      <li><a href="#운영체제-파일-관리-역할">운영체제 파일 관리 역할</a></li>
+    </ul>
+  </li>
+  <li><a href="#154-mass-storage-management">1.5.4 Mass-Storage Management</a>
+    <ul>
+      <li><a href="#secondary-storage">Secondary Storage</a>
+        <ul>
+          <li><a href="#운영체제-보조기억장치-관리-역할">운영체제 보조기억장치 관리 역할</a></li>
+        </ul>
+      </li>
+      <li><a href="#tertiary-storage">Tertiary Storage</a>
+        <ul>
+          <li><a href="#운영체제-3차-저장장치-관리-역할">운영체제 3차 저장장치 관리 역할</a></li>
+        </ul>
+      </li>
+      <li><a href="#저장장치-계층별-특징">저장장치 계층별 특징</a></li>
+    </ul>
+  </li>
+  <li><a href="#155-cache-management">1.5.5 Cache Management</a>
+    <ul>
+      <li><a href="#레지스터와-캐시의-차이">레지스터와 캐시의 차이</a></li>
+      <li><a href="#하드웨어-수준-캐시">하드웨어 수준 캐시</a></li>
+      <li><a href="#캐시-크기와-교체-정책">캐시 크기와 교체 정책</a></li>
+      <li><a href="#계층적-저장-구조와-데이터-동기화">계층적 저장 구조와 데이터 동기화</a></li>
+      <li><a href="#환경별-고려-사항">환경별 고려 사항</a></li>
+    </ul>
+  </li>
+  <li><a href="#156-io-system-management">1.5.6 I/O System Management</a>
+    <ul>
+      <li><a href="#운영체제-io-시스템-관리-역할">운영체제 I/O 시스템 관리 역할</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="151-process-management">1.5.1 Process Management</h3>
+
+<ul>
+  <li>프로세스는 작업 수행을 위해 <strong>CPU 시간, 메모리, 파일, I/O 장치 등의 자원을 필요</strong></li>
+  <li>자원은 프로세스 실행 중 운영체제가 <strong>할당 및 회수</strong></li>
+</ul>
+
+<p>여기서 프로그램과 프로세스는 서로 다른 개념이다.</p>
+<ul>
+  <li><strong>프로그램</strong>: 정적인 코드(파일)</li>
+  <li><strong>프로세스</strong>: 동적인 실행중인 단위</li>
+</ul>
+
+<blockquote>
+  <p>프로세스 = 프로그램의 인스턴스</p>
+</blockquote>
+
+<p>이 부단원에서 집중적으로 보는 것은 <strong>Process</strong> 이다.</p>
+
+<h4 id="단일-스레드-프로세스와-멀티-스레드-프로세스">단일 스레드 프로세스와 멀티 스레드 프로세스</h4>
+
+<p>프로세스는 시스템 내에서의 작업 단위이고 하나의 시스템은 다수의 프로세스들로 구성되게 된다. 컴퓨터에 실행되는 모든 프로세스들 중 일부는 <strong>운영체제 프로세스</strong>이고 나머지는 <strong>사용자 프로세스</strong>이다.</p>
+
+<p>또 위와 같이 안나누고, 다음과 같이 두 가지 부류로 나눌 수도 있다.</p>
+<ul>
+  <li><strong>단일 스레드 프로세스, 시분할 방식</strong>: 하나의 프로그램 카운터를 가지고 순차적으로 명령어를 실행</li>
+  <li><strong>멀티 스레드 프로세스, 병렬 프로그래밍 방식</strong>: 스레드 마다 프로그램 카운터를 따로 보유해서 병렬적으로 실행</li>
+</ul>
+
+<h4 id="운영체제의-프로세스-관리-기능">운영체제의 프로세스 관리 기능</h4>
+
+<ul>
+  <li>프로세스 생명주기 관리(생성/삭제 운영체제는 재사용 가능한 자원을 회수해야 함)</li>
+  <li><strong>프로세스 및 스레드의 CPU 스케줄링</strong></li>
+  <li>프로세스 <strong>Suspend(중단)</strong> 및 <strong>Resume(재게)</strong> 지원</li>
+  <li>프로세스 <strong>Synchronization</strong> 메커니즘 제공</li>
+  <li>프로세스 간 통신 <strong>IPC</strong> 메커니즘 제공</li>
+</ul>
+
+<p>메모리 관리를 보자.</p>
+
+<h3 id="152-memory-management">1.5.2 Memory Management</h3>
+
+<p>기본적으로 다음 상식이 필요하다.</p>
+
+<p>Main Memory는 CPU와 I/O 장치가 공유하는 빠르게 접근 가능한 저장 공간이며, 이중 CPU 가 주로 Main Memory에 접근을 하여 직접 주소를 지정하고 계산을 위한 데이터를 읽거나 쓰게 된다.</p>
+<ul>
+  <li>CPU는 Instruction-fetch Cycle 중에 명령어를 Main Memory에서 읽어옴</li>
+  <li>CPU는 Data-fetch Cycle 중에는 Main Memory로부터 데이터를 읽거나 씀</li>
+</ul>
+
+<h4 id="프로그램-실행을-위한-메모리-역할">프로그램 실행을 위한 메모리 역할</h4>
+
+<p>프로그램을 실행하기 위해서 CPU는</p>
+<ol>
+  <li>Absolute Address 로 매핑을 시키고</li>
+  <li>Main Memory 에 적재하고</li>
+  <li>실행 중인 명령어/데이터를 메모리에서 접근</li>
+  <li>실행이 끝난 후에는 메모리 공간을 해제시킨다.</li>
+</ol>
+
+<h4 id="여러-프로그램-동시-실행을-위한-메모리-관리">여러 프로그램 동시 실행을 위한 메모리 관리</h4>
+
+<p>CPU 사용률 향상과 사용자 응답 속도 개선을 위해서 이전에 CPU를 여러 개 쓰는 것을 보았고, 여러 개의 코어를 쓰도록 하기 위해 여러 프로그램을 동시에 메모리에 유지해야 함을 알 수 있었다.</p>
+
+<p>여러 개의 프로그램을 동시에 메모리에 유지시키기 위해서 다양한 알고리즘, 하드웨어가 존재하기 때문에 운영체제는 때에 맞는 관리법을 사용해야 한다.</p>
+
+<h4 id="운영체제의-메모리-관리-역할">운영체제의 메모리 관리 역할</h4>
+
+<p>따라서 운영체제는 다음 책임이 따른다.</p>
+
+<ul>
+  <li>어떤 <strong>메모리 영역이 사용 중</strong>인지</li>
+  <li>어떤 <strong>프로세스가 사용 중</strong>인지</li>
+  <li>실행해야 할 프로세스 <strong>메모리 공간 할당</strong></li>
+  <li>실행이 끝난 프로세스 <strong>메모리 공간 해제</strong></li>
+  <li>어떤 프로세스와 데이터를 <strong>메모리로 가져오거나 내보낼지 결정</strong></li>
+</ul>
+
+<h3 id="153-file-system-management">1.5.3 File-System Management</h3>
+
+<p>운영체제는 저장장치의 물리적 특성을 추상화하여 사용자에게 논리적이고 일관된 저장 단위인 <strong>File</strong> 개념을 제공한다. 이들은 전부 2차, 3차 저장장치에 저장되어 있다.</p>
+
+<ul>
+  <li>File: 관련된 정보를 담은 추상적 단위
+    <ul>
+      <li>자유 형식 또는 고정 형식 등 가능하다.</li>
+    </ul>
+  </li>
+  <li>파일은 Directory 구조(트리 형태)로 구성되어 관리됨
+    <ul>
+      <li>접근 권한 제어 필요</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="운영체제-파일-관리-역할">운영체제 파일 관리 역할</h4>
+
+<ul>
+  <li>파일 생성 및 삭제</li>
+  <li>디렉터리 생성 및 삭제</li>
+  <li>파일/디렉터리 조작 기능 제공</li>
+  <li>파일을 물리 저장 장치에 매핑</li>
+  <li>파일을 비휘발성 저장매체에 백업</li>
+</ul>
+
+<h3 id="154-mass-storage-management">1.5.4 Mass-Storage Management</h3>
+
+<p>위는 저장장치와 운영체제 간의 의사소통 단위로써의 파일과 디렉토리를 통해 사용자에게 편의성을 제공하는 기능을 보았다면, 지금은 대용량 저장장치 자체의 관리를 본다.</p>
+
+<h4 id="secondary-storage">Secondary Storage</h4>
+
+<p>흔히 우리가 사는 HDD, SSD(NVM) 등은 프로그램과 데이터의 주 저장 매체가 여기서 다루어지며, 대부분의 프로그램은 메모리에 올라가기 전 여기에 저장된다. 실행 중에도 저장장치를 통해 입출력 수행하고, 용도로는 자주 쓰이는 어플리케이션이나 파일 등을 저장하게 된다.</p>
+
+<h5 id="운영체제-보조기억장치-관리-역할">운영체제 보조기억장치 관리 역할</h5>
+
+<ul>
+  <li>장치 마운트/언마운트</li>
+  <li>빈 공간 관리</li>
+  <li>저장공간 할당</li>
+  <li>디스크 스케줄링</li>
+  <li>디스크 파티션 관리</li>
+  <li>자원 보호(접근 제한)</li>
+</ul>
+
+<h4 id="tertiary-storage">Tertiary Storage</h4>
+
+<p>속도는 느리지만 비용이 저렴하고 용량이 큰 저장장치이다. 가장 적합한 용도는 백업, 아카이브, 잘 안쓰는 데이터를 저장할 때 쓰인다.</p>
+
+<h5 id="운영체제-3차-저장장치-관리-역할">운영체제 3차 저장장치 관리 역할</h5>
+
+<ul>
+  <li>장치 마운트/언마운트</li>
+  <li>장치 독점 사용 권한 관리</li>
+  <li>2차 -&gt; 3차 저장소로 데이터 마이그레이션</li>
+</ul>
+
+<h4 id="저장장치-계층별-특징">저장장치 계층별 특징</h4>
+
+<p><img src="/seonghun120614/assets/img/characteristics-of-various-types-of-storage.png" alt="characteristics-of-various-types-of-storage" /></p>
+
+<h3 id="155-cache-management">1.5.5 Cache Management</h3>
+
+<p>자주 쓰이는 정보를 느린 저장소에서 빠른 저장소로 복사해두고 사용하는 기술을 Caching 이라고 한다.</p>
+
+<ul>
+  <li>정보가 필요하면 일단 그 정보를 먼저 캐시에서 찾고</li>
+  <li>없으면 원래 저장소에서 읽고 캐시에 복사</li>
+</ul>
+
+<h4 id="레지스터와-캐시의-차이">레지스터와 캐시의 차이</h4>
+
+<p>CPU 내부에는 명령어 처리를 위한 <strong>레지스터(Register Set)</strong> 와, 메모리 접근 속도를 높이기 위한 <strong>캐시(Cache)</strong> 가 함께 존재한다.</p>
+
+<ul>
+  <li>
+    <p><strong>레지스터(Register)</strong>: CPU 연산에 직접 사용되는 <strong>가장 빠르고 가장 작은 저장소</strong>이며, 명령어 실행 시 즉각 참조된다.<br />
+컴파일러는 어떤 데이터를 레지스터에 보관할지 결정하기 위해 <strong>레지스터 할당 알고리즘</strong>을 사용한다.</p>
+  </li>
+  <li>
+    <p><strong>캐시(Cache)</strong>: 메인 메모리보다 빠른 저장소로, 자주 사용하는 데이터를 <strong>하드웨어가 자동으로 복사/관리</strong>한다.<br />
+L1, L2, L3 등의 계층 구조를 가지며, <strong>CPU와 메인 메모리 간 병목을 줄이기 위해 존재</strong>한다.</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>두 장치는 모두 속도를 위한 고속 저장장치이지만,<br />
+<strong>레지스터는 명령어 실행 단위의 직접 연산용</strong>,<br />
+<strong>캐시는 메모리 접근 지연 최소화를 위한 자동 관리 구조</strong>라는 점에서 차이가 있다.</p>
+</blockquote>
+
+<h4 id="하드웨어-수준-캐시">하드웨어 수준 캐시</h4>
+
+<p>일부 캐시는 완전히 하드웨어에 의해 구현된다. 위에서 캐시 설명에 포함되는 개념이다.</p>
+
+<blockquote>
+  <p>L1 Cache 예시:<br />
+Instruction Cache(L1I): 다음에 실행될 명령어를 저장<br />
+Data Cache(L1D): 자주 접근하는 데이터를 저장</p>
+</blockquote>
+
+<p>이런 캐시가 없으면 CPU는 메인 메모리에서 명령어/데이터를 가져오느라 <strong>여러 클럭 사이클 동안 대기</strong>해야 한다.</p>
+
+<h4 id="캐시-크기와-교체-정책">캐시 크기와 교체 정책</h4>
+
+<p>캐시는 용량이 제한적이기 때문에</p>
+<ul>
+  <li>크기 결정</li>
+  <li>교체 알고리즘
+이 두 가지로 성능이 크게 좌우된다. 이를 운영체제가 하게 된다.</li>
+</ul>
+
+<h4 id="계층적-저장-구조와-데이터-동기화">계층적 저장 구조와 데이터 동기화</h4>
+
+<p>보통 저장장치는 계층적으로 구성됨을 보았다.</p>
+
+<p>여기서 동일한 데이터가 여러 계층에 동시에 존재함을 알 수 있는데, 이에 대한 동기화를 어떻게 하는지 간단히 보자.</p>
+
+<p><img src="/seonghun120614/assets/img/migration-of-integer-a-from-disk-to-register.png" alt="migration-of-integer-a-from-disk-to-register.png" /></p>
+
+<blockquote>
+  <p>예: 정수 A가 파일 B에 있고, B는 2차 저장장치에 있음</p>
+  <ol>
+    <li>2차 저장장치에서 메인 메모리로 블록 복사</li>
+    <li>메모리 -&gt; 캐시 -&gt; 레지스터 순으로 A를 이동</li>
+    <li>레지스터에서 A를 증가시키고</li>
+    <li>수정된 값을 모든 계층에 동기화<br />
+여기서 캐시 계층에 값을 최신화 시키는 것을 캐시 일관성이라고 함</li>
+  </ol>
+</blockquote>
+
+<h4 id="환경별-고려-사항">환경별 고려 사항</h4>
+
+<p><strong>멀티태스킹 환경</strong>에서는 여러 프로세스가 동일 데이터 A에 접근할 경우에 가장 최신의 값을 보장해야 한다. 여기서 발생하는 문제를 <strong>캐시 일관성(Cache Coherency)</strong>이라하고 보통 하드웨어에서 처리하게 된다.</p>
+
+<p>멀티태스킹 뿐만 아니라 <strong>분산 시스템</strong>도 여러 컴퓨터에 <strong>파일 복사본(replica)</strong>이 존재 가능해서 수정 시 다른 복사본에도 동기화가 필요하게 된다.</p>
+
+<h3 id="156-io-system-management">1.5.6 I/O System Management</h3>
+
+<p>운영체제는 특정 하드웨어 장치의 복잡한 특성을 사용자로부터 숨겨서 사용자가 사용하기 편리하게 한다.</p>
+
+<p>대부분의 구성요소는 I/O 장치의 특성을 몰라도 되도록 I/O 하위 시스템이 이를 감추어주는데,</p>
+<ul>
+  <li>메모리 관리 구성요소
+    <ul>
+      <li><strong>버퍼링</strong>: I/O 속도 차이를 완화하기 위한 임시 메모리</li>
+      <li>캐싱</li>
+      <li><strong>스풀링</strong>: 출력 장치처럼 순차적 처리 필요한 경우 데이터를 큐에 저장</li>
+    </ul>
+  </li>
+  <li>일반적인 장치 드라이버 인터페이스</li>
+  <li>특정 하드웨어 장치에 대한 드라이버</li>
+  <li>…
+이러한 계층화된 구성 덕분에 운영체제는 새로운 장치에 대한 특수한 세부사항을 알지 않아도 통일된 방식으로 I/O를 처리할 수 있다.</li>
+</ul>
+
+<p>효율적인 I/O 하위 시스템을 구성하기 위해 인터럽트 핸들러와 장치 드라이버가 사용된다.</p>
+
+<h4 id="운영체제-io-시스템-관리-역할">운영체제 I/O 시스템 관리 역할</h4>
+<ul>
+  <li>I/O 하위 시스템이 다른 시스템 구성요소와 어떻게 인터페이스하는지</li>
+  <li>장치를 어떻게 관리하는지</li>
+  <li>데이터를 어떻게 전송하는지</li>
+  <li>I/O 완료를 어떻게 감지하는지</li>
+</ul>
+
+<p>1.6 ~ 1.11 은 간단히 넘어간다. 나중에 더 해도 됨.</p>
+
+<hr />
+
+<h2 id="-출처">🔗 출처</h2>
+<ul>
+  <li>도서: <a href="">Operating System Concepts 10th Edition</a></li>
+</ul>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/16/1.5-resource-management.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/16/1.5-resource-management.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

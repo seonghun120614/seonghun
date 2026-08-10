@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>WebSocket</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>WebSocket | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="WebSocket" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/2026/07/08/websocket.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/2026/07/08/websocket.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:image" content="https://seonghun120614.github.io/seonghun120614/assets/img/websocket.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-07-08T07:09:15+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://seonghun120614.github.io/seonghun120614/assets/img/websocket.png" />
+<meta property="twitter:title" content="WebSocket" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2026-07-08T07:09:15+00:00","datePublished":"2026-07-08T07:09:15+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"WebSocket","image":"https://seonghun120614.github.io/seonghun120614/assets/img/websocket.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/2026/07/08/websocket.html"},"url":"https://seonghun120614.github.io/seonghun120614/2026/07/08/websocket.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/2026/07/08/websocket.html">
+        <h2 class="post-title">WebSocket</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Jul 8, 2026</div></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#흐름">흐름</a></li>
+  <li><a href="#websocket">WebSocket</a>
+    <ul>
+      <li><a href="#spring-websocketsession-만들기">Spring WebSocketSession 만들기</a></li>
+      <li><a href="#websocketsession">WebSocketSession</a></li>
+      <li><a href="#옵션-메시지-크기-제한">(옵션) 메시지 크기 제한</a></li>
+      <li><a href="#echo-구현">Echo 구현</a></li>
+    </ul>
+  </li>
+  <li><a href="#단일-서버-채팅접속자-관리">단일 서버 채팅접속자 관리</a>
+    <ul>
+      <li><a href="#concurrentwebsocketsessiondecorator-동시성-관리">ConcurrentWebSocketSessionDecorator 동시성 관리</a></li>
+      <li><a href="#옵션-cors-체크">(옵션) CORS 체크</a></li>
+      <li><a href="#">(옵션) Virtual Thread 사용</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>채팅 서비스를 만들어보자.</p>
+
+<h3 id="흐름">흐름</h3>
+
+<p>기본적으로 다음과 같은 데이터 흐름이 있다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>클라이언트 → (요청) → 서버 → (응답) → 클라이언트 → 연결 끊김
+</code></pre></div></div>
+
+<p>이 상황에서 채팅 서비스의 문제는 서버가 먼저 말을 걸 수 없다는 것이다. 다른 사람이 메시지를 보냈을때 이를 알리려면 HTTP 로는 계속 요청을 해봐야지만 알게 된다(폴링 방식). 이는 비효율적이고 실시간도 아니다.</p>
+
+<p>하지만 웹소켓은 다르다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>클라이언트 ⟷ (연결 유지) ⟷ 서버
+        양방향, 서버도 먼저 말 걸 수 있음
+</code></pre></div></div>
+
+<p>한 번 연결하면 끊지 않고 유지하면서, 양쪽 다 아무 때나 메시지를 보낼 수 있게 되고, 서버가 클라이언트에게 밀어줄(push) 수 있는 방식이다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[유저 A] ⟷ WebSocket ⟷ [서버] ⟷ WebSocket ⟷ [유저 B]
+                          │
+                    ┌─────┴─────┐
+              접속자 관리    메시지 라우팅
+             (누가 붙어있나)  (A→방→B에게 전달)
+</code></pre></div></div>
+
+<ol>
+  <li>유저가 접속하면 → 서버가 그 연결(WebSocket Session)을 어딘가 저장해둠</li>
+  <li>유저 A가 메시지 보내면 → 서버가 같은 방의 다른 유저들 연결을 찾아서</li>
+  <li>그 연결들로 메시지를 밀어줌(broadcast)</li>
+</ol>
+
+<p>여기서는 동시성 관리가 중요한데, 여러 유저가 동시에 접속/해제하며 건드리고, 메시지 뿌릴 때 여러 연결을 동시에 써야하기 때문이다. 이는 다중 서버 문제일 때 더 부각되는데,</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>서버 1대일 때:
+[A] ⟷ [서버] ⟷ [B]     ← A, B 둘 다 같은 서버, 문제없음
+
+서버 2대일 때:
+[A] ⟷ [서버1]  ...  [서버2] ⟷ [B]
+        └─ A는 서버1에, B는 서버2에 붙음
+        → A가 보낸 메시지가 서버1에만 있음
+        → 서버2에 붙은 B는 못 받음 ❌
+</code></pre></div></div>
+
+<p>A 와 B 에 연결된 세션은 같은 서버라서 문제가 없겠지만, 서버가 여러 대로 늘어나면 그만큼 데이터 트래픽 관리가 복잡해진다.</p>
+
+<h3 id="websocket">WebSocket</h3>
+
+<p>3-Way Handshake 를 이용해서 기본적으로 연결을 유지하게 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>연결 (핸드셰이크) → [연결 계속 유지] → 양쪽이 아무 때나 메시지 주고받음 → 명시적으로 닫을 때까지 유지
+</code></pre></div></div>
+
+<p>TCP 방식이며, 한쪽이 명시적으로 닫을 때까지 이는 유효하다. 연결을 보통 세션이라고도 한다. 여기서 재밌는 부분은 HTTP 요청을 통해서 이를 WebSocket 으로 바꾸는 과정이 포함되어 있다. 이를 <code class="language-plaintext highlighter-rouge">101 Switching Protocols</code> 을 통해서 이루어지게 되고, 그래서 WebSocket URL은 다른 프로토콜로 <code class="language-plaintext highlighter-rouge">ws://</code>, <code class="language-plaintext highlighter-rouge">wss://</code> 로 시작하게 된다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. 클라이언트: HTTP 요청 보냄 -&gt; 그 이후 ws 으로 승격할 수 있는 페이로드를 보냄
+   GET /chat HTTP/1.1
+   Upgrade: websocket          ← 이 헤더가 핵심
+   Connection: Upgrade
+
+2. 서버:
+   HTTP/1.1 101 Switching Protocols   ← 101 상태코드
+
+3. 이후: 그 연결이 WebSocket으로 전환됨 → 계속 유지
+</code></pre></div></div>
+
+<p>연결 유지의 실체는 바로 세션이다. 서버는 각 연결을 WebSocketSession 객체로 붙잡아두게 된다.</p>
+
+<h4 id="spring-websocketsession-만들기">Spring WebSocketSession 만들기</h4>
+
+<p>다음 의존성을 추가한다.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>implementation 'org.springframework.boot:spring-boot-starter-websocket'
+</code></pre></div></div>
+
+<p>웹소켓에서는 연결의 생명주기 이벤트마다 콜백이 있고, <code class="language-plaintext highlighter-rouge">TextWebSocketHandler</code> 를 상속해서 구현한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Component</span>
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EchoWebSocketHandler</span> <span class="kd">extends</span> <span class="nc">TextWebSocketHandler</span> <span class="o">{</span> <span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">TextWebSocketHandler</code> 를 기억해두자. <code class="language-plaintext highlighter-rouge">TextWebSocketHandler</code> 를 까보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TextWebSocketHandler</span> <span class="kd">extends</span> <span class="nc">AbstractWebSocketHandler</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">handleBinaryMessage</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span> <span class="nc">BinaryMessage</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">session</span><span class="o">.</span><span class="na">close</span><span class="o">(</span><span class="nc">CloseStatus</span><span class="o">.</span><span class="na">NOT_ACCEPTABLE</span><span class="o">.</span><span class="na">withReason</span><span class="o">(</span><span class="s">"Binary messages not supported"</span><span class="o">));</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">var4</span><span class="o">)</span> <span class="o">{</span> <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">AbstractWebSocketHandler</code> 를 상속받아 구현중인데, <code class="language-plaintext highlighter-rouge">handleBinaryMessage</code> 를 볼 수 있다. Binary 형태의 스트링을 보내는 함수이다. 상위 함수를 보면</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterConnectionEstablished</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{}</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleMessage</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span> <span class="nc">WebSocketMessage</span><span class="o">&lt;?&gt;</span> <span class="n">message</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">message</span> <span class="k">instanceof</span> <span class="nc">TextMessage</span> <span class="n">textMessage</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">handleTextMessage</span><span class="o">(</span><span class="n">session</span><span class="o">,</span> <span class="n">textMessage</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">message</span> <span class="k">instanceof</span> <span class="nc">BinaryMessage</span> <span class="n">binaryMessage</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">handleBinaryMessage</span><span class="o">(</span><span class="n">session</span><span class="o">,</span> <span class="n">binaryMessage</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(!(</span><span class="n">message</span> <span class="k">instanceof</span> <span class="nc">PongMessage</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"Unexpected WebSocket message type: "</span> <span class="o">+</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">message</span><span class="o">));</span>
+        <span class="o">}</span>
+
+        <span class="nc">PongMessage</span> <span class="n">pongMessage</span> <span class="o">=</span> <span class="o">(</span><span class="nc">PongMessage</span><span class="o">)</span><span class="n">message</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">handlePongMessage</span><span class="o">(</span><span class="n">session</span><span class="o">,</span> <span class="n">pongMessage</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">handleTextMessage</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span> <span class="nc">TextMessage</span> <span class="n">message</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{}</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">handleBinaryMessage</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span> <span class="nc">BinaryMessage</span> <span class="n">message</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{}</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">handlePongMessage</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span> <span class="nc">PongMessage</span> <span class="n">message</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{}</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleTransportError</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span> <span class="nc">Throwable</span> <span class="n">exception</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{}</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterConnectionClosed</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span> <span class="nc">CloseStatus</span> <span class="n">status</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{}</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">supportsPartialMessages</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span> <span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">handleMessage</code> 라는 함수만 주어지고, 다른 것들은 선언만 해놓고 우리가 구현해야 하는 식으로 되어 있다. 이를 Template Method Pattern 이라고 한다. 각 빈 영역의 메서드들을 채워넣으면 된다. 우선 커넥션이 성사되었을때, 커넥션을 받아서 맨 처음에 실행할 함수를 작성한다. 이는 <code class="language-plaintext highlighter-rouge">afterConnectionEstablished</code> 함수이다. 템플릿 메서드 패턴이 일종의 프로세스(라이프사이클)만 짜두고 내부 세부적인 프로세스는 알아서 우리가 구현하도록 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterConnectionEstablished</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"&gt;&gt;&gt; {} 님 입장."</span><span class="o">,</span> <span class="n">session</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이제 log 를 이용해 서버 로그를 띄우거나 유저에게 들어왔다는 표시를 남겨줘보자. 그러기 위해서는 session 을 알아야 한다.</p>
+
+<h5 id="websocketsession">WebSocketSession</h5>
+
+<p>웹소켓 세션은 중요하다. 우리가 웹소켓 연결을 토대로 연결을 유지하기 위해 세션을 추상화하여 우리에게 제공해준다. 내부적인 동작 방식은 알아서 다 구현되어 있다. 우리는 연결을 가져와서 쓰기만 하면 된다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">WebSocketSession</span> <span class="kd">extends</span> <span class="nc">Closeable</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="nf">getId</span><span class="o">();</span>
+    <span class="nd">@Nullable</span> <span class="no">URI</span> <span class="nf">getUri</span><span class="o">();</span>
+    <span class="nc">HttpHeaders</span> <span class="nf">getHandshakeHeaders</span><span class="o">();</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="nf">getAttributes</span><span class="o">();</span>
+    <span class="nd">@Nullable</span> <span class="nc">Principal</span> <span class="nf">getPrincipal</span><span class="o">();</span>
+    <span class="nd">@Nullable</span> <span class="nc">InetSocketAddress</span> <span class="nf">getLocalAddress</span><span class="o">();</span>
+    <span class="nd">@Nullable</span> <span class="nc">InetSocketAddress</span> <span class="nf">getRemoteAddress</span><span class="o">();</span>
+    <span class="nd">@Nullable</span> <span class="nc">String</span> <span class="nf">getAcceptedProtocol</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">setTextMessageSizeLimit</span><span class="o">(</span><span class="kt">int</span> <span class="n">messageSizeLimit</span><span class="o">);</span>
+    <span class="kt">int</span> <span class="nf">getTextMessageSizeLimit</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">setBinaryMessageSizeLimit</span><span class="o">(</span><span class="kt">int</span> <span class="n">messageSizeLimit</span><span class="o">);</span>
+    <span class="kt">int</span> <span class="nf">getBinaryMessageSizeLimit</span><span class="o">();</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">WebSocketExtension</span><span class="o">&gt;</span> <span class="nf">getExtensions</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">sendMessage</span><span class="o">(</span><span class="nc">WebSocketMessage</span><span class="o">&lt;?&gt;</span> <span class="n">message</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span><span class="o">;</span>
+    <span class="kt">boolean</span> <span class="nf">isOpen</span><span class="o">();</span>
+    <span class="nd">@Override</span>
+    <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">IOException</span><span class="o">;</span>
+    <span class="kt">void</span> <span class="nf">close</span><span class="o">(</span><span class="nc">CloseStatus</span> <span class="n">status</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>여기서 익숙하게 봤던 것은 id 와 principal 일 것이다. <code class="language-plaintext highlighter-rouge">Principal</code> 은 인증된 사용자의 메타데이터들이 저장되어 있는 곳이었다. 이를 이용해 우리는 이 연결의 주인이 누구인지 알 수 있다(Security 에서 보았다). 또한, <code class="language-plaintext highlighter-rouge">getRemoteAddress</code> 는 사용자의, 클라이언트의 주소가 되겠다. 그리고 또 다른 메타데이터들은 <code class="language-plaintext highlighter-rouge">Map&lt;String, Object&gt; getAttributes();</code> 을 통해서 저장할 수 있게 해놓았다. 세션에 부가 정보를 매달아두어서 닉네임과 방 이름, 접속한 방 아이디 등등을 여기 저장할 수 있다. 여기서 헷갈리는 점은 아까 말했던 연결의 주인을 식별하는 것과 닉네임은 엄연히 다르다는 것을 기억하자. 닉네임은 방마다 다를 수도 있고, 닉네임은 DB 소스 상에 정보를 저장하는 곳이다.</p>
+
+<p>이제 메시지 전송으로 가보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">sendMessage</span><span class="o">(</span><span class="nc">WebSocketMessage</span><span class="o">&lt;?&gt;</span> <span class="n">message</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span><span class="o">;</span>
+
+<span class="kt">boolean</span> <span class="nf">isOpen</span><span class="o">();</span>                  <span class="c1">// 연결이 아직 살아있나 (broadcast에서 체크하던 거)</span>
+<span class="kt">void</span> <span class="nf">close</span><span class="o">();</span>                      <span class="c1">// 연결 닫기 (정상 종료, status 1000)</span>
+<span class="kt">void</span> <span class="nf">close</span><span class="o">(</span><span class="nc">CloseStatus</span> <span class="n">status</span><span class="o">);</span>    <span class="c1">// 특정 상태로 닫기</span>
+</code></pre></div></div>
+
+<p>sendMessage 로 WebSocketMessage 를 보내고 있다. isOpen, close 로 우리는 세션이 종료되었는지 살아있는지도 알 수 있다.</p>
+
+<h5 id="옵션-메시지-크기-제한">(옵션) 메시지 크기 제한</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">setTextMessageSizeLimit</span><span class="o">(</span><span class="kt">int</span> <span class="n">messageSizeLimit</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>위 메서드를 통해서 메시지의 사이즈를 조정 가능하다. 너무 큰 메시지로 인한 공격/오작동을 막는 설정이다.</p>
+
+<blockquote>
+  <p>내부 WebSocket 세션은 동시 전송(concurrent sending)을 허용하지 않는다. 따라서 전송은 동기화(synchronized)되어야 한다. 즉, 하나의 Session에 여러 스레드가 동시에 sendMessage를 호출하면 안 된다는 것이다. 앞서 우리가 보았던게 이거다. 이를 우리는 Transaction 으로 해결할 수 있을 것이다. 나중에 다뤄보자.</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Configuration</span>
+<span class="nd">@EnableWebSocket</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebSocketConfig</span> <span class="kd">implements</span> <span class="nc">WebSocketConfigurer</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">EchoWebSocketHandler</span> <span class="n">echoHandler</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">registerWebSocketHandlers</span><span class="o">(</span><span class="nc">WebSocketHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">registry</span><span class="o">.</span><span class="na">addHandler</span><span class="o">(</span><span class="n">echoHandler</span><span class="o">,</span> <span class="s">"/ws/echo"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">setAllowedOrigins</span><span class="o">(</span><span class="s">"*"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">/ws/echo</code>로 들어오는 <code class="language-plaintext highlighter-rouge">WebSocket</code> 연결을 <code class="language-plaintext highlighter-rouge">echoHandler</code> 가 처리하도록 했다. <code class="language-plaintext highlighter-rouge">@EnableWebSocket</code> 이 <code class="language-plaintext highlighter-rouge">WebSocket</code> 기능을 켜는 스위치이다.</p>
+
+<h5 id="echo-구현">Echo 구현</h5>
+
+<p>이제 사용자에게 환영 메시지를 보내자. 그러기 전에 또 보아야 할 것은 <code class="language-plaintext highlighter-rouge">WebSocketMessage</code> 가 어떻게 생겨먹었는지다. <code class="language-plaintext highlighter-rouge">sendMessage</code> 함수를 쓸때 우리는 <code class="language-plaintext highlighter-rouge">WebSocketMessage</code> 를 보내야 하는 것을 알 수 있었다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">WebSocketMessage</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="o">{</span>
+	<span class="no">T</span> <span class="nf">getPayload</span><span class="o">();</span>
+
+	<span class="kt">int</span> <span class="nf">getPayloadLength</span><span class="o">();</span>
+
+	<span class="kt">boolean</span> <span class="nf">isLast</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>위처럼 생겼지만 인터페이스를 가져와서 쓸 수는 없다. <code class="language-plaintext highlighter-rouge">AbstractWebSocketMessage</code> 를 찾아보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractWebSocketMessage</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="nc">WebSocketMessage</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">final</span> <span class="no">T</span> <span class="n">payload</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">last</span><span class="o">;</span>
+
+	<span class="nc">AbstractWebSocketMessage</span><span class="o">(</span><span class="no">T</span> <span class="n">payload</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">(</span><span class="n">payload</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="nc">AbstractWebSocketMessage</span><span class="o">(</span><span class="no">T</span> <span class="n">payload</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">isLast</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">Assert</span><span class="o">.</span><span class="na">notNull</span><span class="o">(</span><span class="n">payload</span><span class="o">,</span> <span class="s">"payload must not be null"</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">payload</span> <span class="o">=</span> <span class="n">payload</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">last</span> <span class="o">=</span> <span class="n">isLast</span><span class="o">;</span>
+	<span class="o">}</span>
+    <span class="c1">// ...</span>
+</code></pre></div></div>
+
+<p>우선 payload 쪽을 보자. final 로 선언되어 있어서 한 번 쓰면 더이상 새로 생성하지 않고서야 수정할 수 없다. 텍스트 메시지라면 <code class="language-plaintext highlighter-rouge">String</code>, 바이너리 메시지라면 <code class="language-plaintext highlighter-rouge">ByteBuffer</code> 등이 이 제너릭 타입에 위치하게 된다. 생성자는 payload 를 받게 되고, isLast 변수도 있는 것을 보면 <code class="language-plaintext highlighter-rouge">AbstractWebSocketMessage</code> 단위는 문장을 한 뭉텅이가 아닌 따로따로도 보낼 수 있는 것을 알 수 있다. 우리가 대용량 메시지를 보낼때 사용하는 듯하다. 이를 나중에 써볼 것이다.</p>
+
+<p>이를 상속받는 <code class="language-plaintext highlighter-rouge">TextWebSocketMessage</code> 를 보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">TextMessage</span> <span class="kd">extends</span> <span class="nc">AbstractWebSocketMessage</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">final</span> <span class="kt">byte</span> <span class="nd">@Nullable</span> <span class="o">[]</span> <span class="n">bytes</span><span class="o">;</span>
+
+	<span class="kd">public</span> <span class="nf">TextMessage</span><span class="o">(</span><span class="nc">CharSequence</span> <span class="n">payload</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">(</span><span class="n">payload</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="kc">true</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">bytes</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="nf">TextMessage</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">payload</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">(</span><span class="k">new</span> <span class="nc">String</span><span class="o">(</span><span class="n">payload</span><span class="o">,</span> <span class="nc">StandardCharsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">));</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">bytes</span> <span class="o">=</span> <span class="n">payload</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="nf">TextMessage</span><span class="o">(</span><span class="nc">CharSequence</span> <span class="n">payload</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">isLast</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">(</span><span class="n">payload</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="n">isLast</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">bytes</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="o">}</span>
+    <span class="c1">// ...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>String 형태의 메시지를 보낼 수 있는 최종 클래스이다. 네트워크 전송 효율과 메모리 최적화를 고려한 설계가 잘되어 있는데, 이를 보자. TextMessage 는 bytes 라는 byte 배열을 갖고 있다. 이는 소켓 네트워크 최하단(TCP/IP) 에서는 결국 모든 데이터가 바이트 배열로 전송되기 때문에, 만약 생성 시점에 <code class="language-plaintext highlighter-rouge">byte[]</code>를 미리 받아주면, 이를 버리지 않고 저장해두어서 바이트로 변환하는 중복 연산 비용을 줄이기 위한 최적화가 가능하다. 생성자는 java primitive 들로 쉽게 바꿀 수 있는 형태만 받도록 되어 있다. <code class="language-plaintext highlighter-rouge">String</code> 이 <code class="language-plaintext highlighter-rouge">CharSequence</code> 인터페이스를 구현한 클래스이기 때문에 우리는 쉽게 가져다 쓸 수 있다.</p>
+
+<p>또한 <code class="language-plaintext highlighter-rouge">StringBuilder</code>, <code class="language-plaintext highlighter-rouge">StringBuffer</code> 도 <code class="language-plaintext highlighter-rouge">CharSequence</code> 이다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterConnectionEstablished</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"&gt;&gt;&gt; {} 님 입장."</span><span class="o">,</span> <span class="n">session</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+    <span class="n">session</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="n">intro</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이제 구성 설정만 해주고 바로 돌려보자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Configuration</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebSocketConfig</span> <span class="kd">implements</span> <span class="nc">WebSocketConfigurer</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">registerWebSocketHandlers</span><span class="o">(</span><span class="nc">WebSocketHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+        
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">WebSocketConfigurer</code> 를 구현하여서 우리가 만들었던 Session 핸들러를 여기 등록해준다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">registerWebSocketHandlers</span><span class="o">(</span><span class="nc">WebSocketHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">registry</span><span class="o">.</span><span class="na">addHandler</span><span class="o">(</span><span class="n">echoWebSocketHandler</span><span class="o">,</span> <span class="s">"/chat"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>우리의 웹소켓 핸들러가 URL path 어디로 들어오면 세션 연결을 시킬지를 설정한다. 이것만 해주면 안되고 Spring 의 AutoConfiguration 을 켜주어야 한다. <code class="language-plaintext highlighter-rouge">@EnabledWebSocket</code> 을 Configuration 에 붙이자. 이제 웹 브라우저에서 개발자 도구를 열어서 웹소켓 연결을 시도하자.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">ws</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="dl">"</span><span class="s2">ws://localhost:8080/chat</span><span class="dl">"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>자바스크립트로 위를 입력한다.</p>
+
+<p><img src="../../assets/img/echo-intro.png" alt="echo" /></p>
+
+<p>성공했음을 볼 수 있다. 하지만, 아직 이르다. 우리한테 메시지가 온게 없는 것을 볼 수 있다. 이는 ws 변수 안에 저장되어 있는데, javascript 의 WebSocket 안에는 <code class="language-plaintext highlighter-rouge">onmessage</code> 를 이용해 우리가 메시지가 왔는지 확인할 수 있다. onmessage 는 함수 선언문을 통해 메시지를 출력하도록 할 수 있다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">ws</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="dl">"</span><span class="s2">ws://localhost:8080/chat</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">ws</span><span class="p">.</span><span class="nx">onopen</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">✅ 연결됨</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">ws</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">📩 서버:</span><span class="dl">"</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><img src="../../assets/img/echo-client-intro.png" alt="echo intro" /></p>
+
+<p>이제 클라이언트 쪽에서 연결된 세션에 <code class="language-plaintext highlighter-rouge">send</code> 메서드를 이용해 보낼 수 있다. 이를 받아낼 함수<code class="language-plaintext highlighter-rouge">handleTextMessage</code>를 만들어주자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">handleTextMessage</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span>
+                                    <span class="nc">TextMessage</span> <span class="n">message</span>
+<span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"&gt;&gt;&gt; {}: {}"</span><span class="o">,</span> <span class="n">session</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">message</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+    <span class="n">session</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이를 이용해 message 를 다시 메아리 보낼 수 있다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">handleTextMessage</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span>
+                                    <span class="nc">TextMessage</span> <span class="n">message</span>
+<span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"&gt;&gt;&gt; {}: {}"</span><span class="o">,</span> <span class="n">session</span><span class="o">.</span><span class="na">getPrincipal</span><span class="o">(),</span> <span class="n">message</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+    <span class="n">session</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>여기서 getId 를 하지 않고, getPrincipal 을 통해서 해보자. 그러면</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt;&gt; null: TextMessage payload=[안녕하세요], byteCount=15, last=true]
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">null</code> 이 뜨는 것을 알 수 있는데, 이는 아직 우리가 principal 을 설정 안해주어서이다. 초기에 연결이 될 때 이 값을 설정해주어야 한다. 이는 당연히 Security 가 한다. 그러니 Security 를 설정하여 <code class="language-plaintext highlighter-rouge">Authentication</code> 을 가진 요청만이 이 값을 null 이 아닌 값으로 들어올 수 있다. 퇴장은 다음과 같이 한다:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterConnectionClosed</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span>
+                                    <span class="nc">CloseStatus</span> <span class="n">status</span>
+<span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"&gt;&gt;&gt; {} 님이 나갔습니다."</span><span class="o">,</span> <span class="n">session</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이제 단일 서버에서 채팅 접속자들을 관리해보자.</p>
+
+<h4 id="단일-서버-채팅접속자-관리">단일 서버 채팅접속자 관리</h4>
+
+<p>단일 서버에서 여러 연결된 세션에게 메시지를 뿌릴 수 있는 것을 확인했다. 여기서 한 사람이 보낸 메시지를 다수의 사람에게 뿌릴 때에 접속 세션들을 모아놓은 컬렉션이 필요하다. 이를 선언해주자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">WebSocketSession</span><span class="o">&gt;</span> <span class="n">sessions</span> <span class="o">=</span> <span class="nc">ConcurrentHashMap</span><span class="o">.</span><span class="na">newKeySet</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ConcurrentHashMap</code> 에서는 <code class="language-plaintext highlighter-rouge">static</code> 한 메서드로 <code class="language-plaintext highlighter-rouge">newKeySet()</code> 이라는 것을 만들 수 있다. 멀티스레드 환경을 위해 <code class="language-plaintext highlighter-rouge">Collections.synchronizedSet(new HashSet&lt;&gt;())</code> 을 사용할 수도 있겠지만, 이는 데이터에 접근할 때마다 <code class="language-plaintext highlighter-rouge">Set</code> 전체에 락(Lock)을 걸어 한 스레드가 작업할 때 다른 모든 스레드가 대기해야 하는 병목 현상이 생기게 된다. 반면 <code class="language-plaintext highlighter-rouge">ConcurrentHashMap</code> 은 <code class="language-plaintext highlighter-rouge">Lock Striping</code> 이라는 해시 맵을 여러 조각으로 나누어 부분 락을 거는 기술을 사용한다.</p>
+
+<p>이제 이를 이용해서 처음 connection 이 들어오면 이를 저장해주자. 또한, 다른 사용자들에게 메시지를 보내게 하기 위해 <code class="language-plaintext highlighter-rouge">broadcast</code> 을 구현하자.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterConnectionEstablished</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"&gt;&gt;&gt; {} 님 입장."</span><span class="o">,</span> <span class="n">session</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+    <span class="n">sessions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">session</span><span class="o">);</span>
+    <span class="n">broadcast</span><span class="o">(</span><span class="s">"&gt;&gt;&gt; "</span> <span class="o">+</span> <span class="n">session</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">+</span> <span class="s">" 님이 입장하였습니다."</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">handleTextMessage</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span>
+                                    <span class="nc">TextMessage</span> <span class="n">message</span>
+<span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"&gt;&gt;&gt; {}: {}"</span><span class="o">,</span> <span class="n">session</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">message</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+    <span class="n">broadcast</span><span class="o">(</span><span class="s">"["</span><span class="o">+</span> <span class="n">session</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">+</span><span class="s">"]"</span> <span class="o">+</span> <span class="n">message</span><span class="o">.</span><span class="na">getPayload</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterConnectionClosed</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span>
+                                    <span class="nc">CloseStatus</span> <span class="n">status</span>
+<span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="n">sessions</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">session</span><span class="o">);</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"&gt;&gt;&gt; {} 님이 나갔습니다."</span><span class="o">,</span> <span class="n">session</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+    <span class="n">broadcast</span><span class="o">(</span><span class="s">"&gt;&gt;&gt; "</span> <span class="o">+</span> <span class="n">session</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">+</span> <span class="s">" 님이 퇴장하였습니다."</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">broadcast</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">var</span> <span class="nl">session:</span> <span class="n">sessions</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">session</span><span class="o">.</span><span class="na">isOpen</span><span class="o">())</span>
+            <span class="n">session</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="k">new</span> <span class="nc">TextMessage</span><span class="o">(</span><span class="n">message</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>여기서 이제 문제가 발생하는 것은 사용자가 늘어감에 따라서 내부적으로 스레드가 여러 스레드가 필요하다. 접속자 목록은 이미 <code class="language-plaintext highlighter-rouge">ConcurrentHashMap.newKeySet</code> 로 해결했기 때문에 여러 스레드가 이를 조회하는 데에 문제는 없을 것이다. 다만, <code class="language-plaintext highlighter-rouge">broadcast</code> 를 할 때, 여러 스레드가 한 세션에 보낼 우려가 있다. 이를 해결하려면 처음 이 Session 을 만들때 <code class="language-plaintext highlighter-rouge">ConcurrentWebSocketSessionDecorator</code> 라는 데코레이터 패턴을 이용하여 이를 감싸주어야 한다(Concurrent 기능이 들어간 Session).</p>
+
+<h5 id="concurrentwebsocketsessiondecorator-동시성-관리">ConcurrentWebSocketSessionDecorator 동시성 관리</h5>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">WebSocketSession</span> <span class="n">safeSession</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ConcurrentWebSocketSessionDecorator</span><span class="o">(</span>
+        <span class="n">session</span><span class="o">,</span>
+        <span class="mi">1000</span><span class="o">,</span>
+        <span class="mi">8192</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">sendTimeLimit</code> 은 전송에 너무 오래 걸리면 세션을 닫는 임계치이다. 이는 느린 클라이언트가 전체를 막는 걸 방지하게 한다. <code class="language-plaintext highlighter-rouge">bufferSizeLimit</code> 은 밀린 메시지가 8192 바이트 즉, 8KB 이상이면 세션을 닫도록 설정해준다. 이는 메모리 폭발을 방지하도록 한다. 결론적으로 <code class="language-plaintext highlighter-rouge">ConcurrentWebSocketSessionDecorator</code> 여러 스레드가 동시에 <code class="language-plaintext highlighter-rouge">sendMessage</code> 를 호출해도, 내부적으로 큐에 쌓아서 순서대로 하나씩 전송하게 된다.</p>
+
+<p>항상 채팅 서비스를 구축할 때에는 동시성을 고려한 클래스로 구현하자.</p>
+
+<h5 id="옵션-cors-체크">(옵션) CORS 체크</h5>
+
+<p>웹에서 101 Switching Protocols 으로 승격하려고 할때, 이는 cross-origin 이 된다. 기본적으로 이를 막아놓는게 Default 이기 때문에 config 에서 이를 수정해줘야 한다.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">registerWebSocketHandlers</span><span class="o">(</span><span class="nc">WebSocketHandlerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">registry</span><span class="o">.</span><span class="na">addHandler</span><span class="o">(</span><span class="n">echoWebSocketHandler</span><span class="o">,</span> <span class="s">"/chat"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">setAllowedOrigins</span><span class="o">(</span><span class="s">"*"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>다 허용하면 안되고 배포할 때에는 제한시키자.</p>
+
+<h5 id="옵션-virtual-thread-사용">(옵션) Virtual Thread 사용</h5>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">threads</span><span class="pi">:</span>
+    <span class="na">virtual</span><span class="pi">:</span>
+      <span class="na">enabled</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div></div>
+
+<p>Java 21 부터는 virtual thread 를 사용할 수 있는데, 대규모 I/O 처리가 필요한 애플리케이션의 성능을 극대화할 수 있다. 위 설정만으로도 virtual thread 를 사용할 수 있다(원래는 Tomcat 의 일반 스레드를 사용함). 혹은 다음을 설정해주면 된다:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExecutorConfig</span> <span class="o">{</span>
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">Executor</span> <span class="nf">websocketExecutor</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newVirtualThreadPerTaskExecutor</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>실행 관련 컨피그를 따로 만들어주자(순환참조 문제).</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">handleTextMessage</span><span class="o">(</span><span class="nc">WebSocketSession</span> <span class="n">session</span><span class="o">,</span>
+                                    <span class="nc">TextMessage</span> <span class="n">message</span>
+<span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"&gt;&gt;&gt; {}: {}"</span><span class="o">,</span> <span class="n">session</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">message</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+    <span class="n">websocketExecutor</span><span class="o">.</span><span class="na">execute</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">broadcast</span><span class="o">(</span><span class="s">"["</span> <span class="o">+</span> <span class="n">session</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">+</span> <span class="s">"]"</span> <span class="o">+</span> <span class="n">message</span><span class="o">.</span><span class="na">getPayload</span><span class="o">()));</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>이제 메시지를 보낼 때 virtual thread 를 이용해 작업을 수행하도록 바꿔만 주면 끝이다. 자세한 코드는 아래를 살펴보기를 바란다.</p>
+
+<p><a href="https://github.com/seonghun120614/Spring-WebSocket">Spring WebSocket</a></p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/2026/07/08/websocket.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/2026/07/08/websocket.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 8일차 Java 추상화와 디자인 패턴</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 8일차 Java 추상화와 디자인 패턴 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 8일차 Java 추상화와 디자인 패턴" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-8%EC%9D%BC%EC%B0%A8-%EC%B6%94%EC%83%81%ED%99%94%EC%99%80-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-8%EC%9D%BC%EC%B0%A8-%EC%B6%94%EC%83%81%ED%99%94%EC%99%80-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-08-26T04:03:19+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 8일차 Java 추상화와 디자인 패턴" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-08-26T04:03:19+00:00","datePublished":"2025-08-26T04:03:19+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 8일차 Java 추상화와 디자인 패턴","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-8%EC%9D%BC%EC%B0%A8-%EC%B6%94%EC%83%81%ED%99%94%EC%99%80-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-8%EC%9D%BC%EC%B0%A8-%EC%B6%94%EC%83%81%ED%99%94%EC%99%80-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-8%EC%9D%BC%EC%B0%A8-%EC%B6%94%EC%83%81%ED%99%94%EC%99%80-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 8일차 Java 추상화와 디자인 패턴</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Aug 26, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#abstract-class">Abstract Class</a>
+    <ul>
+      <li><a href="#abstract-class-의-접근제한자">Abstract Class 의 접근제한자</a></li>
+      <li><a href="#추상-클래스-구현-시-유의할-점">추상 클래스 구현 시 유의할 점</a></li>
+      <li><a href="#javalangthrowable">java.lang.Throwable</a></li>
+      <li><a href="#checked-exception">Checked Exception</a></li>
+      <li><a href="#unchecked-exception">Unchecked Exception</a></li>
+      <li><a href="#error">Error</a></li>
+      <li><a href="#validator-계층">Validator 계층</a></li>
+    </ul>
+  </li>
+  <li><a href="#interface">Interface</a>
+    <ul>
+      <li><a href="#Interface-Field">Interface Field</a></li>
+      <li><a href="#interface-method">Interface Method</a></li>
+    </ul>
+  </li>
+  <li><a href="#디자인-패턴">디자인 패턴</a>
+    <ul>
+      <li><a href="#template-method-pattern">Template Method Pattern</a></li>
+      <li><a href="#singleton-pattern">Singleton Pattern</a></li>
+      <li><a href="#abstract-factory-pattern">Abstract Factory Pattern</a></li>
+      <li><a href="#buidler-pattern">Buidler Pattern</a></li>
+    </ul>
+  </li>
+  <li><a href="#더-얻어갈-것들">더 얻어갈 것들</a>
+    <ul>
+      <li><a href="#reflect-패키지">Reflect 패키지</a></li>
+      <li><a href="#object-와-objects-활용">Object 와 Objects 활용</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="abstract-class">Abstract Class</h3>
+
+<p>사실 추상 클래스는 잘못 구현되었다고 실제 James Gosling 이 말한 바 있다.</p>
+
+<p>문제는 다음과 같다:</p>
+
+<ul>
+  <li>다중 상속 불가: 다중 상속을 막은 것에서 부터 공통 기능과 계약(메서드 시그니처)을 섞어야 하는 경우, abstract class 는 불편함.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 계약만 정의</span>
+<span class="kd">interface</span> <span class="nc">Drivable</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">drive</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// 공통 기능 포함</span>
+<span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Vehicle</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="n">model</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Vehicle</span><span class="o">(</span><span class="nc">String</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 공통 기능</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printModel</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Model: "</span> <span class="o">+</span> <span class="n">model</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 추상 메서드 (계약)</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">startEngine</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Car는 Vehicle을 상속해야 하고 Drivable도 구현해야 함</span>
+<span class="kd">class</span> <span class="nc">Car</span> <span class="kd">extends</span> <span class="nc">Vehicle</span> <span class="kd">implements</span> <span class="nc">Drivable</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nf">Car</span><span class="o">(</span><span class="nc">String</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">model</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">startEngine</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Car engine started!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">drive</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Car is driving!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 만약 다른 클래스도 상속해야 하면 abstract class 상속은 하나만 가능</span>
+<span class="kd">class</span> <span class="nc">SportsCar</span> <span class="kd">extends</span> <span class="nc">Car</span> <span class="cm">/*extends SomeOtherClass*/</span> <span class="o">{</span> 
+    <span class="c1">// 자바는 다중 상속을 막아서, Vehicle + SomeOtherClass 동시에 상속 불가</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이는 굉장히 유연하지 못함.</p>
+
+<ul>
+  <li>
+    <p>인터페이스와 혼동: default 가 있는데도 이는 추상 클래스의 목적을 인터페이스가 흡수하게 된 것.</p>
+  </li>
+  <li>
+    <p>기능 제한: 생성자, 필드, 메서드 구현 모두 가능하지만, 서브 클래스가 이미 다른 클래스를 상속하고 있다면 abstract class 를 못쓰는 구조적 제약이 있음</p>
+  </li>
+</ul>
+
+<p>이러한 이유로 <strong>abstract class</strong> 는 진짜 최상단 부모가 아니라면 쓰지 않는 것이 좋다.</p>
+
+<h4 id="abstract-class-의-접근제한자">Abstract Class 의 접근제한자</h4>
+
+<p>abstract class 를 선언할 때에는 <code class="language-plaintext highlighter-rouge">public</code>, <code class="language-plaintext highlighter-rouge">default</code> 로만 선언할 수 있다. 당연히 두 접근제한자는 클래스에 적용되는 접근제한자 규약이랑 똑같다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">public</code>: 모든 패키지 접근</li>
+  <li><code class="language-plaintext highlighter-rouge">default</code>: 같은 패키지 내에 접근</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">protected</code> 가 없는 이유는 당연하다. 상속을 위한 기능인데 당연히 상속된 것들은 다 접근 가능해야 할 것이다.</p>
+
+<blockquote>
+  <p>메서드의 접근제한자는 private 를 제외하고 다 가능하다.<br />
+이 이유는 서브클래스에서 이를 접근할 수 없게 되므로 구현하지 못하게 된다.</p>
+</blockquote>
+
+<p>Constructor 에서의 접근제한자는 private 까지 가능하지만, 호출이 불가하기 때문에 거의 쓰이지 않는다.</p>
+
+<h4 id="추상-클래스-구현-시-유의할-점">추상 클래스 구현 시 유의할 점</h4>
+
+<p>자바는 단일 상속만 지원하기 때문에 이미 다른 클래스를 상속받고 있는 경우 Abstract Class 를 추가로 상속할 수 없다. 따라서 공통 기능 + 계약을 묶어서 abstract class 로 만들면 유연성이 떨어진다.</p>
+
+<p>가능하면 <strong>공통 기능은 default 메서드가 있는 인터페이스로 대체</strong>한다.</p>
+
+<p>abstract class 는 진짜 상속 계층의 최상단 부모로서 <strong>common state나 field 가 필요할 때만 사용하는 것</strong>으로 한다.</p>
+
+<p>또한 추상 클래스는 <code class="language-plaintext highlighter-rouge">static</code>, <code class="language-plaintext highlighter-rouge">final</code> 이 붙을 수 있지만, 해당 개념의 의미를 정확히 파악하여 이게 정말로 초기화가 가능한지, 접근이 가능한지를 따지면 어디에 <code class="language-plaintext highlighter-rouge">static</code> 이 붙을 수 있고 안 붙을 수 있는지 파악 할 수 있다.</p>
+
+<h3 id="javalangthrowable">java.lang.Throwable</h3>
+
+<p>이제 자바에서 처리되는 유사 <strong>Trap</strong> 을 본다.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">java.lang.Throwable
+├── java.lang.Error                // 주로 JVM 레벨 문제
+│   ├── VirtualMachineError
+│   │   ├── OutOfMemoryError
+│   │   └── StackOverflowError
+│   ├── AssertionError
+│   └── LinkageError
+└── java.lang.Exception      // 프로그램에서 처리 가능한 예외
+    ├── java.lang.RuntimeException // Unchecked Exception
+    │   ├── NullPointerException
+    │   ├── IndexOutOfBoundsException
+    │   │   ├── ArrayIndexOutOfBoundsException
+    │   │   └── StringIndexOutOfBoundsException
+    │   ├── ArithmeticException
+    │   ├── ClassCastException
+    │   ├── IllegalArgumentException
+    │   │   └── NumberFormatException
+    │   ├── IllegalStateException
+    │   ├── UnsupportedOperationException
+    │   └── ConcurrentModificationException
+    ├── java.io.IOException          // Checked Exception <span class="o">(</span>입출력 관련<span class="o">)</span>
+    │   ├── FileNotFoundException
+    │   ├── EOFException
+    │   ├── InterruptedIOException
+    │   └── ObjectStreamException
+    │       ├── InvalidClassException
+    │       ├── NotSerializableException
+    │       └── OptionalDataException
+    ├── java.sql.SQLException
+    ├── ClassNotFoundException
+    ├── NoSuchMethodException
+    ├── NoSuchFieldException
+    ├── InstantiationException
+    └── ReflectiveOperationException
+        ├── IllegalAccessException
+        └── InvocationTargetException</code></pre></figure>
+
+<p>우리가 마주하는 대부분의 예외는 <code class="language-plaintext highlighter-rouge">java.lang.RuntimeException</code>, <code class="language-plaintext highlighter-rouge">java.io.IOException</code> 이다.</p>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">Error</code> 는 보통 처리하지 않고, <code class="language-plaintext highlighter-rouge">Exception</code> 을 try-catch 문으로 처리를 한다.</p>
+
+<h4 id="checked-exception">Checked Exception</h4>
+
+<p>Checked Exception 은 반드시 try-catch 문 혹은 throws 선언이 필요하다.</p>
+
+<p><strong>필수</strong></p>
+<ul>
+  <li>try-catch</li>
+  <li>throws 문</li>
+</ul>
+
+<p>이런게 없다면 컴파일이 실행되지 않는다.</p>
+
+<h4 id="unchecked-exception">Unchecked Exception</h4>
+
+<p>보통 처리하지 않으며, 선택적으로 try-catch 를 사용하여 에러 메시지를 띄울 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.io.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExceptionExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Checked Exception 예시: 파일 읽기</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">FileReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileReader</span><span class="o">(</span><span class="s">"nonexistent.txt"</span><span class="o">);</span>
+            <span class="n">reader</span><span class="o">.</span><span class="na">read</span><span class="o">();</span>
+            <span class="n">reader</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"파일이 존재하지 않습니다: "</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"파일 입출력 오류 발생: "</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="c1">// Unchecked Exception 예시: 0으로 나누기</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">/</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">ArithmeticException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"산술 오류 발생: "</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="error">Error</h4>
+
+<p>보통 프로그램에서 처리하지 않고 JVM 레벨에서 실행이 종료된다거나 처리된다.</p>
+
+<p>필요시 catch 가 가능하긴 하지만 권장되지는 않는다.</p>
+
+<blockquote>
+  <p>실제로 Checked Exception 을 마주칠 일이 없는데 필자는 BufferedWriter 을 사용할 때, 해당 함수를 사용하는 다른 함수들한테 전부 throws IOException 시그니처를 적용시켜줘야 하여 번거로웠다. 이때는 try-catch 를 활용하여 catch 스코프에서 Unchecked Exception 으로 던져주는 것이 좋을 듯하다.</p>
+</blockquote>
+
+<h4 id="validator-계층">Validator 계층</h4>
+
+<p>실무에서 빠질 수 없다. servlet 을 통해 REST API를 사용하는 서버가 있다고 하자. 그러면 유저의 입력을 받아 서비스를 제공해주는 것이 목적일 터이다.</p>
+
+<p>여기서 유저의 입력은 과연 우리의 서비스의 함수 시그니처에 맞는 인자를 전달할지 안할지 체크를 해야 한다. 이때 자주 쓰이는 게 <code class="language-plaintext highlighter-rouge">Validation</code> 이며(Validator 라고도 하고 다양함), <code class="language-plaintext highlighter-rouge">util</code> 패키지에 저장되어 사용하는 것이 대부분이다.</p>
+
+<p>Validation 이 접근 하여 로직을 수행하는 곳은 다음과 같다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">controller</code></li>
+  <li><code class="language-plaintext highlighter-rouge">domain</code></li>
+  <li>(입력이 들어오는 곳 어디든?)</li>
+</ul>
+
+<p>유틸이기에 다방면으로 사용해도 상관은 없다.</p>
+
+<h3 id="interface">Interface</h3>
+
+<p>인터페이스도 Abstract Class 와 마찬가지로</p>
+
+<ul>
+  <li>public</li>
+  <li>default</li>
+</ul>
+
+<p>를 사용 가능하다. 기능 목적은 똑같다.</p>
+
+<h4 id="interface-field">Interface Field</h4>
+
+<p>인터페이스의 필드는 무조건 <code class="language-plaintext highlighter-rouge">public static final</code> 이어야 한다. 이는 별도로 명시하지 않아도 무조건 <code class="language-plaintext highlighter-rouge">public static final</code> 이 기본이 된다.</p>
+
+<h4 id="interface-method">Interface Method</h4>
+
+<p>모든 인터페이스의 메서드는 기본적으로 public 이며, default, private 까지 사용 가능하다. static 도 당연 사용 가능하다.</p>
+
+<ul>
+  <li>default: 기본적으로 interface 에 선언되어 있고, 해당 메서드의 오버라이딩은 선택적</li>
+  <li>static: 오버라이딩은 못하지만 다른 곳에서 사용 가능</li>
+</ul>
+
+<h3 id="디자인-패턴">디자인 패턴</h3>
+
+<p>인터페이스와 상속을 더 배웠으니 객체 지향에서 마주칠 수 있는 주된 문제들에 대한 해결할 수 있는 개발 패턴을 본다.</p>
+
+<h4 id="template-method-pattern">Template Method Pattern</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Game</span> <span class="o">{</span>
+    <span class="c1">// 템플릿 메소드</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">play</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">initialize</span><span class="o">();</span>
+        <span class="n">startPlay</span><span class="o">();</span>
+        <span class="n">endPlay</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 추상 메소드들 (하위 클래스에서 구현)</span>
+    <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">initialize</span><span class="o">();</span>
+    <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">startPlay</span><span class="o">();</span>
+    <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">endPlay</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>중요한 것은 추상화된 클래스가 직접 로직을 제공하고 그 부품들은 각자 구현된 하위 클래스에서 구현하도록 하는 것이다.</p>
+
+<p>이렇게 되면 하위 클래스는 굳이 상위 클래스의 전반적인 로직을 모르더라도 쪼개어진 기능들만 구현하면 제대로 동작하게 됨을 볼 수 있다.</p>
+
+<h4 id="singleton-pattern">Singleton Pattern</h4>
+
+<p>메모리 상에서 오로지 하나 생성하고, 더 이상의 생성을 제어하고 싶을 때 싱글톤 패턴을 사용한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span> <span class="o">{</span>
+    <span class="c1">// 클래스 내부에서 단 하나의 인스턴스를 생성</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Singleton</span> <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Singleton</span><span class="o">();</span>
+
+    <span class="c1">// private 생성자 → 외부에서 new Singleton() 불가능</span>
+    <span class="kd">private</span> <span class="nf">Singleton</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Singleton 생성자 호출"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="abstract-factory-pattern">Abstract Factory Pattern</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 1. 추상 팩토리 인터페이스</span>
+<span class="kd">interface</span> <span class="nc">GUIFactory</span> <span class="o">{</span>
+    <span class="nc">Button</span> <span class="nf">createButton</span><span class="o">();</span>
+    <span class="nc">Checkbox</span> <span class="nf">createCheckbox</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// 2. 구체 팩토리 (Windows)</span>
+<span class="kd">class</span> <span class="nc">WindowsFactory</span> <span class="kd">implements</span> <span class="nc">GUIFactory</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Button</span> <span class="nf">createButton</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">WindowsButton</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Checkbox</span> <span class="nf">createCheckbox</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">WindowsCheckbox</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 3. 구체 팩토리 (Mac)</span>
+<span class="kd">class</span> <span class="nc">MacFactory</span> <span class="kd">implements</span> <span class="nc">GUIFactory</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Button</span> <span class="nf">createButton</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">MacButton</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Checkbox</span> <span class="nf">createCheckbox</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">MacCheckbox</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="buidler-pattern">Buidler Pattern</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Product 클래스</span>
+<span class="kd">class</span> <span class="nc">Computer</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">cpu</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">gpu</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">ram</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">storage</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">Computer</span><span class="o">(</span><span class="nc">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">cpu</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">cpu</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">gpu</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">gpu</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">ram</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">ram</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">storage</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">storage</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"Computer [CPU="</span> <span class="o">+</span> <span class="n">cpu</span> <span class="o">+</span> <span class="s">", GPU="</span> <span class="o">+</span> <span class="n">gpu</span> <span class="o">+</span> <span class="s">", RAM="</span> <span class="o">+</span> <span class="n">ram</span> <span class="o">+</span> <span class="s">"GB, Storage="</span> <span class="o">+</span> <span class="n">storage</span> <span class="o">+</span> <span class="s">"GB]"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Builder 클래스</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">cpu</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">gpu</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">ram</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">storage</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">setCpu</span><span class="o">(</span><span class="nc">String</span> <span class="n">cpu</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">cpu</span> <span class="o">=</span> <span class="n">cpu</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">setGpu</span><span class="o">(</span><span class="nc">String</span> <span class="n">gpu</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">gpu</span> <span class="o">=</span> <span class="n">gpu</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">setRam</span><span class="o">(</span><span class="kt">int</span> <span class="n">ram</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">ram</span> <span class="o">=</span> <span class="n">ram</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">setStorage</span><span class="o">(</span><span class="kt">int</span> <span class="n">storage</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">storage</span> <span class="o">=</span> <span class="n">storage</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Computer</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">Computer</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h3 id="더-얻어갈-것들">더 얻어갈 것들</h3>
+
+<h4 id="reflect-패키지">Reflect 패키지</h4>
+
+<p>참고: <a href="../ComputerScience/Java/2025-08-26-reflect-패키지.md">reflect 패키지</a></p>
+
+<h4 id="object-와-objects-활용">Object 와 Objects 활용</h4>
+
+<p>참고: <a href="../ComputerScience/Java/2025-08-26-object-클래스-와-objects-유틸.md">Object 와 Objects 활용</a></p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-8%EC%9D%BC%EC%B0%A8-%EC%B6%94%EC%83%81%ED%99%94%EC%99%80-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-8%EC%9D%BC%EC%B0%A8-%EC%B6%94%EC%83%81%ED%99%94%EC%99%80-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>1.2.3 I/O Structure</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>1.2.3 I/O Structure | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="1.2.3 I/O Structure" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/11/1.2.3-io-structure.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/11/1.2.3-io-structure.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-06-11T06:51:26+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="1.2.3 I/O Structure" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-06-11T06:51:26+00:00","datePublished":"2025-06-11T06:51:26+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"1.2.3 I/O Structure","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/11/1.2.3-io-structure.html"},"url":"https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/11/1.2.3-io-structure.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/computerscience/os/2025/06/11/1.2.3-io-structure.html">
+        <h2 class="post-title">1.2.3 I/O Structure</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Jun 11, 2025</div><ul class="post-categories"><li>ComputerScience</li><li>OS</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#공통버스를-통한-데이터-전송의-한계점">공통버스를 통한 데이터 전송의 한계점</a></li>
+  <li><a href="#dma를-통한-한계점-해결">DMA를 통한 한계점 해결</a>
+    <ul>
+      <li><a href="#switch-구조를-통한-dma-효율-상승">Switch 구조를 통한 DMA 효율 상승</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>운영체제의 상당 부분이 I/O 관리를 위해 있다. I/O 는 시스템의 신뢰성과 성능에 매우 민감하고, 장치들의 형태와 특성이 다양하기 때문에 이 기능에 초점을 맞춘다.</p>
+
+<h3 id="공통버스를-통한-데이터-전송의-한계점">공통버스를 통한 데이터 전송의 한계점</h3>
+
+<p><img src="/seonghun120614/assets/img/device-controllers.png" alt="device-controllers" /></p>
+
+<p>이전의 <strong>인터럽트 I/O 방식</strong>을 통해 명령을 수행하는 과정을 보자.</p>
+
+<ol>
+  <li><strong>CPU</strong> 가 <strong>Control Bus</strong> 와 <strong>Address Bus</strong> 를 통해 <strong>Device Controller</strong> 에게 명령 전달</li>
+  <li>수신 받은 <strong>Device Controller</strong> 는 I/O Device 와 직접 통신하여 해당 작업을 수행
+    <ul>
+      <li>여기서 <strong>Device Controller</strong> 는 자체 <strong>Local Buffer</strong>로 데이터를 준비하고 있는 상태임</li>
+    </ul>
+  </li>
+  <li>I/O 작업이 완료되고, <strong>Device Controller</strong> 는 인터럽트 신호를 <strong>Control Bus</strong>를 통해 CPU에게 보냄</li>
+  <li>CPU 가 인터럽트를 감지하여 <strong>Context Switching</strong> 을 한 후, <strong>Interrupt Handler</strong> 를 호출
+    <ul>
+      <li>이 과정에서 인터럽트 벡터 테이블의 핸들러 주소를 조회</li>
+    </ul>
+  </li>
+  <li>CPU가 <strong>Interrupt Handler Code</strong> 에서 <strong>Device Controller</strong> 로 부터 처리된 데이터를 요청</li>
+  <li>CPU가 <strong>Interrupt</strong> 처리 완료 후 실행중인 <strong>Context</strong>로 복귀</li>
+</ol>
+
+<p>모든 장치가 단일 System Bus를 공유하므로, 다중 장치가 동시에 데이터를 전송하거나 수신하려고 할 경우 버스 충돌 및 지연(latency) 이 발생한다.</p>
+
+<h3 id="dma를-통한-한계점-해결">DMA를 통한 한계점 해결</h3>
+
+<p><strong>DMA(직접 메모리 접근, Direct Memory Access)</strong> 의 데이터 전송 방식은 <strong>장치 버퍼, 포인터, 카운터 등을 설정하여서</strong> 장치 컨트롤러가 CPU 개입이 없이 <strong>장치와 주기억 장치 사이에서 전체 데이터 블록(Block)을 직접 전송하는 기술</strong>이다.</p>
+
+<p><img src="/seonghun120614/assets/img/how-a-modern-computer-system-works.png" alt="how-a-modern-computer-system-works" /></p>
+
+<p>이때 데이터 블록 단위로 한 번의 인터럽트만 발생하여서, 작업 완료를 <strong>Device Driver</strong> 에 알리게 된다. 하지만 여기에도 단점이 있는데 시스템 버스는 단일 버스를 공유하기 때문에 사용중인 버스를 다른 장치 디바이스에서 전송은 불가하다(동시 전송 불가).</p>
+
+<p>그래서 버스를 사용하려면 권한을 순서대로 조율해야 한다(<strong>Bus Arbitration</strong>). 이는 따라서 대량의 데이터 이동(NVS I/O 등) 에는 과도한 오버헤드를 유발한다.</p>
+
+<h4 id="switch-구조를-통한-dma-효율-상승">Switch 구조를 통한 DMA 효율 상승</h4>
+
+<p>일부 고성능 시스템에서는 시스템 버스 구조가 아닌 스위치 구조를 사용하여 여러 컴포넌트 간에 동시에 서로 통신 할 수 있게 하여 공유된 버스에서 사이클을 경쟁하지 않아도 되는 DMA의 효율이 더욱 높아지게 된다.</p>
+
+<p>바이트마다 인터럽트를 발생시키는 방식에 비해 훨씬 효율적이며, <strong>Device Controller</strong> 가 전송 작업을 수행하는 동안, CPU는 다른 작업을 수행할 수 있기 때문에 전체 시스템 효율이 높아진다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>방식</th>
+      <th>CPU 개입</th>
+      <th>인터럽트 발생</th>
+      <th>효율성</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Programmed I/O(옛날 방식)</td>
+      <td>높음</td>
+      <td>없음</td>
+      <td>낮음</td>
+    </tr>
+    <tr>
+      <td>Interrupt I/O</td>
+      <td>중간</td>
+      <td>매 I/O 이벤트</td>
+      <td>중간</td>
+    </tr>
+    <tr>
+      <td>DMA</td>
+      <td>낮음</td>
+      <td>전송 완료 시</td>
+      <td>높음</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-출처">🔗 출처</h2>
+<ul>
+  <li>도서: <a href="">Operating System Concepts 10th Edition</a></li>
+</ul>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/11/1.2.3-io-structure.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/11/1.2.3-io-structure.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

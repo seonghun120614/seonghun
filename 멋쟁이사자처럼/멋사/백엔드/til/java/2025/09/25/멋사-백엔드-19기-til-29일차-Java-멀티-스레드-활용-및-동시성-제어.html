@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 29일차 Java 멀티 스레드 활용 및 동시성 제어</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 29일차 Java 멀티 스레드 활용 및 동시성 제어 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 29일차 Java 멀티 스레드 활용 및 동시성 제어" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/25/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-29%EC%9D%BC%EC%B0%A8-Java-%EB%A9%80%ED%8B%B0-%EC%8A%A4%EB%A0%88%EB%93%9C-%ED%99%9C%EC%9A%A9-%EB%B0%8F-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/25/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-29%EC%9D%BC%EC%B0%A8-Java-%EB%A9%80%ED%8B%B0-%EC%8A%A4%EB%A0%88%EB%93%9C-%ED%99%9C%EC%9A%A9-%EB%B0%8F-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-25T07:08:49+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 29일차 Java 멀티 스레드 활용 및 동시성 제어" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-09-25T07:08:49+00:00","datePublished":"2025-09-25T07:08:49+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 29일차 Java 멀티 스레드 활용 및 동시성 제어","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/25/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-29%EC%9D%BC%EC%B0%A8-Java-%EB%A9%80%ED%8B%B0-%EC%8A%A4%EB%A0%88%EB%93%9C-%ED%99%9C%EC%9A%A9-%EB%B0%8F-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/25/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-29%EC%9D%BC%EC%B0%A8-Java-%EB%A9%80%ED%8B%B0-%EC%8A%A4%EB%A0%88%EB%93%9C-%ED%99%9C%EC%9A%A9-%EB%B0%8F-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/25/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-29%EC%9D%BC%EC%B0%A8-Java-%EB%A9%80%ED%8B%B0-%EC%8A%A4%EB%A0%88%EB%93%9C-%ED%99%9C%EC%9A%A9-%EB%B0%8F-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 29일차 Java 멀티 스레드 활용 및 동시성 제어</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Sep 25, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+
+<ul>
+  <li><a href="#process">Process</a></li>
+  <li><a href="#thread">Thread</a>
+    <ul>
+      <li><a href="#프로세스의-메모리-구조">프로세스의 메모리 구조</a></li>
+      <li><a href="#ipc">IPC</a></li>
+      <li><a href="#java-thread">Java Thread</a></li>
+      <li><a href="#concurrency">Concurrency</a>
+        <ul>
+          <li><a href="#deadlock">Deadlock</a></li>
+          <li><a href="#starvation">Starvation</a></li>
+        </ul>
+      </li>
+      <li><a href="#concurrency-얻기">Concurrency 얻기</a>
+        <ul>
+          <li><a href="#reentrantlock">ReentrantLock</a></li>
+          <li><a href="#semaphore">Semaphore</a></li>
+        </ul>
+      </li>
+      <li><a href="#java-thread-활용">Java Thread 활용</a>
+        <ul>
+          <li><a href="#thread-run-vs-start">Thread run() vs start()</a></li>
+          <li><a href="#synchronized-예시">synchronized 예시</a></li>
+          <li><a href="#block-synchronization">Block Synchronization</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>자바의 멀티스레딩을 보자. 보기 전에 우선 프로세스를 보자.</p>
+
+<h3 id="process">Process</h3>
+
+<p>프로세스는 운영체제에서 실행 중인 프로그램의 인스턴스를 의미한다. 프로그램이 단순히 파일이라면, 프로세스는 그것이 메모리에 적재되고 실행되고 있는 상태이다.</p>
+
+<p><strong>정리</strong></p>
+<ul>
+  <li>독립성: 각 프로세스는 자신만의 고유한 메모리 공간을 가진다</li>
+  <li>자원 단위: 운영체제가 CPU, 메모리, 파일 핸들 같은 할당을 하는 기본 단위이다</li>
+  <li>하나 이상의 스레드 포함: 프로세스 안에는 최소 1개의 스레드가 존재하여 멀티스레딩을 통해 여러 스레드가 동시에 실행될 수 있다</li>
+</ul>
+
+<h4 id="프로세스의-메모리-구조">프로세스의 메모리 구조</h4>
+
+<p>일반적으로 운영체제에서 공부하는 하나의 프로세스는 다음과 같은 메모리 영역을 가진다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Code</code>: 실행할 프로그램 코드</li>
+  <li><code class="language-plaintext highlighter-rouge">Data</code>: 전역 변수, static 변수</li>
+  <li><code class="language-plaintext highlighter-rouge">Heap</code>: 동적으로 생성된 객체</li>
+  <li><code class="language-plaintext highlighter-rouge">Stack</code>: 함수 호출 스택, 지역 변수, 매개변수</li>
+</ul>
+
+<p>하지만 운영체제가 아닌 자바에서는 예전에 JVM 의 메모리 구조를 살펴보았었다. 다시 정리하자.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Method Area</code>: 클래스 메타데이터, static 변수, 상수 풀</li>
+  <li><code class="language-plaintext highlighter-rouge">Heap</code>: new 로 생성된 객체</li>
+  <li><code class="language-plaintext highlighter-rouge">JVM Stack</code>: 각 스레드별 호출 스택(지역 변수, 매개변수, return 값)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">PC Register</code>: 현재 실행 중인 명령어 주소</li>
+      <li><code class="language-plaintext highlighter-rouge">Native Method Stack</code>: JNI 같은 네이티브 코드 실행 시 사용</li>
+    </ul>
+  </li>
+</ul>
+
+<p>운영체제의 입장에서는 자바 프로그램도 하나의 프로세스이고, Code/Data/Heap/Stack 구조를 가지며, 자바 프로그램 안에 JVM 이 관리하는 영역을 따로 구분을 또 하게 된다.</p>
+
+<p>즉 자바 내부에서는 보통 프로세스라는 단어 보다는 스레드 단위로 설명하는게 대부분이며, <code class="language-plaintext highlighter-rouge">java.lang.Process</code> 클래스 같은 경우는 운영체제 프로세스를 다루는 래퍼이다.</p>
+
+<p>자바에서는 운영체제에서 다루는 프로세스를 실행하고 다루기 위해서 <code class="language-plaintext highlighter-rouge">java.lang.Process</code> 를 정의하고, 만들어진 운영체제 프로세스를 자바 코드에서 제어할 수 있도록 감싼 클래스인 것이다. 실제로 자바 프로그램을 동작할 때 <code class="language-plaintext highlighter-rouge">Runtime.getRuntime().exec()</code> 또는 <code class="language-plaintext highlighter-rouge">ProcessBuilder</code> 를 사용하여서 JVM 이 운영체제보고 새로운 프로세스를 만들어 달라고 요청을 보내는 것이고, 만들어진걸 받아와 사용하는 것이다.</p>
+
+<blockquote>
+  <p>자바 프로그램이 올라가 프로세스로 되며 프로세스 내부적으로 다수의 스레드 활용 가능</p>
+</blockquote>
+
+<h4 id="ipc">IPC</h4>
+
+<p><strong>Inter Process Communication</strong> 이라고도 하며 프로세스 간의 상호작용을 하고 싶을때 쓰는 기술이다.</p>
+
+<ul>
+  <li><strong>PIPE</strong>: 한쪽 프로세스의 출력 -&gt; 다른 프로세스로의 입력(부모-자식 프로세스 간에 사용할 수 있는 예시이다)</li>
+  <li><strong>Socket</strong>: 네트워크를 이용한 통신 방식(TCP/UDP 기반)이며, 같은 컴퓨터 안 혹은 다른 컴퓨터와도 통신이 가능하다.</li>
+  <li><strong>Message Queue</strong>: 운영체제가 제공하는 큐에 메시지를 넣고 빼면서 통신을 한다. 비동기 처리에 유용하다.</li>
+  <li><strong>Shared Memory</strong>: 두 프로세스가 물리적으로 같은 메모리 영역을 공유하도록 설정하면 빠르게 통신할 수 있다. 하지만 동기화 문제를 잘 다스려야 한다.</li>
+  <li><strong>Signal</strong>: 간단한 알림을 보내는 방식 (<code class="language-plaintext highlighter-rouge">kill -9 PID</code>)</li>
+</ul>
+
+<h3 id="thread">Thread</h3>
+
+<p>스레드는 프로세스 내부의 메모리 공간 내에서 서로 다른 흐름을 처리하고 싶을 때 사용되는 처리 흐름의 추상화된 클래스다. 따라서 여러 자바 프로그램을 굳이 돌리지 않고 자바 프로그램 하나를 돌려 프로세스를 만든 뒤 프로세스 내의 다수의 스레드를 두어서 다수의 처리를 하도록 하는게 더 가볍다는 것이다.</p>
+
+<p><strong>특징</strong></p>
+<ul>
+  <li>경량 프로세스: 프로세스와 달리 <strong>Heap</strong> 과 같은 메모리 공간이나 <strong>Method Area</strong> 등을 가지지 않는다.</li>
+  <li>독립된 실행 흐름: 자신만의 Call Stack 이 있음</li>
+  <li>자원 공유 용이: 같은 프로세스의 여러 스레드는 같은 <strong>힙(Heap)</strong> 과 <strong>메서드(Method Area)</strong> 를 공유하기 때문에 서로 간의 데이터 교환이 빠르다.</li>
+</ul>
+
+<h4 id="java-thread">Java Thread</h4>
+
+<p>자바는 Thread 라는 클래스를 기본적으로 내장시켜놨다. JVM 내부의 물리적인 thread 를 추상화 해놓은 클래스라고 보면 되고, 우리는 이를 사용하여 자바 프로그램을 실행할 때 기본적으로 메인 스레드 하나 뿐이 아니라 메인 스레드에서 가지치기 하듯이 여러 스레드를 생성시켜 동작하도록 할 수 있다.</p>
+
+<p><strong>스레드의 물리적 메모리 영역</strong></p>
+<ul>
+  <li>공유 영역: Heap, Method Area</li>
+  <li>개별 영역: Stack(메서드 호출, 지역 변수, 매개변수, return 값), PC Register</li>
+</ul>
+
+<p>그러면 우리가 만드는 자바 프로그램에 스레드를 여러개 만들어 놓고 많은 작업들을 많은 스레드들한테 처리하라고 시키면 굉장히 빠를거 같지만, 멀티 스레드에는 다음과 같은 장단점이 있다.</p>
+
+<p><strong>장점</strong></p>
+<ul>
+  <li>성능 향상: 여러 작업을 동시에 처리</li>
+  <li>자원 효율성: 프로세스보다 적은 리소스 사용</li>
+  <li>응답성 향상: UI 애플리케이션에서 빠른 응답</li>
+</ul>
+
+<p><strong>단점</strong></p>
+<ul>
+  <li>Concurrency 문제: 특정 자원에 대한 Race Condition 발생 가능</li>
+  <li>복잡성 증가: 디버깅이 어려움</li>
+  <li>Deadlock 위험: Circular Wait</li>
+</ul>
+
+<p>단점을 파훼해야 장점들을 유용하게 쓸 수 있다.</p>
+
+<h4 id="concurrency">Concurrency</h4>
+
+<p>스레드를 여러개 가져가서 동시에 실행한다면 생길 수 있는 여러 문제점이 있다. Concurrency 는 동시성이고 여러 실행 흐름(스레드나 프로세스)이 동시에 자원에 접근하거나 작업을 수행하는 능력을 의미한다. 동시적으로 특정 자원에 대해 접근하고자 할 때 직관적으로 그 데이터가 자각하고 있는 데이터 값이어야 하고, 그 값에 대한 연산을 하고 올바른 결과가 도출되어야 할 것이다.</p>
+
+<p>반면 원자성이 부족한 <code class="language-plaintext highlighter-rouge">int count</code> 와 같은 것은 <code class="language-plaintext highlighter-rouge">count++</code> 라는 연산을 할 때</p>
+
+<ol>
+  <li>count 읽기</li>
+  <li>count +1</li>
+  <li>count 쓰기</li>
+</ol>
+
+<p>세 단계로 이루어지므로 할 때 다른 스레드가 끼어들면 값이 꼬이게 된다. 이를 <strong>Race Condition</strong> 이라고 한다.</p>
+
+<blockquote>
+  <p>Race Condition: 공유 자원에 대해 접근 및 행위가 어떤 순서에 따라 이루어졌는지에 따라 실행 결과가 같지 않고 달라지는 현상. 실행 결과가 실행 순서에 의존하는 현상.</p>
+</blockquote>
+
+<p>즉, Race Condition 현상이 일어나지 않도록 보장하기 위해 <strong>Concurrency</strong> 라는 속성을 가져야 할 것이다. 하지만 이 <strong>Concurrency</strong> 를 얻기 위해서는 자원에 대한 접근 순서를 정렬할 필요가 있었고, 이를 바로잡기 위해 <strong>Lock</strong> 이라는 자료구조가 나오게 됐다.</p>
+
+<p>하지만 이 또한 문제가 있었다.</p>
+
+<h5 id="deadlock">Deadlock</h5>
+
+<p>두 개 이상의 프로세스가 서로 가지고 있는 자원을 락을 걸었는데, 서로 두 자원을 요구한다면 이는 무한히 멈춰있는 상태가 된다. 두 프로세스는 서로 <strong>Deadlock</strong> 에 빠지게 된다. 이러한 문제를 다음과 같이 조건부로 정의하게 된다.</p>
+
+<p><strong>Deadlock 발생 조건</strong></p>
+<ul>
+  <li>Mutual Exclusion(상호 배제): 어떤 자원은 한 번에 한 프로세스만 사용 가능</li>
+  <li>Hold and Wait(점유 및 대기): 프로세스가 이미 점유한 자원을 놓지 않고 다른 자원을 기다림</li>
+  <li>No Preemption(비선점): 운영체제가 이미 점유한 자원을 강제로 빼앗을 수 없음</li>
+  <li>Circular Wait(상호 대기): 프로세스들이 원형으로 서로가 가진 자원을 기다리는 상태</li>
+</ul>
+
+<p>이 4가지 조건이 전부 충족될 때 Deadlock 이 발생할 수 있기 때문에 우리는 4개 중에 하나라도 파괴시켜야 Deadlock 을 막을 수 있다.</p>
+
+<p>보통은 Circular Wait 을 파괴하게 되는데, 나머지 3개는 자원의 본질적인 특성이거나 운영체제를 강제로 바꿔야 하는데 그러기 쉽지 않아서이다.</p>
+
+<p>그리고 멀티 스레딩을 사용할 때 데드락 이 외에도 다른 문제가 있을 수 있다.</p>
+
+<h5 id="starvation">Starvation</h5>
+
+<p>특정 스레드나 프로세스가 필요한 자원을 계속 얻지 못하여 실행되지 못하는 상태가 되어 무한정 대기하는 상태이다. 이는 스케줄링 우선순위나 자원 할당 정책 때문에 발생하게 되며, 실행 순서만 좀 바꿔주면 정상적으로 돌아온다.</p>
+
+<blockquote>
+  <p>이는 운영체제의 스케줄링 문제이기 때문에 그냥 가볍게 보고 넘어간다</p>
+</blockquote>
+
+<h4 id="concurrency-얻기">Concurrency 얻기</h4>
+
+<p>자바에서는 다양한 해결 방법이 존재하는데</p>
+
+<ul>
+  <li>함수 및 변수 수준 락: <code class="language-plaintext highlighter-rouge">synchronized</code></li>
+  <li>락 자료구조: <code class="language-plaintext highlighter-rouge">ReentrantLock</code>, <code class="language-plaintext highlighter-rouge">Semaphore</code>, <code class="language-plaintext highlighter-rouge">Condition</code>, <code class="language-plaintext highlighter-rouge">Atomic</code> 변수, Thread-safe 컬렉션</li>
+  <li>불변 객체(<code class="language-plaintext highlighter-rouge">Immutable Object</code>), <code class="language-plaintext highlighter-rouge">record</code></li>
+</ul>
+
+<p>등으로 해결 가능하다.</p>
+
+<h5 id="reentrantlock">ReentrantLock</h5>
+
+<p>자바에서 제공하는 락 클래스인데, 같은 슬데ㅡ가 이미 획득한 락을 다시 획득이 가능하다 해서 재진입 가능하기에 <code class="language-plaintext highlighter-rouge">Reentrant</code> 라는 수식어가 붙었고, <code class="language-plaintext highlighter-rouge">Mutex</code> 와 같은 역할을 한다.</p>
+
+<p>뮤텍스도 <code class="language-plaintext highlighter-rouge">Critical Section</code> 에 대해 하나의 스레드만이 허용 가능하도록 하기 때문에 <code class="language-plaintext highlighter-rouge">ReentrantLock</code> 또한 그 역할을 대신한다고 볼 수 있다.</p>
+
+<h5 id="semaphore">Semaphore</h5>
+
+<p>공유된 자원의 데이터를 여러 스레드 혹은 프로세스가 접근하는 것을 막는 자료구조이다. 내부적으로는 리소스의 상태를 나타내는 간단한 카운터와 같고 카운터의 값에 따라, 하나의 공유 자원에 대해 여러 스레드가 들어갈 수도, 혹은 하나의 스레드만이 들어갈 수도 있다.</p>
+
+<h4 id="java-thread-활용">Java Thread 활용</h4>
+
+<p>우선 생성자를 보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Constructor</span>
+<span class="nc">Thread</span><span class="o">()</span>
+<span class="nc">Thread</span><span class="o">(</span><span class="nc">Runnable</span> <span class="n">runnable</span><span class="o">)</span>
+<span class="nc">Thread</span><span class="o">(</span><span class="nc">Runnable</span> <span class="n">runnable</span><span class="o">,</span> <span class="nc">String</span> <span class="n">name</span><span class="o">)</span></code></pre></figure>
+
+<p>Java 에는 <code class="language-plaintext highlighter-rouge">Runnable</code> 인터페이스가 있고 클래스가 이를 구현하기만 한다면 <code class="language-plaintext highlighter-rouge">Thread</code> 의 생성자로 넣을 수 있다.</p>
+
+<h5 id="thread-run-vs-start">Thread run() vs start()</h5>
+
+<p><code class="language-plaintext highlighter-rouge">Runnable</code> 한 것을 받았다면, 이를 실행할 수 있는데, <code class="language-plaintext highlighter-rouge">run</code> 과 <code class="language-plaintext highlighter-rouge">start</code> 로 실행할 수 있다. 다만 <code class="language-plaintext highlighter-rouge">run</code> 은 그냥 현재 스레드에서 실행하는 것이고, <code class="language-plaintext highlighter-rouge">start</code> 를 해야 또 다른 thread 를 생성시켜서 동시에 실행하게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">MyThread</span> <span class="kd">extends</span> <span class="nc">Thread</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">" is running"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">MyThread</span> <span class="n">t1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MyThread</span><span class="o">();</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Calling run():"</span><span class="o">);</span>
+        <span class="n">t1</span><span class="o">.</span><span class="na">run</span><span class="o">();</span> <span class="c1">// 그냥 메서드 호출 → main 스레드에서 실행됨</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"\nCalling start():"</span><span class="o">);</span>
+        <span class="nc">MyThread</span> <span class="n">t2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MyThread</span><span class="o">();</span>
+        <span class="n">t2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span> <span class="c1">// 새로운 스레드 생성 → run() 메서드가 별도의 스레드에서 실행</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="synchronized-예시">synchronized 예시</h5>
+
+<p>이는 이전에 다뤘기에 설명은 생략한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">Counter</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="c1">// synchronized 메서드: 한 번에 한 스레드만 접근 가능</span>
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">increment</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">count</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getCount</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">count</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
+        <span class="nc">Counter</span> <span class="n">counter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Counter</span><span class="o">();</span>
+
+        <span class="nc">Runnable</span> <span class="n">task</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">counter</span><span class="o">.</span><span class="na">increment</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+
+        <span class="nc">Thread</span> <span class="n">t1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">task</span><span class="o">);</span>
+        <span class="nc">Thread</span> <span class="n">t2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">task</span><span class="o">);</span>
+
+        <span class="n">t1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">t2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">t1</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+        <span class="n">t2</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Final count: "</span> <span class="o">+</span> <span class="n">counter</span><span class="o">.</span><span class="na">getCount</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="block-synchronization">Block Synchronization</h5>
+
+<p>자바에는 synchronized 안에 모니터 락(Monitor Lock) 을 가질 수 있는 객체가 들어가야 한다. 여기서 Object 는 <code class="language-plaintext highlighter-rouge">wait()</code>, <code class="language-plaintext highlighter-rouge">notify()</code>, <code class="language-plaintext highlighter-rouge">notifyAll()</code> 을 가지고, 이는 모니터 락에 대한 API 이다.</p>
+
+<p>따라서 우리가 사용하는 모든 객체들에 대해 모니터락이 이미 참조되고 있는 것이고, synchronized 에 모든 객체를 넣을 수 있게 된다. 안되는 것들은 원시타입, null 등은 안될 것이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BlockSynchronization</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">Object</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">();</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">increment</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 필요한 부분만 동기화</span>
+        <span class="kd">synchronized</span><span class="o">(</span><span class="n">lock</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">count</span><span class="o">++;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/25/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-29%EC%9D%BC%EC%B0%A8-Java-%EB%A9%80%ED%8B%B0-%EC%8A%A4%EB%A0%88%EB%93%9C-%ED%99%9C%EC%9A%A9-%EB%B0%8F-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/25/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-29%EC%9D%BC%EC%B0%A8-Java-%EB%A9%80%ED%8B%B0-%EC%8A%A4%EB%A0%88%EB%93%9C-%ED%99%9C%EC%9A%A9-%EB%B0%8F-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

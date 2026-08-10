@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 1일차 Git 설정</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 1일차 Git 설정 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 1일차 Git 설정" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/git/2025/08/13/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-1%EC%9D%BC%EC%B0%A8-Git-%EC%84%A4%EC%A0%95.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/git/2025/08/13/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-1%EC%9D%BC%EC%B0%A8-Git-%EC%84%A4%EC%A0%95.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-08-13T23:49:37+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 1일차 Git 설정" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-08-13T23:49:37+00:00","datePublished":"2025-08-13T23:49:37+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 1일차 Git 설정","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/git/2025/08/13/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-1%EC%9D%BC%EC%B0%A8-Git-%EC%84%A4%EC%A0%95.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/git/2025/08/13/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-1%EC%9D%BC%EC%B0%A8-Git-%EC%84%A4%EC%A0%95.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/git/2025/08/13/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-1%EC%9D%BC%EC%B0%A8-Git-%EC%84%A4%EC%A0%95.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 1일차 Git 설정</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Aug 13, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Git</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+
+<ul>
+  <li><a href="#git-개요">Git 개요</a>
+    <ul>
+      <li><a href="#git-설치">Git 설치</a></li>
+      <li><a href="#git-초기-설정">Git 초기 설정</a></li>
+      <li><a href="#git-기본-워크플로우">Git 기본 워크플로우</a></li>
+      <li><a href="#git-repository-생성">Git Repository 생성</a>
+        <ul>
+          <li><a href="#로컬-디렉토리를-git-저장소로-하기">로컬 디렉토리를 Git 저장소로 하기</a></li>
+          <li><a href="#git-저장소를-clone">Git 저장소를 Clone</a></li>
+        </ul>
+      </li>
+      <li><a href="#파일의-다양한-상태">파일의 다양한 상태</a></li>
+      <li><a href="#git-diff-를-통한-변경-내용-확인">git diff 를 통한 변경 내용 확인</a></li>
+      <li><a href="#git-log">git log</a></li>
+      <li><a href="#파일-되돌리기">파일 되돌리기</a>
+        <ul>
+          <li><a href="#git-commit---amend">git commit –amend</a></li>
+          <li><a href="#파일-unstaged-로-바꾸기">파일 Unstaged 로 바꾸기</a></li>
+          <li><a href="#modified-파일을-되돌리기">Modified 파일을 되돌리기</a></li>
+          <li><a href="#git-revert">git revert</a></li>
+        </ul>
+      </li>
+      <li><a href="#remote-저장소">Remote 저장소</a></li>
+    </ul>
+  </li>
+  <li><a href="#git-branch">Git Branch</a>
+    <ul>
+      <li><a href="#git-main">Git Main</a>
+        <ul>
+          <li><a href="#git-head">Git HEAD</a></li>
+        </ul>
+      </li>
+      <li><a href="#git-push--pull">git push &amp; pull</a>
+        <ul>
+          <li><a href="#personal-access-token">Personal Access Token</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<p>조퇴를 하여 따로 독학하여 글을 쓴다.</p>
+
+<p>참고: <a href="https://git-scm.com/book/en/v2">Git 공식 홈 메뉴얼</a></p>
+
+<h3 id="git-개요">Git 개요</h3>
+
+<p>분산 버전 관리 시스템이며, 리누스 토발즈가 만들었고, <strong>리눅스 커널</strong>(운영체제의 핵심)을 개발하기 위해서 수천 명의 개발자들의 소스코드 공유와 협력을 위해 코드를 효율적으로 관리하기 위해 만들어졌다.</p>
+
+<p>이전에 <code class="language-plaintext highlighter-rouge">BitKeeper</code> 분산 버전 관리 시스템을 사용해 왔던 리눅스 커널팀은 무료로 사용해왔지만, 개발사 측과 틀어져 BitKeeper를 무료로 사용할 수 없게 되어 팀 내에서 Git 이라는 분산 버전 관리 시스템을 직접 만들어 사용하게 되었다.</p>
+
+<h4 id="git-설치">Git 설치</h4>
+
+<p><strong>Linux Fedora 계열</strong></p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">sudo </span>dnf <span class="nb">install </span>git-all</code></pre></figure>
+
+<p><strong>Linux Debian 계열</strong></p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">sudo </span>apt <span class="nb">install </span>git-all</code></pre></figure>
+
+<p><strong>MacOS</strong></p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># homebrew 설치</span>
+/bin/bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="si">)</span><span class="s2">"</span>
+
+<span class="c"># homebrew 를 통한 Git 설치</span>
+brew <span class="nb">install </span>git</code></pre></figure>
+
+<p><strong>Window</strong>
+웹사이트 검색 후 설치</p>
+
+<h4 id="git-초기-설정">Git 초기 설정</h4>
+
+<p>Git 설치가 끝났다면 초기 설정이 필요하다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">git config</code> 명령어를 통해 설정을 만질 수 있고, 밑의 파일 내용들을 수정한다.</p>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">/etc/gitconfig 파일</code>: 시스템의 모든 사용자와 모든 저장소에 적용되는 설정이다. <code class="language-plaintext highlighter-rouge">git config --system</code> 옵션으로 이 파일을 읽고 쓸 수 있다. (이 파일은 시스템 전체 설정파일이기 때문에 수정하려면 시스템의 관리자 권한이 필요하다.)</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">~/.gitconfig, ~/.config/git/config 파일</code>: 특정 사용자(즉 현재 사용자)에게만 적용되는 설정이다. <code class="language-plaintext highlighter-rouge">git config --global</code> 옵션으로 이 파일을 읽고 쓸 수 있다. 특정 사용자의 모든 저장소 설정에 적용된다.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">.git/config</code> : 이 파일은 Git 디렉토리에 있고 특정 저장소(혹은 현재 작업 중인 프로젝트)에만 적용된다. –local 옵션을 사용하면 이 파일을 사용하도록 지정할 수 있다. 하지만 기본적으로 이 옵션이 적용되어 있다. (당연히, 이 옵션을 적용하려면 Git 저장소인 디렉토리로 이동 한 후 적용할 수 있다.)</p>
+  </li>
+</ol>
+
+<p>역순으로 우선순위가 높기 때문에 <code class="language-plaintext highlighter-rouge">.git/config</code> 의 변경이 위 내용들을 전부 덮어씌운다. Window 는 <code class="language-plaintext highlighter-rouge">$HOME</code> 환경 변수로 cmd 를 통해 <code class="language-plaintext highlighter-rouge">cd $HOME</code> 으로 들어가보면 된다. Git을 설치함과 동시에 우리는 공유 저장소를 사용할 수 있는 기능들을 갖추게 된 것이고, 우리들의 파일을 전송 가능하게 된다.</p>
+
+<p>전송할 때 해당 파일이 누구의 것인지를 명시해주어야 하기에 이 또한 세팅해줘야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git config <span class="nt">--global</span> user.name <span class="s2">"John Doe"</span>
+git config <span class="nt">--global</span> user.email johndoe@example.com
+
+<span class="c"># 윈도우 사용자 권장</span>
+git config <span class="nt">--global</span> core.autocrlf <span class="nb">true</span></code></pre></figure>
+
+<p>위와 같이 설정해주면 <code class="language-plaintext highlighter-rouge">/etc/gitconfig</code> 파일에 해당 내용이 저장되었음을 볼 수 있다. Git 은 커밋이라는 동작을 할 때마다 이 정보를 사용하게 되는데, 만약 설치 후에 커밋을 이미 한 번 하였다면, 이 후에는 이 정보를 변경할 수 없게 된다(딱 한 번 수정가능).</p>
+
+<p>마지막 설정은 윈도우 사용자에서는 줄바꿈 문자 때문에 파일 전체가 변경되는 상황이 있는데 이를 방지하기 위해 넣어준다고 한다.</p>
+
+<blockquote>
+  <p>만약 프로젝트마다 자신의 이름과 이메일을 다르게 하고 싶다면, –global 옵션을 빼고 사용하면 된다.</p>
+</blockquote>
+
+<p>제대로 변경이 되었는지 보려면 다음 명령어를 입력하면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git config <span class="nt">--list</span></code></pre></figure>
+
+<p>이제 Git 레포지토리를 만들기 전에 어떻게 동작하는지 전체적인 흐름을 본다.</p>
+
+<h4 id="git-기본-워크플로우">Git 기본 워크플로우</h4>
+
+<ol>
+  <li>작업 디렉토리(<code class="language-plaintext highlighter-rouge">Work Directory</code>)에서 파일을 수정한다. 이때 이 디렉토리는 로컬 영역이다.</li>
+  <li>스테이징 영역(<code class="language-plaintext highlighter-rouge">Staging Area</code>)으로 수정된 내용들, 변경 사항들을 넣어준다(로컬 영역).<br />
+<code class="language-plaintext highlighter-rouge">git add</code> 명령어를 사용한다.</li>
+  <li>로컬 저장소(<code class="language-plaintext highlighter-rouge">Local Repository</code>)로 프로젝트의 로컬 버전을 스테이징 영역에 올린 변경 내용들을 토대로 업데이트 해준다.<br />
+<code class="language-plaintext highlighter-rouge">git commit</code> 명령어를 사용한다.</li>
+  <li>원격 저장소(<code class="language-plaintext highlighter-rouge">Remote Repository</code>)로 로컬 저장소에 반영된 내용을 모든 개발자가 접근 가능한 서버로 전송시켜준다. 이는 공유 저장소로 각 개발자들이 서로 변경된 사항을 공유할 수 있게 해준다.<br />
+<code class="language-plaintext highlighter-rouge">git push</code> 명령어를 사용한다.</li>
+</ol>
+
+<h4 id="git-repository-생성">Git Repository 생성</h4>
+
+<p>레포지토리라는 저장 공간은 Git 이 다루는 기본적인 단위가 된다. 레포지토리를 생성하려면 다음 2가지 방법이 있다.</p>
+
+<ol>
+  <li>아직 버전관리를 하지 않는 로컬 디렉토리 하나를 선택해서 Git 저장소를 적용하는 방법</li>
+  <li>다른 어딘가에서 Git 저장소를 Clone 하는 방법</li>
+</ol>
+
+<h5 id="로컬-디렉토리를-git-저장소로-하기">로컬 디렉토리를 Git 저장소로 하기</h5>
+
+<p>터미널에서 다음을 입력한다.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git init</code></pre></figure>
+
+<p>해당 폴더에 <code class="language-plaintext highlighter-rouge">.git</code> 디렉토리가 생성됨을 볼 수 있을 것이다. 이는 폴더 자체가 <code class="language-plaintext highlighter-rouge">Repository</code> 라는 개념이 되기 위한 뼈대(필수) 파일이 들어있다. 이제 해당 디렉토리에서 다양한 파일을 생성 후에 <code class="language-plaintext highlighter-rouge">git commit -m "First Commit"</code> 을 쳐보면 Local Repsitory 에 변경 내용을 저장하게 된다.</p>
+
+<h5 id="git-저장소를-clone">Git 저장소를 Clone</h5>
+
+<p>가져오고 싶은 <code class="language-plaintext highlighter-rouge">Shared Repository</code> 를 <code class="language-plaintext highlighter-rouge">GitHub</code> 에서 찾아서 이 디렉토리를 생성할 곳에서 터미널로 다음을 입력한다.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git clone <span class="o">(</span>복사할 레포지토리 URL<span class="o">)</span>.git</code></pre></figure>
+
+<h4 id="파일의-다양한-상태">파일의 다양한 상태</h4>
+
+<p><img src="/seonghun120614/assets/img/git-file-lifecycle.png" alt="git-file-lifecycle" /></p>
+
+<p><strong>상태</strong></p>
+<ul>
+  <li>Tracked: <code class="language-plaintext highlighter-rouge">Work Directory</code> 에서 관리되어야 할 대상 파일들
+    <ul>
+      <li>Modified: Tracked 중 수정된 파일들을 일컫는다</li>
+      <li>Unmodified: Modified 가 아닌 Tracked 파일을 말한다</li>
+      <li>Staged: <code class="language-plaintext highlighter-rouge">commit</code> 으로 저장소에 기록할 파일들</li>
+    </ul>
+  </li>
+  <li>Untracked: <code class="language-plaintext highlighter-rouge">Work Directory</code> 에서 관리에 제외되어야 할 대상 파일들</li>
+</ul>
+
+<p>상태들은 repository 에서 다음 명령어를 통해 모든 파일의 상태를 확인할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git status
+git status <span class="nt">-s</span></code></pre></figure>
+
+<p>특히 특정 파일을 <code class="language-plaintext highlighter-rouge">Untracked</code> 로 바꾸고 싶을 때는 <code class="language-plaintext highlighter-rouge">.gitignore</code> 이라는 파일에 해당 파일의 경로를 써넣어주면 된다. <a href="https://www.toptal.com/developers/gitignore/">gitignore.io</a> 사이트에서 프로젝트 별로 불필요한 파일들의 목록을 쉽게 얻을 수 있다.</p>
+
+<p>.gitignore 파일에 입력된 내용은 다음 패턴을 따른다.</p>
+<ul>
+  <li>#로 시작하면 주석 라인이다(무시, 설명란임)</li>
+  <li><a href="#globs-패턴">Globs 패턴</a>을 사용하여 다양하고 많은 파일들을 써넣을 수 있다</li>
+  <li>/(슬래시)로 시작하면 하위 디렉토리에 적용시키지 않는다.</li>
+</ul>
+
+<h4 id="git-diff-를-통한-변경-내용-확인">git diff 를 통한 변경 내용 확인</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">git diff</code>: Work Directory 와 Staging Area 의 차이</li>
+  <li><code class="language-plaintext highlighter-rouge">git diff --staged</code>: Staging Area 와 Local Repository(커밋한거) 의 차이</li>
+</ul>
+
+<h4 id="git-log">git log</h4>
+
+<p><strong>옵션</strong></p>
+<ul>
+  <li>–patch: 커밋 별로 <code class="language-plaintext highlighter-rouge">git diff</code> 를 출력</li>
+  <li>–stat: 얼마나 많은 파일이 변경됐는지 얼마나 많은 라인을 추가하거나 삭제했는지 보여준다</li>
+  <li>–pretty=oneline: 커밋을 한 라인으로 보여준다</li>
+  <li>–pretty=format: 예시를 보는 것이 빠르다.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git log <span class="nt">--pretty</span><span class="o">=</span>format:<span class="s2">"%h - %an, %ar : %s"</span>
+ca82a6d - Scott Chacon, 6 years ago : changed the version number
+085bb3b - Scott Chacon, 6 years ago : removed unnecessary <span class="nb">test
+</span>a11bef0 - Scott Chacon, 6 years ago : first commit</code></pre></figure>
+
+<blockquote>
+  <p>–pretty 옵션과 –graph 옵션을 같이 사용하면 굉장히 이쁜 형태로 출력이 가능하다.</p>
+</blockquote>
+
+<h4 id="파일-되돌리기">파일 되돌리기</h4>
+
+<p>특정 상태의 파일을 다른 상태로 변환하여 되돌리고 싶을 때가 생길 수 있다. 다음 명령어들을 보자:</p>
+
+<h5 id="git-commit-amend">git commit –amend</h5>
+
+<p><strong>너무 일찍 커밋</strong>했거나 <strong>어떤 파일을 빼먹었을 때</strong> 혹은 <strong>커밋 메시지를 잘못 적었을 때</strong>는 커밋된 파일을 다시 되돌릴 수 있는데, 이때 <code class="language-plaintext highlighter-rouge">git commit --amend</code> 를 사용할 수 있다.</p>
+
+<ul>
+  <li>메시지를 수정해야 할 때, <code class="language-plaintext highlighter-rouge">git commit --amend</code></li>
+  <li>커밋에 빠진 파일을 추가할 때, <code class="language-plaintext highlighter-rouge">git add</code> 후에 <code class="language-plaintext highlighter-rouge">git commit --amend</code>, 이는 하나의 커밋으로 쳐짐</li>
+</ul>
+
+<h5 id="파일-unstaged-로-바꾸기">파일 Unstaged 로 바꾸기</h5>
+
+<p><code class="language-plaintext highlighter-rouge">Committed</code> -&gt; <code class="language-plaintext highlighter-rouge">Staged</code>, <code class="language-plaintext highlighter-rouge">Modified</code> 로 돌리고 싶을 때,</p>
+
+<p>staged 된 파일(commit 이전 파일, 즉 add 된 파일)을 되돌리려면 다음을 입력해준다.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git reset HEAD &lt;file_name&gt;</code></pre></figure>
+
+<p>commit 을 하기 전에 add 단계에서 잘못 add를 했을 경우 사용한다.</p>
+
+<blockquote>
+  <p>명령어 자체가 커밋 기록을 변경하는 것이기 때문에 이는 상당히 위험한 작업이다.<br />
+–hard 옵션을 사용하면 더 위험하지만, 옵션 없이 사용하면 워킹 디렉토리의 파일은 건드리지 않게 된다.<br />
+기본적으로 –mixed 옵션이며, 이는 커밋을 되돌리고 modified 들을 전부 work directory 로 옮기게 된다.<br />
+–soft 옵션은 커밋만 되돌리고 modified 들은 전부 staging area 에 놔둔다.</p>
+</blockquote>
+
+<p>되도록 한 파일에 대상으로 명령어를 사용하자.</p>
+
+<h5 id="modified-파일을-되돌리기">Modified 파일을 되돌리기</h5>
+
+<p><code class="language-plaintext highlighter-rouge">Modified</code> -&gt; <code class="language-plaintext highlighter-rouge">Unmodified</code> 로 돌리고 싶을 때,</p>
+
+<p>워킹 디렉토리에서 수정을 가하고, 수정이 너무 에러가 많고 이전의 상태가 더 나았을 때, 이전의 즉 마지막 커밋이 일어난 그 시점으로 해당 파일을 돌리고 싶을 때 사용하는 명령어이다:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git checkout <span class="nt">--</span> &lt;file_name&gt;</code></pre></figure>
+
+<blockquote>
+  <p>원래 파일로 덮어썼기 때문에 수정한 내용은 전부 사라지기 때문에 쓰는 것을 신중히 고려해야 한다</p>
+</blockquote>
+
+<h5 id="git-revert">git revert</h5>
+
+<p>특정 커밋을 취소하는 커밋을 생성하여서 취소는 그대로 두어서 다른 협업자와 커밋 히스토리는 그대로 가져가되 새로운 커밋을 추가하는 형태로 하여 변경은 없이 확장에 열려있어 적용이 용이하다.</p>
+
+<p>우선 오류가 심하거나 보안에 심각한 타격을 주는 코드의 커밋을 추적해야 한다. 다음 명령어로 추적할 수 있을 것이다:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git log <span class="nt">--oneline</span></code></pre></figure>
+
+<p>위에서 받은 <code class="language-plaintext highlighter-rouge">commit ID</code> 를 통해 다음을 입력하면:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git revert <span class="o">(</span>해당 commit ID<span class="o">)</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">Revert "커밋 메시지"</code> 의 제목의 새로운 커밋 메시지 창이 뜨며, 이는 취소된 상태로 되돌리는 커밋이 되겠다.</p>
+
+<h4 id="remote-저장소">Remote 저장소</h4>
+
+<p>리모트 저장소는 인터넷이나 네트워크 어딘가에 있는 저장소를 말하며, 저장소는 여러 개가 있을 수 있다. 어떤 저장소는 읽고 쓰기 모두 할 수 있고 어떤 저장소는 읽기만 가능할 수 있는 권한이 필요할 수 있다. 이 저장소들을 관리하는 것이 협업의 핵심이다.</p>
+
+<p>보통 <code class="language-plaintext highlighter-rouge">git remote</code> 를 통해 현재 레포지토리의 등록된 리모트 저장소를 확인할 수 있다. 여러 사람과 함께 작업하는 리모트 저장소가 여러개라면 다음 명령어를 통해 여러개의 remote 주소를 얻을 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git remote <span class="nt">-v</span></code></pre></figure>
+
+<p><strong>출력</strong></p>
+<blockquote>
+  <p>bakkdoor  https://github.com/bakkdoor/grit (fetch)<br />
+bakkdoor  https://github.com/bakkdoor/grit (push)<br />
+cho45     https://github.com/cho45/grit (fetch)<br />
+cho45     https://github.com/cho45/grit (push)<br />
+defunkt   https://github.com/defunkt/grit (fetch)<br />
+defunkt   https://github.com/defunkt/grit (push)<br />
+koke      git://github.com/koke/grit.git (fetch)<br />
+koke      git://github.com/koke/grit.git (push)<br />
+origin    git@github.com:mojombo/grit.git (fetch)<br />
+origin    git@github.com:mojombo/grit.git (push)</p>
+</blockquote>
+
+<p>그러면 해당 소스 코드의 리모트 저장소를 출력해보고 위 들을 <code class="language-plaintext highlighter-rouge">remote add</code> 명령어로 url 을 추가할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># git remote add (alias) (URL)</span>
+git remote add pb https://github.com/paulboone/ticgit</code></pre></figure>
+
+<p>이제 해당 URL의 소스코드를 가져오고 싶다면 다음 명령어를 입력해주면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git fetch pb</code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">fetch</code> 는 리모트 -&gt; 로컬 로의 데이터를 가져오는 과정이다. 이때, 로컬로 데이터를 가져만 오고 로컬 레포지토리의 로컬 브랜치에 병합(Merge)되지는 않는다. 이때 <code class="language-plaintext highlighter-rouge">git merge</code> 명령어를 통해 merge 시킬 수 있다. 이 두 명령어를 한꺼번에 수행하고 싶다면 <code class="language-plaintext highlighter-rouge">git pull</code> 을 수행하면 된다.</p>
+
+<p>데이터를 가져오는 것뿐 아니라 내보내는 것도 가능한데, <code class="language-plaintext highlighter-rouge">git push (리모트) (브랜치)</code> 를 통해 해당 브랜치의 내용을 내보낼 수 있다. 리모트 주소는 <code class="language-plaintext highlighter-rouge">git remote rename</code>, <code class="language-plaintext highlighter-rouge">git remote remove</code> 등을 통해 삭제, 이름 변경 등을 할 수 있다.</p>
+
+<p>이제 원격 레포지토리랑 현재 로컬 레포지토리의 URL 등록이 되었는지 다음을 통해 확인하면 된다: <code class="language-plaintext highlighter-rouge">git remote -v</code></p>
+
+<h3 id="git-branch">Git Branch</h3>
+
+<p>브랜치는 <strong>Snapshot Series</strong> 이며, Snapshot 이라는 것은 직관적으로는 특정 시각의 프로젝트 내의 <code class="language-plaintext highlighter-rouge">Tracked</code> 파일들의 그 당시 소스코드를 의미한다. 이런 기록들을 토대로 하나하나 스냅샷이 쌓이다 보면 하나의 일련된 과정처럼 볼 수 있다. 더 자세히는 스냅샷은 커밋을 할 때 <code class="language-plaintext highlighter-rouge">Staging Area</code> 에 있는 <strong>Tracked 파일들, 포인터, 저자, 커밋 메시지 같은 메타데이터, 이전 커밋에 대한 포인터 등을 포함하는 커밋 개체(커밋 Object)</strong>를 같이 저장하게 되고 이를 통틀어 스냅샷이라고 볼 수 있다. 스냅샷 하나하나를 <strong>커밋 포인터</strong>라고 부르기도 한다.</p>
+
+<p>여기서 우리가 실제로 프로젝트에서 보고 있는 것은 <strong>Commit Pointer</strong> 가 가르키고 있는 스냅샷을 보게 되는 것이다. 이런 여러 개의 커밋 포인터들이 모여서 하나의 브랜치를 이루고, 브랜치는 커밋 사이를 가볍게 이동할 수 있는 어떤 포인터와도 같다.</p>
+
+<h4 id="git-main">Git Main</h4>
+
+<p>가장 초기에 생성되는 레포지토리에는 초기 스냅샷(아무 파일도 없는) 이 있다. 이때 이 스냅샷을 포함하는 브랜치를 <code class="language-plaintext highlighter-rouge">main</code> 브랜치라고 보통 부른다(예전에는 <code class="language-plaintext highlighter-rouge">master</code> 가 쓰였다).</p>
+
+<p><code class="language-plaintext highlighter-rouge">main</code> 브랜치에서 계속해서 커밋을 할 시 일련의 스냅샷들이 완성되고, 이것들이 하나의 뿌리를 이루게 된다고 해서 브랜치라고 하기도 한다. 만약 특정 과거의 스냅샷에서 다음 스냅샷으로 넘어가지 않고 또 다른 변경 사항을 넣고 싶다면 해당 브랜치에서 또 다른 브랜치를 만들어 다른 경로로 들어가도록 하면 된다.</p>
+
+<h4 id="branch-생성하기">Branch 생성하기</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">git switch -c &lt;branch 명&gt;</code>: 새 브랜치를 생성 후에 그 브랜치로 이동한다(<code class="language-plaintext highlighter-rouge">git checkout</code>은 옛방식이다).</li>
+  <li><code class="language-plaintext highlighter-rouge">git branch &lt;branch 명&gt;</code>: 새 브랜치를 생성만 한다.</li>
+</ul>
+
+<p>물론 <code class="language-plaintext highlighter-rouge">git switch &lt;branch 명&gt;</code> 은 해당 브랜치로 이동하는 명령이다. 브랜치가 자꾸 나누어지면 복잡해지고 어떤 코드로 가야할지 헤맬 수 있다. 이때 다음 명령어를 사용하여 <code class="language-plaintext highlighter-rouge">branch</code>가 어디서 파생되었는지 알 수 있다:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># log를 1개 줄에 꾸며서 graph(tree) 형태로 전부 띄워줘 </span>
+git log <span class="nt">--oneline</span> <span class="nt">--decorate</span> <span class="nt">--graph</span> <span class="nt">--all</span></code></pre></figure>
+
+<p>브랜치를 삭제하고 싶을 수 있는데 다음 명령어를 사용한다:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">git branch -d &lt;branch&gt;</code>: 해당 브랜치가 현재 선택된 브랜치에 완전히 병합된 후에만 삭제를 허용하게 되고, 머지된 브랜치를 삭제한다</li>
+  <li><code class="language-plaintext highlighter-rouge">git branch -D &lt;branch&gt;</code>: 병합됐는지 안됐는지 상관 없이 그냥 강제로 삭제하며, <code class="language-plaintext highlighter-rouge">--force --delete</code> 와 같은 옵션이다.</li>
+</ul>
+
+<p>병합되지 않은 브랜치를 삭제하려 하면, Git이 오류를 띄우며 삭제를 거부한다.</p>
+
+<h5 id="git-head">Git HEAD</h5>
+
+<p>이제 브랜치에서 우리가 작업할 어떤 스냅샷이 특정되어야 한다(작업 할 스냅샷). 항상 우리는 어떤 브랜치에 상주하게 되는데, 이 브랜치의 가장 최신 버전의 커밋 포인터로 코드를 보게 된다. 그리고 이런 현재 스냅샷을 가르키는 커밋 포인터가 있는 브랜치를 <code class="language-plaintext highlighter-rouge">HEAD</code> 라고 칭한다(현재 가르키는 브랜치라고 생각하자).</p>
+
+<h4 id="git-merge">git merge</h4>
+
+<p>이런 브랜치들이 자꾸 나눠지고 합쳐지는게 없다면 협업이 아닐 것이다. 이번에는 브랜치들의 최종 작업물들을 합치는 것을 본다.</p>
+
+<p>현재 <code class="language-plaintext highlighter-rouge">A</code>라는 브랜치에서 작업중이고, 작업을 완료하고 <code class="language-plaintext highlighter-rouge">main</code> 으로 <code class="language-plaintext highlighter-rouge">checkout</code> 했다고 하자. 이제 <code class="language-plaintext highlighter-rouge">A</code>의 변경사항을 <code class="language-plaintext highlighter-rouge">main</code> 에 적용시키고 싶을때는 다음과 같이 입력한다.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git merge A</code></pre></figure>
+
+<p>Git merge 가 될 때는 다음 merge 유형들이 있다.</p>
+
+<h5 id="fast-forward-merge">Fast-forward merge</h5>
+
+<p>가장 단순한 형태의 merge 이며, 브랜치 <code class="language-plaintext highlighter-rouge">A</code> 와 <code class="language-plaintext highlighter-rouge">main</code> 에서 <code class="language-plaintext highlighter-rouge">A</code> 라는 브랜치가 <code class="language-plaintext highlighter-rouge">main</code> 브랜치 최신 커밋 이후에만 커밋이 이루어졌고 이를 <code class="language-plaintext highlighter-rouge">main</code> 에 <code class="language-plaintext highlighter-rouge">merge</code> 시킬 경우 <code class="language-plaintext highlighter-rouge">main</code> 브랜치의 포인터 <code class="language-plaintext highlighter-rouge">HEAD</code> 를 <code class="language-plaintext highlighter-rouge">A</code> 브랜치의 최신 커밋 포인터로 이동시키게 된다. 이를 <code class="language-plaintext highlighter-rouge">Fast-forward merge</code> 라고 한다.</p>
+
+<h5 id="three-way-merge">Three-way merge</h5>
+
+<p>복잡한 <code class="language-plaintext highlighter-rouge">merge</code> 방식이며 두 브랜치 <code class="language-plaintext highlighter-rouge">A</code>, <code class="language-plaintext highlighter-rouge">main</code> 가 서로 다른 변경 이력을 가지고 있을 때, 다음 3개의 스냅샷을 비교하게 된다.</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">A</code>의 최신 커밋</li>
+  <li><code class="language-plaintext highlighter-rouge">main</code>의 최신 커밋</li>
+  <li>이들의 공통 조상 커밋</li>
+</ol>
+
+<p>이 세 커밋을 비교하여 새로운 커밋을 만들어내는데 새로운 커밋은 두 브랜치의 모든 변경 사항을 통합한 결과를 담고 있고, 이 방식은 복잡한 병합 상황에서 변경 이력을 다룰 때 유리하다.</p>
+
+<h5 id="merge-conflict">Merge Conflict</h5>
+
+<p>병합을 하는 도중에는 두 브랜치가 변경 이력이 서로 충돌하는 상황이 발생할 수 있다. 가령 <code class="language-plaintext highlighter-rouge">A</code> 브랜치는 a 파일을 수정하고, <code class="language-plaintext highlighter-rouge">B</code> 브랜치도 a 파일을 수정할 수도 있다. 이때 두 브랜치를 <code class="language-plaintext highlighter-rouge">merge</code> 할 때는 충돌이 생긴다.</p>
+
+<p>이때 Git은 자동으로 충돌을 해결할 수 없으므로, 개발자가 직접 파일을 수정하여 어떤 변경 사항을 최종적으로 반영할지 결정해야 한다. 충돌이 발생하면 Git은 충돌이 난 부분을 표시하고 개발자는 이를 보고 어떤 변경 이력을 새 커밋에 넣어줄지를 반영하게 된다.</p>
+
+<h4 id="git-push--pull">git push &amp; pull</h4>
+
+<p>이제 원격 레포지토리와 로컬 레포지토리 간의 상호작용을 본다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">git push origin &lt;branch&gt;</code>: 로컬 레포지토리에서 작업한 브랜치를 원격 레포지토리로 옮기기 위한 작업</li>
+  <li><code class="language-plaintext highlighter-rouge">git pull origin &lt;branch&gt;</code>: 원격 레포지토리에서 갱신된 브랜치를 로컬 레포지토리로 옮기기 위한 작업</li>
+</ul>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">git push -u</code> 옵션을 사용하면 원격 레포지토리에 해당 브랜치가 없을 경우 자동 추적을 하여 어떤 <code class="language-plaintext highlighter-rouge">snapshot</code> 에 브랜치가 가지치기로 들어갈지를 알아서 판단하에 브랜치를 생성해주고 갱신해준다. 이는 이후에도 <code class="language-plaintext highlighter-rouge">push</code> 명령에서 원격 저장소와 브랜치를 기본값으로 설정되어 <code class="language-plaintext highlighter-rouge">git push</code> 를 할 수 있게 된다.</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">push</code> 하는 것은 결국에는 내가 쓴 코드를 공유, 원격 레포지토리로 옮기는 것이므로 사람들에게 내 코드를 알리는 것이다. 이를 토대로 사람들이 이 코드를 보고 이를 <code class="language-plaintext highlighter-rouge">main</code> 브랜치에 포함시킬지 안시킬지를 검토하는 <code class="language-plaintext highlighter-rouge">Pull Request</code> 작업을 수행할 수 있다.</p>
+
+<h5 id="personal-access-token">Personal Access Token</h5>
+
+<p>Github 는 public repo 이더라도 권한이 없는 사람은 직접 push가 불가능하다.<br />
+이때 fork + PR 방식으로 기여하게 되는데, 이때 이중 인증 혹은 CI/CD<br />
+파이프 라인이 있거나, Github API 를 사용하여 레포지토리에 접근할 때 등등<br />
+이 PAT을 필요로 하게 된다.</p>
+
+<p>따라서 Github 에 <code class="language-plaintext highlighter-rouge">push</code>를 하기 위해서는 <strong>인증</strong> 이 필요하다. ID/Password 로도<br />
+유저가 push/pull 을 할 수 있었지만, 추후에 더 보안에 좋은 <code class="language-plaintext highlighter-rouge">PAT</code> 또는 <code class="language-plaintext highlighter-rouge">SSH</code> 를 사용하여<br />
+접근할 수 있도록 바꿨다.</p>
+
+<p>PAT 은 다음을 통해 발급 가능하다.</p>
+
+<ol>
+  <li>Settings → Developer settings → Personal access tokens → Tokens</li>
+  <li>만료 기간과 권한 선택
+    <ul>
+      <li>권한은 보통 repo 접근 권한만 주면 된다.</li>
+      <li>필요에 따라 workflow, admin:org, gist 등 선택이 가능</li>
+    </ul>
+  </li>
+  <li>토큰 생성</li>
+</ol>
+
+<p>이 토큰을 clone 한 시점에 사용할 수 있고 비밀번호 대신에 이걸 사용하면 된다.</p>
+
+<h5 id="발급한-token-을-git-credential-helper-이용해-등록">발급한 Token 을 Git Credential Helper 이용해 등록</h5>
+
+<p>우선 Git Credential Helper 를 확인한다</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git config <span class="nt">--global</span> credential.helper</code></pre></figure>
+
+<p>만약 아무 출력도 나오지 않는다면 아직 이게 설정이 안되어 있는 상태이다.<br />
+이제 이를 설정해주자.</p>
+
+<p>Git Credential Helper 를 설정한다.</p>
+
+<p><strong>Mac</strong></p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git config <span class="nt">--global</span> credential.helper osxkeychain</code></pre></figure>
+
+<blockquote>
+  <p>mac 은 Keychain(osxkeychain) 에 PAT을 저장해서 매번 입력할 필요가 없다.</p>
+</blockquote>
+
+<p><strong>Window</strong></p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git config <span class="nt">--global</span> credential.helper manager</code></pre></figure>
+
+<blockquote>
+  <p>Window 는 Windows Credential Manager 에 PAT을 저장한다.</p>
+</blockquote>
+
+<p>위처럼 실행하면 PAT을 이제 사용할 수 있게 된다.<br />
+<code class="language-plaintext highlighter-rouge">git clone</code> 을 이제 수행하면 username, password 입력을 한 번만 수행하면<br />
+그 다음부터는 입력하지 않아도 되게 된다.</p>
+
+<p>이제 사용하려면 아래의 user, password 입력이 생략된다.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">git clone https://github.com/username/repo.git
+
+<span class="c"># Username: GitHub 계정명</span>
+<span class="c"># Password: 여기에 PAT 입력</span></code></pre></figure>
+
+<hr />
+
+<h2 id="️-용어">✒️ 용어</h2>
+
+<h6 id="globs-패턴">Globs 패턴</h6>
+
+<p>Regex 와 비슷하다.</p>
+
+<ul>
+  <li>?: 어떤 한 문자를 뜻함</li>
+  <li>*: 한 개 이상의 문자를 뜻함(ex. a*는 a.mp3, abc.txt, apple 을 전부 포함, 슬래시는 제외)</li>
+  <li>**: 0 개 이상의 하위 디렉토리를 뜻함</li>
+  <li>{}: 안의 원소 중 하나를 뜻함 (ex. *.{txt,md} 는 txt와 md의 확장자를 가지는 파일들 전부를 뜻함)</li>
+  <li>[]: 한 개의 문자들 중 하나를 뜻함 !를 사용하면 해당 문자는 제외</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>(): 문자의 반복을 의미 (ex. *(ab</td>
+          <td>cd) 1개 이상의 ab, cd 의 조합을 말함, abab, cdab 등등)</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/git/2025/08/13/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-1%EC%9D%BC%EC%B0%A8-Git-%EC%84%A4%EC%A0%95.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/git/2025/08/13/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-1%EC%9D%BC%EC%B0%A8-Git-%EC%84%A4%EC%A0%95.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

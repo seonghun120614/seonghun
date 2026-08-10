@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 38일차 Spring MVC 심화</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 38일차 Spring MVC 심화 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 38일차 Spring MVC 심화" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/17/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-38%EC%9D%BC%EC%B0%A8-Spring-mvc-%EC%8B%AC%ED%99%94.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/17/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-38%EC%9D%BC%EC%B0%A8-Spring-mvc-%EC%8B%AC%ED%99%94.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-17T04:12:51+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 38일차 Spring MVC 심화" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-10-17T04:12:51+00:00","datePublished":"2025-10-17T04:12:51+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 38일차 Spring MVC 심화","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/17/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-38%EC%9D%BC%EC%B0%A8-Spring-mvc-%EC%8B%AC%ED%99%94.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/17/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-38%EC%9D%BC%EC%B0%A8-Spring-mvc-%EC%8B%AC%ED%99%94.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/17/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-38%EC%9D%BC%EC%B0%A8-Spring-mvc-%EC%8B%AC%ED%99%94.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 38일차 Spring MVC 심화</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Oct 17, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li><li>Spring</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#cookie">Cookie</a>
+    <ul>
+      <li><a href="#cookie-의-구성요소">Cookie 의 구성요소</a></li>
+      <li><a href="#spring-에서-cookie-다루기">Spring 에서 Cookie 다루기</a>
+        <ul>
+          <li><a href="#sethttponly">setHttpOnly</a></li>
+          <li><a href="#setsecure">setSecure</a></li>
+          <li><a href="#setsamesite">setSameSite</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#session">Session</a>
+    <ul>
+      <li><a href="#session-동작-원리">Session 동작 원리</a>
+        <ul>
+          <li><a href="#session-생성">Session 생성</a></li>
+        </ul>
+      </li>
+      <li><a href="#session-구조">Session 구조</a></li>
+      <li><a href="#session-활용-예시">Session 활용 예시</a></li>
+    </ul>
+  </li>
+  <li><a href="#exception-handling">Exception Handling</a>
+    <ul>
+      <li><a href="#exceptionhandler-규칙">ExceptionHandler 규칙</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="cookie">Cookie</h3>
+
+<p>웹 브라우저와 서버 사이에서 정보를 작고 단순한 문자열 형태로 저장하고 주고 받는 방법이며, 서버가 브라우저에 데이터를 잠깐 기억해달라고 요청하면 브라우저는 이를 로컬에 저장하고 같은 도메인으로 요청할 때마다 서버에 다시 전달하게 된다.</p>
+
+<p><strong>용도</strong></p>
+<ul>
+  <li>로그인 상태 유지(Session ID 저장)</li>
+  <li>사용자 선호 설정 저장(언어, 테마)</li>
+  <li>트래킹 및 분석(방문 기록, 장바구니 정보)</li>
+</ul>
+
+<p>서버측에서는 응답으로 보낼때 쿠키를 저장해달라고 요청할 수 있고, 그때 HTTP 에는 <code class="language-plaintext highlighter-rouge">Set-Cookie</code> 헤더가 포함되게 된다. 이후에 브라우저가 요청을 서버에 한다면 자동으로 이 쿠키들이 전송되게 된다.</p>
+
+<p><strong>서버 -&gt; 브라우저 Set-Cookie 헤더</strong></p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Set-Cookie: userId=park123; Path=/; Max-Age=3600; HttpOnly; Secure</code></pre></figure>
+
+<p><strong>브라우저 -&gt; 서버 Cookie</strong></p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Cookie: userId=park123</code></pre></figure>
+
+<blockquote>
+  <p>HTTP 상태를 보존하는 가장 낮은 레벨의 메커니즘이 바로 Cookie 이다.</p>
+</blockquote>
+
+<h4 id="cookie-의-구성요소">Cookie 의 구성요소</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Name</code>: 이름</li>
+  <li><code class="language-plaintext highlighter-rouge">Value</code>: 값</li>
+  <li><code class="language-plaintext highlighter-rouge">Domain</code>: 쿠키가 적용될 도메인</li>
+  <li><code class="language-plaintext highlighter-rouge">Path</code>: 쿠키가 적용될 경로</li>
+  <li><code class="language-plaintext highlighter-rouge">Max-Age</code>: 쿠키 유효기간(-1 이면 창을 껏다 키면 사라지는 옵션)</li>
+  <li><code class="language-plaintext highlighter-rouge">Secure</code>: HTTPS 에서만 전송</li>
+  <li><code class="language-plaintext highlighter-rouge">HttpOnly</code>: JS 에서 접근 불가, XSS 방어용</li>
+  <li><code class="language-plaintext highlighter-rouge">SameSite</code>: CSRF 공격 방지(<code class="language-plaintext highlighter-rouge">Strict</code>, <code class="language-plaintext highlighter-rouge">Lax</code>, <code class="language-plaintext highlighter-rouge">None</code>)</li>
+</ul>
+
+<h4 id="spring-에서-cookie-다루기">Spring 에서 Cookie 다루기</h4>
+
+<p><strong>@CookieValue 어노테이션을 통해 읽어오기</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/viewCookie"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">viewCookie</span><span class="o">(</span><span class="nd">@CookieValue</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"userId"</span><span class="o">,</span> <span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span> <span class="nc">String</span> <span class="n">userId</span><span class="o">,</span>
+                         <span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"userId"</span><span class="o">,</span> <span class="n">userId</span><span class="o">);</span>
+    <span class="k">return</span> <span class="s">"cookie_view"</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>브라우저에 쿠키가 저장되어 있고 <code class="language-plaintext highlighter-rouge">userId</code> 라는 이름의 쿠키가 있다면 들고옴 없으면 <code class="language-plaintext highlighter-rouge">null</code></p>
+</blockquote>
+
+<p><strong>쿠키 생성 및 저장</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@PostMapping</span><span class="o">(</span><span class="s">"/addCookie"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">addCookie</span><span class="o">(</span><span class="nc">CookieRequest</span> <span class="n">cookieRequest</span><span class="o">,</span> <span class="cm">/* @ModelAttribute 생략 가능 */</span>
+                        <span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="nc">Cookie</span> <span class="n">cookie</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cookie</span><span class="o">(</span><span class="n">cookieRequest</span><span class="o">.</span><span class="na">cookieName</span><span class="o">(),</span> <span class="n">cookieRequest</span><span class="o">.</span><span class="na">cookieValue</span><span class="o">());</span>
+    <span class="n">cookie</span><span class="o">.</span><span class="na">setPath</span><span class="o">(</span><span class="s">"/"</span><span class="o">);</span>
+    <span class="n">cookie</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(-</span><span class="mi">1</span><span class="o">);</span>
+
+    <span class="n">response</span><span class="o">.</span><span class="na">addCookie</span><span class="o">(</span><span class="n">cookie</span><span class="o">);</span>
+
+    <span class="k">return</span> <span class="s">"redirect:/viewCookie"</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 는 하나의 object 만이 요청으로 오게 되면 생략이 가능하다.</p>
+</blockquote>
+
+<p><strong>쿠키 삭제</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/delCookie"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">deleteCookie</span><span class="o">(</span><span class="nc">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Cookie</span> <span class="n">cookie</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Cookie</span><span class="o">(</span><span class="s">"userId"</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+    <span class="n">cookie</span><span class="o">.</span><span class="na">setMaxAge</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span> <span class="c1">// 만료</span>
+    <span class="n">cookie</span><span class="o">.</span><span class="na">setPath</span><span class="o">(</span><span class="s">"/"</span><span class="o">);</span>
+    <span class="n">response</span><span class="o">.</span><span class="na">addCookie</span><span class="o">(</span><span class="n">cookie</span><span class="o">);</span>
+    <span class="k">return</span> <span class="s">"cookie_deleted"</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>브라우저에서 쿠키를 제거하려면 같은 이름, 같은 <code class="language-plaintext highlighter-rouge">Path</code>, <code class="language-plaintext highlighter-rouge">MaxAge=0</code> 으로 다시 보내야 함</p>
+</blockquote>
+
+<h5 id="sethttponly">setHttpOnly</h5>
+
+<p>자바스크립트에서 쿠키에 접근하는 것을 차단한다. 즉, <code class="language-plaintext highlighter-rouge">document.cookie</code> 로 접근할 수 없게 된다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">XSS</code> 공격 방지용</li>
+  <li><code class="language-plaintext highlighter-rouge">SessionID</code> 가 드러나지 않도록</li>
+</ul>
+
+<h5 id="setsecure">setSecure</h5>
+
+<p>HTTPS 연결에서만 쿠키를 전송하도록 제한을하며, HTTP 요청에서는 이 쿠키가 전송되지 않는다.</p>
+
+<ul>
+  <li>네트워크 상에서 쿠키가 노출되는 것을 방지하고</li>
+  <li>HTTP 의 암호화 부재로, 누군가 트래픽 감청 시 세션ID 가 노출되면 안된다</li>
+</ul>
+
+<h5 id="setsamesite">setSameSite</h5>
+
+<p><code class="language-plaintext highlighter-rouge">CSRF</code> 공격 방지를 위해 쿠키가 어떤 요청 상황에서 전송될 수 있는지를 제한하는 옵션이다. 기본값은 <code class="language-plaintext highlighter-rouge">Lax</code> 이다.</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">CSRF</code> 는 요청을 보낸 페이지의 도메인 과 요청을 받는 서버의 도메인이 다를 수 있는데 이럴때 크로스 사이트 요청이라고 한다. 기본적으로 다른 사이트의 요청은 쿠키를 전송하지 않는다.</p>
+</blockquote>
+
+<h3 id="session">Session</h3>
+
+<p>웹에서 <code class="language-plaintext highlighter-rouge">HTTP</code> 는 <code class="language-plaintext highlighter-rouge">stateless</code> 프로토콜이다. 즉, 요청 -&gt; 응답 사이에 서버는 사용자를 기억하지 못하는데, 대부분의 웹 어플리케이션은 사용자 상태 유지가 필요하다.</p>
+
+<p>여기서 등장하는 것이 <code class="language-plaintext highlighter-rouge">session</code> 이며, 세션은 서버가 클라이언트 별로 유지하는 일시적 데이터 저장 공간이라고 볼 수 있다.</p>
+
+<h4 id="session-동작-원리">Session 동작 원리</h4>
+
+<ol>
+  <li>사용자가 브라우저로 요청을 보냄</li>
+  <li>서버는 세션 객체를 생성하고, 고유한 Session ID 를 발급 받음</li>
+  <li>세션 ID 는 주로 쿠키(JSESSIONID) 를 통해 클라이언트에 전달됨</li>
+  <li>클라이언트는 이후 요청마다 세션 ID 를 서버에 보내고, 서버는 이를 사용하여 세션 저장소를 조회하게 된다.</li>
+</ol>
+
+<h5 id="session-생성">Session 생성</h5>
+
+<p>Spring MVC 에서 Session 은 <code class="language-plaintext highlighter-rouge">HttpSession</code> 인터페이스를 통해 제공되지만, 실제로는 <code class="language-plaintext highlighter-rouge">Servlet</code> 컨테이너(Tomcat, Jetty 등)에서 관리한다. 즉, Spring 이 직접 세션 객체를 만드는 것이 아니라 요청 시 <code class="language-plaintext highlighter-rouge">Servlet</code> 컨테이너가 세션을 정하고 Spring 은 그걸 활용한다.</p>
+
+<p>따라서 <code class="language-plaintext highlighter-rouge">DispatcherServlet</code> 에서 받아진 <code class="language-plaintext highlighter-rouge">HttpServletRequest</code> 안에 <code class="language-plaintext highlighter-rouge">Session</code> 이 들어있게 된다.</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">request.getSession()</code> 호출
+    <ol>
+      <li>요청 쿠키에 <code class="language-plaintext highlighter-rouge">JSESSIONID</code> 를 확인</li>
+      <li>없으면 새로운 세션 객체 새성</li>
+      <li>고유한 세션 ID 를 생성(<code class="language-plaintext highlighter-rouge">UUID</code> 또는 랜덤 문자열)</li>
+      <li>서버 메모리(기본은 <code class="language-plaintext highlighter-rouge">HashMap</code> 등)에 세션 저장</li>
+      <li>클라이언트에게 <code class="language-plaintext highlighter-rouge">Set-Cookie: JSESSIONID=랜덤값</code> 전송</li>
+    </ol>
+  </li>
+  <li>이후 요청에서 세션 사용
+    <ol>
+      <li>브라우저가 <code class="language-plaintext highlighter-rouge">JSESSIONID</code> 쿠키를 보내면 컨테이너가 세션 객체를 조회해서 반환</li>
+      <li>Spring <code class="language-plaintext highlighter-rouge">Controller</code> 에서 바로 <code class="language-plaintext highlighter-rouge">session.getAttribute("user")</code> 등으로 접근 가능</li>
+    </ol>
+  </li>
+</ol>
+
+<h4 id="session-구조">Session 구조</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">HttpSession</code>: 인터페이스</li>
+  <li><code class="language-plaintext highlighter-rouge">StandardSession</code> (Tomcat 구현)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">id</code>: 세션 식별자</li>
+      <li><code class="language-plaintext highlighter-rouge">creationTime</code>: 세션 생성 시간</li>
+      <li><code class="language-plaintext highlighter-rouge">lastAccessedTime</code>: 마지막 접근 시간</li>
+      <li><code class="language-plaintext highlighter-rouge">attributes</code>: 세션에 저장된 key-value <code class="language-plaintext highlighter-rouge">Map</code></li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>Servlet 이 생성함을 알고 있자</p>
+</blockquote>
+
+<h4 id="session-활용-예시">Session 활용 예시</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/login"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">login</span><span class="o">(</span><span class="nc">HttpSession</span> <span class="n">session</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 로그인 성공 후 사용자 정보를 세션에 저장</span>
+    <span class="n">session</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"user"</span><span class="o">,</span> <span class="s">"park"</span><span class="o">);</span>
+    <span class="n">session</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"role"</span><span class="o">,</span> <span class="s">"admin"</span><span class="o">);</span>
+    <span class="k">return</span> <span class="s">"home"</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>이때 String, <code class="language-plaintext highlighter-rouge">Object</code> 로 들어가는데, <code class="language-plaintext highlighter-rouge">Object</code> 는 <code class="language-plaintext highlighter-rouge">Serializable</code> 해야 한다.</p>
+</blockquote>
+
+<p><strong>SessionAttribute</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 처럼 여기서도 <code class="language-plaintext highlighter-rouge">@SessionAttribute</code> 의 <code class="language-plaintext highlighter-rouge">name</code> 옵션은 생략 가능하다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/dashboard"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">dashboard</span><span class="o">(</span><span class="nd">@SessionAttribute</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"user"</span><span class="o">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">false</span><span class="o">)</span> <span class="nc">String</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">user</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="s">"redirect:/login"</span><span class="o">;</span>
+    <span class="k">return</span> <span class="s">"dashboard"</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>SessionAttributes</strong></p>
+
+<p>이 어노테이션은 살짝 헷갈릴 수 있는데, 새롭게 접속하는 클라이언트는 쓸려는 <code class="language-plaintext highlighter-rouge">key</code> 가 <code class="language-plaintext highlighter-rouge">Session</code> 에 없기 때문에 <code class="language-plaintext highlighter-rouge">@ModelAttribute</code> 로 <code class="language-plaintext highlighter-rouge">key</code> 가 생성되면 <code class="language-plaintext highlighter-rouge">@SessionAttributes</code> 덕분에 이 값이 세션에도 저장되게 된다. 즉, HTTP Session 이 생성될 때마다 자동으로 저장하도록 지정한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@SessionAttributes</span><span class="o">(</span><span class="s">"visitCount"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SessionController</span> <span class="o">{</span>
+
+	<span class="c1">// HTTP Request 에서 모델에 값이 없을 때만 호출되는 애너테이션이다.</span>
+    <span class="c1">// 하지만, 위에서 SessionAttributes 로 HTTP Session 범위로 만들었기 때문에 해당 key 는 세션이 끝날때까지 계속 유지</span>
+	<span class="nd">@ModelAttribute</span><span class="o">(</span><span class="s">"visitCount"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">Integer</span> <span class="nf">initVisitCount</span><span class="o">()</span> <span class="o">{</span>
+		<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"initVisitCount"</span><span class="o">);</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+	<span class="o">}</span>
+
+    <span class="o">...</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>만약 클라이언트가 같은 컨트롤러의 다른 요청을 다시 보내게 되면 세션에 이미 <code class="language-plaintext highlighter-rouge">key</code> 가 존재해서, 이 값을 자동으로 <code class="language-plaintext highlighter-rouge">Model</code> 에 적용하고, 이 어노테이션은 <code class="language-plaintext highlighter-rouge">Controller</code> 단위로 적용되므로 다른 컨틀롤러에서는 해당 <code class="language-plaintext highlighter-rouge">key-value</code> 를 못쓴다. 다만, 다른 컨트롤러에서 동일 key 를 수동으로 꺼내서 쓰는건 가능하다. 세션은 공유 영역이기 때문</p>
+</blockquote>
+
+<h3 id="exception-handling">Exception Handling</h3>
+
+<p>보통 자바에서 에러를 만나게 되면 내부적으로 try-catch 를 사용하여 처리를 하게 된다. 하지만 이를 컨트롤러에서 메서드 하나하나 마다 생성시킨다고 한다면 유지보수가 어려워진다.</p>
+
+<p>이때 사용할 수 있는게 <code class="language-plaintext highlighter-rouge">@ExceptionHandler</code> 이다. 컨트롤러 단위에서 예외 처리를 해주고 예외를 한 곳에서 처리할 수 있다. 만약 하나의 컨트롤러에 대해서 Exception Handling 을 하고 싶다면 그 컨트롤러 내부에 <code class="language-plaintext highlighter-rouge">@ExceptionHandler</code> 가 붙은 메서드를 정의하면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Controller</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserController</span> <span class="o">{</span>
+
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/user"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getUser</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span> <span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">name</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span><span class="s">"이름이 없습니다!"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="s">"user"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">handleIllegalArgument</span><span class="o">(</span><span class="nc">IllegalArgumentException</span> <span class="n">e</span><span class="o">,</span> <span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"error"</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="k">return</span> <span class="s">"error"</span><span class="o">;</span> <span class="c1">// error.html 로 포워딩</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>모든 컨트롤러 즉, 전역적인 예외 처리를 하고 싶다면 클래스를 따로 만들어 <code class="language-plaintext highlighter-rouge">@ControllerAdvice</code> 를 클래스에 붙여주면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ControllerAdvice</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GlobalExceptionHandler</span> <span class="o">{</span>
+
+    <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="nc">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">handleIllegalArgument</span><span class="o">(</span><span class="nc">IllegalArgumentException</span> <span class="n">e</span><span class="o">,</span> <span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"error"</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="k">return</span> <span class="s">"error"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="nc">Exception</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">handleGeneral</span><span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">,</span> <span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"error"</span><span class="o">,</span> <span class="s">"서버 오류가 발생했습니다."</span><span class="o">);</span>
+        <span class="k">return</span> <span class="s">"error"</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">ControllerAdvice</code> 는 다음 옵션을 제공한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">basePackages</code>: 특정 패키지 하위의 컨트롤러들에만 예외 처리를 적용할 때 사용</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ControllerAdvice</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="s">"com.example.user"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserExceptionHandler</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span></code></pre></figure>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">basePackageClasses</code>: 클래스 기준으로 패키지를 지정할 수 있다. 해당 클래스가 속한 패키지가 자동 인식된다. 아래와 같이 쓰면 <code class="language-plaintext highlighter-rouge">UserController</code> 가 속한 패키지의 모든 컨트롤러에 적용됨</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ControllerAdvice</span><span class="o">(</span><span class="n">basePackageClasses</span> <span class="o">=</span> <span class="nc">UserController</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserExceptionHandler</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span></code></pre></figure>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">assignableTypes</code>: 특정 클래스나 타입(컨트롤러 클래스 또는 인터페이스)에만 예외 처리를 적용, <code class="language-plaintext highlighter-rouge">basePackageClasses</code> 랑 다른 점은 속한 클래스의 적용 유무이다.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ControllerAdvice</span><span class="o">(</span><span class="n">assignableTypes</span> <span class="o">=</span> <span class="o">{</span><span class="nc">AdminController</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="nc">UserController</span><span class="o">.</span><span class="na">class</span><span class="o">})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpecificControllerAdvice</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span></code></pre></figure>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">annotations</code>: 특정 애너테이션이 붙은 컨트롤러들에만 적용</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ControllerAdvice</span><span class="o">(</span><span class="n">annotations</span> <span class="o">=</span> <span class="nc">RestController</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RestApiExceptionHandler</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">RestControllerAdvice</code> 는 REST API 용 전역 처리</p>
+</blockquote>
+
+<h4 id="exceptionhandler-규칙">ExceptionHandler 규칙</h4>
+
+<p>모든 편리한 것에는 규칙이 있음을 잊지 말고 여기서도 규칙을 지키도록 어떤 규칙이 있는지 보자.</p>
+
+<p>보통 <code class="language-plaintext highlighter-rouge">@ExceptionHandler</code> 메서드가 자동으로 주입 받을 수 있는 인자는 컨트롤러의 일반 핸들러 메서드와 동일한 규칙으로 인자를 해결한다. 즉 <code class="language-plaintext highlighter-rouge">HandlerMethodArgumentResolver</code> 들이 지원하는 모든 타입이 사용 가능하다.</p>
+
+<ol>
+  <li>예외 타입</li>
+  <li>HTTP 관련 표준 타입
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">HttpServletRequest</code></li>
+      <li><code class="language-plaintext highlighter-rouge">HttpServletResponse</code></li>
+      <li><code class="language-plaintext highlighter-rouge">HttpSession</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ServletRequest</code> / <code class="language-plaintext highlighter-rouge">ServletResponse</code></li>
+      <li><code class="language-plaintext highlighter-rouge">WebRequest</code></li>
+    </ul>
+  </li>
+  <li>Spring MVC 의 웹레벨 도우미
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">HttpEntity</code></li>
+      <li><code class="language-plaintext highlighter-rouge">Locale</code></li>
+      <li><code class="language-plaintext highlighter-rouge">Principal</code></li>
+      <li><code class="language-plaintext highlighter-rouge">InputStream</code> / <code class="language-plaintext highlighter-rouge">Reader</code> 등등</li>
+    </ul>
+  </li>
+  <li>모델 관련 타입(보통 key-value 를 나타내는거-Map 면 다 된다)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Model</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ModelMap</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ModelAndView</code></li>
+      <li><code class="language-plaintext highlighter-rouge">Map&lt;String, Object&gt;</code></li>
+    </ul>
+  </li>
+  <li>요청 바인딩 관련
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">@RequestParam</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@RequestHeader</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@RequestBody</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@PathVariable</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@ModelAttribute</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@CookieValue</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@SessionValue</code></li>
+      <li>…</li>
+    </ul>
+  </li>
+</ol>
+
+<p>위 타입들은 자동으로 주입 받는다. 따라서 보통 첫 인자로 <code class="language-plaintext highlighter-rouge">Exception</code> 하위 클래스를 인자를 정의해주면 내부에서 이를 사용할 수 있다. 그리고 보통 Error 처리를 할 때, Status 코드와 에러 메시지를 열거형으로 선언하고 이를 사용해주는게 깔끔할 것 같다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ControllerAdvice</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GlobalExceptionHandler</span> <span class="o">{</span>
+
+    <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="nc">ResourceNotFoundException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">ModelAndView</span> <span class="nf">handleNotFound</span><span class="o">(</span><span class="nc">ResourceNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">ModelAndView</span> <span class="n">mav</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ModelAndView</span><span class="o">(</span><span class="s">"error/404"</span><span class="o">);</span>
+        <span class="n">mav</span><span class="o">.</span><span class="na">addObject</span><span class="o">(</span><span class="s">"message"</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">mav</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="nc">ValidationException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">handleValidation</span><span class="o">(</span><span class="nc">ValidationException</span> <span class="n">e</span><span class="o">,</span> <span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"errors"</span><span class="o">,</span> <span class="n">e</span><span class="o">.</span><span class="na">getErrors</span><span class="o">());</span>
+        <span class="k">return</span> <span class="s">"error/validation"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="nc">DataAccessException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">handleDatabaseError</span><span class="o">(</span><span class="nc">DataAccessException</span> <span class="n">e</span><span class="o">,</span>
+                                     <span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"Database error"</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"error"</span><span class="o">,</span> <span class="s">"Database error occurred"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="s">"error/500"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="nc">Exception</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">handleGeneral</span><span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">,</span> <span class="nc">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"Unexpected error"</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"error"</span><span class="o">,</span> <span class="s">"An unexpected error occurred"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="s">"error/general"</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// Custom Exception</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResourceNotFoundException</span> <span class="kd">extends</span> <span class="nc">RuntimeException</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">ResourceNotFoundException</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/17/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-38%EC%9D%BC%EC%B0%A8-Spring-mvc-%EC%8B%AC%ED%99%94.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/17/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-38%EC%9D%BC%EC%B0%A8-Spring-mvc-%EC%8B%AC%ED%99%94.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 70일차 Kubernetes</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 70일차 Kubernetes | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 70일차 Kubernetes" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/12/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-70%EC%9D%BC%EC%B0%A8-kubernetes.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/12/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-70%EC%9D%BC%EC%B0%A8-kubernetes.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:image" content="https://seonghun120614.github.io/seonghun120614/assets/img/kubernetes.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-12-04T05:52:48+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://seonghun120614.github.io/seonghun120614/assets/img/kubernetes.png" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 70일차 Kubernetes" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-12-04T05:52:48+00:00","datePublished":"2025-12-04T05:52:48+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 70일차 Kubernetes","image":"https://seonghun120614.github.io/seonghun120614/assets/img/kubernetes.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/12/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-70%EC%9D%BC%EC%B0%A8-kubernetes.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/12/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-70%EC%9D%BC%EC%B0%A8-kubernetes.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/12/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-70%EC%9D%BC%EC%B0%A8-kubernetes.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 70일차 Kubernetes</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Dec 4, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>DevOps</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#kubernetes-구성요소">Kubernetes 구성요소</a>
+    <ul>
+      <li><a href="#control-plane-구성요소">Control Plane 구성요소</a></li>
+      <li><a href="#worker-node-구성요소">Worker Node 구성요소</a></li>
+      <li><a href="#kubernetes-object리소스-구성요소">Kubernetes Object(리소스) 구성요소</a>
+        <ul>
+          <li><a href="#workload-오브젝트">Workload 오브젝트</a></li>
+          <li><a href="#service-구성요소">Service 구성요소</a></li>
+          <li><a href="#volume">Volume</a></li>
+          <li><a href="#config--secret">Config &amp; Secret</a></li>
+          <li><a href="#networking-구성요소">Networking 구성요소</a></li>
+          <li><a href="#security-요소">Security 요소</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#deployment">Deployment</a>
+    <ul>
+      <li><a href="#kubectl-로-명령-실습">Kubectl 로 명령 실습</a></li>
+    </ul>
+  </li>
+  <li><a href="#service">Service</a>
+    <ul>
+      <li><a href="#service-타입">Service 타입</a></li>
+      <li><a href="#service-실습">Service 실습</a>
+        <ul>
+          <li><a href="#endpoints">Endpoints</a></li>
+          <li><a href="#로드밸런싱-확인">로드밸런싱 확인</a></li>
+          <li><a href="#전체-아키텍처-요약">전체 아키텍처 요약</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#configmap--secret">ConfigMap &amp; Secret</a>
+    <ul>
+      <li><a href="#configmap">ConfigMap</a></li>
+      <li><a href="#secret">Secret</a>
+        <ul>
+          <li><a href="#secret-베스트-프랙티스">Secret 베스트 프랙티스</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#volume-1">Volume</a>
+    <ul>
+      <li><a href="#ephemeral-volume-임시-볼륨">Ephemeral Volume 임시 볼륨</a></li>
+      <li><a href="#persistent-volume-영속성-볼륨">Persistent Volume 영속성 볼륨</a></li>
+      <li><a href="#persistent-volume-claim-생성">Persistent Volume Claim 생성</a></li>
+      <li><a href="#deployment-에서-pvc-사용하기">Deployment 에서 PVC 사용하기</a></li>
+    </ul>
+  </li>
+  <li><a href="#node">Node</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<div class="code-runner-widget" data-lang="python">
+  <div class="code-runner-header">
+    <select class="code-runner-lang-select">
+      <option value="71" selected="">Python 3</option>
+      <option value="63">JavaScript</option>
+      <option value="62">Java</option>
+      <option value="54">C++</option>
+      <option value="60">Go</option>
+      <option value="46">Bash</option>
+    </select>
+    <button class="code-runner-run-btn">&#9654; Run</button>
+    <button class="code-runner-key-btn" title="API Key 설정">&#128273;</button>
+  </div>
+  <textarea class="code-runner-source">print('Hello, World!')</textarea>
+  <div class="code-runner-output">
+    <span class="code-runner-output-label">Output</span>
+    <pre class="code-runner-result"></pre>
+  </div>
+</div>
+
+<h3 id="kubernetes-구성요소">Kubernetes 구성요소</h3>
+<p>쿠버네티스(Kubernetes, K8s)는 컨테이너 오케스트레이션 플랫폼으로, 컨테이너 기반 애플리케이션을 배포·스케일링·관리·복구하는 표준 도구다. 이를 구성하는 요소는 크게 마스터 노드(Control Plane) 와 워커 노드(Worker Node, Node), 그리고 오브젝트(Object)로 나뉜다.</p>
+
+<h4 id="control-plane-구성요소">Control Plane 구성요소</h4>
+<p>마스터 노드라고 불리며 나중에 터미널에서는 <code class="language-plaintext highlighter-rouge">kubectl</code> 의 명령어를 사용하여 여기에 접근한다. 마스터 노드 내에도 여러 구성 요소가 있다:</p>
+
+<p><strong>API Server(kube-apiserver)</strong></p>
+<ul>
+  <li>Kubernetes 의 모든 요청이 통과하는 게이트웨이</li>
+  <li>kubectl, node, controller 등 모든 컴포넌트가 API 서버와 통신</li>
+  <li>인증/인가, 요청 검증, REST API 제공</li>
+</ul>
+
+<p><strong>Scheduler(kube-scheduler)</strong></p>
+<ul>
+  <li><strong>어떤 Pod 를 어떤 Node 에 배치할지</strong> 결정</li>
+  <li>CPU/메모리 자원, 노드 상태, 리소스 요구사항 등을 기준으로 스케줄링</li>
+</ul>
+
+<p><strong>Controller Manager(kube-controller-manager)</strong></p>
+<ul>
+  <li>클러스터 상태를 desired state 로 유지시키는 관리자</li>
+  <li>여러 컨트롤러들의 집합:
+    <ul>
+      <li>Node Controller</li>
+      <li>Deployment Controller</li>
+      <li>ReplicaSet Controller</li>
+      <li>Job Controller</li>
+    </ul>
+  </li>
+  <li>Pod 개수가 부족해지면 자동 생성 등 자동화 로직 수행</li>
+</ul>
+
+<p><strong>etcd</strong></p>
+<ul>
+  <li>쿠버네티스의 모든 상태 데이터를 저장하는 분산 key-value 저장소</li>
+  <li>클러스터의 소스 오브 트루스(State 저장소)</li>
+  <li>Control Plane 의 유일한 DB</li>
+</ul>
+
+<h4 id="worker-node-구성요소">Worker Node 구성요소</h4>
+<p>보통 우리가 일반적으로 노드라고 부르는 요소들이다.</p>
+
+<p><strong>kubelet</strong></p>
+<ul>
+  <li>해당 노드에서 Pod와 컨테이너 실행을 관리한다</li>
+  <li>API Server 로 부터 명령을 받고 Pod 를 생성 삭제한다</li>
+  <li>liveness, readiness probe 등 헬스체크를 수행</li>
+</ul>
+
+<p><strong>kube-proxy</strong></p>
+<ul>
+  <li>쿠버네티스 Service 의 네트워크 라우팅을 담당</li>
+  <li><code class="language-plaintext highlighter-rouge">iptables</code> 또는 <strong>IPVS</strong> 기반으로 트래픽을 올바른 Pod 로 전달</li>
+</ul>
+
+<p><strong>Container Runtime</strong></p>
+<ul>
+  <li>컨테이너 실행 엔진</li>
+  <li>Docker, <code class="language-plaintext highlighter-rouge">containerd</code>, <code class="language-plaintext highlighter-rouge">CRI-O</code> 등 사용 가능</li>
+</ul>
+
+<h4 id="kubernetes-object리소스-구성요소">Kubernetes Object(리소스) 구성요소</h4>
+<p>쿠버네티스는 모든 것들을 Object(YAML 선언) 로 관리한다.</p>
+
+<h5 id="workload-오브젝트">Workload 오브젝트</h5>
+<ul>
+  <li><strong>Pod</strong>: 컨테이너 1개 이상을 묶은 최소 배포 단위</li>
+  <li><strong>Deployment</strong>: ReplicaSet + 롤링 업데이트/롤백 제공
+    <ul>
+      <li><strong>ReplicaSet</strong>: Pod의 개수를 일정하게 유지하는 컨트롤러</li>
+    </ul>
+  </li>
+  <li><strong>StatefulSet</strong>: 고정된 ID 의 Pod 관리(ex. DB, Kafka, Redis Cluster)</li>
+  <li><strong>DaemonSet</strong>: 각 <strong>노드마다 1개</strong>씩 Pod 배치</li>
+  <li><strong>Job</strong>: 한 번 수행 후 종료되는 작업
+    <ul>
+      <li><strong>CronJob</strong>: 스케줄 기반 Job 배치</li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="service-구성요소">Service 구성요소</h5>
+<ul>
+  <li><strong>Service</strong>: Pod 들의 안정적인 접근 엔트포인트(Load Balancing)</li>
+  <li><strong>Type</strong>: ClusterIP, NodePort, LoadBalancer, ExternalName 4가지의 유형이 있다.</li>
+  <li><strong>Ingress</strong>: HTTP / HTTPS 라우팅, 도메인 기반, 경로 기반 라우팅 제공, Ingress Controller 필요</li>
+  <li><strong>Endpoint / EndpointSlice</strong>: Service 가 실제 연결해야 하는 Pod 의 IP 목록을 저장</li>
+</ul>
+
+<h5 id="volume">Volume</h5>
+<p>Pod 내부에서 사용하는 일시적인 스토리지이다.</p>
+
+<ul>
+  <li><strong>PersistentVolume(PV)</strong>: 관리자가 제공하는 저장소</li>
+  <li><strong>PersistentVolumeClaim(PVC)</strong>: Pod 가 PV 를 요청하는 선언적 방식</li>
+  <li><strong>StorageClass</strong>: 동적 볼륨 프로비저닝(클라우드에서 자동 PV 생성)</li>
+</ul>
+
+<h5 id="config--secret">Config &amp; Secret</h5>
+<ul>
+  <li><strong>ConfigMap</strong>: 환경 변수, 설정파일 등 민감하지 않은 설정 값 저장</li>
+  <li><strong>Secret</strong>: 패스워드, 토큰 등 민감한 데이터 저장, Base64 인코딩되어 저장</li>
+</ul>
+
+<h5 id="networking-구성요소">Networking 구성요소</h5>
+<ul>
+  <li><strong>Pod Network(CNI)</strong>: Pod 간 통신을 위함, Calico, Flannel, Cilium 등</li>
+  <li><strong>Service Network</strong>: kube-proxy 가 Load Balancing 을 처리</li>
+  <li><strong>Cluster Network</strong>: 모든 Pod 는 서로 통신 가능해야한다는 규칙</li>
+</ul>
+
+<h5 id="security-요소">Security 요소</h5>
+<ul>
+  <li><strong>RBAC</strong>: 사용자/서비스 계정의 권한 관리</li>
+  <li><strong>ServiceAccount</strong>: Pod 내부에서 API Server 접근 시 사용하는 계정</li>
+  <li><strong>NetworkPolicy</strong>: Pod 간 네트워크 트래픽 제어 방화벽</li>
+  <li><strong>PodSecurity(PodSecurityPolicy)</strong></li>
+</ul>
+
+<p><img src="/seonghun120614/assets/img/kubernetes-cluster-architecture.svg" alt="assets/img/kubernetes-cluster-architecture.svg" /></p>
+
+<p>위들 중에 몇 개만 본다.</p>
+
+<h3 id="deployment">Deployment</h3>
+<p>Deployment 는 선언적으로 Pod 를 관리하는 가장 흔한 워크로드 오브젝트이다. 주로 다음을 위해 사용하게 된다:</p>
+
+<ul>
+  <li>replica 유지</li>
+  <li>롤링 업데이트 및 롤백</li>
+  <li>선언적 스케일링</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">apps/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
+<span class="na">metadata</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">hello-nginx</span>
+<span class="na">spec</span><span class="pi">:</span>
+    <span class="na">replicas</span><span class="pi">:</span> <span class="m">2</span>
+    <span class="na">selector</span><span class="pi">:</span>
+        <span class="na">matchLabels</span><span class="pi">:</span>
+            <span class="na">app</span><span class="pi">:</span> <span class="s">hello-nginx</span>
+    <span class="na">template</span><span class="pi">:</span>
+        <span class="na">metadata</span><span class="pi">:</span>
+            <span class="na">labels</span><span class="pi">:</span>
+                <span class="na">app</span><span class="pi">:</span> <span class="s">hello-nginx</span>
+        <span class="na">spec</span><span class="pi">:</span>
+            <span class="na">containers</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">nginx-container</span>
+              <span class="na">image</span><span class="pi">:</span> <span class="s">nginx:1.26-alpine</span>
+              <span class="na">ports</span><span class="pi">:</span>
+              <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="s">80</span></code></pre></figure>
+
+<p>가장 기본적인 구조이며, 위를 쓴 후 다음 명령을 적용시킬 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">kubectl apply <span class="nt">-f</span> &lt;파일명&gt;.yml
+
+kubectl get deployments <span class="c"># deployment 확인</span>
+kubectl get pods <span class="nt">-l</span> <span class="nv">app</span><span class="o">=</span>hello-nginx <span class="c"># deployment 에 의해 구동된 pod 확인</span></code></pre></figure>
+
+<p>위 필드들을 하나하나 보자. 의미가 직관적인 것들은 전부 생략한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">selector.matchLabels</code>: deployment 가 관리할 Pod를 선택하는 기준</li>
+  <li><code class="language-plaintext highlighter-rouge">template.metadata.labels</code>: 생성될 Pod 에 붙는 라벨</li>
+  <li><code class="language-plaintext highlighter-rouge">containers[].image</code>: 실제 실행할 컨테이너 이미지</li>
+  <li><code class="language-plaintext highlighter-rouge">containers[].ports[].containerPort</code>: 컨테이너 내부 포트(문서화 목적)</li>
+</ul>
+
+<p>위처럼 구동하면 하나의 Pod 가 띄워지게 되며 <code class="language-plaintext highlighter-rouge">localhost:&lt;포트&gt;</code> 로 접속할 수 있게 된다.</p>
+
+<h4 id="kubectl-로-명령-실습">Kubectl 로 명령 실습</h4>
+<p><code class="language-plaintext highlighter-rouge">kubectl apply -f &lt;파일&gt;</code> 을 통해 deployment 를 띄운 것을 보았다. 다음 명령도 실행할 수 있다</p>
+
+<p><strong>Scailing</strong></p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">kubectl scale deployment/hello-nginx <span class="nt">--replicas</span><span class="o">=</span>4</code></pre></figure>
+
+<p><strong>Image Update/Rolling</strong></p>
+
+<p>실행 중인 리소스의 컨테이너 이미지를 업데이트하는 명령이다.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># kubectl set image &lt;리소스타입&gt;/&lt;리소스명&gt; &lt;컨테이너명&gt;=&lt;새이미지&gt; [옵션]</span>
+kubectl <span class="nb">set </span>image deployment/hello-nginx nginx-container<span class="o">=</span>nginx:1.16.1</code></pre></figure>
+
+<h3 id="service">Service</h3>
+<p>Kubernetes 에서 Pod 는 일회용 리소스이다. Pod 를 삭제 혹은 재시작을 하면 다시 새로운 IP 가 할당되며, 스케일링 될 대에도 새로운 IP 들이 생성되게 된다. 이러한 엔드포인트의 변동성 때문에 Pod IP 를 직접 사용한다면 프론트 엔드가 백엔드 Pod IP 를 스케일링 되거나 리로딩 될 때 다시 바꿔줘야 하는 문제가 생기며, Pod 가 재시작될 때마다 IP 가 달라져 설정 정보를 바꿔줘야 하며, 여러 Pod 에 트래픽을 분산 할 방법이 없게 된다.</p>
+
+<p>따라서 Service 라는 리소스를 통해 Pod 앞에 위치하는 네트워크를 추상화한 계층을 추가하여 다음의 구조를 가져간다.</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">[클라이언트] 
+    ↓
+[Service: 고정 IP/DNS]
+    ↓ (로드밸런싱)
+[Pod-1] [Pod-2] [Pod-3] ← IP는 계속 바뀌지만 Service는 안정적</code></pre></figure>
+
+<p>Service 가 제공하는 핵심 기능:</p>
+<ol>
+  <li><strong>고정 IP 주소</strong>: ClusterIP 는 Service 삭제 전까지 유지</li>
+  <li><strong>DNS 이름</strong>: <code class="language-plaintext highlighter-rouge">service-name.namespace.svc.cluster.local</code> 형태로 접근</li>
+  <li><strong>자동 로드밸런싱</strong>: 여러 Pod 에 트래픽을 균등 분배</li>
+  <li><strong>헬스체크</strong>: 비정상 Pod 로는 트래픽을 보내지 않음</li>
+</ol>
+
+<p>위를 통해 우리는 Pod 가 변경, 추가, 삭제가 되더라도 안정적인 서비스를 운용 가능하다.</p>
+
+<h4 id="service-타입">Service 타입</h4>
+
+<ol>
+  <li>ClusterIP</li>
+</ol>
+
+<p>클러스터 내부 전용 통신망이며, 외부에선 접근을 못한다.</p>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Service</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">backend-service</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">ClusterIP</span>  <span class="c1"># 생략 가능 (기본값)</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">app</span><span class="pi">:</span> <span class="s">backend</span>
+  <span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">port</span><span class="pi">:</span> <span class="m">8080</span>        <span class="c1"># Service 포트</span>
+      <span class="na">targetPort</span><span class="pi">:</span> <span class="m">8080</span>  <span class="c1"># Pod 컨테이너 포트</span></code></pre></figure>
+
+<ul>
+  <li>프론트 -&gt; 백엔드 API 통신할 때 주로 사용</li>
+  <li>마이크로 서비스 간의 내부 통신</li>
+  <li>데이터베이스, 캐시 서버 접근</li>
+</ul>
+
+<ol>
+  <li>NodePort</li>
+</ol>
+
+<p>각 노드의 특정 포트를 개방하여 외부 접근을 허용하도록 한다.</p>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Service</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">web-service</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">NodePort</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">app</span><span class="pi">:</span> <span class="s">web</span>
+  <span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">port</span><span class="pi">:</span> <span class="m">80</span>
+      <span class="na">targetPort</span><span class="pi">:</span> <span class="m">80</span>
+      <span class="na">nodePort</span><span class="pi">:</span> <span class="m">30080</span>  <span class="c1"># 30000-32767 범위</span></code></pre></figure>
+
+<p>동작 방식:</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">[외부 클라이언트]
+    ↓
+http://&lt;노드IP&gt;:30080
+    ↓
+[노드의 30080 포트]
+    ↓
+[Service (ClusterIP 자동 생성)]
+    ↓
+[Pod들]</code></pre></figure>
+
+<ul>
+  <li>개발 / 테스트 환경에서 빠른 외부 노출을 위해 사용하며</li>
+  <li>로컬 Kubernetes 클러스터(Docker Desktop, Minikube) 에서 사용한다.</li>
+</ul>
+
+<ol>
+  <li>LoadBalancer</li>
+</ol>
+
+<p>클라우드 제공자의 로드밸런서를 자동 생성한다.</p>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Service</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">public-web-service</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">LoadBalancer</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">app</span><span class="pi">:</span> <span class="s">web</span>
+  <span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">port</span><span class="pi">:</span> <span class="m">80</span>
+      <span class="na">targetPort</span><span class="pi">:</span> <span class="s">8080</span></code></pre></figure>
+
+<p><strong>동작 방식</strong></p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">[인터넷]
+    ↓
+http://a1b2c3-xyz.elb.amazonaws.com
+    ↓
+[AWS ELB 자동 생성]
+    ↓
+[Kubernetes Service]
+    ↓
+[Pod들]</code></pre></figure>
+
+<ul>
+  <li>AWS, GCP, Azure 등의 클라우드 환경에서만 동작</li>
+</ul>
+
+<h4 id="service-실습">Service 실습</h4>
+
+<p>여기서는 자주 사용하는 NodePort 를 보자.</p>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="nn">---</span>
+<span class="c1"># Deployment: nginx 컨테이너 실행</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">apps/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">hello-deployment</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">replicas</span><span class="pi">:</span> <span class="m">1</span>  <span class="c1"># Pod 1개 실행</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">matchLabels</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">hello-nginx</span>  <span class="c1"># 이 라벨로 Pod 선택</span>
+  <span class="na">template</span><span class="pi">:</span>
+    <span class="na">metadata</span><span class="pi">:</span>
+      <span class="na">labels</span><span class="pi">:</span>
+        <span class="na">app</span><span class="pi">:</span> <span class="s">hello-nginx</span>  <span class="c1"># Pod에 부여할 라벨</span>
+    <span class="na">spec</span><span class="pi">:</span>
+      <span class="na">containers</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">nginx-container</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="s">nginx:alpine</span>
+        <span class="na">ports</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">80</span>  <span class="c1"># nginx 기본 포트</span>
+
+<span class="nn">---</span>
+<span class="c1"># Service: NodePort로 외부 노출</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Service</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">hello-service</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">NodePort</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">app</span><span class="pi">:</span> <span class="s">hello-nginx</span>  <span class="c1"># 위 Deployment의 라벨과 일치</span>
+  <span class="na">ports</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">port</span><span class="pi">:</span> <span class="m">80</span>        <span class="c1"># Service 내부 포트</span>
+      <span class="na">targetPort</span><span class="pi">:</span> <span class="m">80</span>  <span class="c1"># Pod의 컨테이너 포트</span>
+      <span class="na">nodePort</span><span class="pi">:</span> <span class="m">30080</span> <span class="c1"># 노드에서 개방할 포트 (선택사항)</span></code></pre></figure>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">spec.ports.port</code>: 서비스가 제공할 포트</li>
+  <li><code class="language-plaintext highlighter-rouge">spec.ports.targetPort</code>: Pod 로 전달할 포트</li>
+  <li><code class="language-plaintext highlighter-rouge">spec.ports.nodePort</code>: 노드에서 열 포트(30000-32767)</li>
+</ul>
+
+<h5 id="endpoints">Endpoints</h5>
+
+<p>여기서 이를 실행시키면 Docker 내부에서는 Service 가 실행 후 트래픽을 보낼 실제 대상인 Endpoints 라는 구성요소가 자동으로 생성되게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Endpoints</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">hello-service</span>
+<span class="na">subsets</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">addresses</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">ip</span><span class="pi">:</span> <span class="s">10.1.0.15</span>  <span class="c1"># Pod IP</span>
+    <span class="na">targetRef</span><span class="pi">:</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">Pod</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">hello-deployment-7d4f8c9b6d-x5k2m</span>
+  <span class="na">ports</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">port</span><span class="pi">:</span> <span class="m">80</span>
+    <span class="na">protocol</span><span class="pi">:</span> <span class="s">TCP</span></code></pre></figure>
+
+<blockquote>
+  <p>endpoint = service 가 트래픽을 보낼 실제 대상</p>
+</blockquote>
+
+<p>아래 명령으로 확인할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">kubectl get endpoints hello-service <span class="nt">-o</span> yaml</code></pre></figure>
+
+<h5 id="로드밸런싱-확인">로드밸런싱 확인</h5>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">kubectl scale deployment hello-deployment <span class="nt">--replicas</span><span class="o">=</span>3
+
+kubectl get pods <span class="nt">-o</span> wide</code></pre></figure>
+
+<p>위를 실행하면 각기 다른 ip 로 3개의 pod 가 실행되고 있음을 볼 수 있고, end point 도 그에 맞게 바뀌는 것을 볼 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">kubectl get endpoints hello-service</code></pre></figure>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">curl</code> 명령을 통해 실제로 로드 밸런싱이 되는지 보자. 우선 Pod 마다 <code class="language-plaintext highlighter-rouge">index.html</code> 을 달리 가져가자.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
+
+<span class="nb">set</span> <span class="nt">-euo</span> pipefail
+
+<span class="nv">NUM</span><span class="o">=</span>1
+<span class="k">for </span>container <span class="k">in</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
+    </span>kubectl <span class="nb">exec</span> <span class="nt">-i</span> <span class="s2">"</span><span class="nv">$container</span><span class="s2">"</span> <span class="nt">--</span> sh <span class="nt">-c</span> <span class="s2">"echo 'Pod </span><span class="k">${</span><span class="nv">NUM</span><span class="k">}</span><span class="s2">' &gt; /usr/share/nginx/html/index.html"</span>
+    <span class="o">((</span>NUM++<span class="o">))</span>
+<span class="k">done</span></code></pre></figure>
+
+<p>이제 다음을 실행하여 서로 다른 index.html 이 뜨는지 보자.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="k">for </span>i <span class="k">in</span> <span class="o">{</span>1..10<span class="o">}</span><span class="p">;</span> <span class="k">do
+  </span>curl <span class="nt">-s</span> http://localhost:30080
+<span class="k">done</span></code></pre></figure>
+
+<h5 id="kube-proxy-의-역할">kube-proxy 의 역할</h5>
+
+<p>각 노드의 <code class="language-plaintext highlighter-rouge">kube-proxy</code> 가 Service 규칙을 구현하며</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">[외부 클라이언트] 
+    ↓ curl http://192.168.1.100:30080
+[노드의 30080 포트]
+    ↓ "누가 30080으로 요청"
+[kube-proxy의 iptables/IPVS 규칙]
+    ↓ "이 트래픽은 hello-service로 가야함을 알림"
+    ↓ "hello-service 의 Pod 중 하나를 고름"
+    ↓ 로드밸런싱 (랜덤 또는 라운드로빈)
+[선택된 Pod 10.1.0.15:80]
+    ↓ nginx 응답
+[클라이언트에게 응답 반환]</code></pre></figure>
+
+<p>위처럼 동작하게 된다.</p>
+
+<h5 id="service-에서의-패킷-흐름">Service 에서의 패킷 흐름</h5>
+
+<p><strong>요청 흐름</strong></p>
+<ol>
+  <li>
+    <p>클라이언트: curl http://192.168.1.100:30080<br />
+Src: 203.0.113.50:54321<br />
+Dst: 192.168.1.100:30080</p>
+  </li>
+  <li>
+    <p>노드 도착 → kube-proxy 규칙 적용<br />
+“30080? hello-service 로 가야함을 알아냄”<br />
+“Pod 3개 중… Pod2 선택”</p>
+  </li>
+  <li>
+    <p>DNAT 수행 (목적지 변경)<br />
+Src: 203.0.113.50:54321<br />
+Dst: 10.1.0.16:80  ⬅️ 변경</p>
+  </li>
+  <li>
+    <p>Pod 도착 → nginx 처리<br />
+“GET / HTTP/1.1 받음”</p>
+  </li>
+</ol>
+
+<p><strong>응답 흐름 (Response)</strong></p>
+<ol>
+  <li>
+    <p>Pod 응답 전송
+Src: 10.1.0.16:80
+Dst: 203.0.113.50:54321</p>
+  </li>
+  <li>
+    <p>노드에서 SNAT 수행 (출발지 변경)
+Src: 192.168.1.100:30080  ⬅️ 변경됨
+Dst: 203.0.113.50:54321</p>
+  </li>
+  <li>
+    <p>클라이언트 수신
+“192.168.1.100:30080에서 응답이 옴”</p>
+  </li>
+</ol>
+
+<h5 id="전체-아키텍처-요약">전체 아키텍처 요약</h5>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">┌─────────────────────────────────────────────────────┐
+│                  Kubernetes 클러스터                  │
+│                                                     │
+│  ┌────────────────────────────────────────────────┐ │
+│  │              Worker Node                       │ │
+│  │                                                │ │
+│  │  ┌──────────────────────────────────────────┐  │ │
+│  │  │  kube-proxy (DaemonSet)                  │  │ │
+│  │  │  - API Server 감시                        │  │ │
+│  │  │  - Service/Endpoint 변경 감지              │  │ │
+│  │  │  - iptables/IPVS 규칙 업데이트              │ │  │
+│  │  └──────────────────────────────────────────┘ │  │
+│  │          ↓ 규칙 적용                            │  │
+│  │  ┌──────────────────────────────────────────┐ │  │
+│  │  │  Linux Kernel                            │ │  │
+│  │  │  ┌──────────────┐  ┌──────────────┐      │ │  │
+│  │  │  │  iptables    │  │    IPVS      │      │ │  │
+│  │  │  │  (NAT 테이블) │   │   (가상서버)   │      │ │  │
+│  │  │  └──────────────┘  └──────────────┘      │ │  │
+│  │  └──────────────────────────────────────────┘ │  │
+│  │          ↓ 패킷 라우팅                           │  │
+│  │  ┌─────────────────────────────────────────┐  │  │
+│  │  │  Pod 10.1.0.15:80  (nginx)              │  │  │
+│  │  └─────────────────────────────────────────┘  │  │
+│  │  ┌─────────────────────────────────────────┐  │  │
+│  │  │  Pod 10.1.0.16:80  (nginx)              │  │  │
+│  │  └─────────────────────────────────────────┘  │  │
+│  │  ┌─────────────────────────────────────────┐  │  │
+│  │  │  Pod 10.1.0.17:80  (nginx)              │  │  │
+│  │  └─────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────┘</code></pre></figure>
+
+<h3 id="configmap--secret">ConfigMap &amp; Secret</h3>
+
+<p>어플리케이션을 운영할 때 가장 중요한 원칙 중 하나는 설정과 코드의 분리이다. ConfigMap 과 Secret 은 이를 실현하는 핵심 리소스이다.</p>
+
+<h4 id="configmap">ConfigMap</h4>
+
+<p>보여져도 상관이 없는 설정 데이터를 key-value 쌍으로 저장하는 API 오브젝트이다.</p>
+
+<p><strong>특징</strong></p>
+<ol>
+  <li>환경 독립성: 컨테이너 이미지와 설정을 분리하여 동일한 이미지를 dev/staging/production 환경에서 재사용이 가능하다.</li>
+  <li>데이엍 형식: UTF-8 문자열 데이터를 저장한다(바이너리 불가)</li>
+  <li>크기 제한: 1MB 까지 저장 가능하단(etcd 의 오브젝트 크기 제한</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ConfigMap</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">app-config</span>
+<span class="na">data</span><span class="pi">:</span>
+  <span class="c1"># 단순 key-value</span>
+  <span class="na">database_url</span><span class="pi">:</span> <span class="s2">"</span><span class="s">postgresql://db.example.com:5432"</span>
+  <span class="na">log_level</span><span class="pi">:</span> <span class="s2">"</span><span class="s">info"</span>
+  
+  <span class="c1"># 파일 형태의 설정</span>
+  <span class="s">app.properties</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">server.port=8080</span>
+    <span class="s">server.timeout=30s</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">apiVersion</code>, <code class="language-plaintext highlighter-rouge">kind</code>, <code class="language-plaintext highlighter-rouge">metadata.name</code> 까지는 전부 동일하다. data 블록에서 단순 key-value 의 형태로 환경변수를 넣어줄 수 있고, 만약 파일로 <code class="language-plaintext highlighter-rouge">app.properties</code> 라는 것을 넣고 싶을때는 위와 같이 <code class="language-plaintext highlighter-rouge">|</code> 기호를 통해 key-value 쌍으로 넣어주면 되겠다.</p>
+
+<h4 id="secret">Secret</h4>
+
+<p>Secret 은 데이터가 base64로 인코딩되어 저장이 되며, 클러스터 설정에 따라 etcd 암호화하여 저장도 가능하다. <code class="language-plaintext highlighter-rouge">ConfigMap</code> 과 <code class="language-plaintext highlighter-rouge">Secret</code> 은 둘 다 etcd 에 영구 저장되지만, 나중에 배울 <code class="language-plaintext highlighter-rouge">Volume</code> 의 마운트 시에 ConfigMap 은 일반 파일시스템으로, Secret 은 tmpfs 라는 메모리에 마운트 되어 Pod 삭제 시 사라지게 된다.</p>
+
+<p><strong>기능</strong></p>
+<ul>
+  <li>Base64 인코딩: 데이터가 base64 로 인코딩되어 저장</li>
+  <li>etcd 암호화: 클러스터 설정에 따라 <code class="language-plaintext highlighter-rouge">etcd</code> 에 암호화되어 저장 가능</li>
+  <li>메모리 저장: <code class="language-plaintext highlighter-rouge">Secret</code> 을 volume 으로 마운트하면 <code class="language-plaintext highlighter-rouge">tmpfs(RAM)</code> 에 저장되어 디스크에 기록되지 않음</li>
+  <li>RBAC 분리: <code class="language-plaintext highlighter-rouge">Secret</code> 과 <code class="language-plaintext highlighter-rouge">ConfigMap</code> 파일을 분리함으로써 접근 권한 달리 설정 가능</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Secret</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">db-secret</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">Opaque</span>  <span class="c1"># 가장 일반적인 타입</span>
+<span class="na">data</span><span class="pi">:</span>
+  <span class="na">username</span><span class="pi">:</span> <span class="s">YWRtaW4=</span>  <span class="c1"># base64 encoded "admin"</span>
+  <span class="na">password</span><span class="pi">:</span> <span class="s">cGFzc3dvcmQxMjM=</span>  <span class="c1"># base64 encoded "password123"</span></code></pre></figure>
+
+<blockquote>
+  <p>data 블록 대신 stringData 블록을 쓰면 굳이 encoding 값을 안넣어도 자동으로 base64로 인코딩 해준다.<br />
+stringData:<br />
+    username: admin<br />
+    password: password</p>
+
+  <p>또한 Kubernetes 1.21+ 에서는 불변 설정을 지원한다.<br />
+immutable: true</p>
+</blockquote>
+
+<h5 id="secret-베스트-프랙티스">Secret 베스트 프랙티스</h5>
+
+<p>Secret 은 base64 인코딩일 뿐 암호화는 아니다. 이를 해결하기 위해 다음을 보자:</p>
+
+<p><strong>방법1: etcd 암호화 활성화</strong></p>
+
+<p>정확한 보안을 위해서는 <code class="language-plaintext highlighter-rouge">EncryptionConfiguration</code> 타입을 사용하여 암호화를 활성화해준다.</p>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="c1"># EncryptionConfiguration</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">apiserver.config.k8s.io/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">EncryptionConfiguration</span>
+<span class="na">resources</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">resources</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">secrets</span>
+    <span class="na">providers</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">aescbc</span><span class="pi">:</span>
+          <span class="na">keys</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">key1</span>
+              <span class="na">secret</span><span class="pi">:</span> <span class="s">&lt;base64-encoded-32-byte-key&gt;</span></code></pre></figure>
+
+<p>위처럼 aes 방식의 암호화를 시켜 불러올 수 있다. 이런 <code class="language-plaintext highlighter-rouge">EncryptionConfiguration</code> 은 작성만 하면 되는게 아니라 다음 <code class="language-plaintext highlighter-rouge">kube-apiserver</code> 시작 옵션으로 적용시켜줘야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">kube-apiserver <span class="nt">--encryption-provider-config</span><span class="o">=</span>&lt;encription-config&gt;.yaml</code></pre></figure>
+
+<p><strong>방법2: 외부 Secret 관리 솔루션 사용</strong></p>
+
+<ul>
+  <li><strong>Sealed Secrets</strong>: GitOps 워크플로우에 적합하며 암호화된 Secret 을 Git에 안전하게 저장한다</li>
+  <li><strong>External Secrets</strong> Operator: AWS Secrets Manager, HashiCorp Vault 등과 연동한다.</li>
+  <li><strong>HashiCorp Vault</strong>: 동적 Secret 생성, 자동 로테이션, 세밀한 접근 제어</li>
+</ul>
+
+<p><strong>방법3: RBAC 엄격하게 설정</strong></p>
+
+<p>Role 구성 요소를 통해 값의 접근을 제어할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">rbac.authorization.k8s.io/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Role</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">secret-reader</span>
+<span class="na">rules</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">apiGroups</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">"</span><span class="pi">]</span>
+    <span class="na">resources</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">secrets"</span><span class="pi">]</span>
+    <span class="na">resourceNames</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">db-secret"</span><span class="pi">]</span>  <span class="c1"># 특정 Secret만 접근</span>
+    <span class="na">verbs</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">get"</span><span class="pi">]</span></code></pre></figure>
+
+<h3 id="volume-1">Volume</h3>
+<p>쿠버네티스의 Pod 와 컨테이너는 기본적으로 휘발성 스토리지를 사용하는 것을 알고 있을 것이다. 이를 휘발되지 않도록 하는게 Volume 이며 이를 사용하면:</p>
+
+<ul>
+  <li>데이터 영속화(Persistence) 가 가능</li>
+  <li>여러 컨테이너의 공유 스토리지 사용 가능</li>
+  <li>외부 스토리지 연결 가능</li>
+</ul>
+
+<p>와 같은 기능으로 해결할 수 있다.</p>
+
+<blockquote>
+  <p>컨테이너의 파일시스템은 컨테이너 이미지에서 시작되는데, 컨테이너 내부에서 파일을 생성하거나 수정하면, 그 변경사항은 컨테이너 레이어에만 기록되며, 컨테이너가 삭제되면 당연히 레이어도 함께 사라지게 된다.</p>
+</blockquote>
+
+<h4 id="ephemeral-volume-임시-볼륨">Ephemeral Volume 임시 볼륨</h4>
+
+<p>Pod 의 생명주기와 같이 움직이며 종류로는 다음이 있다:</p>
+
+<ul>
+  <li>EmptyDir: 빈 디렉토리로 시작, Pod 내 컨테이너 간 임시 파일 공유용이다.</li>
+  <li>ConfigMap: 설정 파일을 Volume 으로 마운트 할 때, Emphemeral Volume 으로 마운트</li>
+  <li>Secret: 민감 정보를 tmpfs 라는 메모리에 저장</li>
+</ul>
+
+<p>위는 전부 <code class="language-plaintext highlighter-rouge">Emphemeral Volume</code> 이다.</p>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="na">volumes</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">cache-volume</span>
+    <span class="na">emptyDir</span><span class="pi">:</span> <span class="pi">{}</span>  <span class="c1"># 임시 캐시 디렉토리</span></code></pre></figure>
+
+<h4 id="persistent-volume-영속성-볼륨">Persistent Volume 영속성 볼륨</h4>
+
+<p>Pod 와 독립적으로 존재하며 Pod 가 삭제되어도 데이터는 유지가 된다.</p>
+
+<p><strong>PersistentVolume 만들기</strong></p>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">PersistentVolume</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">my-pv</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">capacity</span><span class="pi">:</span>
+    <span class="na">storage</span><span class="pi">:</span> <span class="s">1Gi</span>                    <span class="c1"># 이 창고의 총 용량</span>
+  <span class="na">accessModes</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">ReadWriteOnce</span>                 <span class="c1"># 한 번에 한 노드만 읽기/쓰기 가능</span>
+  <span class="na">hostPath</span><span class="pi">:</span>
+    <span class="na">path</span><span class="pi">:</span> <span class="s">/tmp/data</span>                 <span class="c1"># 노드의 실제 디렉토리</span>
+  <span class="na">persistentVolumeReclaimPolicy</span><span class="pi">:</span> <span class="s">Retain</span>  <span class="c1"># PVC 삭제 후 데이터 처리 방식</span></code></pre></figure>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">accessModes</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">ReadWriteOnce</code>: 한 노드에서 읽기/쓰기 가능</li>
+      <li><code class="language-plaintext highlighter-rouge">ReadOnlyMany</code>: 여러 노드에서 읽기만 가능</li>
+      <li><code class="language-plaintext highlighter-rouge">ReadWriteMany</code>: 여러 노드에서 읽기/쓰기 가능</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>노드와 Pod 는 다른 개념이다. 노드는 여러 Pod 가 있을 수 있다 -&gt; 동시 마운트 가능<br />
+다른 노드의 Pod -&gt; 동시 마운트 불가</p>
+</blockquote>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">hostPath</code>: <code class="language-plaintext highlighter-rouge">/tmp/data</code>
+    <ul>
+      <li>쿠버 네티스 <strong>노드(워커 노드)</strong>의 실제 디렉토리를 말하며, 이 디렉토리를 PV 로 등록한다는 의미이다.</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>주의 사항은 HostPath 는 로컬 노드(오로지 하나)의 디렉토리를 항상 사용한다. 하지만 멀티 노드 환경에서는 Pod 가 Node A 에 스케줄링을 하려면 Node A의 /tmp/data 를 사용하도록 지정해야 하며, Pod 가 재시작되어 Node B 로 이동할 수 도 있어 이때는 Node B 의 /tmp/data 를 사용하게 된다. 따라서 이런 경우는 테스트/개발 환경에서만 이를 사용하는게 권장된다.</p>
+</blockquote>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">persistentVolumeReclaimPolicy</code>: PVC 가 삭제된 후 PV 의 데이터를 어떻게 처리할지
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Retain</code>: 데이터 보존, 수동 정리 필요</li>
+      <li><code class="language-plaintext highlighter-rouge">Delete</code>: PV 와 실제 스토리지 자동 삭제</li>
+    </ul>
+  </li>
+</ul>
+
+<p>이제 생성되었는지 확인해보자.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">kubectl apply <span class="nt">-f</span> pv-hostpath.yaml
+
+kubectl get pv</code></pre></figure>
+
+<p>Status 컬럼은 아무도 안사용하고 있는지 여부를 말해준다.</p>
+
+<h4 id="persistent-volume-claim-생성">Persistent Volume Claim 생성</h4>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">PersistentVolumeClaim</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">my-pvc</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">accessModes</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">ReadWriteOnce</span>         <span class="c1"># PV와 일치해야 함</span>
+  <span class="na">resources</span><span class="pi">:</span>
+    <span class="na">requests</span><span class="pi">:</span>
+      <span class="na">storage</span><span class="pi">:</span> <span class="s">500Mi</span>        <span class="c1"># 1Gi PV 중 500Mi만 요청</span></code></pre></figure>
+
+<p><strong>PVC의 바인딩 로직</strong></p>
+
+<p>Kubernetes가 자동으로 <strong>적합한 PV를 찾아서 연결</strong> 한다:</p>
+
+<p><strong>과정</strong></p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">accessModes</code> 가 일치하는가?</li>
+  <li>PV 의 용량이 요청량보다 크거나 같은가?</li>
+  <li><code class="language-plaintext highlighter-rouge">storageClassName</code> 이 일치하는가? (지정 안 했으면 무시)</li>
+</ol>
+
+<p>조건 만족하는 PV 중 가장 작은 것을 선택하게 된다.</p>
+
+<h4 id="deployment-에서-pvc-사용하기">Deployment 에서 PVC 사용하기</h4>
+
+<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">apps/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">volume-demo-deploy</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">replicas</span><span class="pi">:</span> <span class="m">1</span>
+  <span class="na">selector</span><span class="pi">:</span>
+    <span class="na">matchLabels</span><span class="pi">:</span>
+      <span class="na">app</span><span class="pi">:</span> <span class="s">volume-demo</span>
+  <span class="na">template</span><span class="pi">:</span>
+    <span class="na">metadata</span><span class="pi">:</span>
+      <span class="na">labels</span><span class="pi">:</span>
+        <span class="na">app</span><span class="pi">:</span> <span class="s">volume-demo</span>
+    <span class="na">spec</span><span class="pi">:</span>
+      <span class="na">containers</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">nginx-container</span>
+        <span class="na">image</span><span class="pi">:</span> <span class="s">nginx:alpine</span>
+        <span class="na">ports</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">containerPort</span><span class="pi">:</span> <span class="m">80</span>
+        <span class="na">volumeMounts</span><span class="pi">:</span>              <span class="c1"># 컨테이너 관점</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">my-data-volume</span>     <span class="c1"># volumes에서 정의한 이름</span>
+          <span class="na">mountPath</span><span class="pi">:</span> <span class="s">/data</span>         <span class="c1"># 컨테이너 내부 경로</span>
+      <span class="na">volumes</span><span class="pi">:</span>                     <span class="c1"># Pod 관점</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">my-data-volume</span>
+        <span class="na">persistentVolumeClaim</span><span class="pi">:</span>
+          <span class="na">claimName</span><span class="pi">:</span> <span class="s">my-pvc</span>        <span class="c1"># PVC 이름 지정</span></code></pre></figure>
+
+<p><strong>데이터 흐름</strong></p>
+
+<ul>
+  <li><strong>호스트 노드</strong>: <code class="language-plaintext highlighter-rouge">/tmp/data</code></li>
+  <li><strong>PV (my-pv)</strong>: Kubernetes 추상화 레이어</li>
+  <li><strong>PVC (my-pvc)</strong>: 사용자 요청</li>
+  <li><strong>Pod Volume (my-data-volume)</strong>: Pod 내부 Volume</li>
+  <li><strong>컨테이너</strong>: <code class="language-plaintext highlighter-rouge">/data</code> 경로로 마운트</li>
+</ul>
+
+<blockquote>
+  <p>PVC 는 요청, PV 는 실제 저장소</p>
+</blockquote>
+
+<p>이제 제대로 동작되고 있는지 다음을 테스트한다</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">kubectl <span class="nb">exec</span> <span class="nt">-it</span> &lt;pod-name&gt; /bin/sh <span class="nt">--</span> sh <span class="nt">-c</span> <span class="s2">"echo 'Hello, world!' &gt; &lt;mount-path&gt;/memo.txt"</span>
+kubectl delete pod/&lt;pod-name&gt;
+kubectl get pods
+kubectl <span class="nb">exec</span> <span class="nt">-it</span> &lt;pod-name&gt; /bin/sh <span class="nt">--</span> <span class="nb">cat</span> &lt;mount-path&gt;/memo.txt</code></pre></figure>
+
+<p>제대로 pv 가 올라가고 정상적으로 마운팅됐다면 <code class="language-plaintext highlighter-rouge">memo.txt</code> 는 삭제되어도 계속 살아있어야 할 것이다.</p>
+
+<h5 id="node">Node</h5>
+
+<p>물리적 / 논리적으로 분리된 컴퓨팅 자원을 노드라고 하는데 <code class="language-plaintext highlighter-rouge">kubectl get nodes</code> 를 통해 노드를 볼 수 있다.</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/12/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-70%EC%9D%BC%EC%B0%A8-kubernetes.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/12/04/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-70%EC%9D%BC%EC%B0%A8-kubernetes.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
+<style>
+.code-runner-widget { border: 1px solid #ddd; border-radius: 6px; overflow: hidden; margin: 1.5em 0; }
+body.dark .code-runner-widget { border-color: #444; }
+.code-runner-header { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #f5f5f5; }
+body.dark .code-runner-header { background: #2a2a2a; }
+.code-runner-lang-select { padding: 3px 8px; border-radius: 4px; border: 1px solid #ccc; font-size: 0.85rem; }
+.code-runner-run-btn { padding: 4px 14px; background: #4a90e2; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
+.code-runner-run-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.code-runner-key-btn { padding: 4px 8px; background: transparent; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; font-size: 0.85rem; color: #666; margin-left: auto; }
+body.dark .code-runner-key-btn { border-color: #555; color: #aaa; }
+.code-runner-key-btn:hover { background: #eee; }
+body.dark .code-runner-key-btn:hover { background: #3a3a3a; }
+.code-runner-output { border-top: 1px solid #ddd; background: #fafafa; }
+body.dark .code-runner-output { border-color: #444; background: #1e1e1e; }
+.code-runner-output-label { display: block; padding: 4px 12px; font-size: 0.75rem; color: #888; }
+.code-runner-result { margin: 0; padding: 8px 12px 12px; font-family: monospace; font-size: 0.85rem; white-space: pre-wrap; min-height: 2em; color: #333; background: transparent; border: none; box-shadow: none; }
+body.dark .code-runner-result { color: #f0f0f0; }
+.CodeMirror { height: auto; min-height: 80px; max-height: 400px; font-size: 0.88rem; }
+/* API Key 모달 */
+#j0-key-modal { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+.j0-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.45); }
+.j0-box { position: relative; background: #fff; border-radius: 10px; padding: 28px 32px; width: min(420px, 90vw); box-shadow: 0 8px 32px rgba(0,0,0,0.18); }
+body.dark .j0-box { background: #1e1e2e; color: #f0f0f0; }
+.j0-box h3 { margin: 0 0 10px; font-size: 1rem; }
+.j0-box p { margin: 0 0 14px; font-size: 0.88rem; line-height: 1.6; color: #555; }
+.j0-note { font-size: 0.78rem !important; color: #999 !important; margin-bottom: 10px !important; }
+body.dark .j0-box p { color: #aaa; }
+.j0-box a { color: #4a90e2; }
+#j0-key-input { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.9rem; font-family: monospace; margin-bottom: 14px; }
+body.dark #j0-key-input { background: #2a2a3a; border-color: #555; color: #f0f0f0; }
+.j0-actions { display: flex; gap: 8px; }
+.j0-actions button { padding: 6px 16px; border-radius: 5px; border: none; cursor: pointer; font-size: 0.88rem; }
+#j0-save { background: #4a90e2; color: #fff; }
+#j0-cancel { background: #eee; color: #333; }
+body.dark #j0-cancel { background: #3a3a4a; color: #ccc; }
+#j0-clear { background: transparent; color: #e05; border: 1px solid #e05 !important; margin-left: auto; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/go/go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/shell/shell.min.js"></script>
+<script src="/seonghun120614/assets/js/code-runner.js"></script>
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

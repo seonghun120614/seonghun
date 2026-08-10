@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 13일차 Comparable</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 13일차 Comparable | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 13일차 Comparable" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/02/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-13%EC%9D%BC%EC%B0%A8-comparable.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/02/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-13%EC%9D%BC%EC%B0%A8-comparable.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-02T07:09:28+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 13일차 Comparable" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-09-02T07:09:28+00:00","datePublished":"2025-09-02T07:09:28+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 13일차 Comparable","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/02/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-13%EC%9D%BC%EC%B0%A8-comparable.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/02/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-13%EC%9D%BC%EC%B0%A8-comparable.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/02/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-13%EC%9D%BC%EC%B0%A8-comparable.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 13일차 Comparable</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Sep 2, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#comparator-comparable">Comparator, Comparable</a></li>
+  <li><a href="#exception">Exception</a></li>
+  <li><a href="#dependency-injection-고찰">Dependency Injection 고찰</a>
+    <ul>
+      <li><a href="#port-adapter-에서의-service-layer-문제점">Port-Adapter 에서의 Service Layer 문제점?</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="comparator-comparable">Comparator, Comparable</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Comparator</code>: 클래스로써 sort 를 할 때 어떤 형태로 정렬을 할지 넣어줄 수 있는 클래스이다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Comparable</code>: 인터페이스로써 해당 클래스가 비교 가능하다는 것을 의미하고, <code class="language-plaintext highlighter-rouge">compareTo</code> 를 구현하여 달성할 수 있다.</li>
+</ul>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">Comparable</code> 과 <code class="language-plaintext highlighter-rouge">Comparator</code> 둘 다 구현되어 있을때는 <code class="language-plaintext highlighter-rouge">sort(, Comparator)</code> 를 먼저 따른다.</p>
+</blockquote>
+
+<h3 id="exception-체이닝">Exception 체이닝</h3>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyException</span> <span class="kd">extends</span> <span class="nc">RuntimeException</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">MyException</span><span class="o">(</span><span class="nc">String</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">MyException</span><span class="o">(</span><span class="nc">Exception</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">ex</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위 예제에서 밑의 생성자를 보자. 위처럼 exception 을 다시 exception 으로 감싸서 던지는 것을 볼 수 있다. 위를 밑의 예시와 같이 설명하면:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="k">try</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">IOException</span><span class="o">(</span><span class="s">"파일을 읽을 수 없음"</span><span class="o">);</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">MyException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span> <span class="c1">// 원인 예외 e 를 감싸서 다시 던짐</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>예외는 IOException 이 났지만, 이를 MyException 으로 감싸서 IOException 은 원인(cause) 로 들어가게 할 수 있다. 이때 사용자에게 보여주는 e.printStackTrace() 는 MyException 이 최상위로 뜨는 예외, 그 하위로 IOException 도 같이 출력되게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-txt" data-lang="txt">MyException
+    at ...
+Caused by: java.io.IOException: 파일 못 읽음
+    at ...</code></pre></figure>
+
+<p>보통 생성자에 다음 생성자도 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">XXXXXXException</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">,</span> <span class="nc">Throwable</span> <span class="n">cause</span><span class="o">)</span></code></pre></figure>
+
+<p>이는 cause 는 그대로 cause 고, 해당 감싸지는, 즉 상위 exception 의 예외 메시지랑 함께 전달하고 싶을때 사용된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomException</span> <span class="kd">extends</span> <span class="nc">RuntimeException</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">CustomException</span><span class="o">(</span><span class="nc">String</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">...</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">CustomException</span><span class="o">(</span><span class="nc">Throwable</span> <span class="k">throw</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">...</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">CustomException</span><span class="o">(</span><span class="nc">String</span> <span class="n">msg</span><span class="o">,</span> <span class="nc">Throwable</span> <span class="k">throw</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">...</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>그냥 셋 다 구현하는게 POJO 에서도 그렇고 보편적인거 같다.</p>
+</blockquote>
+
+<h3 id="dependency-injection-고찰">Dependency Injection 고찰</h3>
+
+<p>의존성 주입을 할 때 Spring 에서는 <code class="language-plaintext highlighter-rouge">ApplicationContext</code> 를 통해 의존성 주입을 하도록 하는데, 이번에 미니프로젝트를 할 때에도 어떤게 <code class="language-plaintext highlighter-rouge">static final</code> 이어야 하는지 <code class="language-plaintext highlighter-rouge">static</code> 이어야 하는지 <code class="language-plaintext highlighter-rouge">final</code> 이어야 하는지가 관건이었다.</p>
+
+<p>우선 보통 <code class="language-plaintext highlighter-rouge">static final</code> 처럼 아예 하나만 존재하고 값이 변경 될 수 없도록 하는 것은 드물다. <code class="language-plaintext highlighter-rouge">TimeZone</code> 같은 것들을 보면 상수들을 다 이렇게 선언하는데, 보통은 <code class="language-plaintext highlighter-rouge">reference</code> 변수 보다는 <code class="language-plaintext highlighter-rouge">primitive</code> 한 애들한테 적용시키는게 낫다.</p>
+
+<p>두 번째로 <code class="language-plaintext highlighter-rouge">static</code> 인데, 얘는 <code class="language-plaintext highlighter-rouge">final</code> 이 없기 때문에 이 값을 수정 할 수 있지만 오로지 하나만 존재하게 된다. 즉 Inject 의 대상으로 보기 보다는 <strong>공유 자원</strong>으로 보기에 걸맞다</p>
+
+<p>마지막으로 <code class="language-plaintext highlighter-rouge">final</code> 로 선언한 아이인데, 얘는 의존성 주입하기에 의미가 들어맞는다. 클래스를 초기화 할 때 그때 주입을 해놓으면 그 이후는 어디에서도 이를 변경할 수 없고, 초기화 될 때만 해당 값을 갖게 된다. 그렇다면 <code class="language-plaintext highlighter-rouge">Application</code> 을 실행을 할 때에 우선 초기화를 다 시켜두고, 그 이후에 초기화 된 애들을 각각 조립하는 것처럼 인자로 넣어주기만 한다면, <code class="language-plaintext highlighter-rouge">static</code> 과 <code class="language-plaintext highlighter-rouge">final</code>의 콜라보로 DI 를 달성할 수 있다.</p>
+
+<p><strong>Context 초기화 및 필요 reference 들 인스턴스화 및 주입</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApplicationContextImpl</span> <span class="kd">implements</span> <span class="nc">ApplicationContext</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">BookRepository</span> <span class="n">bookRepository</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">MemberRepository</span> <span class="n">memberRepository</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">SessionContext</span> <span class="n">sessionContext</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">MemberService</span> <span class="n">memberService</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">LibraryService</span> <span class="n">libraryService</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ApplicationContextImpl</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// Repository 싱글톤 사용</span>
+        <span class="n">bookRepository</span> <span class="o">=</span> <span class="nc">BookRepositoryImpl</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+        <span class="n">memberRepository</span> <span class="o">=</span> <span class="nc">MemberRepositoryImpl</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+        <span class="n">sessionContext</span> <span class="o">=</span> <span class="nc">SessionContextImpl</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+
+        <span class="c1">// Service 에 주입</span>
+        <span class="n">memberService</span> <span class="o">=</span> <span class="nc">MemberServiceImpl</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="n">memberRepository</span><span class="o">,</span> <span class="n">sessionContext</span><span class="o">);</span>
+        <span class="n">libraryService</span> <span class="o">=</span> <span class="nc">LibraryServiceImpl</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="n">bookRepository</span><span class="o">,</span> <span class="n">sessionContext</span><span class="o">);</span>
+    <span class="o">}</span></code></pre></figure>
+
+<p><strong>어플리케이션에서 필요한 값들을 가져와 주입</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LibraryApplication</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Supplier</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="n">commandMap</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">OutputManager</span> <span class="n">outputManager</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">SessionContext</span> <span class="n">sessionContext</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">LibraryService</span> <span class="n">libraryService</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">MemberService</span> <span class="n">memberService</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">LibraryApplication</span><span class="o">(</span><span class="nc">ApplicationContext</span> <span class="n">applicationContext</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">commandMap</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+        <span class="n">outputManager</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">OutputManager</span><span class="o">();</span>
+
+        <span class="c1">// =================== DI ===================</span>
+        <span class="n">sessionContext</span> <span class="o">=</span> <span class="n">applicationContext</span><span class="o">.</span><span class="na">getSessionContext</span><span class="o">();</span>
+        <span class="n">libraryService</span> <span class="o">=</span> <span class="n">applicationContext</span><span class="o">.</span><span class="na">getLibraryService</span><span class="o">();</span>
+        <span class="n">memberService</span> <span class="o">=</span> <span class="n">applicationContext</span><span class="o">.</span><span class="na">getMemberService</span><span class="o">();</span>
+    <span class="o">}</span></code></pre></figure>
+
+<p>여기서 얻어갈 수 있는 것은 만약 static final 로 멤버변수에 그대로 넣고 생성자에서 초기화를 안했다고 한다면, 이는 나중에 테스트 단에서 <code class="language-plaintext highlighter-rouge">Mock</code> 이나 <code class="language-plaintext highlighter-rouge">Stub</code> 등으로 갈아끼우기가 힘들게 된다. 위처럼 가져가고 나중에 생성자에 인자를 더 넣어 주입하는 식으로 하면 더 편할 것이다.</p>
+
+<h4 id="port-adapter-에서의-service-layer-문제점">Port-Adapter 에서의 Service Layer 문제점?</h4>
+
+<p>구현하다보니 Port-Adapter 에서 쓰이는 Service 포트를 구현하다 보면 DI를 할 때 몇 가지 의문이 생긴다.</p>
+
+<p>포트라는 것은 Adapter 로의 연결인데 안쓰는 <code class="language-plaintext highlighter-rouge">getInstance()</code> 라는 것으로 인터페이스에 메서드를 넣게 되면<br />
+안되는데, 그렇게 되면 어플리케이션 초기화 시점에서 구현체를 통해 <code class="language-plaintext highlighter-rouge">getInstance()</code> 를 넣을 수 밖에 없는건가 싶었다.</p>
+
+<p>만약 그렇게 <code class="language-plaintext highlighter-rouge">getInstance()</code> 를 넣게 된다면(위처럼 코딩이 된다면) 내가 <code class="language-plaintext highlighter-rouge">Service</code> 만 갈아끼우고 싶을때<br />
+어떻게 해야 하는건가 라는 의문이 생겼다…</p>
+
+<p>하지만 이런 의문은 괜한 의문이었는데, <code class="language-plaintext highlighter-rouge">Port-Adapter</code> 에서 <code class="language-plaintext highlighter-rouge">ApplicationContext</code> 라는 인터페이스를 두고 여기서 get(클래스)() 형식으로 <code class="language-plaintext highlighter-rouge">Application</code> 에게 인스턴스를 제공하는 포트를 주게 된다. 여기서 이미 설계도는 어플리케이션에게 줬고, 그 뒷단의 구현부는 <code class="language-plaintext highlighter-rouge">ApplicationContextImpl</code> 이 하기에 서비스가 바뀐다고 한들, 여기에서 생성자의 초기화 하는 곳만 바꿔주기만 하면 코드의 수정은 단어 하나만 바꾸고 추가하고 싶은 <code class="language-plaintext highlighter-rouge">ServiceImpl.java</code> 만 여기에 넣어주면 된다. 이래서 port-adapter 라고 하나보다.</p>
+
+<blockquote>
+  <p>지금으로써는 이 방법이 최우선인 듯하다. 스프링에서는 자동으로 이를 해준다는게 신기하다고 느낀 부분이다.</p>
+</blockquote>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/02/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-13%EC%9D%BC%EC%B0%A8-comparable.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/02/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-13%EC%9D%BC%EC%B0%A8-comparable.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 43일차 Spring Data Jpa</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 43일차 Spring Data Jpa | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 43일차 Spring Data Jpa" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-43%EC%9D%BC%EC%B0%A8-spring-data-jpa.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-43%EC%9D%BC%EC%B0%A8-spring-data-jpa.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-27T00:03:50+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 43일차 Spring Data Jpa" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-10-27T00:03:50+00:00","datePublished":"2025-10-27T00:03:50+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 43일차 Spring Data Jpa","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-43%EC%9D%BC%EC%B0%A8-spring-data-jpa.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-43%EC%9D%BC%EC%B0%A8-spring-data-jpa.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-43%EC%9D%BC%EC%B0%A8-spring-data-jpa.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 43일차 Spring Data Jpa</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Oct 27, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li><li>Spring</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#spring-data-jpa란">Spring Data JPA란?</a></li>
+  <li><a href="#spring-data-jpa의-동작-구조">Spring Data JPA의 동작 구조</a></li>
+  <li><a href="#repository-계층의-이해">Repository 계층의 이해</a>
+    <ul>
+      <li><a href="#crudrepository">CrudRepository</a></li>
+      <li><a href="#jparepository">JpaRepository</a></li>
+    </ul>
+  </li>
+  <li><a href="#쿼리-메서드query-method">쿼리 메서드(Query Method)</a>
+    <ul>
+      <li><a href="#쿼리-메서드-자동-쿼리-생성-기능-사용">쿼리 메서드 자동 쿼리 생성 기능 사용</a></li>
+      <li><a href="#query-애너테이션으로-직접-jpql-쿼리-작성">@Query 애너테이션으로 직접 JPQL 쿼리 작성</a>
+        <ul>
+          <li><a href="#path-expression">Path Expression</a></li>
+          <li><a href="#네이티브-쿼리-사용">네이티브 쿼리 사용</a></li>
+        </ul>
+      </li>
+      <li><a href="#특정-컬럼-조회">특정 컬럼 조회</a>
+        <ul>
+          <li><a href="#interface-projection">Interface Projection</a></li>
+          <li><a href="#dto-projection">DTO Projection</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#jpql-과-criteria">JPQL 과 Criteria</a></li>
+  <li><a href="#spring-data-jpa-실무-활용">Spring Data JPA 실무 활용</a>
+    <ul>
+      <li><a href="#specification-동적-쿼리">Specification (동적 쿼리)</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="spring-data-jpa란">Spring Data JPA란?</h3>
+
+<p><strong>Spring Data JPA</strong> 는 <strong>JPA(Java Persistence API)</strong> 를 기반으로 한 스프링 프레임워크의 데이터 접근 추상화 도구입니다. 복잡한 데이터베이스 접근 코드를 줄이고, 인터페이스 기반의 선언적 방식으로 CRUD 및 쿼리 기능을 쉽게 구현할 수 있도록 도와줍니다. 이를 통해 개발자는 비즈니스 로직에 집중할 수 있습니다.</p>
+
+<h3 id="spring-data-jpa의-동작-구조">Spring Data JPA의 동작 구조</h3>
+
+<p><strong>Spring Data JPA</strong> 는 <code class="language-plaintext highlighter-rouge">EntityManager</code> 를 사용해 데이터베이스와 통신한다. <code class="language-plaintext highlighter-rouge">Repository</code> 인터페이스를 정의하면 스프링이 런타임에 <code class="language-plaintext highlighter-rouge">Proxy</code> 객체를 생성하여 실제 구현체를 제공하고 이 <code class="language-plaintext highlighter-rouge">Proxy</code> 는 메서드 호출 시 적절한 JPA 쿼리를 실행한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">EntityManager</code>: JPA의 핵심 인터페이스로, 엔티티의 생명주기 관리 및 쿼리 실행 담당</li>
+  <li><code class="language-plaintext highlighter-rouge">Repository</code>: 개발자가 정의하는 인터페이스</li>
+  <li><code class="language-plaintext highlighter-rouge">Proxy</code>: 스프링이 자동 생성하는 구현체로, 메서드 호출을 실제 DB 쿼리로 변환</li>
+</ul>
+
+<h3 id="repository-계층의-이해">Repository 계층의 이해</h3>
+
+<p>Spring Data JPA 는 여러 <code class="language-plaintext highlighter-rouge">Repository</code> 인터페이스를 제공하는데 Crud 는 우선 Spring Data 에서 공통적으로 제공하는 기능이며 이를 확장하는 Spring Data JPA 의 <code class="language-plaintext highlighter-rouge">JpaRepository</code> 가 있다.</p>
+
+<h4 id="jparepository">JpaRepository</h4>
+
+<p><strong>JpaRepository</strong> 어노테이션은 <code class="language-plaintext highlighter-rouge">CrudRepository</code> 를 확장하며 페이징 기능과 정렬 기능을 기본적으로 제공하게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Repository
+ └─ CrudRepository&lt;T, ID&gt;
+     └─ ListCrudRepository&lt;T, ID&gt;
+
+ └─ PagingAndSortingRepository&lt;T, ID&gt;
+     └─ ListPagingAndSortingRepository&lt;T, ID&gt;
+
+QueryByExampleExecutor&lt;T&gt; + 
+ListPagingAndSortingRepository&lt;T, ID&gt; + 
+ListCrudRepository&lt;T, ID&gt;
+  └─ JpaRepository&lt;T, ID&gt;</code></pre></figure>
+
+<p>필요한 기능을 쓸 때는 해당 인터페이스 내부의 메서드들을 보면서 사용하는 것이 좋다. 또한 <code class="language-plaintext highlighter-rouge">JpaRepository</code> 는 기본적으로 <code class="language-plaintext highlighter-rouge">Iterator</code> 보단 <code class="language-plaintext highlighter-rouge">List</code> 를 반환하도록 짜여져 있기 때문에 성능적으로 안좋을 수 있다. 이럴때는 <code class="language-plaintext highlighter-rouge">JpaRepository</code> 를 사용하기 보다는 직접 <code class="language-plaintext highlighter-rouge">BaseRepository</code> 를 만들어서 사용하는 것이 좋다.</p>
+
+<h3 id="쿼리-메서드query-method">쿼리 메서드(Query Method)</h3>
+
+<h4 id="쿼리-메서드-자동-쿼리-생성-기능-사용">쿼리 메서드 자동 쿼리 생성 기능 사용</h4>
+
+<p>Spring Data JPA는 메서드 이름으로 쿼리를 자동 생성한다. 메서드 이름을 작성할 때는 다음과 같은 규칙으로 작성한다. 이전에도 다뤘기에 간단히 정리하고 넘어간다.</p>
+
+<p><strong>Prefix</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">find…By</code>: 조회 (가장 많이 사용됨)</li>
+  <li><code class="language-plaintext highlighter-rouge">read…By</code>: 조회 (find와 동일 기능)</li>
+  <li><code class="language-plaintext highlighter-rouge">get…By</code>: 조회 (find와 동일 기능)</li>
+  <li><code class="language-plaintext highlighter-rouge">query…By</code>: 조회 (find와 동일 기능)</li>
+  <li><code class="language-plaintext highlighter-rouge">count…By</code>: 조건에 맞는 개수 조회</li>
+  <li><code class="language-plaintext highlighter-rouge">exists…By</code>: 조건 존재 여부 확인</li>
+  <li><code class="language-plaintext highlighter-rouge">delete…By</code>: 조건에 맞는 데이터 삭제</li>
+  <li><code class="language-plaintext highlighter-rouge">remove…By</code>: delete와 동일 기능</li>
+</ul>
+
+<p><strong>Property Expressions</strong></p>
+<ul>
+  <li>Is, Equals: <code class="language-plaintext highlighter-rouge">=</code> — <code class="language-plaintext highlighter-rouge">findByName(String name)</code></li>
+  <li>IsNot, Not: <code class="language-plaintext highlighter-rouge">!=</code> — <code class="language-plaintext highlighter-rouge">findByStatusNot(String status)</code></li>
+  <li>LessThan: <code class="language-plaintext highlighter-rouge">&lt;</code> — <code class="language-plaintext highlighter-rouge">findByAgeLessThan(int age)</code></li>
+  <li>LessThanEqual: <code class="language-plaintext highlighter-rouge">&lt;=</code> — <code class="language-plaintext highlighter-rouge">findByAgeLessThanEqual(int age)</code></li>
+  <li>GreaterThan: <code class="language-plaintext highlighter-rouge">&gt;</code> — <code class="language-plaintext highlighter-rouge">findByAgeGreaterThan(int age)</code></li>
+  <li>GreaterThanEqual: <code class="language-plaintext highlighter-rouge">&gt;=</code> — <code class="language-plaintext highlighter-rouge">findByAgeGreaterThanEqual(int age)</code></li>
+  <li>Between: <code class="language-plaintext highlighter-rouge">BETWEEN</code> — <code class="language-plaintext highlighter-rouge">findByCreatedAtBetween(Date start, Date end)</code></li>
+  <li>Like: <code class="language-plaintext highlighter-rouge">LIKE</code> (패턴 매칭) — <code class="language-plaintext highlighter-rouge">findByNameLike(String name)</code></li>
+  <li>NotLike: <code class="language-plaintext highlighter-rouge">NOT LIKE</code> — <code class="language-plaintext highlighter-rouge">findByNameNotLike(String name)</code></li>
+  <li>StartingWith: <code class="language-plaintext highlighter-rouge">LIKE 'abc%'</code> — <code class="language-plaintext highlighter-rouge">findByNameStartingWith(String prefix)</code></li>
+  <li>EndingWith: <code class="language-plaintext highlighter-rouge">LIKE '%abc</code>’ — <code class="language-plaintext highlighter-rouge">findByNameEndingWith(String suffix)</code></li>
+  <li>Containing: <code class="language-plaintext highlighter-rouge">LIKE '%abc%'</code> — <code class="language-plaintext highlighter-rouge">findByNameContaining(String keyword)</code></li>
+  <li>In: <code class="language-plaintext highlighter-rouge">IN (...)</code> — <code class="language-plaintext highlighter-rouge">findByIdIn(List&lt;Long&gt; ids)</code></li>
+  <li>NotIn: <code class="language-plaintext highlighter-rouge">NOT IN (...)</code> — <code class="language-plaintext highlighter-rouge">findByIdNotIn(List&lt;Long&gt; ids)</code></li>
+  <li>True, False: boolean 조건 — <code class="language-plaintext highlighter-rouge">findByActiveTrue()</code></li>
+  <li>IsNull: <code class="language-plaintext highlighter-rouge">IS NULL</code> — <code class="language-plaintext highlighter-rouge">findByDeletedAtIsNull()</code></li>
+  <li>IsNotNull: <code class="language-plaintext highlighter-rouge">IS NOT NULL</code> — <code class="language-plaintext highlighter-rouge">findByDeletedAtIsNotNull()</code></li>
+  <li>Before: <code class="language-plaintext highlighter-rouge">&lt;</code> (날짜 전) — <code class="language-plaintext highlighter-rouge">findByCreatedAtBefore(LocalDate date)</code></li>
+  <li>After: <code class="language-plaintext highlighter-rouge">&gt;</code> (날짜 후) — <code class="language-plaintext highlighter-rouge">findByCreatedAtAfter(LocalDate date)</code></li>
+</ul>
+
+<blockquote>
+  <p>And, Or 을 붙여 속성 표현식 여러개 사용 가능</p>
+</blockquote>
+
+<p><strong>Limit(Top / First)</strong></p>
+
+<p>조회 개수를 제한할 때 사용하며, 접두사 쪽에 prefix 와 by 사이에 사용한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Top{n}</code>, <code class="language-plaintext highlighter-rouge">First{n}</code>: 상위 n 개 조회</li>
+</ul>
+
+<p><strong>Distinct</strong></p>
+
+<p>마찬가지로 접두사 쪽에 prefix 와 by 사이에 사용</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">findDistinctByEmail</span><span class="o">(</span><span class="nc">String</span> <span class="n">email</span><span class="o">);</span>
+<span class="n">findDistinctTop3ByOrderByScoreDesc</span><span class="o">();</span></code></pre></figure>
+
+<p><strong>IgnoreCase</strong></p>
+
+<p>속성 표현식 마지막에 추가</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">findByUsernameIgnoreCase</span><span class="o">(</span><span class="nc">String</span> <span class="n">username</span><span class="o">);</span>
+<span class="n">findByEmailContainingIgnoreCase</span><span class="o">(</span><span class="nc">String</span> <span class="n">keyword</span><span class="o">);</span></code></pre></figure>
+
+<p><strong>반환 타입</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Entity</code>: 단일 엔티티 반환 (결과 없으면 null)</li>
+  <li><code class="language-plaintext highlighter-rouge">Optional</code>: 단일 결과를 Optional로 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">Collection</code>: 여러 개 결과 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">Page</code>: 페이징 처리된 결과 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">Slice</code>: 다음 페이지 존재 여부만 있는 슬라이스 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">Stream</code>: Java Stream으로 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">long</code>, <code class="language-plaintext highlighter-rouge">int</code>: count, delete 등 숫자 결과 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">boolean</code>: 존재 여부 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">Future</code>, <code class="language-plaintext highlighter-rouge">CompletableFuture</code>: 비동기 반환</li>
+</ul>
+
+<h4 id="query-애너테이션으로-직접-jpql-쿼리-작성">@Query 애너테이션으로 직접 JPQL 쿼리 작성</h4>
+
+<p><code class="language-plaintext highlighter-rouge">JPQL(Java Persistence Query Language)</code> 은 객체 지향 쿼리 언어로, 엔티티 객체를 대상으로 쿼리 작성을 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">String</span> <span class="n">jpql</span> <span class="o">=</span> <span class="s">"SELECT u FROM User u WHERE u.age &gt; :age"</span><span class="o">;</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">em</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="n">jpql</span><span class="o">,</span> <span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+                     <span class="o">.</span><span class="na">setParameter</span><span class="o">(</span><span class="s">"age"</span><span class="o">,</span> <span class="mi">18</span><span class="o">)</span>
+                     <span class="o">.</span><span class="na">getResultList</span><span class="o">();</span></code></pre></figure>
+
+<p>이를 내부적으로 Spring Data JPA 가 자동으로 생성시켜주어 다음과 같이 작성만 하면 파라미터와 매핑을 시킬 수 있게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 1번째, 2번째 파라미터를 ?1, ?2로 지정</span>
+<span class="nd">@Query</span><span class="o">(</span><span class="s">"SELECT u FROM User u WHERE u.age &gt; ?1 AND u.status = ?2"</span><span class="o">)</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">findByAgeAndStatus</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">,</span> <span class="nc">String</span> <span class="n">status</span><span class="o">);</span>
+
+<span class="c1">// 날짜 범위 조회</span>
+<span class="nd">@Query</span><span class="o">(</span><span class="s">"SELECT o FROM Order o WHERE o.createdAt BETWEEN ?1 AND ?2"</span><span class="o">)</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Order</span><span class="o">&gt;</span> <span class="nf">findOrdersBetweenDates</span><span class="o">(</span><span class="nc">LocalDate</span> <span class="n">start</span><span class="o">,</span> <span class="nc">LocalDate</span> <span class="n">end</span><span class="o">);</span>
+
+<span class="c1">// :email 이 메서드 파라미터 email과 매핑</span>
+<span class="nd">@Query</span><span class="o">(</span><span class="s">"SELECT u FROM User u WHERE u.email = :email"</span><span class="o">)</span>
+<span class="nc">User</span> <span class="nf">findByEmailNamed</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">"email"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">email</span><span class="o">);</span>
+
+<span class="nd">@Query</span><span class="o">(</span><span class="s">"SELECT u FROM User u WHERE u.age &gt;= :minAge AND u.age &lt;= :maxAge"</span><span class="o">)</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">findByAgeRange</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">"minAge"</span><span class="o">)</span> <span class="kt">int</span> <span class="n">minAge</span><span class="o">,</span> <span class="nd">@Param</span><span class="o">(</span><span class="s">"maxAge"</span><span class="o">)</span> <span class="kt">int</span> <span class="n">maxAge</span><span class="o">);</span>
+
+<span class="c1">// 페이징 및 정렬 기능</span>
+<span class="nd">@Query</span><span class="o">(</span><span class="s">"SELECT u FROM User u WHERE u.status = :status ORDER BY u.createdAt DESC"</span><span class="o">)</span>
+<span class="nc">Page</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">findByStatusWithPaging</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">"status"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">status</span><span class="o">,</span> <span class="nc">Pageable</span> <span class="n">pageable</span><span class="o">);</span></code></pre></figure>
+
+<h5 id="path-expression">Path Expression</h5>
+
+<p>JPQL 에서는 엔티티의 필드를 속성 경로로 표현할 수 있는데,</p>
+
+<p><strong>자식 엔티티 접근</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Entity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Parent</span> <span class="o">{</span>
+    <span class="nd">@Id</span> <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">mappedBy</span> <span class="o">=</span> <span class="s">"parent"</span><span class="o">)</span> <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Child</span><span class="o">&gt;</span> <span class="n">children</span><span class="o">;}</span>
+<span class="nd">@Entity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Child</span> <span class="o">{</span>
+    <span class="nd">@Id</span> <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="nd">@ManyToOne</span> <span class="kd">private</span> <span class="nc">Parent</span> <span class="n">parent</span><span class="o">;}</span></code></pre></figure>
+
+<p>위와 같이 있다고 쳤을때, <code class="language-plaintext highlighter-rouge">ParentRepository</code> 에서는 다음과 같은 쿼리를 작성할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="k">c</span> <span class="k">FROM</span> <span class="n">Parent</span> <span class="n">p</span> <span class="k">JOIN</span> <span class="n">p</span><span class="p">.</span><span class="n">children</span> <span class="k">c</span> <span class="k">WHERE</span> <span class="k">c</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">'Tom'</span><span class="p">;</span></code></pre></figure>
+
+<p>이는 아래와 같음</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="k">c</span><span class="p">.</span><span class="o">*</span>
+<span class="k">FROM</span> <span class="n">parent</span> <span class="n">p</span>
+<span class="k">JOIN</span> <span class="n">child</span> <span class="k">c</span> <span class="k">ON</span> <span class="k">c</span><span class="p">.</span><span class="n">parent_id</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">id</span>
+<span class="k">WHERE</span> <span class="k">c</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">'Tom'</span></code></pre></figure>
+
+<p>따라서 테이블 이름이 아니라 엔티티 필드 이름을 그대로 써서 Java 객체 지향 프로그래밍을 그대로 적용시킬 수 있다. 익숙해지면 다음과 같은 코드도 작성 가능하다.</p>
+
+<p><strong>다단계 경로 탐색</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">o</span> <span class="k">FROM</span> <span class="k">Order</span> <span class="n">o</span> <span class="k">WHERE</span> <span class="n">o</span><span class="p">.</span><span class="n">customer</span><span class="p">.</span><span class="n">address</span><span class="p">.</span><span class="n">city</span> <span class="o">=</span> <span class="s1">'Seoul'</span></code></pre></figure>
+
+<p>이는 Native SQL 을 쓰면 여러 테이블 조인이 필요하지만 JPQL 을 쓰면 JPA 가 알아서 필요한 <code class="language-plaintext highlighter-rouge">JOIN</code> 을 생성시켜주기 때문에 신경을 쓰지 않아도 된다.</p>
+
+<blockquote>
+  <p>MySQL 조인 절 생략 어구<br />
+LEFT (OUTER) JOIN<br />
+RIGHT (OUTER) JOIN<br />
+(INNER) JOIN</p>
+</blockquote>
+
+<h5 id="네이티브-쿼리-사용">네이티브 쿼리 사용</h5>
+
+<p>위와 똑같지만 <code class="language-plaintext highlighter-rouge">nativeQuery = true</code> 로 해주어야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Query</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"SELECT * FROM users WHERE status = ?1"</span><span class="o">,</span> <span class="n">nativeQuery</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">findByStatusNative</span><span class="o">(</span><span class="nc">String</span> <span class="n">status</span><span class="o">);</span></code></pre></figure>
+
+<p>이때 네이티브 쿼리를 쓸 때 단점이 있다.</p>
+
+<ul>
+  <li><strong>데이터베이스 의존성 증가</strong>: 특정 DB에 종속적이 되어 이식성 저하</li>
+  <li><strong>JPA 최적화 미활용</strong>: 영속성 컨텍스트의 1차 캐시, 변경 감지 등 미활용</li>
+</ul>
+
+<blockquote>
+  <p>따라서 요약하면 왠만하면 쿼리 메서드를 사용, 그 다음 복잡한 것은 JPQL 사용, 그래도 안되면 SQL 사용</p>
+</blockquote>
+
+<h4 id="특정-컬럼-조회">특정 컬럼 조회</h4>
+
+<p>단일 컬럼은 그냥 타입 리스트로 반환하면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">findNameByAgeGreaterThan</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">);</span></code></pre></figure>
+
+<p>하지만 여러 컬럼이 있을때 이땐 <code class="language-plaintext highlighter-rouge">Object[]</code> 로 반환할 수 있는데,</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Query</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"SELECT name, email FROM user WHERE name LIKE %:name%"</span><span class="o">,</span> <span class="n">nativeQuery</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Object</span><span class="o">[]&gt;</span> <span class="nf">findUsersByNameNative</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">"name"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">name</span><span class="o">);</span></code></pre></figure>
+
+<p>이를 써도 되기는 하지만, 타입 안전성이 떨어지고, 가독성이 낮으며, 영속성 컨텍스트에서 관리가 안된다(마지막 문제는 나머지도 다 똑같다). 타입 안전성을 위해 다음을 보자.</p>
+
+<h5 id="interface-projection">Interface Projection</h5>
+
+<p>조회하고 싶은 컬럼 이름과 getter 메서드 이름을 맞춘 인터페이스를 정의하여 반환타입으로 인터페이스를 사용 가능하다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserNameOnly</span> <span class="o">{</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">();</span> <span class="o">}</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserEmailOnly</span> <span class="o">{</span> <span class="nc">String</span> <span class="nf">getEmail</span><span class="o">();</span> <span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserNameAndEmail</span> <span class="kd">extends</span> <span class="nc">UserNameOnly</span><span class="o">,</span> <span class="nc">UserEmailOnly</span> <span class="o">{</span> <span class="o">}</span>
+
+<span class="c1">// Repository query method</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">UserNameAndEmail</span><span class="o">&gt;</span> <span class="nf">findByAgeGreaterThan</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">);</span></code></pre></figure>
+
+<p>인터페이스로 정의했을 때의 단점은</p>
+<ul>
+  <li>set 을 할 수 없어 영속성 컨텍스트에 반영 X</li>
+  <li>레퍼런스 형 반환 제한</li>
+</ul>
+
+<p>레퍼런스 형을 반환할 수 없기에 다음 DTO 를 쓴다.</p>
+
+<h5 id="dto-projection">DTO Projection</h5>
+
+<p>엔티티 대신 필요한 데이터만 DTO 로 프로젝션하여 조회할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">record</span> <span class="nf">UserDTO</span><span class="o">(</span>
+    <span class="nc">String</span> <span class="n">name</span><span class="o">,</span>
+    <span class="nc">String</span> <span class="n">email</span>
+<span class="o">)</span> <span class="o">{</span> <span class="o">}</span>
+
+<span class="nd">@Query</span><span class="o">(</span><span class="s">"SELECT new com.example.UserDTO(u.name, u.email) FROM User u WHERE u.age &gt; :age"</span><span class="o">)</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">UserDTO</span><span class="o">&gt;</span> <span class="nf">findByAge</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">"age"</span><span class="o">)</span> <span class="kt">int</span> <span class="n">age</span><span class="o">);</span></code></pre></figure>
+
+<p>DTO로 정의했을 때의 단점은</p>
+<ul>
+  <li>set 을 할 수는 있지만, JPA 가 추적하지 않기 때문에 영속성 컨텍스트에 반영 X</li>
+</ul>
+
+<blockquote>
+  <p>JPQL 에 들어가는 <code class="language-plaintext highlighter-rouge">new (패키지명).(클래스명)</code> 때문에 DTO 라는 것은 보통 패키지를 잘 이동하지 않는 쪽에다가 두는게 좋다. 즉, 모든 곳에서 쓰일 수 있는 common 패키지에 두는 것</p>
+</blockquote>
+
+<h3 id="jpql-과-criteria">JPQL 과 Criteria</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Criteria API</code> 는 타입 세이프한 동적 쿼리 생성에 유용하다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">CriteriaBuilder</span> <span class="n">cb</span> <span class="o">=</span> <span class="n">em</span><span class="o">.</span><span class="na">getCriteriaBuilder</span><span class="o">();</span>
+<span class="nc">CriteriaQuery</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">cq</span> <span class="o">=</span> <span class="n">cb</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="nc">Root</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">user</span> <span class="o">=</span> <span class="n">cq</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">cq</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">user</span><span class="o">).</span><span class="na">where</span><span class="o">(</span><span class="n">cb</span><span class="o">.</span><span class="na">greaterThan</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"age"</span><span class="o">),</span> <span class="mi">18</span><span class="o">));</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">em</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span><span class="n">cq</span><span class="o">).</span><span class="na">getResultList</span><span class="o">();</span></code></pre></figure>
+
+<p>하지만 이는 너무 장황하다. 써야할 코드도 많으며, 가독성이 안좋고, 필드명을 문자열로 작성해야 해서 컴파일 시점에 체크가 불가하다. 따라서 <code class="language-plaintext highlighter-rouge">Querydsl</code> 을 사용하는데 나중에 보자.</p>
+
+<h3 id="spring-data-jpa-실무-활용">Spring Data JPA 실무 활용</h3>
+
+<h4 id="specification-동적-쿼리">Specification (동적 쿼리)</h4>
+
+<p>조건에 따라 동적으로 쿼리 생성 가능하다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserSpecification</span> <span class="kd">implements</span> <span class="nc">Specification</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">username</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nf">UserSpecification</span><span class="o">(</span><span class="nc">String</span> <span class="n">username</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">username</span> <span class="o">=</span> <span class="n">username</span><span class="o">;</span> <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Predicate</span> <span class="nf">toPredicate</span><span class="o">(</span><span class="nc">Root</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">root</span><span class="o">,</span> <span class="nc">CriteriaQuery</span><span class="o">&lt;?&gt;</span> <span class="n">query</span><span class="o">,</span> <span class="nc">CriteriaBuilder</span> <span class="n">cb</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">username</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">conjunction</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"username"</span><span class="o">),</span> <span class="n">username</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>Querydsl 과의 비교</strong></p>
+
+<p><strong>Querydsl</strong> 은 타입 안전성과 복잡한 쿼리 작성에 강점이 있으며, <strong>Spring Data JPA</strong> 와 함께 사용 가능하다. <strong>Spring Data JPA</strong> 는 빠른 개발과 간결한 코드에 유리하기 때문에 이 두 장점을 합쳐서 혼합하여 사용하는게 좋다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">QUser</span> <span class="n">user</span> <span class="o">=</span> <span class="nc">QUser</span><span class="o">.</span><span class="na">user</span><span class="o">;</span>
+
+<span class="nc">JPAQuery</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JPAQuery</span><span class="o">&lt;&gt;(</span><span class="n">em</span><span class="o">);</span>
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">users</span> <span class="o">=</span> <span class="n">query</span>
+    <span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">user</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">status</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="s">"ACTIVE"</span><span class="o">)</span>
+           <span class="o">.</span><span class="na">and</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">age</span><span class="o">.</span><span class="na">gt</span><span class="o">(</span><span class="mi">20</span><span class="o">)))</span>
+    <span class="o">.</span><span class="na">orderBy</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">createdAt</span><span class="o">.</span><span class="na">desc</span><span class="o">())</span>
+    <span class="o">.</span><span class="na">fetch</span><span class="o">();</span></code></pre></figure>
+
+<blockquote>
+  <p>Querydsl 세팅은 검색해서 해보자.</p>
+</blockquote>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-43%EC%9D%BC%EC%B0%A8-spring-data-jpa.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-43%EC%9D%BC%EC%B0%A8-spring-data-jpa.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

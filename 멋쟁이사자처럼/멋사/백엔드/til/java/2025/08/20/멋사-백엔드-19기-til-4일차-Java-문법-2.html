@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 4일차 자바 문법(2)</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 4일차 자바 문법(2) | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 4일차 자바 문법(2)" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/20/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-4%EC%9D%BC%EC%B0%A8-Java-%EB%AC%B8%EB%B2%95-2.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/20/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-4%EC%9D%BC%EC%B0%A8-Java-%EB%AC%B8%EB%B2%95-2.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-08-20T01:29:34+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 4일차 자바 문법(2)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-08-20T01:29:34+00:00","datePublished":"2025-08-20T01:29:34+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 4일차 자바 문법(2)","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/20/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-4%EC%9D%BC%EC%B0%A8-Java-%EB%AC%B8%EB%B2%95-2.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/20/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-4%EC%9D%BC%EC%B0%A8-Java-%EB%AC%B8%EB%B2%95-2.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/20/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-4%EC%9D%BC%EC%B0%A8-Java-%EB%AC%B8%EB%B2%95-2.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 4일차 자바 문법(2)</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Aug 20, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+
+<ul>
+  <li><a href="#for-문-label">For 문 label</a></li>
+  <li><a href="#collection">Collection</a>
+    <ul>
+      <li><a href="#collection-구현체-생성자-규칙">Collection 구현체 생성자 규칙</a></li>
+    </ul>
+  </li>
+  <li><a href="#stream-api">Stream API</a>
+    <ul>
+      <li><a href="#basestream">BaseStream</a></li>
+      <li><a href="#stream">Stream</a>
+        <ul>
+          <li><a href="#생성-관련-메서드">생성 관련 메서드</a></li>
+          <li><a href="#functional-interface">Functional Interface</a></li>
+          <li><a href="#collectors">Collectors</a></li>
+          <li><a href="#intermediate-operation">Intermediate Operation</a></li>
+          <li><a href="#terminal-operation">Terminal Operation</a></li>
+        </ul>
+      </li>
+      <li><a href="#java-stream-종류">Java Stream 종류</a></li>
+    </ul>
+  </li>
+  <li><a href="#기타-얻어갈-것들">기타 얻어갈 것들</a>
+    <ul>
+      <li><a href="#deep-copy--shallow-copy">Deep Copy &amp; Shallow Copy</a></li>
+      <li><a href="#다른-복사-유틸리티-함수">다른 복사 유틸리티 함수</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<!--more-->
+
+<p>모든 함수는 IDE 에서 <code class="language-plaintext highlighter-rouge">Ctrl + 클릭</code> 이나 <code class="language-plaintext highlighter-rouge">CMD + 좌클릭</code> 으로 소스코드를 직접 볼 수 있기에 모든 함수의 동작 세부 사항은 생략하고 어떨때, 언제, 왜, 어디서 중요하고 쓰이는지를 설명하고 이론적인 내용을 본다.</p>
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>배울 수 있는 내용만 적는 것이 도움이 될거 같아서 얻어갈 수 있는 것들을 요약 정리한다.<br />
+나머지의 내용들은 타 블로그나 타 수강생들이 매우 많이 적기에 굳이 따로 적지 않고<br />
+제공해준 책이나 영상으로도 충분히 독학이 가능하다.</p>
+
+<h3 id="for-문-label">For 문 label</h3>
+
+<p>for 문 안에는 <code class="language-plaintext highlighter-rouge">continue</code> 예약어를 써넣을 수 있다.<br />
+중첩 for 문에 대해 <code class="language-plaintext highlighter-rouge">continue</code> 를 하게 되면 해당 scope 내에서만<br />
+그 다음 iteration 으로 진행하게 된다.</p>
+
+<p>하지만 그 밖의 for 문에게로 가고 싶을때 해당 <code class="language-plaintext highlighter-rouge">label</code> 을 쓰게 된다.</p>
+
+<p>label 은 <code class="language-plaintext highlighter-rouge">break</code> 나 <code class="language-plaintext highlighter-rouge">continue</code> 와 함께 쓸 수 있고,<br />
+반복문 바로 위에 label 을 붙여 해당 반복문으로 이동할 것이다 라는<br />
+의미를 가지게 된다.</p>
+
+<p><strong>continue 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nl">outer:</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">continue</span> <span class="n">outer</span><span class="o">;</span> <span class="c1">// outer 반복문의 다음 iteration으로 이동</span>
+        <span class="o">}</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="s">", "</span> <span class="o">+</span> <span class="n">j</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>break 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nl">outer:</span> <span class="c1">// 라벨 이름</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">3</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">break</span> <span class="n">outer</span><span class="o">;</span> <span class="c1">// outer 라벨이 붙은 반복문을 종료</span>
+        <span class="o">}</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="s">", "</span> <span class="o">+</span> <span class="n">j</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h3 id="collection">Collection</h3>
+
+<p>여러 객체(element)를 그룹화한 인터페이스 형태의 자료구조이다.<br />
+가지는 element 의 규칙에는 두 특징을 가진다:</p>
+
+<ul>
+  <li>중복 요소를 허용하거나 안허용하거나</li>
+  <li>순서가 정의되거나 안되거나</li>
+</ul>
+
+<blockquote>
+  <p>정의된 컬렉션은 <code class="language-plaintext highlighter-rouge">SequencedCollection</code> 인터페이스의 하위 타입</p>
+</blockquote>
+
+<p>JDK는 이런 <code class="language-plaintext highlighter-rouge">Collection</code> 인터페이스를 직접 구현한 객체는 제공하지 않고,<br />
+대신 <code class="language-plaintext highlighter-rouge">Set</code>, <code class="language-plaintext highlighter-rouge">List</code> 같은 구체적인 하위 인터페이스를 구현한 클래스를 제공한다.</p>
+
+<blockquote>
+  <p>Bag 이나 Multiset 은 이 인터페이스를 직접 구현하는 것이 좋다.</p>
+</blockquote>
+
+<h4 id="collection-구현체-생성자-규칙">Collection 구현체 생성자 규칙</h4>
+
+<p>우선 표준 생성자 규칙을 먼저 보자.</p>
+
+<p><strong>표준 생성자 규칙</strong></p>
+<ol>
+  <li>인수가 없는 생성자(<code class="language-plaintext highlighter-rouge">void constructor</code>)
+    <ul>
+      <li>빈 컬렉션을 생성<br />
+ ex) ArrayList<String> list = new ArrayList&lt;&gt;();</String></li>
+    </ul>
+  </li>
+  <li>단일 컬렉션 인자를 받는 생성자
+    <ul>
+      <li>인자로 전달된 컬렉션과 동일한 요소를 가진 새 컬렉션 생성<br />
+ ex) ArrayList<String> list2 = new ArrayList&lt;&gt;(list1);</String></li>
+    </ul>
+  </li>
+</ol>
+
+<p>어떤 컬렉션이든 복사를 하여 원하는 구현 타입으로 새 컬렉션을 만들 수 있다.</p>
+
+<blockquote>
+  <p>인터페이스 자체는 생성자를 가질 수 없기 때문에 이는 구현체에서 해주어야 한다.</p>
+</blockquote>
+
+<p><strong>Optional Method</strong></p>
+
+<p>컬렉션이 반드시 구현해야 하는 메서드는 아니고,<br />
+필요에 따라 구현할 수 있는 메서드의 의미이다.</p>
+
+<p>만약, 특정 method 를 지원하지 않는 경우에는 해당 메서드를<br />
+<code class="language-plaintext highlighter-rouge">UnsupportedOperationException</code> 가 발생시키도록 정의해야 하며,<br />
+컬렉션 인터페이스의 메서드 명세에서 “optional operation”으로 표시된다.</p>
+
+<p><strong>Element Constraints</strong></p>
+
+<p>일부 구현체는 컬렉션에 들어갈 요소를 제한할 수 있다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">null</code> 금지</li>
+  <li>특정 타입만 허용</li>
+</ul>
+
+<p>제약 위반 시에는 <code class="language-plaintext highlighter-rouge">NullPointerException</code> 혹은 <code class="language-plaintext highlighter-rouge">ClassCastException</code><br />
+과 같은 <code class="language-plaintext highlighter-rouge">unchecked</code> 예외가 발생한다.</p>
+
+<p>또한 제한 위반을 해도 조회 시에 단순히 <code class="language-plaintext highlighter-rouge">false</code> 를 반환하는 것도 가능하다.</p>
+
+<p><strong>Synchronization</strong></p>
+
+<p>컬렉션 자체 동기화 여부는 <strong>구현체가 결정</strong>한다.</p>
+
+<p>멀티 스레드 환경에서 <strong>다른 스레드가 컬렉션을 수정 중</strong>일 때,<br />
+안전하지 않으면 정의되지 않은 동작이라는 예외(<code class="language-plaintext highlighter-rouge">ConcurrentModificationException</code>)<br />
+발생이 된다.</p>
+
+<p>이런 제약의 적용 범위는 다음과 같다:</p>
+<ul>
+  <li>직접 메서드 호출:<br />
+ex) 한 스레드가 list.add(x) 를 하는 중에 다른 스레드가 동시에 list.get(0) 을 실행</li>
+  <li><code class="language-plaintext highlighter-rouge">Collection</code>을 다른 메서드에 전달:<br />
+전달받은 메서드 안에서 또 다른 스레드가 수정하면 위험함</li>
+  <li>기존 <code class="language-plaintext highlighter-rouge">Iterator</code> 로 탐색:</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="k">for</span> <span class="o">(</span><span class="nc">Objevt</span> <span class="n">o</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 탐색</span>
+    <span class="n">list</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>    <span class="c1">// 탐색 동시에 수정 -&gt; ConcurrentModificationException</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>대부분의 컬렉션 반복자(iterator)는 <code class="language-plaintext highlighter-rouge">fail-fast</code> 특성을 가지고 있어,<br />
+컬렉션이 구조적으로 수정되면 즉시 <code class="language-plaintext highlighter-rouge">ConcurrentModificationException</code>을 발생시킨다.<br />
+이는 컬렉션이 예상치 못한 상태에서 변경되는 것을 방지하기 위한 메커니즘이다.</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">fail-fast</code>는 컬렉션을 반복(iterate)하는 도중,<br />
+컬렉션이 구조적으로 수정(add, remove 등 요소 개수가 변하는 변경)되면,<br />
+즉시 예외(<strong>ConcurrentModificationException</strong>)를 던져서<br />
+잘못된 상태에서 계속 실행되는 걸 막는 메커니즘</p>
+</blockquote>
+
+<p>따라서 이런 <code class="language-plaintext highlighter-rouge">Thread-safety</code> 가 필요할 때,<br />
+<code class="language-plaintext highlighter-rouge">Collections.synchronizedList()</code> 등의 명시적 동기화가 필요하다.</p>
+
+<p><strong>해결 방법</strong></p>
+<ul>
+  <li><strong>Collections.synchronizedXXXXXX()</strong>:<br />
+<code class="language-plaintext highlighter-rouge">Collections.synchronizedList(new ArrayList&lt;&gt;())</code> &lt;- 내부적으로 모든 메서드에<br />
+<code class="language-plaintext highlighter-rouge">synchronized</code> 블록 을 씌움, 단 반복문, 반복자 사용 시 외부에서 <code class="language-plaintext highlighter-rouge">explicitly</code> 하게 동기화 필요</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">synchronizedList</span><span class="o">(</span><span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;());</span>
+<span class="kd">synchronized</span> <span class="o">(</span><span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">s</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Thread-safety</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">java.util.concurrent</code> 사용
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">ConcurrentHashMap</code> - 동시 접근 안전</li>
+      <li><code class="language-plaintext highlighter-rouge">CopyOnWriteArrayList</code></li>
+      <li>…</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="stream-api">Stream API</h3>
+
+<p><code class="language-plaintext highlighter-rouge">Stream</code>은 데이터 흐름을 다루기 위한 API 이며, <code class="language-plaintext highlighter-rouge">Collection</code>, <code class="language-plaintext highlighter-rouge">Array</code>, <code class="language-plaintext highlighter-rouge">I/O 자원</code> 등 다양한 데이터 소스로부터 시퀀스 데이터를 처리하게된다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">SQL</code> 의 선언형 처리 방식 처럼, 데이터에 무엇을 할지 집중 가능</li>
+  <li>반복문을 직접 돌리는 대신 <code class="language-plaintext highlighter-rouge">filter</code>, <code class="language-plaintext highlighter-rouge">map</code>, <code class="language-plaintext highlighter-rouge">reduce</code> 등을 활용</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">파이프-필터 패턴</code>과 비슷하다고 보면 된다. 다음 특징을 가진다:</p>
+
+<ul>
+  <li>데이터 불변성: 원본 데이터는 변경 안됨</li>
+  <li>일회성: 한 번 소비하면 재서용이 불가하다 즉, 스트림 재생성 필요</li>
+  <li>내부 반복: 개발자가 아닌 <code class="language-plaintext highlighter-rouge">Stream</code> 이 내부에서 처리</li>
+  <li><code class="language-plaintext highlighter-rouge">lazy evaluation</code>: <strong>중간 연산(map, filter 등등)</strong>은 즉시 실행되지 않으며, <strong>최종 연산(sum, collect, 집계 연산)</strong>등이 호출될 때 실행된다.</li>
+  <li>병렬 지원: <code class="language-plaintext highlighter-rouge">.parallelStream()</code> 으로 멀티코어 활용 가능</li>
+</ul>
+
+<h4 id="basestream">BaseStream</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Interface BaseStream&lt;T, S extends BaseStream&lt;T, S&gt;&gt;</code></p>
+
+<p>으로 선언되며, T는 스트림 요소 유형, S는 스트림 구현 유형이다.</p>
+
+<p><strong>메서드</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">void close()</code>: 스트림을 닫는 메서드다. 모든 <code class="language-plaintext highlighter-rouge">handlers</code> 를 닫게 된다.</li>
+  <li><code class="language-plaintext highlighter-rouge">boolean isParallel()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Iterator&lt;T&gt; iterator()</code>: 이 스트림의 요소에 대한 <code class="language-plaintext highlighter-rouge">iterator</code> 를 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">S parallel()</code>: 병렬인 유형이 동등한 스트림을 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">S sequential()</code>: 순차적인 자료구조의 동등한 스트림을 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">Spliterator&lt;T&gt; spliterator()</code>: 스트림 요소에 대한 분할기 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">S unorder()</code>: 순서가 없는 동등한 스트림 반환</li>
+</ul>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">parallel</code>, <code class="language-plaintext highlighter-rouge">sequential</code>, <code class="language-plaintext highlighter-rouge">unorder</code> 을 먼저 보자.</p>
+
+<h4 id="stream">Stream</h4>
+
+<p>Stream 은 <code class="language-plaintext highlighter-rouge">BaseStream</code> 을 확장하는 인터페이스이다.<br />
+깊은 이해는 했으니 활용만 잘하면 된다. 주요 메서드들을 보자.</p>
+
+<h5 id="생성-관련-메서드">생성 관련 메서드</h5>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Arrays.stream(array)</code>: 배열을 <code class="language-plaintext highlighter-rouge">Stream</code> 으로 변환</li>
+  <li><code class="language-plaintext highlighter-rouge">Stream.of()</code>: 가변인자들을 받아 Stream 을 생성</li>
+</ul>
+
+<h5 id="functional-interface">Functional Interface</h5>
+
+<p><code class="language-plaintext highlighter-rouge">@FunctionalInterface</code>: 추상 메서드를 딱 하나만 가지는 인터페이스이며, 함수형 인터페이스의 규칙을 보장해준다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@FunctionalInterface</span>
+<span class="kd">interface</span> <span class="nc">MyFunction</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">run</span><span class="o">();</span> <span class="c1">// 추상 메서드 1개</span>
+    <span class="c1">// default 메서드 여러 개 있어도 됨</span>
+    <span class="k">default</span> <span class="kt">void</span> <span class="nf">print</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"default method"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 람다로 구현</span>
+        <span class="nc">MyFunction</span> <span class="n">f</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello Lambda!"</span><span class="o">);</span>
+        <span class="n">f</span><span class="o">.</span><span class="na">run</span><span class="o">();</span> <span class="c1">// 실행</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위 예제는 <code class="language-plaintext highlighter-rouge">FunctionalInterface</code> 를 이용하는 거고, 이 애너테이션인 <code class="language-plaintext highlighter-rouge">Predicate</code> 를 설명하기 위해 가져왔다. 함수를 구현할 때 추상 메서드를 넣어야 하며, 위는 <code class="language-plaintext highlighter-rouge">run()</code> 이라는 함수를 실행하기 위해 <code class="language-plaintext highlighter-rouge">main</code> 스코프에서 정의하는 것을 볼 수 있다.</p>
+
+<p>이 이후에 나오는 것들은 전부 Functional Interface 이다.</p>
+
+<p><strong>Predicate</strong>
+여기서 <code class="language-plaintext highlighter-rouge">Interface Predicate&lt;T&gt;</code> 라는 것은 함수형 인터페이스이기 때문에 람다 표현식이나 메서드 참조에 대한 할당 대상으로 사용해도 된다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Predicate</code> 인터페이스는 <code class="language-plaintext highlighter-rouge">negate</code>, <code class="language-plaintext highlighter-rouge">and</code>, <code class="language-plaintext highlighter-rouge">or</code> 등의 메서드를 통해서 다른 <code class="language-plaintext highlighter-rouge">Predicate</code> 와 <code class="language-plaintext highlighter-rouge">and</code>, <code class="language-plaintext highlighter-rouge">or</code> 의 논리 연산을 수행하거나, <code class="language-plaintext highlighter-rouge">negate</code> 를 통한 단일 논리 연산도 수행가능하다.</p>
+
+<p>이렇게 만들어진 <code class="language-plaintext highlighter-rouge">Predicate</code> 가 함수의 인자로 들어가게 되면 내부적으로 <code class="language-plaintext highlighter-rouge">Predicate</code> 마다 <code class="language-plaintext highlighter-rouge">@FunctionalInterface</code>의 구현 규칙에 따라 추상 메서드가 정의된 <code class="language-plaintext highlighter-rouge">test</code> 함수를 사용하여 맞는지, 틀린지를 보게 된다.</p>
+
+<p><strong>Function</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">Interface Function&lt;T,R&gt;</code> 도 인터페이스이다. T는 들어가는 인자, R은 return 타입이 뭔지를 말한다.</p>
+
+<p>이 또한 <code class="language-plaintext highlighter-rouge">@FunctionalInterface</code> 이므로 <code class="language-plaintext highlighter-rouge">R apply(T t)</code> 라는 추상 메서드 하나를 받아야 한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">andThen(Function&lt;? super R, ? extends V&gt; after)</code> 는 순차 실행을 하는 것이고 <code class="language-plaintext highlighter-rouge">this</code> 함수를 먼저 실행 후에 실행된 결과를 <code class="language-plaintext highlighter-rouge">after</code> 함수에 전달하게 된다. 반환되는 값도 <code class="language-plaintext highlighter-rouge">&lt;V&gt; Function&lt;T,V&gt;</code> 이다.</p>
+
+<blockquote>
+  <p>f.andThen(g) = g(f(x))</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">compose(Function&lt;? super V, ? extends T&gt; before)</code>는 <code class="language-plaintext highlighter-rouge">before</code> 함수를 먼저 실행하고 그 결과를 <code class="language-plaintext highlighter-rouge">this</code> 함수에 전달하게 된다. 반환되는 값도 <code class="language-plaintext highlighter-rouge">&lt;V&gt; Function&lt;T,V&gt;</code> 이다.</p>
+
+<blockquote>
+  <p>f.compose(g) = f(g(x))</p>
+</blockquote>
+
+<p>당연하겠지만 <code class="language-plaintext highlighter-rouge">andThen</code>에 들어가는 인자는 <code class="language-plaintext highlighter-rouge">this</code>의 들어가는 T 를 신경쓰지 않는 것을 볼 수 있다. 또한 <code class="language-plaintext highlighter-rouge">compose</code> 에는 인자로 들어가는 함수가 더 먼저 실행되기 때문에 이를 반환하기 위한 T 라는 인자가 안에 들어가는 것을 볼 수 있다.</p>
+
+<blockquote>
+  <p>? 는 와일드카드로 어떤 타입인지 모르지만 제너릭타입을 넣을 자리를 채워야 할 때 쓰는 기호이다. 제한 없는 와일드 카드로 모든 타입이 올 수 있다는 것이다.</p>
+</blockquote>
+
+<p>매번 저렇게 <code class="language-plaintext highlighter-rouge">Comparator</code>, <code class="language-plaintext highlighter-rouge">Function</code> 을 구현하려면 시간 낭비이다. 이를 간소화하기 위해 <code class="language-plaintext highlighter-rouge">anonymous function</code> 인 <code class="language-plaintext highlighter-rouge">lambda</code> 를 사용하게 된다.</p>
+
+<p><strong>BiFunction</strong></p>
+
+<p>매번 인자를 하나만 받게 되기 보다는 두 개 받을 수 있는 <code class="language-plaintext highlighter-rouge">BiFucntion</code> 의 인터페이스까지 있다. 이는 위와 비슷하므로 넘어간다.</p>
+
+<p><strong>Consumer</strong></p>
+
+<p>단일 인수를 받고 결과를 반환하지 않는 함수형 인터페이스이다.</p>
+
+<p>그냥 <code class="language-plaintext highlighter-rouge">void</code> 와 같다.</p>
+
+<p><strong>Supplier</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">Supplier&lt;T&gt;</code></p>
+
+<p>간단하기에 설명은 생략한다. 공식 문서를 보자. <code class="language-plaintext highlighter-rouge">get()</code> 을 통해 특정 함수를 실행하여 그 결과를 <code class="language-plaintext highlighter-rouge">get()</code> 을 호출할 때 실행하여 반환한다.</p>
+
+<h5 id="collectors">Collectors</h5>
+
+<p><code class="language-plaintext highlighter-rouge">Interface Collector&lt;T,A,R&gt;</code></p>
+
+<ul>
+  <li>T: 축소작업을 위한 입력 유형</li>
+  <li>A: 축소작업을 위한 가변적 누적 유형</li>
+  <li>R: 축소작업의 결과 유형</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">Collector</code> 는 입력 요소를 변경 가능한 결과 컨테이너에 누적하는 변경 가능한 축소 연산을 지원한다.</p>
+
+<p>연산이 끝난 놈들을 최종 변환하는 애라고 보면된다. 여기서 집계를 하는 함수나 형태를 변환하는 것도 될 수 있다.</p>
+
+<p>이제 그 연산들을 보자:</p>
+
+<p><strong>주요 4가지 연산</strong></p>
+<ul>
+  <li>새로운 결과 컨테이너 생성(supplier())</li>
+  <li>결과 컨테이너에 새 데이터 요소 통합(accumulator())</li>
+  <li>두 개의 결과 컨테이너를 하나로 결합(combiner())</li>
+  <li>컨테이너에 선택적 최종 변환 수행(finisher())</li>
+</ul>
+
+<p>위 4개를 토대로 언어를 다루기 쉽게 다음 메서드도 추가된다.</p>
+<ul>
+  <li>joining()</li>
+  <li>mapping() / flatMapping()</li>
+  <li>filtering()</li>
+  <li>counting()</li>
+  <li>minBy() / maxBy()</li>
+  <li>summingXXX() / averagingXXX()</li>
+  <li>reducing()</li>
+  <li>groupingBy() / groupingByConcurrent() / partitioningBy()</li>
+  <li>toList() / toMap() / toSet()</li>
+  <li>toUnmodifiableXXX(): List, Map, Set 등등</li>
+</ul>
+
+<p>위를 쉽게 다루는 것은 문제를 풀면서 다루면 되지만,<br />
+그 핵심을 찌르는 위 4가지 연산을 더 보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">record</span> <span class="nc">CollectorImpl</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">A</span><span class="o">,</span> <span class="no">R</span><span class="o">&gt;(</span>
+    <span class="nc">Supplier</span><span class="o">&lt;</span><span class="no">A</span><span class="o">&gt;</span> <span class="n">supplier</span><span class="o">,</span>
+    <span class="nc">BiConsumer</span><span class="o">&lt;</span><span class="no">A</span><span class="o">,</span> <span class="no">T</span><span class="o">&gt;</span> <span class="n">accumulator</span><span class="o">,</span>
+    <span class="nc">BinaryOperator</span><span class="o">&lt;</span><span class="no">A</span><span class="o">&gt;</span> <span class="n">combiner</span><span class="o">,</span>
+    <span class="nc">Function</span><span class="o">&lt;</span><span class="no">A</span><span class="o">,</span> <span class="no">R</span><span class="o">&gt;</span> <span class="n">finisher</span><span class="o">,</span>
+    <span class="nc">Set</span><span class="o">&lt;</span><span class="nc">Characteristics</span><span class="o">&gt;</span> <span class="n">characteristics</span>
+<span class="o">)</span> <span class="kd">implements</span> <span class="nc">Collector</span><span class="o">&lt;</span><span class="no">T</span><span class="o">,</span> <span class="no">A</span><span class="o">,</span> <span class="no">R</span><span class="o">&gt;</span> <span class="o">{</span></code></pre></figure>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">supplier()</code>: 이전에 봤던 함수를 통해 그 함수의 결과를 제공해주는 아이이다. 이는 result container 와 같은 생성하는 함수를 가지고 있고, 이를 토대로 여기에 하나하나 값들이 관리되게 된다.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">accumulator()</code>: 핵심적인 역할을 하며, 함수형 인터페이스로 두 개의 인자를 받아서 연산 수행 후 누적 컨테이너에 해당 요소를 통합하는 역할을 한다. 즉, <code class="language-plaintext highlighter-rouge">supplier</code> 에 <code class="language-plaintext highlighter-rouge">accumulator.accept</code> 의 정의된 메서드 대로의 처리 연산을 하여 차곡차곡 넣게 된다.<br />
+그렇게 돠면 A 라는 컨테이너에 T 라는 유형의 데이터들이 차곡차곡 들어가게 것과 같다.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">combiner()</code>: 여러 개의 <code class="language-plaintext highlighter-rouge">Publisher</code> 에 대해 발생하는 이벤트를 결합하여 새로운 퍼블리셔를 생성하는 데 사용된다. 즉, 복잡한 비동기 이벤트 흐름을 관리하고 여러 데이터 소스를 하나의 흐름으로 통합하기 위해 존재한다.<br />
+예시로 A라는 퍼블리셔와 B라는 퍼블리셔가 있다고 치자. 해당 A 와 B 는 어떤 이벤트를 통해 값을 생성해내서 우리에게 제공해준다고 치자. 그럼 이 제공하는 이벤트의 두 진행 상황이 항상 일정하지는 않고 A의 부산물이 없을 때, B 의 부산물이 있을 때도 있고, A 의 부산물이 있을 때, B 의 부산물이 없을 때가 있을 것이다.<br />
+이때 퍼블리셔에서 새로운 값들을 방출할 때 다른 퍼블리셔의 값이 없게 된다면 이는 데이터 처리 과정에서 제대로 원하는 값이 처리가 안된 것이다. 따라서 이 비동기 흐름을 관리하기 위한 함수형 인터페이스이다.</p>
+  </li>
+</ul>
+
+<p>좀 어려울 수 있지만 정리하면 다음과 같다:</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">combiner()</code> 는 여러 <code class="language-plaintext highlighter-rouge">Publisher</code> 를 결합하여 새로운 <code class="language-plaintext highlighter-rouge">Publisher</code> 를 생성하는 연산자</li>
+  <li>이를 통해 복잡한 비동기 이벤트 흐름을 관리하고, 여러 데이터 소스를 하나의 흐름으로 통합 가능</li>
+  <li><code class="language-plaintext highlighter-rouge">CombineLatest</code> 와 같은 연산자를 사용하여 여러 <code class="language-plaintext highlighter-rouge">Publisher</code> 의 값을 결합 가능</li>
+  <li>두 <code class="language-plaintext highlighter-rouge">Publisher</code> 중 하나가 값을 방출하지 않으면, 결합된 값을 방출하지 않으므로 다른 연산자를 고려할 수도 있음</li>
+</ol>
+
+<blockquote>
+  <p>zip, sink 등이 그 예이다.</p>
+</blockquote>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">finisher()</code>: 수집된 결과에 적용할 추가적인 변환 함수로, 수집된 데이터를 원하는 형태로 가공하는 데 사용된다.</li>
+</ul>
+
+<blockquote>
+  <p>collect 가 그 예</p>
+</blockquote>
+
+<blockquote>
+  <p>이 모든 것들을 배우는 이유는 일급 함수를 이용한 Lazy Evaluation 과 Parallelism &amp; Concurrency 최적화, Immutability 를 통한 사이드 이펙트를 줄이며, Modularity 가 좋아진다.</p>
+</blockquote>
+
+<h5 id="intermediate-operation">Intermediate Operation</h5>
+
+<p>결과가 또 다른 <code class="language-plaintext highlighter-rouge">Stream</code> 을 반환하는<br />
+즉, <strong>Chain 형태로</strong> 이어질 수 있는 연산</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">filter(Predicate)</code>: <code class="language-plaintext highlighter-rouge">Predicate</code> 에 맞는 요소 걸러냄</li>
+  <li><code class="language-plaintext highlighter-rouge">map(Function)</code>: 변환 (<code class="language-plaintext highlighter-rouge">String</code> -&gt; <code class="language-plaintext highlighter-rouge">Integer</code>)</li>
+  <li><code class="language-plaintext highlighter-rouge">flatMap(Function)</code>: 중첩 스트림을 평탄화함</li>
+  <li><code class="language-plaintext highlighter-rouge">sorted()</code> / <code class="language-plaintext highlighter-rouge">sorted(Comparator)</code>: 정렬</li>
+  <li><code class="language-plaintext highlighter-rouge">distinct()</code>: 중복 제거</li>
+  <li><code class="language-plaintext highlighter-rouge">limit(n)</code>: 앞에서 n개만 가져옴</li>
+  <li><code class="language-plaintext highlighter-rouge">skip(n)</code>: 앞에서 n개를 건너뜀</li>
+</ul>
+
+<h5 id="terminal-operation">Terminal Operation</h5>
+
+<p>결과를 <strong>값이나 컬렉션으로 반환</strong>하여,<br />
+<code class="language-plaintext highlighter-rouge">Stream</code> 을 소비해 종료하는 연산</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">forEach()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sum()</code>, <code class="language-plaintext highlighter-rouge">max()</code>, <code class="language-plaintext highlighter-rouge">count()</code>, <code class="language-plaintext highlighter-rouge">min()</code>, <code class="language-plaintext highlighter-rouge">average()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">collect()</code>: 리스트/맵 등으로 변환</li>
+  <li><code class="language-plaintext highlighter-rouge">reduce()</code>: 누적 연산</li>
+</ul>
+
+<h4 id="java-stream-종류">Java Stream 종류</h4>
+
+<ol>
+  <li>Object Stream</li>
+</ol>
+
+<p>타입: <code class="language-plaintext highlighter-rouge">Stream&lt;T&gt;</code>, <code class="language-plaintext highlighter-rouge">Object</code> 타입을 다룸</p>
+
+<p>예시로 <code class="language-plaintext highlighter-rouge">Stream&lt;String&gt;</code>, <code class="language-plaintext highlighter-rouge">Stream&lt;Person&gt;</code> 등이 있음</p>
+
+<ol>
+  <li>Primitive Stream</li>
+</ol>
+
+<p>기본형에 대한 <code class="language-plaintext highlighter-rouge">Stream</code> 이다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">IntStream</code></li>
+  <li><code class="language-plaintext highlighter-rouge">LongStream</code></li>
+  <li><code class="language-plaintext highlighter-rouge">DoubleStream</code></li>
+</ul>
+
+<p>특히 각 기본형 스트림은 <code class="language-plaintext highlighter-rouge">summaryStatistics()</code> 를 제공하여<br />
+합계, 평균, 최댓값, 최솟값, 개수를 한 번에 구할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="o">{</span><span class="mi">95</span><span class="o">,</span> <span class="mi">87</span><span class="o">,</span> <span class="mi">66</span><span class="o">,</span> <span class="mi">73</span><span class="o">,</span> <span class="mi">82</span><span class="o">};</span>
+<span class="nc">IntSummaryStatistics</span> <span class="n">stats</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">arr</span><span class="o">).</span><span class="na">summaryStatistics</span><span class="o">();</span>
+
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">stats</span><span class="o">.</span><span class="na">getSum</span><span class="o">());</span>   <span class="c1">// 합계</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">stats</span><span class="o">.</span><span class="na">getAverage</span><span class="o">());</span> <span class="c1">// 평균</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">stats</span><span class="o">.</span><span class="na">getMax</span><span class="o">());</span>   <span class="c1">// 최댓값</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">stats</span><span class="o">.</span><span class="na">getMin</span><span class="o">());</span>   <span class="c1">// 최솟값</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">stats</span><span class="o">.</span><span class="na">getCount</span><span class="o">());</span> <span class="c1">// 개수</span></code></pre></figure>
+
+<h3 id="기타-얻어갈-것들">기타 얻어갈 것들</h3>
+
+<h4 id="deep-copy--shallow-copy">Deep Copy &amp; Shallow Copy</h4>
+
+<p>얕은 복사는 객체 복사에서 객체 자체를 새로 만들긴 하지만 안의 참조 타입 필드들은 원본 객체와 동일한 참조를 공유하게 된다.</p>
+
+<p>즉, 객체 구조는 새로 만들어내도, 내부의 다른 객체들은 공유가 된다. 완벽하게 copy는 되지 않고 일차원적으로 복사가 된 것이다.</p>
+
+<p>깊은 복사는 객체를 복사할 때 객체 뿐 아니라 객체 내부의 참조 객체들 까지도 전부 새로 생성하여 복사가 된다.</p>
+
+<p>즉, 원본과 복사본이 완전히 독립적이게 된다.</p>
+
+<h4 id="다른-복사-유틸리티-함수">다른 복사 유틸리티 함수</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">copy_</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kt">int</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">};</span>
+    <span class="kt">int</span><span class="o">[]</span> <span class="n">arr1</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">10</span><span class="o">];</span>
+
+    <span class="nc">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span><span class="n">arr1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr1</span><span class="o">));</span>
+
+    <span class="n">arr1</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr1</span><span class="o">));</span>
+
+    <span class="c1">// 4 전까지 copy</span>
+    <span class="n">arr1</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">copyOfRange</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">arr1</span><span class="o">));</span>
+<span class="o">}</span></code></pre></figure>
+
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/20/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-4%EC%9D%BC%EC%B0%A8-Java-%EB%AC%B8%EB%B2%95-2.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/20/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-4%EC%9D%BC%EC%B0%A8-Java-%EB%AC%B8%EB%B2%95-2.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

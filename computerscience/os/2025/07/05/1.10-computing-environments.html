@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>1.10 Computing Environments</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>1.10 Computing Environments | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="1.10 Computing Environments" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/07/05/1.10-computing-environments.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/07/05/1.10-computing-environments.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-07-05T09:58:43+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="1.10 Computing Environments" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-07-05T09:58:43+00:00","datePublished":"2025-07-05T09:58:43+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"1.10 Computing Environments","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/07/05/1.10-computing-environments.html"},"url":"https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/07/05/1.10-computing-environments.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/computerscience/os/2025/07/05/1.10-computing-environments.html">
+        <h2 class="post-title">1.10 Computing Environments</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Jul 5, 2025</div><ul class="post-categories"><li>ComputerScience</li><li>OS</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#1101-traditional-computing">1.10.1 Traditional Computing</a>
+    <ul>
+      <li><a href="#사무실-환경의-변화">사무실 환경의 변화</a></li>
+      <li><a href="#가정-환경의-변화">가정 환경의 변화</a></li>
+      <li><a href="#컴퓨팅-자원-활용-방식의-변화">컴퓨팅 자원 활용 방식의 변화</a></li>
+    </ul>
+  </li>
+  <li><a href="#1102-mobile-computing">1.10.2 Mobile Computing</a>
+    <ul>
+      <li><a href="#주요-변화">주요 변화</a></li>
+      <li><a href="#남아있는-한계">남아있는 한계</a></li>
+      <li><a href="#주요-운영체제">주요 운영체제</a></li>
+    </ul>
+  </li>
+  <li><a href="#1103-client-server-computing">1.10.3 Client-Server Computing</a></li>
+  <li><a href="#1104-peer-to-peer-computing">1.10.4 Peer-to-Peer Computing</a>
+    <ul>
+      <li><a href="#p2p-네트워크-참여-및-서비스-검색-방식">P2P 네트워크 참여 및 서비스 검색 방식</a></li>
+    </ul>
+  </li>
+  <li><a href="#1106-real-time-embedded-systems">1.10.6 Real-Time Embedded Systems</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>10.3 이후로 보기를 권장한다.</p>
+
+<h3 id="1101-traditional-computing">1.10.1 Traditional Computing</h3>
+
+<p>과거의 컴퓨팅 환경은 PC, 서버, 제한적인 원격 접근, 노트북을 통한 휴대성 등으로 명확하게 구분되었지만 웹 기술의 발전과 WAN 대역폭의 증가는 이러한 전통적인 경계를 허물고 있다.</p>
+
+<h4 id="사무실-환경의-변화">사무실 환경의 변화</h4>
+
+<ul>
+  <li>기업들은 내부 서버에 대한 웹 접근성을 제공하는 <strong>포털</strong>을 구축</li>
+  <li>보안 및 유지보수가 용이한 <strong>네트워크 컴퓨터(씬 클라이언트)</strong>가 전통적인 워크스테이션을 대체</li>
+  <li><strong>모바일 컴퓨터와 장치</strong>들은 PC와 동기화되거나 무선/셀룰러 네트워크를 통해 회사 정보 및 웹 리소스에 접근하며 휴대성과 연결성을 극대화</li>
+</ul>
+
+<h4 id="가정-환경의-변화">가정 환경의 변화</h4>
+
+<ul>
+  <li>느린 모뎀으로 한정되었던 가정 내 인터넷 연결은 <strong>고속 광대역망</strong>이 보편화되면서 데이터 접근성이 크게 향상</li>
+  <li>웹 서버 혹은 프린터 및 클라이언트 PC를 포함하는 <strong>홈 네트워크 구축</strong>까지 가능하며, <strong>방화벽</strong>을 통해 보안을 강화</li>
+</ul>
+
+<h4 id="컴퓨팅-자원-활용-방식의-변화">컴퓨팅 자원 활용 방식의 변화</h4>
+
+<ul>
+  <li>20세기 후반에는 컴퓨팅 자원이 부족하여 <strong>배치(Batch) 시스템</strong>과 <strong>상호작용(Interactive) 시분할(Time-sharing) 시스템</strong>이 주를 이룸.</li>
+  <li>오늘날 전통적인 다중 사용자 시분할 시스템은 드물어졌지만, <strong>시분할 스케줄링 기술 자체는 여전히 데스크톱, 노트북, 서버, 모바일 컴퓨터 등 다양한 장치에서 여전히 활용</strong> 됨.</li>
+</ul>
+
+<p>결론적으로, 컴퓨팅은 중앙 집중적이고 분리된 환경에서 벗어나, 웹 기술, 고속 네트워크, 모바일 장치를 통해 더욱 유연하고 상호 연결된 분산 환경으로 진화했으며, 과거의 자원 활용 기술은 현대에서 <strong>다중 작업 환경을 지원하는 방식으로 적용</strong>됨.</p>
+
+<h3 id="1102-mobile-computing">1.10.2 Mobile Computing</h3>
+
+<p>모바일 컴퓨팅은 스마트폰과 태블릿 같은 휴대용 기기를 중심으로 빠르게 발전했다. 과거에는 데스크톱이나 노트북에 비해 화면 크기, 메모리, 기능 면에서 제약이 있었지만, 이제는 그 차이가 거의 사라져 노트북과 태블릿의 기능 구분이 어려워졌다. 오히려 모바일 기기만이 제공할 수 있는 고유한 기능들도 생겨났다(다양한 하드웨어의 embedding).</p>
+
+<h4 id="주요-변화">주요 변화</h4>
+
+<ul>
+  <li><strong>기능 확장</strong> - 이메일, 웹 브라우징을 넘어 음악, 비디오 재생, 전자책 읽기, 사진 촬영, 고화질 비디오 편집 등 다양한 용도로 활용</li>
+  <li><strong>고유 센서 활용</strong> - GPS 칩, 가속도계, 자이로스코프 같은 내장 센서 덕분에 내비게이션, 증강 현실(AR), 모션 기반 게임 등 데스크톱/노트북에서는 구현하기 어렵거나 불가능한 애플리케이션이 등장</li>
+  <li><strong>연결성</strong> - 주로 Wi-Fi(802.11) 또는 셀룰러 데이터 네트워크를 통해 온라인 서비스에 접속</li>
+</ul>
+
+<h4 id="남아있는-한계">남아있는 한계</h4>
+
+<ul>
+  <li><strong>하드웨어 제약</strong>: 여전히 데스크톱/노트북에 비해 <strong>메모리 용량과 처리 속도(더 작고 느린 프로세서, 적은 코어)는 제한적</strong>이며 이는 전력 소비를 최소화하기 위한 설계 때문이다.</li>
+</ul>
+
+<h4 id="주요-운영체제">주요 운영체제</h4>
+
+<ul>
+  <li>현재 모바일 컴퓨팅 시장은 <strong>Apple iOS</strong>와 <strong>Google Android</strong> 두 운영체제가 주축</li>
+</ul>
+
+<p>모바일 컴퓨팅은 단순히 휴대 가능한 기기를 넘어, 독자적인 기능과 생태계를 구축되었다.</p>
+
+<h3 id="1103-client-server-computing">1.10.3 Client-Server Computing</h3>
+
+<p><img src="/seonghun120614/assets/img/general-structure-of-a-client-server-system.png" alt="general-structure-of-a-client-server-system.png" /></p>
+
+<p>클라이언트-서버 시스템은 주로 두 가지가 사용된다:</p>
+
+<ul>
+  <li>
+    <p><strong>Compute-server system</strong>: 서버는 클라이언트가 작업을 수행하도록 요청(예: 데이터 읽기)을 보낼 수 있는 인터페이스를 제공한다. 이에 응답하여 서버는 해당 작업을 실행하고 그 결과를 클라이언트에게 전송한다.</p>
+  </li>
+  <li>
+    <p><strong>File-server system</strong>: 클라이언트가 파일을 CRUD 할 수 있는 파일 시스템 인터페이스를 제공한다. 파일의 실제 내용은 전통적인 웹 페이지부터 고화질 비디오와 같은 풍부한 멀티미디어 콘텐츠에 이르기까지 매우 다양하다.</p>
+  </li>
+</ul>
+
+<h3 id="1104-peer-to-peer-computing">1.10.4 Peer-to-Peer Computing</h3>
+
+<p>시스템 내의 모든 노드(피어)가 동등하게 여겨지며, 각 피어는 서비스를 요청하는지 제공하는지에 따라 클라이언트 또는 서버 역할을 모두 수행할 수 있다(분산 시스템임). 전통적인 클라이언트-서버 시스템에서 서버가 <strong>병목 현상</strong>을 일으킬 수 있는 반면, P2P 시스템에서는 서비스가 네트워크 전체에 분산된 여러 노드에 의해 제공될 수 있다는 장점이 있다.</p>
+
+<h4 id="p2p-네트워크-참여-및-서비스-검색-방식">P2P 네트워크 참여 및 서비스 검색 방식</h4>
+
+<p>P2P 시스템에 참여하려면 노드는 먼저 피어 네트워크에 합류해야 하며, 네트워크에 합류한 노드는 다른 노드에 서비스를 제공하고 요청할 수 있다. 서비스 가용성을 확인하는 방법은 크게 두 가지가 있다:</p>
+
+<ol>
+  <li>
+    <p><strong>중앙 집중식 조회 서비스 이용</strong> - 노드가 네트워크에 참여할 때 자신의 서비스를 <strong>중앙 집중식 조회 서비스</strong>에 등록한다. 특정 서비스를 원하는 노드는 먼저 이 중앙 조회 서비스에 접속하여 해당 서비스를 제공하는 노드를 확인하고, 클라이언트와 서비스 제공자 간의 통신이 직접 이루어진다.</p>
+  </li>
+  <li>
+    <p><strong>분산된 서비스 검색(브로드캐스팅)</strong> - 중앙 집중식 조회 서비스 없이, 클라이언트 역할을 하는 피어가 원하는 서비스를 제공하는 노드를 찾기 위해 네트워크의 다른 모든 노드에 요청을 <strong>브로드캐스팅</strong> 후 해당 서비스를 제공하는 노드(들)는 요청을 보낸 피어에게 직접 응답한다. 이러한 접근 방식을 지원하기 위해 피어들이 네트워크 내의 다른 피어가 제공하는 서비스를 발견할 수 있도록 <strong><a href="#발견-프로토콜">발견 프로토콜(Discovery Protocol)</a></strong>이 필요하다.</p>
+  </li>
+</ol>
+
+<h3 id="1105-cloud-computing">1.10.5 Cloud Computing</h3>
+
+<p><img src="/seonghun120614/assets/img/cloud-computing.png" alt="cloudcomputing" /></p>
+
+<p>클라우드 컴퓨팅은 컴퓨팅 자원, 저장 공간, 심지어 애플리케이션까지도 네트워크를 통해 서비스 형태로 제공하는 방식이다. 이는 <strong>가상화 기술을 기반</strong>으로 하며, Amazon EC2와 같이 수많은 서버와 방대한 저장 공간을 인터넷을 통해 제공하고 사용량에 따라 요금을 부과하는 것이 대표적인 예시다.</p>
+
+<h4 id="클라우드-컴퓨팅의-주요-유형">클라우드 컴퓨팅의 주요 유형</h4>
+
+<p>클라우드 컴퓨팅은 여러 가지 형태로 분류할 수 있으며, 복합적으로 활용될 수 있다:</p>
+<ul>
+  <li><strong>퍼블릭 클라우드(Public Cloud)</strong> - 인터넷을 통해 누구나 비용을 지불하고 사용할 수 있는 클라우드</li>
+  <li><strong>프라이빗 클라우드(Private Cloud)</strong> - 특정 기업이 자체적인 용도로 운영하는 클라우드</li>
+  <li><strong>하이브리드 클라우드(Hybrid Cloud)</strong> - 퍼블릭 클라우드와 프라이빗 클라우드 구성 요소를 모두 포함하는 형태</li>
+  <li><strong>SaaS(Software as a Service)</strong> - 워드 프로세서나 스프레드시트 같은 하나 이상의 애플리케이션을 인터넷을 통해 서비스로 제공</li>
+  <li><strong>PaaS(Platform as a Service)</strong> - 애플리케이션 사용을 위한 소프트웨어 스택(예: 데이터베이스 서버)을 인터넷을 통해 즉시 사용할 수 있도록 제공</li>
+  <li><strong>IaaS(Infrastructure as a Service)</strong> - 서버나 저장 공간(예: 백업 데이터 저장 공간)과 같은 컴퓨팅 인프라를 인터넷을 통해 제공</li>
+</ul>
+
+<h4 id="클라우드-인프라의-관리">클라우드 인프라의 관리</h4>
+
+<p>클라우드 인프라 내부에는 전통적인 운영체제들이 존재하며, 그 위에는 가상 머신(VM)을 관리하는 <strong>VMM(Virtual Machine Monitor)</strong>이 있다. 더 나아가, VMM 자체는 <strong>VMware vCloud Director</strong>나 오픈 소스 <strong>Eucalyptus</strong>와 같은 <strong>클라우드 관리 도구</strong>에 의해 관리되며, 이 도구들은 클라우드 내의 자원을 관리하고 클라우드 구성 요소에 대한 인터페이스를 제공하여, 사실상 새로운 유형의 운영체제로 간주될 수 있다.</p>
+
+<blockquote>
+  <p>참고로 퍼블릭 클라우드에서 IaaS를 제공하는 경우, 클라우드 서비스와 사용자 인터페이스는 <strong>방화벽</strong>으로 보호된다.</p>
+</blockquote>
+
+<h3 id="1106-real-time-embedded-systems">1.10.6 Real-Time Embedded Systems</h3>
+
+<p><strong>임베디드 컴퓨터(Embedded computers)</strong>는 매우 <strong>특정하고 제한적인 작업</strong>을 수행하기 위해 만들어진 시스템이며, 주로 하드웨어 장치를 모니터링하고 관리하는 데 시간을 보낸다(주로 상호작용하는 사용자의 비중이 상대적으로 없음). 따라서 사용자 인터페이스가 거의 없는 경우가 많고, 실행되는 시스템과 운영체제도 제한된 기능을 제공하는 원시적인 형태이다.</p>
+
+<h4 id="임베디드-시스템의-다양한-형태와-확장성">임베디드 시스템의 다양한 형태와 확장성</h4>
+
+<p>임베디드 시스템은 매우 다양하게 존재:</p>
+<ol>
+  <li>주로 리눅스와 같은 <strong>표준 운영체제</strong>에서 특정 목적의 애플리케이션을 실행하는 범용 컴퓨터</li>
+  <li>다른 일부는 특정 목적의 <strong>임베디드 운영체제</strong>를 탑재한 하드웨어 장치</li>
+  <li>운영체제 없이 태스크를 수행하는 <strong>ASIC(Application-Specific Integrated Circuits)</strong>으로 구현된 하드웨어 장치</li>
+</ol>
+
+<p>로 나눌 수 있다.</p>
+
+<h4 id="실시간-운영체제real-time-operating-systems의-중요성">실시간 운영체제(Real-time Operating Systems)의 중요성</h4>
+
+<p>임베디드 시스템은 거의 항상 <strong>실시간 운영체제(Real-time Operating Systems, RTOS)</strong>를 사용하며, 실시간 시스템은 프로세서 작동이나 데이터 흐름에 <strong><a href="#strictly-time-constraints">엄격한 시간 제약 조건(strictly time constraints)</a></strong>이 부여될 때 사용되어 전용 애플리케이션에서 제어 장치로 자주 활용된다. 일반화 된 예시로 센서가 데이터를 컴퓨터에 전달하면, 데이터를 분석하고 센서 입력을 수정하기 위해 제어 장치를 조정해야 할 때 사용한다.</p>
+
+<p><strong>실시간 시스템</strong>은 정확한 결과뿐만 아니라 <strong>정해진 시간 제약 조건 내에서 결과를 반환해야만</strong> 한다.</p>
+
+<blockquote>
+  <p>예시
+과학 실험 제어 시스템, 의료 영상 시스템, 산업 제어 시스템, 특정 디스플레이 시스템, 자동차 엔진 연료 분사 시스템, 가전제품 컨트롤러, 무기 시스템</p>
+</blockquote>
+
+<hr />
+
+<h2 id="️-용어">✒️ 용어</h2>
+
+<h6 id="발견-프로토콜">발견 프로토콜</h6>
+
+<p><strong>발견 프로토콜</strong>은 네트워크 내에서 <strong>서비스나 자원을 찾아내는 데 사용되는 통신 규약</strong>을 말하며, 특히 P2P 시스템이나 분산 환경에서 특정 서비스를 제공하는 노드가 어디에 있는지, 또는 어떤 자원이 사용 가능한지 알 수 없을 때 이 프로토콜이 핵심적인 역할을 한다.</p>
+
+<ol>
+  <li>브로드캐스트(Broadcasting) 기반</li>
+</ol>
+
+<p>서비스를 찾는 노드가 네트워크의 모든 다른 노드에게 <strong>요청을 널리 알리는(브로드캐스트) 방식</strong></p>
+
+<p><strong>과정</strong></p>
+<ol>
+  <li>서비스를 찾는 노드(클라이언트 역할)는 특정 서비스 요청 메시지를 네트워크 전체에 전송</li>
+  <li>이 요청을 받은 노드 중 해당 서비스를 제공하는 노드(서버 역할)는 요청을 보낸 노드에게 직접 응답</li>
+  <li>이후 클라이언트는 응답한 서비스 제공자 노드와 직접 통신을 시작</li>
+</ol>
+
+<p>장점으로 중앙 집중식 서버가 필요 없어 <strong>진정한 의미의 분산 시스템을 구현 가능</strong>하다.<br />
+단점으로 네트워크 트래픽이 많아질 수 있고, 대규모 네트워크에서는 비효율적이다.</p>
+
+<ol>
+  <li>멀티캐스트(Multicasting) 기반</li>
+</ol>
+
+<p>브로드캐스트와 유사하지만, 모든 노드가 아닌 <strong>특정 그룹의 노드에게만 요청을 전송</strong>하는 방식이다. 장점으로 브로드캐스트보다 효율적이며, 네트워크 트래픽을 줄일 수 있다.</p>
+
+<ol>
+  <li>DHT(Distributed Hash Table) 기반 (구조화된 P2P 네트워크)</li>
+</ol>
+
+<p>분산 해시 테이블은 각 노드가 특정 데이터나 서비스의 위치 정보를 분산된 방식으로 저장하고 관리하는 고급 형태의 발견 프로토콜</p>
+
+<p><strong>과정</strong></p>
+<ol>
+  <li>데이터나 서비스에 고유한 키를 부여하고</li>
+  <li>이 키를 해싱하여 네트워크의 특정 노드에 매핑</li>
+  <li>데이터를 찾는 노드는 DHT 프로토콜에 따라 해당 키에 해당하는 노드를 찾아간다.</li>
+</ol>
+
+<p>장점으로 대규모 네트워크에서 효율적인 검색이 가능하고, 확장성이 뛰어나다.<br />
+단점으로 구현이 복잡하며, 네트워크 변화에 따른 DHT 구조 유지에 오버헤드가 발생할 수 있다.</p>
+
+<blockquote>
+  <p>예시
+<strong>제로콘프(Zeroconf) / 봉쥬르(Bonjour) / UPnP(Universal Plug and Play):</strong> 네트워크 프린터, 스마트 TV, 미디어 서버 등 홈 네트워크 장치들이 서로를 자동으로 찾아 연결하는 데 사용
+<strong>BitTorrent:</strong> 파일 조각을 가진 피어들을 찾아 연결하는 데 사용
+<strong>블록체인 네트워크 (예: 비트코인, 이더리움):</strong> 새로운 노드가 네트워크에 참여할 때 다른 노드들을 발견하고 블록체인 데이터를 동기화하는 데 사용
+<strong>IoT(사물 인터넷) 장치:</strong> 스마트 홈 기기들이 허브나 다른 기기들을 찾아 연결하는 데 발견 프로토콜이 활용</p>
+</blockquote>
+
+<h4 id="strictly-time-constraints">Strictly Time Constraints</h4>
+
+<p>엄격한 시간 제약 조건이란, 시스템의 특정 연산이나 태스크가 미리 정의된 마감 시간(deadline) 내에 반드시 완료되어야 하며, 이를 지키지 못할 경우 시스템의 기능적 오류나 재앙적인 결과가 발생하는 조건을 의미한다.</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/07/05/1.10-computing-environments.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/07/05/1.10-computing-environments.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>5. Spring Boot Application Logging Customizing with Log4j2</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Spring Boot Application Logging Customizing with Log4j2 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Spring Boot Application Logging Customizing with Log4j2" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/06/13/5.-spring-boot-application-logging-customizing.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/06/13/5.-spring-boot-application-logging-customizing.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-06-13T06:55:11+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Spring Boot Application Logging Customizing with Log4j2" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-06-13T06:55:11+00:00","datePublished":"2025-06-13T06:55:11+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"Spring Boot Application Logging Customizing with Log4j2","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/06/13/5.-spring-boot-application-logging-customizing.html"},"url":"https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/06/13/5.-spring-boot-application-logging-customizing.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/computerscience/java/spring/2025/06/13/5.-spring-boot-application-logging-customizing.html">
+        <h2 class="post-title">5. Spring Boot Application Logging Customizing with Log4j2</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Jun 13, 2025</div><ul class="post-categories"><li>ComputerScience</li><li>Java</li><li>Spring</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-한계점">🪛 한계점</h2>
+
+<p>스프링 어플리케이션이 띄우는 서버 정보에 대해 가독성이 부족하며, 추적 가능한 로그 기능이 필요하다.</p>
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#log4j2">Log4j2</a>
+    <ul>
+      <li><a href="#log4j2.properties">log4j2.properties 설정</a>
+        <ul>
+          <li><a href="#로깅-레벨-계층-와-이름-설정">로깅 레벨 계층 와 이름 설정</a></li>
+          <li><a href="#filter-기능을-사용한-로그-이벤트-상세-제어">Filter 기능을 사용한 로그 이벤트 상세 제어</a></li>
+          <li><a href="#appenders-구성하기">Appenders 구성하기</a></li>
+          <li><a href="#-루트-로그-레벨-및-appender-참조">루트 로거 설정 (기본 레벨 및 Appender 연결)</a></li>
+        </ul>
+      </li>
+      <li><a href="#logger-객체를-가져와-출력해보기">Logger 객체를 가져와 출력해보기</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="log4j2">Log4j2</h3>
+
+<p>우선 Log4j2 는 Asynchronous Logger + LMAX Disruptor 기반으로 1800만 건/s 로깅이 가능하며,</p>
+
+<ul>
+  <li>XML/JSON/YAML 설정 등을 지원</li>
+  <li>Lambda 기반 지연 로깅</li>
+  <li>MDC, Marker, 사용자 정의 Message API</li>
+</ul>
+
+<p>등의 고급 기능들을 지원한다. 사용하려면 다음 의존성을 추가해준다.</p>
+
+<figure class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="c1">// log4j2</span>
+    <span class="n">implementation</span> <span class="s1">'org.springframework.boot:spring-boot-starter-log4j2'</span>
+    <span class="o">...</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>기존에 있는 starter 팩에 Logback과의 충돌을 막기 위해 다음을 추가한다.</p>
+
+<figure class="highlight"><pre><code class="language-groovy" data-lang="groovy"><span class="n">configurations</span><span class="o">.</span><span class="na">all</span> <span class="o">{</span>
+	<span class="n">exclude</span> <span class="nl">group:</span> <span class="s1">'org.springframework.boot'</span><span class="o">,</span> <span class="nl">module:</span> <span class="s1">'spring-boot-starter-logging'</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="log4j2properties">log4j2.properties</h4>
+
+<p>log4j2 는 기본적으로 resources에 <code class="language-plaintext highlighter-rouge">log4j2.properties</code> 를 참조하여 로깅 구성 설정을 할 수 있다. 기본적으로 Logging을 할 때의 기능들을 수행하는 컴포넌트 <strong><a href="#appender">Appender</a>, <a href="#logger">Logger</a></strong> 가 있다.</p>
+
+<p>아래의 용어들을 보고 오길 바란다.</p>
+
+<h5 id="로깅-레벨-계층-와-이름-설정">로깅 레벨 계층 와 이름 설정</h5>
+
+<p>로그를 띄울 때도 특정 정보들만 띄울 수 있도록 할 수 있다.</p>
+
+<p>로그 레벨 계층은 다음과 같다<br />
+ALL → TRACE → DEBUG → INFO → WARN → ERROR → FATAL → OFF</p>
+
+<ul>
+  <li>ALL: 모든 로그 레벨 허용</li>
+  <li>TRACE: 가장 세밀한 단계(디테일 메서드 호출, 루프 등)</li>
+  <li>DEBUG: 개발 및 디버깅 시 유용한 정보-변수 상태, 흐름 등</li>
+  <li>INFO: 운영 중 기본적으로 남기는 일반 정보-시작/종료, 상태 전환 등</li>
+  <li>WARN: 문제는 아니지만 주의가 필요한 상황-성능 저하, 비추천 API 사용 등</li>
+  <li>ERROR: 기능 일부 실패 등 처리 중에 장애 발생</li>
+  <li>FATAL: 치명적인 오류로 어플리케이션 종료 수준</li>
+  <li>OFF: 모든 로그를 비활성화</li>
+</ul>
+
+<p>status 의 프로퍼티를 주면 해당 status 보다 <strong>하위의 로그 메시지들을 출력</strong>하게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="c">## log4j2.properties
+# ▼ 내부 로깅 레벨
+</span><span class="py">status</span> <span class="p">=</span> <span class="s">warn</span>
+<span class="py">name</span> <span class="p">=</span> <span class="s">PropertiesConfig</span></code></pre></figure>
+
+<p>name으로는 로깅 설정 전체의 이름을 지정하는 식별자이다.</p>
+
+<h5 id="filter-기능을-사용한-로그-이벤트-상세-제어">Filter 기능을 사용한 로그 이벤트 상세 제어</h5>
+
+<p>Log4j2는 필터를 사용하여 어떻게 처리해야 할지 제어할 수 있다.</p>
+
+<p>우선 이벤트를 평가하는 것부터 보자면 기본적인 필터 로직은 로그 이벤트를 평가하고, ACCEPT, DENY, NEUTRAL 중 하나의 결과를 반환하게 된다.</p>
+
+<ul>
+  <li>ACCEPT: 해당 로그를 즉시 수용하고 다음 필터는 검사하지 않음(바로 출력)</li>
+  <li>DENY: 해당 로그를 즉시 버리고 이후 단계로 전달하지 않음(버림)</li>
+  <li>NEUTRAL: 판단을 보류하고 다음 필터로 넘김(다음 필터한테 인계)</li>
+</ul>
+
+<p>위 3가지를 결정내리는 단계는 크게 4단계로 나뉘고, 각 필터 단계에서 위의 결과 중 하나를 가지게 된다.</p>
+
+<ol>
+  <li>Context-wide: 전체 설정에 대한 초기 필터</li>
+  <li>Logger-level: 특정 로거에 설정된 필터</li>
+  <li>AppenderReference: 어떤 Appender에 보낼지 결정</li>
+  <li>Appender-level: 실제 Appender 내부 필터</li>
+</ol>
+
+<p>아래 코드는 threshold 라는 필터를 통해 전역 필터를 설정하고 있다.</p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="c"># ▼ 전역 필터 설정: 디버그 이상 로그만 출력
+</span><span class="py">filters</span> <span class="p">=</span> <span class="s">threshold     # 전역필터 이름은 threshold</span>
+
+<span class="c"># filters 뒤에 나열된 필터 이름은 이후 설정에서
+# filter.&lt;name&gt;.type, filter.&lt;name&gt;.level 같이 참조 가능
+</span>
+<span class="c"># 전역 필터 threshold 의 타입으로 ThresholdFilter 라는 레벨 기반 필터를 사용한다.
+</span><span class="py">filter.threshold.type</span> <span class="p">=</span> <span class="s">ThresholdFilter</span>
+<span class="c"># 메시지의 레벨이 설정한 기준 이상인지 비교하여 처리한다.
+</span>
+<span class="c"># 해당 ThresholdFilter 가 적용할 기준 레벨을 정의한다.
+</span><span class="py">filter.threshold.level</span> <span class="p">=</span> <span class="s">debug</span>
+<span class="c"># 기본적으로 onMatch=NEUTRAL, onMismatch=DENY 이므로
+# DEBUG 이상이면 NEUTRAL로 넘어가 다음 레벨 검사 후 출력 가능
+</span><span class="err">#</span> <span class="err">TRACE</span> <span class="err">이하는</span> <span class="err">DENY로</span> <span class="err">바로</span> <span class="err">차단됨</span></code></pre></figure>
+
+<p>대표적인 필터 종류로는</p>
+<ul>
+  <li>ThresholdFilter: 특정 기준 이상인지 아닌지 필터링</li>
+  <li>BurstFilter</li>
+  <li>CompositeFilter</li>
+  <li>DynamicThresholdFilter</li>
+  <li>RegexFilter: 정규표현식을 사용한 필터링</li>
+  <li>MapFilter, MarkerFilter, TimeFilter 등등
+등이 있다.</li>
+</ul>
+
+<h5 id="appenders-구성하기">Appenders 구성하기</h5>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="c"># ▼ 콘솔 Appender 구성
+</span>
+<span class="c"># 사용할 Appender 나열
+</span><span class="py">appenders</span> <span class="p">=</span> <span class="s">console, rolling</span>
+
+<span class="c"># Appender 의 타입 지정, 여기서는 Console로, System.out, System.err 같은 출력 형식으로 내보냄
+</span><span class="py">appender.console.type</span> <span class="p">=</span> <span class="s">Console</span>
+
+<span class="c"># Appender 에 식별자를 붙임
+</span><span class="py">appender.console.name</span> <span class="p">=</span> <span class="s">STDOUT</span>
+
+<span class="c"># Appender 에 로그 메시지를 어떤 형식으로 변환할지 정함
+</span><span class="py">appender.console.layout.type</span> <span class="p">=</span> <span class="s">PatternLayout</span>
+
+<span class="c"># Appender 의 로그 출력 포맷을 지정함
+</span><span class="py">appender.console.layout.pattern</span> <span class="p">=</span> <span class="s">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{1}:%L - %m%n</span></code></pre></figure>
+
+<p><strong>로그 출력 포맷</strong></p>
+<ul>
+  <li>%d{…}: 날짜/시간의 포맷 지정</li>
+  <li>%t: 스레드 이름(main 등)</li>
+  <li>%-5p: 고정 폭 5자리의 로그 레벨(INFO, DEBUG 등)</li>
+  <li>%c{1}: 로거 이름의 마지막 컴포넌트, 일반적으로 클래스 명</li>
+  <li>%L: 로그 발생 코드 라인 번호</li>
+  <li>%m: 실제 메시지</li>
+  <li>%n: 줄바꿈</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="c"># ▼ 롤링 파일 Appender 구성
+</span>
+<span class="c"># 로그 파일 내용을 어디 저장할지 지정
+</span><span class="py">appender.rolling.fileName</span> <span class="p">=</span> <span class="s">logs/app.log</span>
+
+<span class="c"># 파일명을 어떻게 쓸건지 설정
+</span><span class="py">appender.rolling.filePattern</span> <span class="p">=</span> <span class="s">logs/app-%d{yyyy-MM-dd}-%i.log.gz</span>
+
+<span class="c"># Policies 라는 롤오버 조건 그룹(wrapper)를 지정
+</span><span class="py">appender.rolling.policies.type</span> <span class="p">=</span> <span class="s">Policies</span>
+
+<span class="c"># 시간 기반 트리거 정책 사용, 특정 주기마다 로그 파일이 자동으로 Rollover
+</span><span class="py">appender.rolling.policies.time.type</span> <span class="p">=</span> <span class="s">TimeBasedTriggeringPolicy</span>
+
+<span class="c"># Rollover 간격을 1단위로 지정
+</span><span class="py">appender.rolling.policies.time.interval</span> <span class="p">=</span> <span class="s">1</span>
+
+<span class="c"># 파일 크기 기반 트리거 정책 지정
+</span><span class="py">appender.rolling.policies.size.type</span> <span class="p">=</span> <span class="s">SizeBasedTriggeringPolicy</span>
+
+<span class="c"># 파일이 10MB를 초과 시 Rollover 실행
+</span><span class="py">appender.rolling.policies.size.size</span> <span class="p">=</span> <span class="s">10 MB</span>
+
+<span class="c"># Rollover 전 후의 처리 전략을 지정
+</span><span class="py">appender.rolling.strategy.type</span> <span class="p">=</span> <span class="s">DefaultRolloverStrategy</span>
+
+<span class="c"># Rollover 파일의 최대 개수를 7개로 설정
+</span><span class="py">appender.rolling.strategy.max</span> <span class="p">=</span> <span class="s">7</span></code></pre></figure>
+
+<h5 id="루트-로거-설정-기본-레벨-및-appender-연결">루트 로거 설정 (기본 레벨 및 Appender 연결)</h5>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="c"># ▼ 루트 로그 레벨 및 Appender 참조
+</span>
+<span class="c"># 로그 레벨 설정
+</span><span class="py">rootLogger.level</span> <span class="p">=</span> <span class="s">info</span>
+
+<span class="c"># 기본 로그 레벨과 appender 매핑 설정
+</span><span class="py">rootLogger.appenderRefs</span> <span class="p">=</span> <span class="s">stdout, rolling</span>
+<span class="py">rootLogger.appenderRef.stdout.ref</span> <span class="p">=</span> <span class="s">STDOUT</span>
+<span class="py">rootLogger.appenderRef.rolling.ref</span> <span class="p">=</span> <span class="s">ROLLING</span></code></pre></figure>
+
+<h4 id="logger-객체를-가져와-출력해보기">Logger 객체를 가져와 출력해보기</h4>
+
+<p>Logging 메시지를 출력할 클래스 컨텍스트에 다음을 입력한다:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">org.slf4j.*</span><span class="o">;</span>
+<span class="o">...</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Logger</span> <span class="n">logger</span> <span class="o">=</span>
+            <span class="nc">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="nc">StudyApplication</span><span class="o">.</span><span class="na">class</span><span class="o">);</span></code></pre></figure>
+
+<p>출력할 메시지가 살아있는 function 의 context 에서 다음을 입력한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">ConfigurableApplicationContext</span> <span class="n">applicationContext</span> <span class="o">=</span>
+        <span class="n">springApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"The application is completely running"</span><span class="o">);</span></code></pre></figure>
+
+<p>다음이 출력됨을 볼 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">[restartedMain] INFO  StudyApplication:73 - The application is completely running</code></pre></figure>
+
+<hr />
+
+<h2 id="️-용어">✒️ 용어</h2>
+
+<h6 id="logger">Logger</h6>
+
+<p>한 개 이상의 Appender 를 사용하여 로그 메시지 표시를 담당하는 로깅 프레임워크의 컴포넌트</p>
+
+<h6 id="appender">Appender</h6>
+
+<p>어펜더를 사용하여 로그가 출력되는 대상과 로깅 포맷을 지정할 수 있다. 로그 메시지가 출력되는 매체에 따라 다양한 어펜더가 있고, 콘솔 어펜더는 어플리케이션의 콘솔에 로그를 출력하고, 파일 어펜더는 로그 메시지를 파일에 출력한다.</p>
+
+<ul>
+  <li>RollingFileAppender: 시간과 날짜 기반으로 별도의 파일에 로그를 출력하게 된다.</li>
+  <li>SMTP Appender: 정해진 이메일 주소로 로그를 출력한다.</li>
+</ul>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/06/13/5.-spring-boot-application-logging-customizing.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/06/13/5.-spring-boot-application-logging-customizing.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

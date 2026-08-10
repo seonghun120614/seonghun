@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 63일차 nginx</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 63일차 nginx | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 63일차 nginx" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="작성중" />
+<meta property="og:description" content="작성중" />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/11/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-63%EC%9D%BC%EC%B0%A8-nginx.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/11/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-63%EC%9D%BC%EC%B0%A8-nginx.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-11-26T07:17:38+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 63일차 nginx" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-11-26T07:17:38+00:00","datePublished":"2025-11-26T07:17:38+00:00","description":"작성중","headline":"[멋사 백엔드 19기] TIL 63일차 nginx","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/11/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-63%EC%9D%BC%EC%B0%A8-nginx.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/11/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-63%EC%9D%BC%EC%B0%A8-nginx.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/11/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-63%EC%9D%BC%EC%B0%A8-nginx.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 63일차 nginx</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Nov 26, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>devops</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+<p>작성중</p>
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#nginx">Nginx</a>
+    <ul>
+      <li><a href="#nginxconf">ngninx.conf</a>
+        <ul>
+          <li><a href="#기본-문법-규칙">기본 문법 규칙</a></li>
+        </ul>
+      </li>
+      <li><a href="#main-block">main block</a>
+        <ul>
+          <li><a href="#events-block">events block</a></li>
+          <li><a href="#http-block">http block</a></li>
+          <li><a href=""></a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="nginx">Nginx</h3>
+
+<h4 id="nginxconf">nginx.conf</h4>
+
+<p>Nginx 설정은 기본적으로 <strong>지시문(Directives)</strong>과 <strong>컨텍스트(Contexts)</strong>라는 두 가지 주요 요소로 구성됨</p>
+
+<h5 id="기본-문법-규칙">기본 문법 규칙</h5>
+
+<ul>
+  <li><strong>단순 지시문</strong>: 이름, 매개변수로 구성되며, 공백으로 구분하여 한 줄에 입력되고 세미콜론으로 끝남</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-nginx" data-lang="nginx"><span class="k">user</span> <span class="s">nginx</span><span class="p">;</span>
+<span class="k">worker_processes</span> <span class="s">auto</span><span class="p">;</span></code></pre></figure>
+
+<ul>
+  <li><strong>블록 지시문 및 컨텍스트</strong>: 단순 지시문과 비슷하지만, 세미콜론 대신 중괄호({ })로 끝나고, 이 중괄호 안에는 다른 지시문(하위 컨텍스트 포함)이 포함될 수 있으며, 이를 <strong>컨텍스트</strong> 라고 부른다.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-nginx" data-lang="nginx"><span class="k">http</span> <span class="p">{</span>
+    <span class="c1"># 이 안에 다른 지시문이나 server 블록이 들어갑니다.</span>
+<span class="p">}</span></code></pre></figure>
+
+<ul>
+  <li>
+    <p><strong>주석</strong>: # 으로시작</p>
+  </li>
+  <li>
+    <p><strong>계층 구조 및 상속</strong>: 기본적으로 config 의 context 구조는 main -&gt; events / http -&gt; server -&gt; location 순서의 계층 구조를 가지며, 상위 컨텍스트의 설정은 하위 컨텍스트로 상속되거나 하위 컨텍스트에서 재정의할 수 있다.</p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-nginx" data-lang="nginx"><span class="c1"># 메인(main) 컨텍스트: 전역 설정</span>
+<span class="k">user</span> <span class="s">nginx</span><span class="p">;</span>
+<span class="k">worker_processes</span> <span class="s">auto</span><span class="p">;</span> <span class="c1"># 사용 가능한 CPU 코어 수에 따라 워커 프로세스 자동 설정</span>
+
+<span class="k">events</span> <span class="p">{</span>
+    <span class="c1"># 이벤트 컨텍스트: 연결 처리 방식 설정</span>
+    <span class="kn">worker_connections</span> <span class="mi">1024</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">http</span> <span class="p">{</span>
+    <span class="c1"># HTTP 컨텍스트: 웹 서버의 전반적인 동작 설정</span>
+    <span class="kn">include</span> <span class="s">mime.types</span><span class="p">;</span>
+    <span class="kn">default_type</span> <span class="nc">application/octet-stream</span><span class="p">;</span>
+    <span class="kn">sendfile</span> <span class="no">on</span><span class="p">;</span>
+
+    <span class="c1"># 기타 HTTP 관련 설정 (gzip 압축 등)</span>
+
+    <span class="kn">server</span> <span class="p">{</span>
+        <span class="c1"># 서버 컨텍스트: 특정 도메인 또는 포트에 대한 설정 (가상 호스트)</span>
+        <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span> <span class="c1"># 80번 포트에서 수신</span>
+        <span class="kn">server_name</span> <span class="s">example.com</span> <span class="s">www.example.com</span><span class="p">;</span> <span class="c1"># 도메인 이름 설정</span>
+
+        <span class="kn">location</span> <span class="n">/</span> <span class="p">{</span>
+            <span class="c1"># 로케이션 컨텍스트: 특정 URI 경로에 대한 처리 방식 설정</span>
+            <span class="kn">root</span> <span class="n">/var/www/html</span><span class="p">;</span> <span class="c1"># 정적 파일의 루트 디렉토리 설정</span>
+            <span class="kn">index</span> <span class="s">index.html</span> <span class="s">index.htm</span><span class="p">;</span> <span class="c1"># 기본 인덱스 파일 설정</span>
+        <span class="p">}</span>
+
+        <span class="kn">location</span> <span class="n">/api/</span> <span class="p">{</span>
+            <span class="c1"># /api/ 경로에 대한 리버스 프록시 설정</span>
+            <span class="kn">proxy_pass</span> <span class="s">http://localhost:3000</span><span class="p">;</span> <span class="c1"># 백엔드 애플리케이션 서버로 요청 전달</span>
+            <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$host</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<blockquote>
+  <p>중괄호에 포함안되는 전역적인 곳을 main block 으로 본다.</p>
+</blockquote>
+
+<h4 id="main-block">main block</h4>
+
+<p>주요 지시문은 다음과 같다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">user</code></li>
+  <li><code class="language-plaintext highlighter-rouge">worker_processes</code></li>
+  <li><code class="language-plaintext highlighter-rouge">error_log</code></li>
+  <li><code class="language-plaintext highlighter-rouge">include</code></li>
+</ul>
+
+<h5 id="events-block">events block</h5>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">worker_connections</code></li>
+  <li><code class="language-plaintext highlighter-rouge">use</code></li>
+</ul>
+
+<h5 id="http-block">http block</h5>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">server</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">location block</code>
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">proxy_pass</code></li>
+          <li><code class="language-plaintext highlighter-rouge">root</code></li>
+          <li><code class="language-plaintext highlighter-rouge">index</code></li>
+          <li><code class="language-plaintext highlighter-rouge">return</code></li>
+          <li><code class="language-plaintext highlighter-rouge">rewrite</code></li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">listen</code></li>
+      <li><code class="language-plaintext highlighter-rouge">server_name</code></li>
+      <li><code class="language-plaintext highlighter-rouge">root</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">include</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mime.types</code></li>
+  <li><code class="language-plaintext highlighter-rouge">sendfile</code></li>
+  <li><code class="language-plaintext highlighter-rouge">gzip</code></li>
+</ul>
+
+<blockquote>
+  <p>전부 외울 필요는 없고 그때마다 찾아서 익숙해질 때까지 보면 될거 같다.</p>
+</blockquote>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/11/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-63%EC%9D%BC%EC%B0%A8-nginx.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/devops/2025/11/26/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-63%EC%9D%BC%EC%B0%A8-nginx.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

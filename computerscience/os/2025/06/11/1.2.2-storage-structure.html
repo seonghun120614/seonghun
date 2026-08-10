@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>1.2.2 Storage Structure</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>1.2.2 Storage Structure | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="1.2.2 Storage Structure" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="컴퓨터의 데이터 저장이 어떻게 되는지 전반적인 구조를 본다." />
+<meta property="og:description" content="컴퓨터의 데이터 저장이 어떻게 되는지 전반적인 구조를 본다." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/11/1.2.2-storage-structure.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/11/1.2.2-storage-structure.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-06-11T04:28:56+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="1.2.2 Storage Structure" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-06-11T04:28:56+00:00","datePublished":"2025-06-11T04:28:56+00:00","description":"컴퓨터의 데이터 저장이 어떻게 되는지 전반적인 구조를 본다.","headline":"1.2.2 Storage Structure","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/11/1.2.2-storage-structure.html"},"url":"https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/11/1.2.2-storage-structure.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/computerscience/os/2025/06/11/1.2.2-storage-structure.html">
+        <h2 class="post-title">1.2.2 Storage Structure</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Jun 11, 2025</div><ul class="post-categories"><li>ComputerScience</li><li>OS</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+<p>컴퓨터의 데이터 저장이 어떻게 되는지 전반적인 구조를 본다.</p>
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#저장-장치-구조-von-neumann-architecture">저장 장치 구조 von Neumann Architecture</a>
+    <ul>
+      <li><a href="#von-neumann-architecture-의-메인메모리-한계점">von Neumann Architecture 의 메인메모리 한계점</a></li>
+      <li><a href="#보조-저장장치secondary-storage">보조 저장장치(Secondary Storage)</a></li>
+    </ul>
+  </li>
+  <li><a href="#계층적-저장장치-구조">계층적 저장장치 구조</a></li>
+  <li><a href="#저장-시스템-설계-시-고려사항">저장 시스템 설계 시 고려사항</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="overview">Overview</h3>
+
+<p>프로그램 실행의 전제 조건은 메모리(RAM)에서만 명령어를 불러올 수 있기 때문에, 모든 프로그램은 먼저 <strong>메모리에 적재되어야 실행</strong>할 수 있다. 대부분 <strong><a href="#dram">DRAM(Dynamic Random Access Memory)</a></strong> 기반의 RAM에서 실행된다. RAM은 <strong>휘발성</strong>이므로 전원이 꺼지면 데이터가 사라진다.</p>
+
+<blockquote>
+  <p>예시: 문서를 메모장에서 작성 중일 때 저장하지 않고 컴퓨터를 꺼버리면 내용이 사라지는 것과 같다.</p>
+</blockquote>
+
+<p>반면, 부팅 시 사용하는 <strong><a href="#eeprom">EEPROM(Electrically Erasable Programmable Read Only Memory)</a></strong> 및 <strong><a href="#firmware">Firmware(펌웨어)</a></strong>와 같은 <strong>비휘발성 저장소</strong>는 전원이 꺼져도 데이터가 유지되어, <strong><a href="#bootstrap">Bootstrap(부트스트랩)</a></strong> 프로그램 등을 저장한다. 이러한 저장소는 <strong>수정 속도가 느려 잦은 변경에는 적합하지 않으며</strong>, 정적인 프로그램이나 자주 변경되지 않는 데이터를 저장하는 데 사용된다.</p>
+
+<p>모든 형태의 메모리에는 <strong>바이트 배열의 형태</strong>로 제공되며, 각각의 바이트는 고유한 주소를 가지고 있고, 이 주소를 통해 상호작용한다. CPU는 load, store 명령어 등을 사용하여 특정 메모리 주소와 데이터를 주고받는다.</p>
+
+<ul>
+  <li>load: RAM -&gt; CPU 레지스터 로의 워드, 바이트 데이터를 옮김(이 의미보다는 그냥 메모리에 기록한다의 의미로 보는게 좋다)</li>
+</ul>
+
+<p>Main Memory -&gt; CPU<br />
+    1. CPU가 Address Bus에 주소를 보냄<br />
+    2. CPU가 Control Bus에 ‘읽기’ 신호 전송<br />
+    3. 메모리가 해당 주소에서 데이터를 찾아 Data Bus를 통해 데이터 전송</p>
+
+<ul>
+  <li>store: CPU -&gt; RAM 의 데이터 저장</li>
+</ul>
+
+<p>CPU -&gt; Main Memory<br />
+    1. CPU가 Address Bus 에 주소를 보냄<br />
+    2. CPU가 Data Bus에 데이터를 전송<br />
+    3. CPU가 Control Bus에 ‘쓰기’ 신호 전송</p>
+
+<p>CPU는 <strong>PC에 저장된 위치에서 메인 메모리로부터 명령어를 자동으로 로드하여 실행</strong>한다. 이 명령어 실행을 어떻게 수행하는지 더 자세히 보자.</p>
+
+<hr />
+
+<h3 id="️저장-장치-구조-von-neumann-architecture">⭐️저장 장치 구조 von Neumann Architecture</h3>
+
+<p>우선 전통적인 컴퓨터 시스템의 <strong>명령어 실행 사이클(Instruction Execution Cycle)</strong>을 살펴보자.</p>
+
+<p>명령어를 메모리에서 가져와(<strong>Instruction <a href="#fetch">Fetch</a></strong>)<br />
+-&gt; <strong><a href="#instruction-register">명령어 레지스터(Instruction Register)</a></strong>에 저장<br />
+-&gt; 명령어를 <strong>디코딩(Decoding)</strong><br />
+-&gt; 필요한 피 연산자도 메모리에서 가져와 레지스터에 저장<br />
+-&gt; 연산 수행 후 결과를 다시 메모리에 저장</p>
+
+<p>위와 같이 메모리는 단순히 <strong><a href="#address-stream">Address Stream(주소 스트림)</a></strong>만 인식하고 주소가 어떻게 생성되었는지, 명령어인지 데이터인지는 관심이 없다.</p>
+
+<h4 id="von-neumann-architecture-의-메인메모리-한계점">von Neumann Architecture 의 메인메모리 한계점</h4>
+
+<p>이렇게 된다면 프로그램과 데이터가 RAM에 항상 상주하는 것이 이상적이겠지만, Main Memory 만으로는 충분하지 않다:</p>
+
+<ul>
+  <li>메인 메모리는 <strong>모든 프로그램과 데이터를 담기에 용량이 부족</strong>하다.</li>
+  <li>램은 휘발성이기 때문에 <strong>전원이 꺼지면 내용이 사라진다</strong>. 전원이 꺼진 뒤 다시 켜면 모든 데이터를 다시 메모리에 로드해야 한다.</li>
+</ul>
+
+<p>따라서 보조 저장장치가 필요하다.</p>
+
+<h4 id="보조-저장장치secondary-storage">보조 저장장치(Secondary Storage)</h4>
+
+<ul>
+  <li>RAM 을 보완하여 대용량 데이터를 <strong>영구 저장</strong>한다</li>
+  <li>HDD, SSD, NVM 등이 있다</li>
+  <li>프로그램과 데이터를 보관하고 실행 시 RAM으로 로드된다</li>
+</ul>
+
+<p>운영체제 및 대부분의 프로그램은 보조 저장장치에 저장되며, 실행 시 RAM으로 로드된다.<br />
+하지만 보조 저장장치는 메인 메모리에 비해 느리기 때문에 데이터 저장과 접근 관리가 중요한 주제가 된다.</p>
+
+<p>이 두 가지 메모리와는 달리 다른 <strong><a href="#tertiary-storage">Tertiary Storage(3차 저장소)</a></strong>도 있다.</p>
+
+<h3 id="️계층적-저장장치-구조">⭐️계층적 저장장치 구조</h3>
+
+<p>저장 장치는 capacity(용량)과 access time(접근 속도)에 따라 계층적 구조를 가진다.</p>
+
+<p><img src="/seonghun120614/assets/img/storage-device-hierarchy.png" alt="storage-device-hierarchy" /></p>
+
+<p>전형적인 구조는 <strong>레지스터 &lt; <a href="#cache">캐시</a> &lt; 메인 메모리 &lt; 보조 저장장치 &lt; 3차 저장장치</strong>이며, 작고 빠른 메모리는 CPU 가까이에, 크고 느린 저장장치는 멀리 배치된다. 작을수록 더 빠르고 반응성이 높다.</p>
+
+<blockquote>
+  <p>예시: 계산기에 바로 붙어 있는 메모장이 레지스터이고, 그보다 좀 떨어진 노트가 캐시, 책상 서랍이 메인 메모리, 서재가 하드디스크라고 비유할 수 있다.</p>
+</blockquote>
+
+<h3 id="저장-시스템-설계-시-고려사항">저장 시스템 설계 시 고려사항</h3>
+
+<ul>
+  <li>고속이지만 비싼 메모리는 최소한만 사용하고</li>
+  <li>느리지만 저렴하고 영구적인 저장소는 최대한 활용한다</li>
+</ul>
+
+<blockquote>
+  <p>예시: 자주 쓰는 물건은 책상 위에 두고, 가끔 쓰는 물건은 창고에 보관하는 것과 같다. 창고는 크지만 접근 시간이 오래 걸린다.</p>
+</blockquote>
+
+<p>두 저장 장치 간 속도 차이가 클 경우에는 <strong><a href="#cache">Cache(캐시)</a></strong>를 사용하여 속도 차이를 줄여 전반적인 성능을 향상시킨다.</p>
+
+<hr />
+
+<h2 id="️-용어">✒️ 용어</h2>
+
+<h6 id="dram">DRAM</h6>
+
+<p>우리가 쓰는 DDR5 RAM이 DRAM 의 일종이다.</p>
+
+<p>DRAM 모듈은 우리가 데이터를 접근할 때 비트 단위가 아닌 Byte 또는 Word 단위로 접근하므로 이에 따른 병렬성을 활용하기 위해 여러 개의 <strong>bank</strong>로 구성되어 있으며,<br />
+각 bank는 데이터를 읽을 row를 지정하는 <strong>row decoder</strong>,<br />
+메모리 값을 증폭해 0 또는 1로 만드는 <strong>sense amp</strong>,<br />
+데이터가 저장되어 있는 <strong>array</strong>를 포함한다.</p>
+
+<p>SRAM에 비해 속도가 느리지만 트랜지스터 하나와 캐패시터 하나로 만들어져 있기에 고집적화가 가능하여 고용량을 만들 수 있다.</p>
+
+<h6 id="eeprom">EEPROM</h6>
+
+<p>비휘발성 메모리의 한 유형으로, 전원을 꺼도 데이터가 유지된다. 전기적으로 데이터를 지우고 다시 쓸 수 있으며, 부트로더나 BIOS 저장에 주로 사용된다.</p>
+
+<h6 id="firmware">Firmware</h6>
+
+<p>하드웨어를 제어하기 위해 장치에 탑재된 영구 소프트웨어. 주로 비휘발성 메모리 ROM에 저장되며, <a href="#bios">BIOS(Basic Input Output System)</a>나 임베디드 시스템에 널리 쓰인다.</p>
+
+<h6 id="️bootstrap">⭐️Bootstrap</h6>
+
+<p>컴퓨터가 전원을 켰을 때 운영체제를 실행하기 위해 수행하는 일련의 초기화 과정이다. 이 과정을 <strong>Bootstrap(부트스트랩)</strong> 또는 줄여서 <strong>Booting(부팅)</strong>이라 부른다.</p>
+
+<p>일반적인 부트스트랩 과정은 다음과 같은 단계로 이루어진다:</p>
+<ol>
+  <li><strong>전원 공급 및 하드웨어 초기화:</strong> 전원이 들어오면 CPU는 하드웨어 리셋 상태로 진입하며, 지정된 위치에서 BIOS 또는 UEFI 펌웨어 실행을 시작한다.</li>
+  <li><strong>BIOS/UEFI 실행:</strong> 하드웨어 구성 요소(RAM, 키보드, 디스크 등)를 검사하고 초기화한다. 이를 <strong>POST(Power-On Self Test)</strong>라고 한다.</li>
+  <li><strong>부트 디바이스 탐색:</strong> 설정된 순서에 따라 부팅 가능한 저장 장치(HDD, SSD, USB 등)를 찾는다.</li>
+  <li>⭐️ <strong>부트로더 실행:</strong> 부팅 가능한 장치의 <strong>MBR(또는 UEFI 환경의 ESP - 여기서 ESP는 레지스터가 아닌 파티션을 말함)</strong>에서 부트로더(예: <strong><a href="#grub">GRUB</a>, Windows Boot Manager</strong> 등)를 메모리로 로드하고 실행한다.</li>
+  <li><strong>운영체제 로딩:</strong> 부트로더는 <strong>커널 이미지</strong>를 메모리에 적재하고, 운영체제 실행을 시작한다.</li>
+</ol>
+
+<p>이 과정을 통해 저장 장치에 있는 운영체제를 CPU가 실행 가능한 상태로 만들 수 있다.</p>
+
+<h6 id="bios">BIOS</h6>
+
+<p>메인보드에 내장된 펌웨어로, 컴퓨터가 켜졌을 때 가장 먼저 실행되는 프로그램이며,</p>
+<ul>
+  <li>하드웨어 초기화(RAM, CPU, 키보드 등)</li>
+  <li>부트 장치 탐색 및 부트스트랩 로더 실행</li>
+  <li>간단한 I/O 인터페이스 제공
+의 역할을 수행한다.</li>
+</ul>
+
+<h6 id="grub">GRUB</h6>
+
+<p>GNU GRUB(Grand Unified Bootloader)은 리눅스 및 기타 운영체제를 부팅할 수 있게 해주는 대표적인 <strong>부트로더</strong>이다. BIOS 또는 UEFI가 부트로더를 메모리에 로드하면, GRUB은 사용자에게 운영체제 선택 메뉴를 제공하거나 자동으로 설정된 운영체제를 로드한다. GRUB은 멀티 부트 환경, 커널 파라미터 설정, 복구 모드 진입 등의 기능도 제공하며, 리눅스 배포판에서 널리 사용된다.</p>
+
+<h6 id="fetch">Fetch</h6>
+
+<p>CPU가 메모리에 저장된 명령어를 가져오는 과정을 말하며, 코드 조각이다.</p>
+
+<ol>
+  <li><strong><a href="#program-counter">프로그램 카운터(PC, Program Counter)</a></strong> 가 다음에 실행할 명령어의 메모리 주소를 가리킨다.</li>
+  <li>CPU 는 해당 주소 기반으로 메모리에서 명령어를 가져와 <strong><a href="#instruction-register">Instruction Register(IR)</a></strong> 에 저장한다.</li>
+</ol>
+
+<h6 id="program-counter">Program Counter</h6>
+
+<p>CPU 내부에 있는 특수한 레지스터로, 다음에 실행할 명령어의 메모리 주소를 저장한다. Fetch 단계에서 이 값을 참조하여 메모리에서 명령어를 가져오고, 명령어가 실행된 후에는 자동으로 <strong>다음 명령어 주소로 증가</strong>하거나, <strong>분기(branch) 명령에 따라 새로운 주소로 갱신</strong>된다. 명령어 실행 흐름을 제어하는 핵심 요소이다.</p>
+
+<h6 id="instruction-register">Instruction Register</h6>
+
+<p>CPU 내부에 있는 레지스터로, 현재 <strong>실행 중인 명령어</strong>를 저장한다. Fetch 단계에서 메모리로부터 가져온 명령어는 이 레지스터에 임시로 저장되며, 이후 <strong>Decode</strong> 및 <strong>Execute</strong> 단계에서 참조된다. 프로그램 카운터(PC)가 다음 명령어를 가리키는 반면, Instruction Register는 <strong>현재 실행될 명령어의 내용</strong>을 담고 있다는 차이가 있다.</p>
+
+<h6 id="address-stream">Address Stream</h6>
+
+<p>CPU가 메모리에 접근할 때 발생하는 연속적인 주소의 흐름이다. 즉, 메모리 주소를 순서대로 참조, 점프하여 다음 메모리 주소를 참조의 여러과정을 통해 주소들이 시간의 흐름에 따라 나열된 형태를 주소 스트림이라고 한다.</p>
+
+<h6 id="tertiary-storage">Tertiary Storage</h6>
+
+<p>3차 저장장치는 주로 <strong>백업 및 아카이빙</strong> 목적으로 사용되는 저장 장치이다. 접근 속도는 매우 느리지만, <strong>저장 용량이 크고 비용이 저렴</strong>하다. 예로는 <strong>자기 테이프(magnetic tape)</strong>, <strong>광디스크(optical disc)</strong> 등이 있으며, 데이터를 장기간 보관하거나 자주 접근하지 않는 정보의 저장에 적합하다. 필요할 때만 로드되기 때문에 자동화된 장치(예: 테이프 라이브러리)를 사용하는 경우도 많다.</p>
+
+<h6 id="cache">Cache</h6>
+
+<p>자주 접근되는 데이터를 빠른 메모리에 미리 저장하여, 느린 메모리 접근을 줄이고 전체 시스템 응답 속도를 개선한다.</p>
+
+<hr />
+
+<h2 id="-출처">🔗 출처</h2>
+<ul>
+  <li><a href="https://namu.wiki/w/DRAM">DRAM 나무위키</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/EEPROM#:~:text=%EC%9D%B4%20%EB%91%98%EC%9D%84%20%EA%B5%AC%EB%B6%84%ED%95%98%EB%8A%94,%EC%84%A4%EB%AA%85%ED%95%98%EB%8A%94%20%EB%8D%B0%20%EC%82%AC%EC%9A%A9%EB%90%A9%EB%8B%88%EB%8B%A4.">EEPROM 위키백과</a></li>
+  <li>도서: <a href="">Operating System Concepts 10th Edition</a></li>
+</ul>
+
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/11/1.2.2-storage-structure.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/computerscience/os/2025/06/11/1.2.2-storage-structure.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

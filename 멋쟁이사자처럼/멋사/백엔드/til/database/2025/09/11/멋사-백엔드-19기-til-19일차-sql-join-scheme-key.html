@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 19일차 SQL JOIN, Schema, Key</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 19일차 SQL JOIN, Schema, Key | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 19일차 SQL JOIN, Schema, Key" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-19%EC%9D%BC%EC%B0%A8-sql-join-scheme-key.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-19%EC%9D%BC%EC%B0%A8-sql-join-scheme-key.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-11T13:32:08+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 19일차 SQL JOIN, Schema, Key" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-09-11T13:32:08+00:00","datePublished":"2025-09-11T13:32:08+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 19일차 SQL JOIN, Schema, Key","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-19%EC%9D%BC%EC%B0%A8-sql-join-scheme-key.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-19%EC%9D%BC%EC%B0%A8-sql-join-scheme-key.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-19%EC%9D%BC%EC%B0%A8-sql-join-scheme-key.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 19일차 SQL JOIN, Schema, Key</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Sep 11, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Database</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#join">JOIN</a>
+    <ul>
+      <li><a href="#cross-join">CROSS JOIN</a></li>
+      <li><a href="#inner-join">INNER JOIN</a>
+        <ul>
+          <li><a href="#join-성능-측면">JOIN 성능 측면</a></li>
+        </ul>
+      </li>
+      <li><a href="#outer-join">OUTER JOIN</a></li>
+      <li><a href="#self-join">SELF JOIN</a></li>
+    </ul>
+  </li>
+  <li><a href="#sub-query">Sub Query</a></li>
+  <li><a href="#correlated-subquery">Correlated Subquery</a></li>
+  <li><a href="#다양한-기능들">다양한 기능들</a>
+    <ul>
+      <li><a href="#set-operation">Set Operation</a></li>
+      <li><a href="#window-함수">Window 함수</a></li>
+    </ul>
+  </li>
+  <li><a href="#schema">Schema</a>
+    <ul>
+      <li><a href="#relation-schema">Relation Schema</a></li>
+      <li><a href="#key">Key</a>
+        <ul>
+          <li><a href="#candidate-key">Candidate Key</a></li>
+          <li><a href="#primary-key">Primary Key</a></li>
+          <li><a href="#foreign-key">Foreign Key</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#schema-diagrams">Schema Diagrams</a></li>
+  <li><a href="#relational-query-languages">Relational Query Languages</a>
+    <ul>
+      <li><a href="#sql-languages-parts">SQL Languages Parts</a></li>
+    </ul>
+  </li>
+  <li><a href="#sql-data-definition">SQL Data Definition</a>
+    <ul>
+      <li><a href="#basic-types">Basic Types</a></li>
+      <li><a href="#basic-schema-definition">Basic Schema Definition</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="join">JOIN</h3>
+
+<p>JOIN은 여러 테이블의 데이터들을 연결시켜 하나의 결과 집합으로 만드는 방법이다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">table_references</span><span class="p">:</span>
+    <span class="n">escaped_table_reference</span> <span class="p">[,</span> <span class="n">escaped_table_reference</span><span class="p">]</span> <span class="p">...</span>
+
+<span class="n">escaped_table_reference</span><span class="p">:</span> <span class="err">{</span>
+    <span class="n">table_reference</span>
+  <span class="o">|</span> <span class="err">{</span> <span class="n">OJ</span> <span class="n">table_reference</span> <span class="err">}</span>
+<span class="err">}</span>
+
+<span class="n">table_reference</span><span class="p">:</span> <span class="err">{</span>
+    <span class="n">table_factor</span>
+  <span class="o">|</span> <span class="n">joined_table</span>
+<span class="err">}</span>
+
+<span class="n">table_factor</span><span class="p">:</span> <span class="err">{</span>
+    <span class="n">tbl_name</span> <span class="p">[</span><span class="n">PARTITION</span> <span class="p">(</span><span class="n">partition_names</span><span class="p">)]</span>
+        <span class="p">[[</span><span class="k">AS</span><span class="p">]</span> <span class="k">alias</span><span class="p">]</span> <span class="p">[</span><span class="n">index_hint_list</span><span class="p">]</span>
+  <span class="o">|</span> <span class="p">[</span><span class="k">LATERAL</span><span class="p">]</span> <span class="n">table_subquery</span> <span class="p">[</span><span class="k">AS</span><span class="p">]</span> <span class="k">alias</span> <span class="p">[(</span><span class="n">col_list</span><span class="p">)]</span>
+  <span class="o">|</span> <span class="p">(</span> <span class="n">table_references</span> <span class="p">)</span>
+<span class="err">}</span>
+
+<span class="n">joined_table</span><span class="p">:</span> <span class="err">{</span>
+    <span class="n">table_reference</span> <span class="err">{</span><span class="p">[</span><span class="k">INNER</span> <span class="o">|</span> <span class="k">CROSS</span><span class="p">]</span> <span class="k">JOIN</span> <span class="o">|</span> <span class="n">STRAIGHT_JOIN</span><span class="err">}</span> <span class="n">table_factor</span> <span class="p">[</span><span class="n">join_specification</span><span class="p">]</span>
+  <span class="o">|</span> <span class="n">table_reference</span> <span class="err">{</span><span class="k">LEFT</span><span class="o">|</span><span class="k">RIGHT</span><span class="err">}</span> <span class="p">[</span><span class="k">OUTER</span><span class="p">]</span> <span class="k">JOIN</span> <span class="n">table_reference</span> <span class="n">join_specification</span>
+  <span class="o">|</span> <span class="n">table_reference</span> <span class="k">NATURAL</span> <span class="p">[</span><span class="k">INNER</span> <span class="o">|</span> <span class="err">{</span><span class="k">LEFT</span><span class="o">|</span><span class="k">RIGHT</span><span class="err">}</span> <span class="p">[</span><span class="k">OUTER</span><span class="p">]]</span> <span class="k">JOIN</span> <span class="n">table_factor</span>
+<span class="err">}</span>
+
+<span class="n">join_specification</span><span class="p">:</span> <span class="err">{</span>
+    <span class="k">ON</span> <span class="n">search_condition</span>
+  <span class="o">|</span> <span class="k">USING</span> <span class="p">(</span><span class="n">join_column_list</span><span class="p">)</span>
+<span class="err">}</span>
+
+<span class="n">join_column_list</span><span class="p">:</span>
+    <span class="k">column_name</span><span class="p">[,</span> <span class="k">column_name</span><span class="p">]</span> <span class="p">...</span>
+
+<span class="n">index_hint_list</span><span class="p">:</span>
+    <span class="n">index_hint</span><span class="p">[</span> <span class="n">index_hint</span><span class="p">]</span> <span class="p">...</span>
+
+<span class="n">index_hint</span><span class="p">:</span> <span class="err">{</span>
+    <span class="n">USE</span> <span class="err">{</span><span class="k">INDEX</span><span class="o">|</span><span class="k">KEY</span><span class="err">}</span>
+      <span class="p">[</span><span class="k">FOR</span> <span class="err">{</span><span class="k">JOIN</span><span class="o">|</span><span class="k">ORDER</span> <span class="k">BY</span><span class="o">|</span><span class="k">GROUP</span> <span class="k">BY</span><span class="err">}</span><span class="p">]</span> <span class="p">([</span><span class="n">index_list</span><span class="p">])</span>
+  <span class="o">|</span> <span class="err">{</span><span class="k">IGNORE</span><span class="o">|</span><span class="k">FORCE</span><span class="err">}</span> <span class="err">{</span><span class="k">INDEX</span><span class="o">|</span><span class="k">KEY</span><span class="err">}</span>
+      <span class="p">[</span><span class="k">FOR</span> <span class="err">{</span><span class="k">JOIN</span><span class="o">|</span><span class="k">ORDER</span> <span class="k">BY</span><span class="o">|</span><span class="k">GROUP</span> <span class="k">BY</span><span class="err">}</span><span class="p">]</span> <span class="p">(</span><span class="n">index_list</span><span class="p">)</span>
+<span class="err">}</span>
+
+<span class="n">index_list</span><span class="p">:</span>
+    <span class="n">index_name</span> <span class="p">[,</span> <span class="n">index_name</span><span class="p">]</span> <span class="p">...</span></code></pre></figure>
+
+<p>MySQL 문법 정의서 인데, FROM 절에서 테이블 참조 를 어떻게 쓸 수 있는지에 대한 규칙을 나열한 것이다. SELECT 문에서도 당연히 봤을 것이다.</p>
+
+<h4 id="cross-join">CROSS JOIN</h4>
+
+<p>카테시안 곱이며, 그냥 가능한 모든 조합의 경우를 결과로 내뱉는다. 하지만 이는 잘 사용하지 않으며, 여러 열이 있다면 굉장히 많은 행이 생성되므로 성능적으로 문제가 있다.</p>
+
+<p>크로스 조인은 그냥 두 테이블을 FROM 절에 놓으면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span>
+<span class="k">FROM</span> <span class="n">customers</span> <span class="k">c</span><span class="p">,</span> <span class="n">orders</span> <span class="n">o</span><span class="p">;</span>  <span class="c1">-- 조인 조건 없음</span></code></pre></figure>
+
+<p>보통은 JOIN 을 할 때는 그래서 조건을 주는게 오버헤드가 없다.</p>
+
+<blockquote>
+  <p>만약 여러 테이블을 JOIN한다면, N개의 테이블을 JOIN할 때 최소 (N-1)개의 조인 조건이 필요, 그래야 불필요한 Cartesian Product 를 방지할 수 있다.</p>
+</blockquote>
+
+<h4 id="inner-join">INNER JOIN</h4>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 전통적인 조인 방식</span>
+<span class="k">SELECT</span> 
+    <span class="n">e</span><span class="p">.</span><span class="n">first_name</span><span class="p">,</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span> 
+    <span class="n">employees</span> <span class="n">e</span><span class="p">,</span> 
+    <span class="n">departments</span> <span class="n">d</span>
+<span class="k">WHERE</span> 
+    <span class="n">e</span><span class="p">.</span><span class="n">department_id</span> <span class="o">=</span> <span class="n">d</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span></code></pre></figure>
+
+<p>예전에는 위처럼 코딩을 했지만, 테이블을 FROM 에 나열하고 WHERE 조건을 지정하게 되면 조인 조건과 필터 조건이 섞여 있어서 헷갈릴 수가 있다. 또한 실수로 조인 조건을 빼먹으면 CROSS JOIN 이 되어버려 모든 조합의 데이터가 만들어지게 된다.</p>
+
+<p>따라서 지금은 ANSI SQL 표준 JOIN 문법을 사용한다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- JOIN ~ ON</span>
+<span class="k">SELECT</span> 
+    <span class="n">e</span><span class="p">.</span><span class="n">first_name</span><span class="p">,</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span> <span class="n">employees</span> <span class="n">e</span>
+<span class="k">JOIN</span> <span class="n">departments</span> <span class="n">d</span> <span class="k">ON</span> <span class="n">e</span><span class="p">.</span><span class="n">department_id</span> <span class="o">=</span> <span class="n">d</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span>
+
+<span class="c1">-- JOIN ~ USING (동일한 컬럼명일 때)</span>
+<span class="k">SELECT</span> 
+    <span class="n">e</span><span class="p">.</span><span class="n">first_name</span><span class="p">,</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span> <span class="n">employees</span> <span class="n">e</span>
+<span class="k">JOIN</span> <span class="n">departments</span> <span class="n">d</span> <span class="k">USING</span><span class="p">(</span><span class="n">department_id</span><span class="p">);</span>
+
+<span class="c1">-- NATURAL JOIN (자동으로 같은 이름 컬럼 조인)</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> <span class="k">NATURAL</span> <span class="k">JOIN</span> <span class="n">departments</span><span class="p">;</span></code></pre></figure>
+
+<h5 id="join-성능-측면">JOIN 성능 측면</h5>
+
+<p><strong>INDEXING</strong>
+INNER JOIN 은 조건이 잘 걸려있으면 효율적이다. 예를 들어 대상 테이블의 index 가 걸려있었다고 해보자. 이때 필터링을 주는 테이블의 값들을 기준으로 이들을 찾아내기만 하면 되는데, 찾아낼 때도 searching 작업이 필요하기에 여기에 index 를 걸어주면 더 빠르게 찾아낼 수 있게 되는 것이다.</p>
+
+<p>indexing 이 안걸려 있었다면 searching 작업이 느려지게 되어서 성능 이점을 볼 수가 없게 된다. 또한 JOIN 없이 쓰면 기본적으로 cartesian 이 수행되는데 이는 굉장히 느리다. JOIN 이 있기에 가능하다.</p>
+
+<p><strong>테이블 크기와 순서에 따른 성능</strong></p>
+
+<p>조인하는 테이블이 크면 클수록 성능 영향이 크다. 일부 DBMS는 조인 순서를 바꿔 최적화하는 기능이 있어 상관이 없지만, 큰 테이블을 먼저 JOIN 하면 임시 테이블이 커져서 느려질 수 있게 된다.</p>
+
+<p>예를 들어 customers 테이블에 1000 개의 레코드가 있고, orders 테이블에 1000000 레코드가 있다고 하자.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- orders(100만 행) 기준으로 먼저 customers 와 JOIN</span>
+<span class="k">SELECT</span> <span class="n">o</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">o</span><span class="p">.</span><span class="n">order_date</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">name</span>
+<span class="k">FROM</span> <span class="n">orders</span> <span class="n">o</span>
+<span class="k">JOIN</span> <span class="n">customers</span> <span class="k">c</span>
+<span class="k">ON</span> <span class="n">o</span><span class="p">.</span><span class="n">customer_id</span> <span class="o">=</span> <span class="k">c</span><span class="p">.</span><span class="n">id</span><span class="p">;</span></code></pre></figure>
+
+<p>무조건 대상 테이블은 작아야 한다. 위처럼 order 테이블을 먼저 가져와버리면 많이 가져온 행에 대해서 검색해야 할 양이 늘어나게 된다. 또한 작은 테이블을 index 를 생성해야 index 크기가 작아져서 검색할 양이 줄어들기에 customers 의 테이블이 먼저 작성되어야 하는 것이다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">o</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">o</span><span class="p">.</span><span class="n">order_date</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">name</span>
+<span class="k">FROM</span> <span class="n">customers</span> <span class="k">c</span>
+<span class="k">JOIN</span> <span class="n">orders</span> <span class="n">o</span>
+<span class="k">ON</span> <span class="k">c</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">customer_id</span></code></pre></figure>
+
+<p>위처럼 작성해주면 되겠다. 그리고 WHERE 을 써서 넣는다면 대상 테이블 크기가 더 작아져서 더 효율적이게 되겠다. 밑은 그 예시다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 특정 VIP 고객의 주문만 찾고 싶을 때</span>
+<span class="k">SELECT</span> <span class="n">o</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">o</span><span class="p">.</span><span class="n">order_date</span><span class="p">,</span> <span class="k">c</span><span class="p">.</span><span class="n">name</span>
+<span class="k">FROM</span> <span class="n">customers</span> <span class="k">c</span>
+<span class="k">JOIN</span> <span class="n">orders</span> <span class="n">o</span>
+<span class="k">ON</span> <span class="k">c</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">customer_id</span>
+<span class="k">WHERE</span> <span class="k">c</span><span class="p">.</span><span class="n">vip</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span></code></pre></figure>
+
+<p><strong>Sub Query, CTE</strong></p>
+
+<h4 id="outer-join">OUTER JOIN</h4>
+
+<p>아우터 조인에는 LEFT JOIN 과 RIGHT JOIN 이 있는데 기준만 다를 뿐 둘의 동작 방식은 동일하다.</p>
+
+<p>LEFT JOIN 은 왼쪽 테이블의 모든 행이 전부 결과 테이블에 포함되어야 되며 RIGHT JOIN 은 그 반대다.</p>
+
+<p><strong>LEFT JOIN</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 부서가 없는 직원도 포함</span>
+<span class="k">SELECT</span> 
+    <span class="n">e</span><span class="p">.</span><span class="n">employee_id</span><span class="p">,</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">first_name</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span> <span class="n">employees</span> <span class="n">e</span>
+<span class="k">LEFT</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="n">departments</span> <span class="n">d</span> 
+<span class="k">ON</span> <span class="n">e</span><span class="p">.</span><span class="n">department_id</span> <span class="o">=</span> <span class="n">d</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span>
+
+<span class="c1">-- LEFT JOIN으로 축약 가능</span>
+<span class="k">SELECT</span> 
+    <span class="n">e</span><span class="p">.</span><span class="n">employee_id</span><span class="p">,</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">first_name</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span> <span class="n">employees</span> <span class="n">e</span>
+<span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">departments</span> <span class="n">d</span> 
+<span class="k">ON</span> <span class="n">e</span><span class="p">.</span><span class="n">department_id</span> <span class="o">=</span> <span class="n">d</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span></code></pre></figure>
+
+<p><strong>RIGHT JOIN</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 직원이 없는 부서도 포함</span>
+<span class="k">SELECT</span> 
+    <span class="n">e</span><span class="p">.</span><span class="n">employee_id</span><span class="p">,</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">first_name</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span> <span class="n">employees</span> <span class="n">e</span>
+<span class="k">RIGHT</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="n">departments</span> <span class="n">d</span> 
+<span class="k">ON</span> <span class="n">e</span><span class="p">.</span><span class="n">department_id</span> <span class="o">=</span> <span class="n">d</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span></code></pre></figure>
+
+<p>가령 두 테이블의 튜플들 전부를 결과 테이블에 나오도록, 즉 LEFT, RIGHT 둘 다 되도록 하게 하고 싶을 수 있다. 이를 FULL OUTER JOIN 이라고 하는데 이는 MySQL 에서는 지원하지 않기 때문에 LEFT JOIN, RIGHT JOIN, UNION 을 합쳐서 사용할 수 있겠다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 방법 1: LEFT JOIN + RIGHT JOIN + UNION</span>
+<span class="k">SELECT</span> 
+    <span class="n">e</span><span class="p">.</span><span class="n">employee_id</span><span class="p">,</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">first_name</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span> <span class="n">employees</span> <span class="n">e</span>
+<span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">departments</span> <span class="n">d</span> <span class="k">ON</span> <span class="n">e</span><span class="p">.</span><span class="n">department_id</span> <span class="o">=</span> <span class="n">d</span><span class="p">.</span><span class="n">department_id</span>
+<span class="k">UNION</span>
+<span class="k">SELECT</span> 
+    <span class="n">e</span><span class="p">.</span><span class="n">employee_id</span><span class="p">,</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">first_name</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span> <span class="n">employees</span> <span class="n">e</span>
+<span class="k">RIGHT</span> <span class="k">JOIN</span> <span class="n">departments</span> <span class="n">d</span> <span class="k">ON</span> <span class="n">e</span><span class="p">.</span><span class="n">department_id</span> <span class="o">=</span> <span class="n">d</span><span class="p">.</span><span class="n">department_id</span>
+<span class="k">WHERE</span> <span class="n">e</span><span class="p">.</span><span class="n">department_id</span> <span class="k">IS</span> <span class="k">NULL</span><span class="p">;</span>  <span class="c1">-- 중복 제거를 위해 추가</span></code></pre></figure>
+
+<p><strong>Postgres, Oracle 등등</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- PostgreSQL, SQL Server, Oracle에서 가능한 구문</span>
+<span class="k">SELECT</span> 
+    <span class="n">e</span><span class="p">.</span><span class="n">employee_id</span><span class="p">,</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">first_name</span><span class="p">,</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">department_name</span>
+<span class="k">FROM</span> <span class="n">employees</span> <span class="n">e</span>
+<span class="k">FULL</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="n">departments</span> <span class="n">d</span> 
+<span class="k">ON</span> <span class="n">e</span><span class="p">.</span><span class="n">department_id</span> <span class="o">=</span> <span class="n">d</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span></code></pre></figure>
+
+<h4 id="self-join">SELF JOIN</h4>
+
+<p>자기 자신을 그냥 JOIN 절의 테이블로 넣어버리면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 직원과 상사 정보 조회</span>
+<span class="k">SELECT</span> 
+    <span class="n">e</span><span class="p">.</span><span class="n">employee_id</span> <span class="k">AS</span> <span class="err">사원</span><span class="n">ID</span><span class="p">,</span>
+    <span class="n">e</span><span class="p">.</span><span class="n">first_name</span> <span class="k">AS</span> <span class="err">사원이름</span><span class="p">,</span>
+    <span class="n">m</span><span class="p">.</span><span class="n">employee_id</span> <span class="k">AS</span> <span class="err">상사</span><span class="n">ID</span><span class="p">,</span>
+    <span class="n">m</span><span class="p">.</span><span class="n">first_name</span> <span class="k">AS</span> <span class="err">상사이름</span>
+<span class="k">FROM</span> <span class="n">employees</span> <span class="n">e</span>
+<span class="k">JOIN</span> <span class="n">employees</span> <span class="n">m</span> <span class="k">ON</span> <span class="n">e</span><span class="p">.</span><span class="n">manager_id</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="n">employee_id</span><span class="p">;</span></code></pre></figure>
+
+<h3 id="sub-query">Sub Query</h3>
+
+<p>nested class 처럼 여기서는 쿼리를 중첩시키도록 할 수 있다. 보통 sub query 는 잘 쓰지는 않는다. 그냥 Join 이 더 최적화에 좋고, 재사용이 어려우며, 디버깅이 불편하다는 단점이 있다. 그럼에도 불구하고 단일 값만을 가져오고 싶을 때는 sub query 를 쓰는게 더 좋을 수도 있고, 상황마다 가끔 쓰긴 한다.</p>
+
+<p><strong>Single-row Subquery</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 평균 급여보다 적은 급여를 받는 사원</span>
+<span class="k">SELECT</span> <span class="n">ename</span><span class="p">,</span> <span class="n">sal</span>
+<span class="k">FROM</span> <span class="n">emp</span>
+<span class="k">WHERE</span> <span class="n">sal</span> <span class="o">&lt;</span> <span class="p">(</span>
+    <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">sal</span><span class="p">)</span>
+    <span class="k">FROM</span> <span class="n">emp</span>
+<span class="p">);</span>
+
+<span class="c1">-- 가장 먼저 입사한 사원</span>
+<span class="k">SELECT</span> <span class="n">ename</span><span class="p">,</span> <span class="n">hiredate</span>
+<span class="k">FROM</span> <span class="n">emp</span>
+<span class="k">WHERE</span> <span class="n">hiredate</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="k">SELECT</span> <span class="k">MIN</span><span class="p">(</span><span class="n">hiredate</span><span class="p">)</span>
+    <span class="k">FROM</span> <span class="n">emp</span>
+<span class="p">);</span></code></pre></figure>
+
+<p><strong>Multi-row Subquery</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- IN 연산자 사용</span>
+<span class="k">SELECT</span> <span class="n">ename</span><span class="p">,</span> <span class="n">sal</span><span class="p">,</span> <span class="n">deptno</span>
+<span class="k">FROM</span> <span class="n">emp</span>
+<span class="k">WHERE</span> <span class="n">deptno</span> <span class="k">IN</span> <span class="p">(</span>
+    <span class="k">SELECT</span> <span class="n">deptno</span>
+    <span class="k">FROM</span> <span class="n">dept</span>
+    <span class="k">WHERE</span> <span class="n">loc</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">'NEW YORK'</span><span class="p">,</span> <span class="s1">'DALLAS'</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="c1">-- ANY 연산자 사용</span>
+<span class="k">SELECT</span> <span class="n">ename</span><span class="p">,</span> <span class="n">sal</span>
+<span class="k">FROM</span> <span class="n">emp</span>
+<span class="k">WHERE</span> <span class="n">sal</span> <span class="o">&gt;</span> <span class="k">ANY</span> <span class="p">(</span>
+    <span class="k">SELECT</span> <span class="n">sal</span>
+    <span class="k">FROM</span> <span class="n">emp</span>
+    <span class="k">WHERE</span> <span class="n">deptno</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="p">);</span>
+
+<span class="c1">-- ALL 연산자 사용</span>
+<span class="k">SELECT</span> <span class="n">ename</span><span class="p">,</span> <span class="n">sal</span>
+<span class="k">FROM</span> <span class="n">emp</span>
+<span class="k">WHERE</span> <span class="n">sal</span> <span class="o">&gt;</span> <span class="k">ALL</span> <span class="p">(</span>
+    <span class="k">SELECT</span> <span class="n">sal</span>
+    <span class="k">FROM</span> <span class="n">emp</span>
+    <span class="k">WHERE</span> <span class="n">deptno</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="p">);</span></code></pre></figure>
+
+<h4 id="correlated-subquery">Correlated Subquery</h4>
+
+<p>외부 쿼리와 내부 쿼리가 서로 연관되어 있는 서브쿼리이다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 자신이 속한 부서의 평균 급여보다 많이 받는 사원</span>
+<span class="k">SELECT</span> <span class="n">o</span><span class="p">.</span><span class="n">ename</span><span class="p">,</span> <span class="n">o</span><span class="p">.</span><span class="n">sal</span><span class="p">,</span> <span class="n">o</span><span class="p">.</span><span class="n">deptno</span>
+<span class="k">FROM</span> <span class="n">emp</span> <span class="n">o</span>
+<span class="k">WHERE</span> <span class="n">o</span><span class="p">.</span><span class="n">sal</span> <span class="o">&gt;</span> <span class="p">(</span>
+    <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">i</span><span class="p">.</span><span class="n">sal</span><span class="p">)</span>
+    <span class="k">FROM</span> <span class="n">emp</span> <span class="n">i</span>
+    <span class="k">WHERE</span> <span class="n">i</span><span class="p">.</span><span class="n">deptno</span> <span class="o">=</span> <span class="n">o</span><span class="p">.</span><span class="n">deptno</span>
+<span class="p">);</span></code></pre></figure>
+
+<p>별 특별할건 없다.</p>
+
+<h3 id="다양한-기능들">다양한 기능들</h3>
+
+<h4 id="set-operation">Set Operation</h4>
+
+<ul>
+  <li>UNION</li>
+  <li>MINUS</li>
+  <li>INTERSECT</li>
+</ul>
+
+<h4 id="window-함수">Window 함수</h4>
+
+<p>보통 OVER 과 함께 동반되며, 사용할 때는 검색 후에 사용하는게 좋다.</p>
+
+<ul>
+  <li>RANK</li>
+  <li>ROW_NUMBER</li>
+  <li>DENSE_RANK</li>
+</ul>
+
+<h3 id="schema">Schema</h3>
+
+<p>이제 이론을 들어가보자.</p>
+
+<p>데이터를 DB에 저장할 때 그러면 테이블을 각각 만들어줘야 하는데, 이 테이블을 만들기 위해 사전 작업들(설계)이 많이 들어간다.</p>
+
+<p>만약 이를 잘못 설계하면 나중에는 데이터 구조 자체를 변경하는데 굉장히 많은 비용이 들어가게 된다(이미 저장되어 있는 데이터 구조를 다른 데이터 구조로 바꿔야 하기 때문). 따라서 초기 설계가 중요하다. 그 기반이 되는 Schema 부터 본다.</p>
+
+<p>데이터베이스를 얘기할 때는 항상 스키마 와 인스턴스를 구분해야 한다. 스키마는 DB 의 논리적인 설계를 의미하며, DB 인스턴스는 특정 시점에 DB 안에 담긴 데이터의 snapshot 을 의미한다.</p>
+
+<p>데이터를 저장할 때는 relation 에 저장하게 되는데 relation 의 schema 를 보자.</p>
+
+<h4 id="relation-schema">Relation Schema</h4>
+
+<p>relation 이라는 개념은 프로그래밍 언어에서 변수 개념과 대응되게 되며, 릴레이션 스키마의 개념은 프로그래밍 언어에서의 타입 정의와 대응되게 된다.</p>
+
+<ul>
+  <li>Relation - Variable</li>
+  <li>Relation Schema - Type Definition</li>
+</ul>
+
+<p>여기서 relation schema 라는 개념은 속성들과 그에 대응되는 도메인들의 목록으로 구성되게 된다. 각 속성의 도메인에 대한 정확한 정의는 추후에 다룬다.</p>
+
+<p>relation instances 의 개념은 프로그래밍 언어에서 변수의 값에 해당하게 된다.</p>
+
+<blockquote>
+  <p>relation schema: section (course_id, sec_id, semester, …)<br />
+relation instance: (CS-101, 1, Fall, …)</p>
+</blockquote>
+
+<h4 id="key">Key</h4>
+
+<p>관계들의 인스턴스들을 보면 모든 행들은 서로 다 달라야 한다. 중복된 값이 계속해서 들어가게 되면 이는 자원 낭비이고 데이터가 우리에게 혼동을 줄 수 있다.</p>
+
+<p>따라서 관게는 튜플을 구별할 수 있는 방법을 반드시 가져야 하고, 이는 <strong>Super Key</strong> 라는 하나 이상의 속성 집합을 써서 각 튜플을 유일하게 식별 가능하다.</p>
+
+<blockquote>
+  <p>$t1 \neq t2 \implies t1.K \neq t2.K$</p>
+</blockquote>
+
+<h5 id="candidate-key">Candidate Key</h5>
+
+<p>슈퍼키는 불필요한 속성들을 포함 할 수가 있다. 예를들어 ID 와 name 이라는 attr. 를 가지는 테이블 t1 이 있다고 하자.</p>
+
+<p>슈퍼키는 ID로 두게 된다면 모든 행들을 고유하게 식별할 수 있지만, (ID, name) 으로 둬도 모든 행들을 고유하게 식별할 수 있다.</p>
+
+<p>따라서 만약 K가 슈퍼키라면, K의 어떤 superset 또한 역시 슈퍼키가 된다. 보통 superset 보다는 더 이상 줄일 수 없는 최소 슈퍼키(<strong>Minimal Superkey</strong>) 에 더 관심을 가지고, 이러한 최소 슈퍼키를 <strong>Candidate Key</strong> 라고 부르게 된다.</p>
+
+<p>여기서 또 다른 후보키의 예시로는 서로 다른 여러 속성 집합이 후보키가 될 수도 있는데, 예를들어 (name, dept_name) 과 ID 두 조합이 수퍼키가 될 수 있다고 해보자. 그러면 둘 다 후보키가 되는 셈이다.</p>
+
+<h5 id="primary-key">Primary Key</h5>
+
+<p>이러한 후보키 중에서 DB Designer 가 relation 내의 tuple 을 식별하는 주요 수단으로 선택한 것을 <strong>Primary Key</strong> 로 부르게 된다.</p>
+
+<blockquote>
+  <p>$Super Key \subset Candidate Key \subset Primary Key$</p>
+</blockquote>
+
+<p>그리고 Primary Key 를 Relation Schema 로 표기할 때 밑줄을 통해 표현하게 된다.</p>
+
+<blockquote>
+  <p><em>classroom</em> (<u>building</u>, <u>room_number</u>, capacity)</p>
+</blockquote>
+
+<p>이러한 기본키는 신중하게 선택해야 하는데, primary key 가 매우 드물게 변경되어야 하기 때문이다. 변경이 된다면 다음과 같은 문제가 생긴다.</p>
+
+<ul>
+  <li>참조 무결성: 기본키는 다른 테이블의 외래키로 참조될 수 있는데 값이 바뀌면 참조 관계가 깨질 수도 있다. 그렇다고 기본키 값을 업데이트하면 다른 참조하고 있는 외래키를 업데이트하면 되지 않냐고 하는데 이러면 비용적으로 부담이다.</li>
+  <li>데이터 일관성: 여러 테이블, 인덱스, 뷰, 어플리케이션 코드 등에서 해당 키를 기준으로 데이터를 찾는데, 계속 값이 바뀌면 시스템 전체에서 불일치가 발생할 수 있다.</li>
+  <li>성능 저하: 기본키는 보통 인덱스로 관리되는데, 기본키 값이 변경되면 인덱스도 다시 갱신해야되며, 대량 업데이트 시에 성능에 큰 영향을 주게 된다.</li>
+  <li>비즈니스 로직 혼란: 기본 키는 “변하지 않는 식별자” 라는 전제를 기반으로 여러 로직이 설계되기 때문에, 값이 바뀐다면 전제가 무너져 혼란을 초래할 수 있다.</li>
+</ul>
+
+<p>primary key 는 그래서 다음과 같은 제약조건이 필요하다.</p>
+
+<ul>
+  <li>UNIQUE: 테이블에 오직 하나만 존재</li>
+  <li>NOT NULL: NULL 값 X</li>
+  <li>INDEX: 기본키로 등록되면 자동으로 인덱스를 생성한다.</li>
+</ul>
+
+<h5 id="foreign-key">Foreign Key</h5>
+
+<p>Foreign-key Constraints 를 살펴보자. t2 테이블에서 t1 테이블의 속성 값이 필요하다고 해보자. 그런데 해당 값이 t1 의 어디에도 존재하지 않는다면 이는 타당하지 않다. 즉 t2는 t1에 존재하는 값을 가져야 한다.</p>
+
+<p>외래키 제약조건은 릴레이션 r1 속성 A 가 릴레이션 r2 의 기본키 B를 참조한다고 할 때, 어떤 데이터베이스 인스턴스에서도 r1 의 각 튜플이 가지는 A 값은 반드시 r2 의 어떤 튜플의 B 값과 일치해야 함을 의미한다.</p>
+
+<ul>
+  <li>Referential Integerity:</li>
+  <li>NULLITY: NULL 값을 가질 수 있음</li>
+  <li>CASCADE, RESTRICT, SET NULL: 참조 대상이 삭제되거나 변경될 경우 동작을 설정할 수 있음</li>
+</ul>
+
+<h3 id="schema-diagrams">Schema Diagrams</h3>
+
+<ul>
+  <li>기본키는 밑줄로</li>
+  <li>릴레이션의 외래키는 참조되는 릴레이션의 기본키로 향하는 화살표로</li>
+  <li>외래키 제약조건이 아닌 참조 무결성 제약조건을 표현할 때는 양쪽 화살표로</li>
+</ul>
+
+<blockquote>
+  <p>현재는 E-R 다이어그램을 많이 쓴다.</p>
+</blockquote>
+
+<h3 id="relational-query-languages">Relational Query Languages</h3>
+
+<p>쿼리 언어는 사용자가 DB 로 부터 정보를 요청할 때 사용하는 언어를 말하는데, 이러한 언어들은 일반적인 프로그래밍 언어보다 높은 수준에서 동작한다.</p>
+
+<p>쿼리언어는</p>
+<ul>
+  <li>imperative(명령형): 사용자가 DB에서 원하는 결과를 계산하기 위해 특정 연산의 순서를 시스템에 지시할 수 있음(일반적으로 상태 변수를 가짐)</li>
+  <li>functional(함수형): DB의 데이터나 다른 함수의 결과에 대해 동작하는 함수들의 평가(evaluation) 으로 표현된다. side-effect 가 거의 없어 프로그램 상태를 갱신하지 않는다.</li>
+  <li>declarative(선언형): 구체적인 연산 순서나 함수 호출을 명시하지 않고, 단순히 원하는 정보만을 기술한다.</li>
+</ul>
+
+<p>으로 분류할 수 있다.</p>
+
+<h4 id="sql-languages-parts">SQL Languages Parts</h4>
+
+<ul>
+  <li>DDL</li>
+  <li>DML</li>
+  <li>Integrity</li>
+  <li>View Definition</li>
+  <li>Transaction Control</li>
+  <li>Embedded SQL &amp; Dynamic SQL</li>
+  <li>Authorization</li>
+</ul>
+
+<h3 id="sql-data-definition">SQL Data Definition</h3>
+
+<p>DB 의 관계들의 집합은 DDL 을 사용하여 지정되는데, SQL DDL 은 단순히 릴레이션 집합뿐 아니라 각 릴레이션에 대한 다양한 정보를 정의할 수 있다.</p>
+
+<ul>
+  <li>relation schema</li>
+  <li>attribute type</li>
+  <li>integrity constraints</li>
+  <li>index set</li>
+  <li>physical storage structure</li>
+</ul>
+
+<p>여기서는 스키마와 데이터타입만 보자.</p>
+
+<h4 id="basic-types">Basic Types</h4>
+
+<ul>
+  <li>char(n): 무조건 n byte 의 문자열이 할당, “ABC” 를 저장시 뒤에 공백 7개 문자가 추가됨</li>
+  <li>varchar(n): 공백이 추가되지 않음 n 이하의 문자열로 저장 가능</li>
+</ul>
+
+<blockquote>
+  <p>char, varchar 타입을 비교할 때 사용하는 DB 에 따라 직관적으로는 결과가 같아 보여도 실제로는 false, true 가 될 수도 있다. 이러한 문제 때문에 varchar 를 권장하는 편이다. 또한 다국어 데이터 저장을 위해 <strong>nvarchar</strong> 도 있다.</p>
+</blockquote>
+
+<ul>
+  <li>int</li>
+  <li>smallint</li>
+  <li>numeric(p, d): p자리.d자리</li>
+  <li>real, double precision</li>
+  <li>float(n)</li>
+</ul>
+
+<blockquote>
+  <p>각 타입은 null 값을 가질 수 있다.</p>
+</blockquote>
+
+<h4 id="basic-schema-definition">Basic Schema Definition</h4>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">create</span> <span class="k">table</span> <span class="n">department</span>
+<span class="p">(</span><span class="n">dept_name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+ <span class="n">building</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">15</span><span class="p">),</span>
+ <span class="n">budget</span> <span class="nb">numeric</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+ <span class="k">primary</span> <span class="k">key</span> <span class="p">(</span><span class="n">dept_name</span><span class="p">));</span></code></pre></figure>
+
+<p>자바랑 동일하게 sql 문은 항상 문장의 끝에 ;가 붙으며, 맨 마지막에 integrity constraints 들을 더 넣을 수 있다(primary key 처럼). 이러한 자주 쓰이는 constriaints 는 다음과 같다:</p>
+
+<ul>
+  <li>primary key ($A_1, A_2, …, A_m$)</li>
+  <li>foreign key ($A_1, A_2, …, A_m$) references</li>
+  <li>not null</li>
+</ul>
+
+<p>다음 장에서 DDL 을 더 자세히 다루자.</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-19%EC%9D%BC%EC%B0%A8-sql-join-scheme-key.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-19%EC%9D%BC%EC%B0%A8-sql-join-scheme-key.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

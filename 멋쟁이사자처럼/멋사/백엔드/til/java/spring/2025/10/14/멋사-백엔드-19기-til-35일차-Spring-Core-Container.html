@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 35일차 Spring Core Container</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 35일차 Spring Core Container | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 35일차 Spring Core Container" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/14/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-35%EC%9D%BC%EC%B0%A8-Spring-Core-Container.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/14/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-35%EC%9D%BC%EC%B0%A8-Spring-Core-Container.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-14T02:29:18+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 35일차 Spring Core Container" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-10-14T02:29:18+00:00","datePublished":"2025-10-14T02:29:18+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 35일차 Spring Core Container","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/14/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-35%EC%9D%BC%EC%B0%A8-Spring-Core-Container.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/14/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-35%EC%9D%BC%EC%B0%A8-Spring-Core-Container.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/14/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-35%EC%9D%BC%EC%B0%A8-Spring-Core-Container.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 35일차 Spring Core Container</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Oct 14, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li><li>Spring</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#spring-core">Spring Core</a>
+    <ul>
+      <li><a href="#ioc">IoC</a>
+        <ul>
+          <li><a href="#dependency-injection">Dependency Injection</a></li>
+        </ul>
+      </li>
+      <li><a href="#bean">Bean</a>
+        <ul>
+          <li><a href="#bean-등록">Bean 등록</a></li>
+          <li><a href="#bean-scope">Bean Scope</a></li>
+        </ul>
+      </li>
+      <li><a href="#componentscan">ComponentScan</a>
+        <ul>
+          <li><a href="#annotation-정의">Annotation 정의</a></li>
+          <li><a href="#springbootapplication">@SpringBootApplication</a></li>
+          <li><a href="#componentscan-어노테이션-정의">ComponentScan 어노테이션 정의</a></li>
+          <li><a href="#springbootapplication-의-componentscan">SpringBootApplication 의 ComponentScan</a></li>
+        </ul>
+      </li>
+      <li><a href="#configuration">@Configuration</a>
+        <ul>
+          <li><a href="#️-configuration-의-cglib-프록시-메서드-proxybeanmethods">⭐️ @Configuration 의 CGLIB 프록시 메서드 proxyBeanMethods()</a></li>
+        </ul>
+      </li>
+      <li><a href="#scope-애너테이션으로-bean-생명주기와-공유-범위-제어">@Scope 애너테이션으로 Bean 생명주기와 공유 범위 제어</a>
+        <ul>
+          <li><a href="#postconstruct-와-predestroy-사용하여-생명주기에-대한-로그-찍어보기">@PostConstruct 와 @PreDestroy 사용하여 생명주기에 대한 로그 찍어보기</a></li>
+        </ul>
+      </li>
+      <li><a href="#properties-를-사용해-키-값을-config-로-등록하기">Properties 를 사용해 키 값을 Config 로 등록하기</a>
+        <ul>
+          <li><a href="#value-로-프로퍼티-주입해보기">@Value 로 프로퍼티 주입해보기</a></li>
+          <li><a href="#configurationproperties-를-사용해-key-를-기준으로-값-들고오기">@ConfigurationProperties 를 사용해 key 를 기준으로 값 들고오기</a></li>
+        </ul>
+      </li>
+      <li><a href="#di-시-주의점">DI 시 주의점</a>
+        <ul>
+          <li><a href="#lazy">@Lazy</a></li>
+        </ul>
+      </li>
+      <li><a href="#spring-application-의-실행-과정-중-실행-코드-넣기">Spring Application 의 실행 과정 중 실행 코드 넣기</a>
+        <ul>
+          <li><a href="#commandlinerunner">CommandLineRunner</a></li>
+        </ul>
+      </li>
+      <li><a href="#️-spring-event-system">⭐️ Spring Event System</a>
+        <ul>
+          <li><a href="#asynchronized-event-로-구성하기">Asynchronized Event 로 구성하기</a></li>
+          <li><a href="#transaction-event-listener">Transaction Event Listener</a></li>
+          <li><a href="#spring-내장-eventlistener">Spring 내장 EventListener</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="spring-core">Spring Core</h3>
+
+<p>IoC, DI 에 대해 살펴본다.</p>
+
+<h4 id="ioc">IoC</h4>
+
+<p>객체의 생성과 의존성 관리를 개발자가 직접하는 것이 아니라 프레임워크가 대신 관리해주는 원리를 IoC 라고 한다.</p>
+
+<p>전통적으로는 new 를 통해 객체의 생성과 의존성을 개발자가 관리했지만, 프레임워크가 객체를 생성하고 연결시키는 책임을 받게 된다.</p>
+
+<p><strong>장점</strong></p>
+<ul>
+  <li>객체 간 결합도를 낮추고, 유지보수를 쉽게 할 수 있음</li>
+  <li>코드 재사용성을 높이고 테스트를 쉽게 할 수 있음</li>
+</ul>
+
+<p>IoC 를 달성하기 위해서는 주로 <strong>DI(Dependency Injection)</strong> 기술로 구현하게 된다.</p>
+
+<h5 id="dependency-injection">Dependency Injection</h5>
+
+<p>스프링에서는 3가지의 의존성 주입이 있다. 마지막 방식은 안쓰이니 그냥 삭제한다.</p>
+
+<p><strong>생성자 주입</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Engine</span> <span class="n">engine</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">public</span> <span class="nf">Car</span><span class="o">(</span><span class="nc">Engine</span> <span class="n">engine</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">engine</span> <span class="o">=</span> <span class="n">engine</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>세터 주입</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">Engine</span> <span class="n">engine</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setEngine</span><span class="o">(</span><span class="nc">Engine</span> <span class="n">engine</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">engine</span> <span class="o">=</span> <span class="n">engine</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>생성자가 하나인 경우에는 <code class="language-plaintext highlighter-rouge">@Autowired</code> 를 생략 가능하다.</p>
+</blockquote>
+
+<h4 id="bean">Bean</h4>
+
+<p><code class="language-plaintext highlighter-rouge">IoC</code> 가 관리하는 객체를 <code class="language-plaintext highlighter-rouge">Bean</code> 이라고 하고, 이 Bean 이 살고 있는 곳이 IoC 컨테이너이다. Bean 은 그냥 구현체이며 Bean 으로 등록된 객체들은 다음 특징을 가진다:</p>
+<ul>
+  <li>생명주기 관리 대상: IoC 컨테이너가 객체의 생성부터 소멸까지 관리</li>
+  <li>재사용 가능: 필요할 때마다 컨테이너에서 가져다 쓸 수 있음</li>
+  <li>의존성 주입 지원: 다른 Bean 과 연결할 때 DI 를 통해 주입 가능</li>
+</ul>
+
+<p>결국에는 <code class="language-plaintext highlighter-rouge">Bean</code> 으로 등록되어야 DI 의 대상이 된다는 것이다.</p>
+
+<h5 id="bean-등록">Bean 등록</h5>
+
+<p>IoC 컨테이너에 Bean 을 등록하기 위해 3가지 방법이 있다.</p>
+
+<p><strong>어노테이션 기반</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>      <span class="c1">// 일반적인 Bean</span>
+<span class="nd">@Service</span>        <span class="c1">// 비즈니스 로직 Bean</span>
+<span class="nd">@Repository</span>     <span class="c1">// DAO Bean</span>
+<span class="nd">@Controller</span>     <span class="c1">// MVC Controller Bean</span></code></pre></figure>
+
+<p><strong>Java Config 기반</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppConfig</span> <span class="o">{</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">Car</span> <span class="nf">car</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Car</span><span class="o">(</span><span class="n">engine</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">Engine</span> <span class="nf">engine</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Engine</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>함수를 빈으로 하여서 함수 시그니처(함수명, 반환값) 을 토대로 의존성 주입을 할 수 있다. <code class="language-plaintext highlighter-rouge">ApplicationContext.getBean()</code> 메서드를 통해 들고 올 수 있다.</p>
+</blockquote>
+
+<p><strong>XML 기반</strong></p>
+
+<p>옛날 방식이며 지금은 잘 안쓰인다.</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"car"</span> <span class="na">class=</span><span class="s">"com.example.Car"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">"engine"</span> <span class="na">class=</span><span class="s">"com.example.Engine"</span><span class="nt">/&gt;</span></code></pre></figure>
+
+<h5 id="bean-scope">Bean Scope</h5>
+
+<p>보통 <code class="language-plaintext highlighter-rouge">Bean</code> 으로 등록된 객체들은 <code class="language-plaintext highlighter-rouge">Singleton</code> 패턴을 따르게 된다. 따라서 <code class="language-plaintext highlighter-rouge">@Bean</code>, <code class="language-plaintext highlighter-rouge">@Component</code>, <code class="language-plaintext highlighter-rouge">@Service</code> 등등에는 다음 어노테이션이 포함되어 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="nd">@Scope</span><span class="o">(</span><span class="s">"singleton"</span><span class="o">)</span> <span class="c1">// 생략 가능, 기본값이 singleton</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span> <span class="o">}</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">@Scope</code> 어노테이션은 인자로 다음을 넣을 수 있다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">prototype</code>: 요청할 때마다 새로운 Bean 생성</li>
+  <li><code class="language-plaintext highlighter-rouge">request</code>: HTTP 요청 당 하나의 Bean 생성</li>
+  <li><code class="language-plaintext highlighter-rouge">session</code>: HTTP 세션 당 하나의 Bean 생성</li>
+  <li><code class="language-plaintext highlighter-rouge">application</code>: <code class="language-plaintext highlighter-rouge">ServletContext</code> 범위에서 하나의 Bean 생성</li>
+  <li><code class="language-plaintext highlighter-rouge">websocket</code>: <code class="language-plaintext highlighter-rouge">WebSocket</code> 세션 당 하나의 Bean 생성</li>
+</ul>
+
+<h4 id="componentscan">ComponentScan</h4>
+
+<p>빈만 이렇게 선언해놓고 전부 등록된다면 정말 좋겠지만, Bean 들이 각 파일들로 흩어져 있는 것을 Spring Boot 가 일일히 전부 들어가서 찾아내진 않는다. 우리가 찾을 범위를 지정해주어야 한다. 이를 <code class="language-plaintext highlighter-rouge">ComponentScan</code> 어노테이션이 하는 일인데 이는 <code class="language-plaintext highlighter-rouge">SpringBootApplication</code> 어노테이션이 가지고 있으므로 그 내부를 파헤쳐보자.</p>
+
+<h5 id="annotation-정의">Annotation 정의</h5>
+
+<p>자바에서는 특별한 형태의 인터페이스가 있는데 바로 애너테이션이다. 애너테이션은 보통 클래스, 메서드, 필드 등에 대한 <strong>부가 정보(메타 데이터)</strong>를 제공하고 싶을 때 사용하는 문법이며, 프로그램의 실행 로직에는 직접 영향을 주지 않지만, 컴파일러나 프레임워크가 해석할 때 특별한 동작을 수행하도록 할 수 있다. 즉, <strong>런타임 이전에 특수한 동작을 하여 런타임 때 의도한 동작을 수행하도록 할 수 있다</strong>는 것이다.</p>
+
+<p>애너테이션의 선언은 다음과 같다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// @interface 가 선언 키워드</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">MyAnnotation</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="nf">value</span><span class="o">();</span> <span class="c1">// &lt;- 속성임, 요소라고도 불림</span>
+    <span class="kt">int</span> <span class="nf">count</span><span class="o">()</span> <span class="k">default</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">// default 로 기본값 지정 가능</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>개념을 보자면 애너테이션 정의 내부에 들어가는 함수를 보통 속성 이라고 하며 이 속성은 필드와 유사하여 어노테이션의 소괄호 블록에 들어갈 인자로 사용되게 된다.</p>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">value()</code> 는 무조건 있어야 하며, <code class="language-plaintext highlighter-rouge">@MyAnnotation("value 입니다.")</code> 처럼 붙일 수 있다(암묵적 표기). 명시적으로 다음과 같이 선언하는 것도 동일한 결과이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@MyAnnotation</span><span class="o">(</span><span class="s">"value 입니다."</span><span class="o">)</span> <span class="c1">// == @MyAnnotation(value = "value 입니다.")</span>
+<span class="kd">class</span> <span class="nc">Hello</span> <span class="o">{</span>
+    <span class="o">...</span></code></pre></figure>
+
+<p>특히 애너테이션을 정의할 때 그 위에 붙이는 자주 쓰이는 메타 애너테이션 4개가 있다.</p>
+
+<p><strong>Meta Annotation</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">@Target</code>: 애너테이션을 붙일 수 있는 범위 지정, <code class="language-plaintext highlighter-rouge">ElementType</code> 열거형 클래스를 통해 상수 설정
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">ElementType.TYPE</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ElementType.FIELD</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ElementType.PARAMETER</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ElementType.CONSTRUCTOR</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ElementType.ANNOTATION_TYPE</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ElementType.PACKAGE</code></li>
+      <li>기본값은 모든 곳 사용 가능</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">@Retention</code>: 애너테이션의 생명주기가 어디까지 유지가 되는지 <code class="language-plaintext highlighter-rouge">RetentionPolicy</code> 설정
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">RetentionPolicy.RUNTIME</code></li>
+      <li><code class="language-plaintext highlighter-rouge">RetentionPolicy.CLASS</code></li>
+      <li>기본값은 <code class="language-plaintext highlighter-rouge">CLASS</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">@Documented</code>: javadoc 등 문서에 포함되도록 표시
+    <ul>
+      <li>기본값은 docs 에 안나타나도록</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">@Inherited</code>: 이 애너테이션이 서브 클래스에 자동 상속되도록 함
+    <ul>
+      <li>기본값은 없는 걸로, 상속되지 않는게 기본값</li>
+    </ul>
+  </li>
+</ul>
+
+<p>위를 토대로 아래를 읽어보자.</p>
+
+<h5 id="springbootapplication">@SpringBootApplication</h5>
+
+<p>스프링부트 어플리케이션 애너테이션은 <code class="language-plaintext highlighter-rouge">@SpringBootConfiguration</code> 을 가지며, 이 <code class="language-plaintext highlighter-rouge">Configuration</code> 은 위에 배웠던 IoC 의 기술 중 한 방법으로 Config 방식임을 볼 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Target</span><span class="o">(</span><span class="nc">ElementType</span><span class="o">.</span><span class="na">TYPE</span><span class="o">)</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="nc">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
+<span class="nd">@Documented</span>
+<span class="nd">@Inherited</span>
+
+<span class="nd">@SpringBootConfiguration</span>
+<span class="nd">@EnableAutoConfiguration</span>
+<span class="nd">@ComponentScan</span><span class="o">(</span><span class="n">excludeFilters</span> <span class="o">=</span> <span class="o">{</span> <span class="nd">@Filter</span><span class="o">(</span><span class="n">type</span> <span class="o">=</span> <span class="nc">FilterType</span><span class="o">.</span><span class="na">CUSTOM</span><span class="o">,</span> <span class="n">classes</span> <span class="o">=</span> <span class="nc">TypeExcludeFilter</span><span class="o">.</span><span class="na">class</span><span class="o">),</span>
+		<span class="nd">@Filter</span><span class="o">(</span><span class="n">type</span> <span class="o">=</span> <span class="nc">FilterType</span><span class="o">.</span><span class="na">CUSTOM</span><span class="o">,</span> <span class="n">classes</span> <span class="o">=</span> <span class="nc">AutoConfigurationExcludeFilter</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">})</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">SpringBootApplication</span> <span class="o">{</span></code></pre></figure>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">SpringBootConfiguration</code> 이 있음을 볼 수 있는데, <code class="language-plaintext highlighter-rouge">SpringBootConfiguration</code> 은 다시 <code class="language-plaintext highlighter-rouge">@Configuration</code> 애너테이션이 붙어있음을 볼 수 있다. 즉,<code class="language-plaintext highlighter-rouge"> @SpringBootConfiguration</code> 자체가 스프링 설정 클래스로 인식을 하며, 추가로 <code class="language-plaintext highlighter-rouge">@SpringBootConfiguration</code> 은 인자로 <code class="language-plaintext highlighter-rouge">proxyBeanMethods</code> 를 받을 수 있으며, <code class="language-plaintext highlighter-rouge">true</code>, <code class="language-plaintext highlighter-rouge">false</code> 를 가짐을 볼 수 있다.</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">proxyBeanMethods</code> - <a href="#cglib-프록시">CGLIB 프록시</a>를 통해 <code class="language-plaintext highlighter-rouge">@Bean</code> 메서드 간 호출 시 싱글톤 보장, true 가 기본값이며, 이때 <code class="language-plaintext highlighter-rouge">Bean</code> 들은 <code class="language-plaintext highlighter-rouge">Singleton</code> 이게 됨</p>
+</blockquote>
+
+<p>또 <code class="language-plaintext highlighter-rouge">ComponentScan</code> 이 있음을 볼 수 있다. 이름 그대로 컴포넌트들을 스캔하는 방식을 지정하는 역할을 한다.</p>
+
+<h5 id="componentscan-어노테이션-정의">ComponentScan 어노테이션 정의</h5>
+
+<p><code class="language-plaintext highlighter-rouge">SpringBootApplication</code> 이 쓰는 <code class="language-plaintext highlighter-rouge">ComponentScan</code> 어노테이션을 이해하기 전에 <code class="language-plaintext highlighter-rouge">ComponentScan</code> 을 파헤쳐보자</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@AliasFor</span><span class="o">(</span><span class="s">"basePackages"</span><span class="o">)</span>
+<span class="nc">String</span><span class="o">[]</span> <span class="nf">value</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+
+<span class="nd">@AliasFor</span><span class="o">(</span><span class="s">"value"</span><span class="o">)</span>
+<span class="nc">String</span><span class="o">[]</span> <span class="nf">basePackages</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+
+<span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">basePackageClasses</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+
+<span class="nc">Filter</span><span class="o">[]</span> <span class="nf">includeFilters</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+
+<span class="nc">Filter</span><span class="o">[]</span> <span class="nf">excludeFilters</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+
+<span class="kt">boolean</span> <span class="nf">lazyInit</span><span class="o">()</span> <span class="k">default</span> <span class="kc">false</span><span class="o">;</span></code></pre></figure>
+
+<p>자주 쓰이는 것들만 모았다. 우선 <code class="language-plaintext highlighter-rouge">AliasFor</code> 은 “이 속성은 다른 속성과 의미적으로 동일하다” 라는 의미를 가지는 어노테이션임을 알려준다. 따라서 <code class="language-plaintext highlighter-rouge">value=</code> 로 하던 <code class="language-plaintext highlighter-rouge">basePackages=</code> 로 선언하던 동일하다(value 이기에 명시적 속성 표기 생략 가능).</p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">basePackages</code>: <code class="language-plaintext highlighter-rouge">String[]</code> 을 인자로 받고, <code class="language-plaintext highlighter-rouge">package</code> 명들을 넣어주면 해당 패키지들을 스캔 
+대상으로 <code class="language-plaintext highlighter-rouge">Component</code> 들을 가져오게 된다.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">basePackageClasses</code>: 위 기능과 유사하지만 단위를 클래스 별로 가져오게 할 수 있다. <code class="language-plaintext highlighter-rouge">@ComponentScan(basePackageClasses = MyApp.class)</code>, 문자열보다는 컴파일 단계에서 타입 안전성을 보장 받기 때문에 안전하다</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">includeFilters</code>: <code class="language-plaintext highlighter-rouge">ComponentScan</code> 내부에 선언되어져 있는 <code class="language-plaintext highlighter-rouge">Filter</code> 어노테이션 을 보면 알 수 있다. 예제를 보면서 설명한다.</p>
+  </li>
+</ul>
+
+<p><strong>Filter 어노테이션 정의</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Retention</span><span class="o">(</span><span class="nc">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
+<span class="nd">@Target</span><span class="o">({})</span>
+<span class="nd">@interface</span> <span class="nc">Filter</span> <span class="o">{</span>
+    <span class="nc">FilterType</span> <span class="nf">type</span><span class="o">()</span> <span class="k">default</span> <span class="nc">FilterType</span><span class="o">.</span><span class="na">ANNOTATION</span><span class="o">;</span>
+    <span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">classes</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+    <span class="nc">String</span><span class="o">[]</span> <span class="nf">pattern</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위는 필터 가 정의되어 있는 방식을 볼 수 있다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">type</code>: 필터를 거를 방식에서 조건의 대상에 대한 형태를 정한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">classes</code>: 그 type 을 가지는 class 를 넣어준다.</li>
+  <li><code class="language-plaintext highlighter-rouge">pattern</code>: 클래스 이름을 기준으로 정규식(Regex) 매칭, 배열 가능</li>
+</ul>
+
+<p>이제 컴포넌트 스캔을 보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ComponentScan</span><span class="o">(</span>
+    <span class="n">includeFilters</span> <span class="o">=</span> <span class="nd">@ComponentScan</span><span class="o">.</span><span class="na">Filter</span><span class="o">(</span>
+        <span class="n">type</span> <span class="o">=</span> <span class="nc">FilterType</span><span class="o">.</span><span class="na">ANNOTATION</span><span class="o">,</span>
+        <span class="n">classes</span> <span class="o">=</span> <span class="nc">CustomAnnotation</span><span class="o">.</span><span class="na">class</span>
+    <span class="o">)</span>
+<span class="o">)</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">type</code> 은 필터 방식을 지정하는 옵션인데 아래에 정리해 두었다, <code class="language-plaintext highlighter-rouge">classes</code> 로 <code class="language-plaintext highlighter-rouge">@CustomAnnotation</code> 이 붙은 클래스도 Bean 등록 대상에 포함하겠다는 의미이다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">FilterType.ANNOTATION</code>: 지정한 애너테이션이 붙은 경우에만 필터</li>
+  <li><code class="language-plaintext highlighter-rouge">FilterType.ASSIGNABLE_TYPE</code>: 지정한 클래스 또는 그 자식 클래스만 필터</li>
+  <li><code class="language-plaintext highlighter-rouge">FilterType.REGEX</code>: 클래스 이름이 정규식과 매칭되는 경우 필터</li>
+  <li><code class="language-plaintext highlighter-rouge">FilterType.ASPECTJ</code>: <code class="language-plaintext highlighter-rouge">AspectJ</code> 라는 표현식에 맞는 필터</li>
+  <li><code class="language-plaintext highlighter-rouge">FilterType.CUSTOM</code>: <code class="language-plaintext highlighter-rouge">TypeFilter</code> 를 구현한 커스텀 필터 클래스 사용</li>
+</ul>
+
+<p>따라서 맨 위 <code class="language-plaintext highlighter-rouge">includeFilters</code> 는 <code class="language-plaintext highlighter-rouge">CustomAnnotion</code> 이 붙은 클래스만 포함하겠다 라는 의미가 된다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">excludeFilters</code>: include 와 동일하지만 제외하는 경우다</li>
+</ul>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">ComponentScan</code> 은 그냥 스캔만 할 뿐이다. 해당 어노테이션이 붙었다고 하여서 그 클래스가 Bean 으로 등록되는건 아니다. 따라서 다음과 같이 사용한다고 하여서 config 가 bean 으로 등록되진 않는다.</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ComponentScan</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="o">{</span><span class="s">"sample"</span><span class="o">})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserConfig</span> <span class="o">{</span> <span class="o">}</span></code></pre></figure>
+
+<h5 id="springbootapplication-의-componentscan">SpringBootApplication 의 ComponentScan</h5>
+
+<p>아래 애너테이션을 토대로 <code class="language-plaintext highlighter-rouge">SpringApplication</code> 이 컴포넌트를 읽게 된다. 컴포넌트를 읽는 범위는 <strong>자기 자신 클래스가 있는 패키지와 그 하위 패키지를 기본적으로 스캔하는 방식</strong>이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ComponentScan</span><span class="o">(</span><span class="n">excludeFilters</span> <span class="o">=</span> <span class="o">{</span> <span class="nd">@Filter</span><span class="o">(</span><span class="n">type</span> <span class="o">=</span> <span class="nc">FilterType</span><span class="o">.</span><span class="na">CUSTOM</span><span class="o">,</span> <span class="n">classes</span> <span class="o">=</span> <span class="nc">TypeExcludeFilter</span><span class="o">.</span><span class="na">class</span><span class="o">),</span>
+		<span class="nd">@Filter</span><span class="o">(</span><span class="n">type</span> <span class="o">=</span> <span class="nc">FilterType</span><span class="o">.</span><span class="na">CUSTOM</span><span class="o">,</span> <span class="n">classes</span> <span class="o">=</span> <span class="nc">AutoConfigurationExcludeFilter</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">})</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">CUSTOM</code> 으로 <code class="language-plaintext highlighter-rouge">Filter</code> 타입이 지정되었다면, <code class="language-plaintext highlighter-rouge">classes</code> 에 오는 클래스들은 전부 <code class="language-plaintext highlighter-rouge">TypeFilter</code> 인터페이스를 구현하는 클래스가 와야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@FunctionalInterface</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">TypeFilter</span> <span class="o">{</span>
+
+    <span class="kt">boolean</span> <span class="nf">match</span><span class="o">(</span><span class="nc">MetadataReader</span> <span class="n">metadataReader</span><span class="o">,</span> <span class="nc">MetadataReaderFactory</span> <span class="n">metadataReaderFactory</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="nc">IOException</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>타입 필터는 <code class="language-plaintext highlighter-rouge">match</code> 를 구현하도록 되어 있다. 이제 <code class="language-plaintext highlighter-rouge">SpringBootApplication</code> 에서의 <code class="language-plaintext highlighter-rouge">TypeExcludeFilter</code> 를 보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TypeExcludeFilter</span> <span class="kd">implements</span> <span class="nc">TypeFilter</span><span class="o">,</span> <span class="nc">BeanFactoryAware</span> <span class="o">{</span>
+<span class="o">...(</span><span class="n">중간</span> <span class="n">생략</span><span class="o">)</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">match</span><span class="o">(</span><span class="nc">MetadataReader</span> <span class="n">metadataReader</span><span class="o">,</span> <span class="nc">MetadataReaderFactory</span> <span class="n">metadataReaderFactory</span><span class="o">)</span>
+        <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">beanFactory</span> <span class="k">instanceof</span> <span class="nc">ListableBeanFactory</span> 
+    <span class="o">&amp;&amp;</span> <span class="n">getClass</span><span class="o">()</span> <span class="o">==</span> <span class="nc">TypeExcludeFilter</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="nc">TypeExcludeFilter</span> <span class="n">delegate</span> <span class="o">:</span> <span class="n">getDelegates</span><span class="o">())</span> <span class="o">{</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">delegate</span><span class="o">.</span><span class="na">match</span><span class="o">(</span><span class="n">metadataReader</span><span class="o">,</span> <span class="n">metadataReaderFactory</span><span class="o">))</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>각 클래스에서 필터 조건에 해당하는지 확인하는 매서드인데, true 면 스캔에서 제외되고, <code class="language-plaintext highlighter-rouge">false</code> 면 포함되는 형태이다. 인자를 먼저 보자.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">metadataReader</code>: 현재 검사 중인 클래스의 메타데이터(클래스명, 어노테이션 등) 을 읽어들이는 객체</li>
+  <li><code class="language-plaintext highlighter-rouge">metadataReaderFactory</code>: 다른 클래스 정보를 가져오는 도구</li>
+</ul>
+
+<ol>
+  <li>beanFactory 가 <code class="language-plaintext highlighter-rouge">ListableBeanFactory</code> 인지 확인
+    <ul>
+      <li>Bean 목록을 조회할 수 있는 타입인지 체크한다.</li>
+    </ul>
+  </li>
+  <li>현재 객체가 정확히 <code class="language-plaintext highlighter-rouge">TypeExcludeFilter</code> 클래스인지 확인
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">getClass() == TypeExcludeFilter.class</code></li>
+    </ul>
+  </li>
+</ol>
+
+<p>따라서 기본 <code class="language-plaintext highlighter-rouge">TypeExcludeFilter</code> 만 처리하고, <strong>서브 클래스는 여기서 패스</strong>하게 된다.</p>
+
+<blockquote>
+  <p>필터도 여러 개 일텐데 TypeExcludeFilter 인 애만 처리하고 그 하위 클래스는 넘어가겠다는 의미이다.</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">AutoConfigurationExcludeFilter</code> 에 대한 것도 그러면 유추해볼 수 있을 것이다. Spring Boot 에서는 기본적으로 IoC 에 대한 자동적인 Bean 설정이 들어가기에 내부 구현을 따로 읽어서 어떤걸 제외시키고 있는지 보면 될 것이다.</p>
+
+<p>이렇게 <code class="language-plaintext highlighter-rouge">SpringBootApplication</code> 이 동작하게 된다.</p>
+
+<h4 id="configuration">@Configuration</h4>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">Configuration</code> 을 이해할 수 있다. <code class="language-plaintext highlighter-rouge">Configuration</code> 의 의미는 구성, 설정이다. 구성은 객체 간의 이루어져있는 다이어그램 형태를 의미할 수 있다. Spring 에서의 객체는 Bean 이기 때문에 Bean 간의 이루어져있는 관계들을 말할 수 있다. 따라서 <code class="language-plaintext highlighter-rouge">Configuration</code> 애너테이션은 Bean 의 구성 관계들을 전부 아우르는 책임을 가지는 클래스여야 한다. 따라서 <code class="language-plaintext highlighter-rouge">@Configuration</code> 과 <code class="language-plaintext highlighter-rouge">@Bean</code> 애너테이션을 통해 이 클래스는 configuration 이며, 그 내부에 bean 들을 토대로 구성 설정을 할 것이다 라는 의미이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppConfig</span> <span class="o">{</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">Engine</span> <span class="nf">engine</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Engine</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">Car</span> <span class="nf">car</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// car는 engine Bean을 의존</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Car</span><span class="o">(</span><span class="n">engine</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>따라서 <code class="language-plaintext highlighter-rouge">SpringBootApplication</code> 에 <code class="language-plaintext highlighter-rouge">SpringBootConfiguration</code> 애너테이션이 들어가 있었음을 알 수 있다.</p>
+
+<h5 id="️-configuration-의-cglib-프록시-메서드-proxybeanmethods">⭐️ @Configuration 의 CGLIB 프록시 메서드 proxyBeanMethods()</h5>
+
+<p>실습을 하면서 느꼈던 의아했던 점을 적어본다. 중요한 내용일 수 있고, IoC 의 핵심 동작 부분을 건드린거 같기도 하다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderConfig</span> <span class="o">{</span>
+	<span class="nd">@Bean</span>
+<span class="c1">//	@Scope("prototype")</span>
+	<span class="kd">public</span> <span class="nc">Drink</span> <span class="nf">coffee</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">Coffee</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Bean</span>
+<span class="c1">//	@Scope("prototype")</span>
+	<span class="kd">public</span> <span class="nc">Drink</span> <span class="nf">tea</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">Tea</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Bean</span>
+<span class="c1">//	@Scope("singleton")</span>
+	<span class="kd">public</span> <span class="nc">OrderHistory</span> <span class="nf">orderHistory</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">OrderHistory</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Bean</span>
+	<span class="nd">@Scope</span><span class="o">(</span><span class="s">"prototype"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">OrderService</span> <span class="nf">orderService</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">OrderServiceImpl</span><span class="o">(</span><span class="n">orderHistory</span><span class="o">());</span>
+	<span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위 코드는 그냥 Config 를 통한 의존성 주입을 위해 bean 을 정의하는 클래스이다. 실습 문제는 다음과 같다.</p>
+
+<blockquote>
+  <p>여러 <code class="language-plaintext highlighter-rouge">OrderService</code> 에서 주문해도 주문 내역이 공유되도록 구현하세요</p>
+</blockquote>
+
+<p>그냥 <code class="language-plaintext highlighter-rouge">Scope</code> 를 prototype 으로 만들고 해버리면 되긴 된다. 여기서 궁금했던 점은 만약 <code class="language-plaintext highlighter-rouge">@Configuration</code> 을 없앴을 때 어떤 동작을 하는지이다. 실제로 <code class="language-plaintext highlighter-rouge">@Configuration</code> 을 없애도 기본적으로 context 를 통해 <code class="language-plaintext highlighter-rouge">getBean</code> 을 하면 <code class="language-plaintext highlighter-rouge">@Scope("prototype")</code> 이 없는 이상 동일한 bean 을 반환하게 된다. 즉 기능은 아무 이상이 없었다.</p>
+
+<p>하지만, 서비스를 여러개 만들었을때 서비스 간에 가지고 있는 <code class="language-plaintext highlighter-rouge">orderHistory</code> 의 주입이 다 다른 객체로 들어가게 되었다. 즉 <code class="language-plaintext highlighter-rouge">@Scope("singleton")</code> 이었음에도 불구하고 여러 객체가 생성되어 주입이 된 것이다. 이에 대한 분석으로는 다음과 같다.</p>
+
+<p>우선 Configuration 이 있을때를 보자. <code class="language-plaintext highlighter-rouge">@Configuration</code> 이 붙은 클래스는 Spring 이 <strong>CGLIB 프록시</strong> 를 만들어서 관리한다(중요). 이때 <code class="language-plaintext highlighter-rouge">@Bean</code> 메서드 호출이 내부적으로 프록시를 거치므로, <strong>스프링 컨테이너에서 관리되는 싱글톤(@Bean 기본 scope)</strong>을 항상 반환하게 된다.</p>
+
+<blockquote>
+  <p>예: <code class="language-plaintext highlighter-rouge">orderService()</code> 에서 <code class="language-plaintext highlighter-rouge">orderHistory()</code>를 호출해도, 이미 생성된 singleton <code class="language-plaintext highlighter-rouge">OrderHistory</code> 를 주입받음</p>
+</blockquote>
+
+<p>그래서 <code class="language-plaintext highlighter-rouge">@Configuration</code> 이 없는 클래스에서 <code class="language-plaintext highlighter-rouge">@Bean</code> 메서드를 호출하면, 단순한 일반 메서드 호출처럼 동작하며, 따라서 <code class="language-plaintext highlighter-rouge">orderHistory()</code> 를 호출할 때 새로운 인스턴스가 생성됨. 결과적으로 prototype <code class="language-plaintext highlighter-rouge">OrderService</code> 가 생성될 때마다 각기 다른 <code class="language-plaintext highlighter-rouge">OrderHistory</code> 를 참조하게 되어, 스레드별로 다른 저장소처럼 동작하는 현상이 발생할 수 있음.</p>
+
+<p>핵심 요약:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">@Configuration</code> + <code class="language-plaintext highlighter-rouge">@Bean</code> → 프록시가 호출을 가로채고 스코프 규칙 적용 → singleton 보장</li>
+  <li>일반 클래스 + <code class="language-plaintext highlighter-rouge">@Bean</code> → 프록시 없음 → 단순 메서드 호출 → 매번 새 객체 생성
+    <ul>
+      <li>매번 새 객체 생성이지만 <code class="language-plaintext highlighter-rouge">@Scope</code> 는 적용됨</li>
+      <li>⭐️ 하지만, <code class="language-plaintext highlighter-rouge">getBean</code> 을 사용할 때 가져오는 것은 동일 인스턴스를 가져오게 된다. 이건 getBean 내부에서 일어나는 어떤 과정이 있어서 그런 듯하다.</li>
+    </ul>
+  </li>
+  <li>따라서 singleton 을 보장하고 prototype 빈에서 주입받도록 하려면 <code class="language-plaintext highlighter-rouge">@Configuration</code> 을 반드시 사용해야 함</li>
+</ul>
+
+<p>이제 다음으로 <code class="language-plaintext highlighter-rouge">@Bean</code> 과 함수 정의 스니펫 사이에 <code class="language-plaintext highlighter-rouge">@Scope</code> 를 통해 조금이나마 생명주기를 제어할 수 있다.</p>
+
+<h4 id="scope-애너테이션으로-bean-생명주기와-공유-범위-제어">@Scope 애너테이션으로 Bean 생명주기와 공유 범위 제어</h4>
+
+<p><code class="language-plaintext highlighter-rouge">SpringBootApplication</code> 이 <code class="language-plaintext highlighter-rouge">Configuration</code> 을 가지고 <code class="language-plaintext highlighter-rouge">ComponentScan</code> 을 통해 <code class="language-plaintext highlighter-rouge">Configuration</code> 에 Bean 으로 등록될 각각의 클래스들을 스캔하는 것을 보았다.</p>
+
+<p>이번에는 <code class="language-plaintext highlighter-rouge">Bean</code> 의 생명주기를 제어해보자.<code class="language-plaintext highlighter-rouge"> @Scope</code> 애너테이션은 class 와 method 범위에 사용할 수 있는 애너테이션이며, 다음 value 를 가진다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scope</th>
+      <th>설명</th>
+      <th>사용 환경</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>singleton</td>
+      <td>컨테이너당 하나의 Bean만 생성 (기본값)</td>
+      <td>모든 환경</td>
+    </tr>
+    <tr>
+      <td>prototype</td>
+      <td>요청할 때마다 새 Bean 생성</td>
+      <td>모든 환경</td>
+    </tr>
+    <tr>
+      <td>request</td>
+      <td>HTTP 요청당 하나의 Bean 생성</td>
+      <td>웹 애플리케이션</td>
+    </tr>
+    <tr>
+      <td>session</td>
+      <td>HTTP 세션당 하나의 Bean 생성</td>
+      <td>웹 애플리케이션</td>
+    </tr>
+    <tr>
+      <td>application</td>
+      <td>ServletContext 단위로 하나의 Bean 생성</td>
+      <td>웹 애플리케이션</td>
+    </tr>
+    <tr>
+      <td>websocket</td>
+      <td>WebSocket 세션당 하나의 Bean 생성</td>
+      <td>웹 애플리케이션</td>
+    </tr>
+  </tbody>
+</table>
+
+<h5 id="postconstruct-와-predestroy-사용하여-생명주기에-대한-로그-찍어보기">@PostConstruct 와 @PreDestroy 사용하여 생명주기에 대한 로그 찍어보기</h5>
+
+<ol>
+  <li>Bean 정의 읽기: <code class="language-plaintext highlighter-rouge">@Component</code> 애너테이션 및 <code class="language-plaintext highlighter-rouge">@Bean</code> 메서드 등, XML 설정 파일을 읽어 Bean 정의를 스프링이 파악</li>
+  <li>Bean 인스턴스 생성: 컨테이너가 실제 객체를 생성</li>
+  <li>의존성 주입: 필요한 의존성 주입: <code class="language-plaintext highlighter-rouge">@Autowired</code> 나 생성자 / 세터를 통하여 차례차례 필요한 다른 Bean 주입</li>
+  <li>초기화: <code class="language-plaintext highlighter-rouge">@PostConstruct</code> 메서드 실행: Bean 이 생성되고 의존성이 주입된 후에 실행</li>
+  <li>사용: 애플리케이션에서 Bean 사용</li>
+  <li>소멸: Bean 이 종료될 때 호출(실질적으로는 IoC 컨테이너가 종료될 때 함께 소멸되기 때문에 IoC 컨테이너가 종료될때 호출)</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LifecycleBean</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nf">LifecycleBean</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"1. Constructor called"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@PostConstruct</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"2. @PostConstruct - Bean initialized"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"3. Bean is being used"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@PreDestroy</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">cleanup</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"4. @PreDestroy - Bean cleanup"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="properties-를-사용해-키-값을-config-로-등록하기">Properties 를 사용해 키 값을 Config 로 등록하기</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Config</code> 는 Bean 을 위한 파일이다. Bean 에 대한 책임만을 가지지 얘가 key-value 와 같이 env 변수나 그런 형태의 값을 저장하는 것은 따로 없다. 이를 하고자 순수 자바 라이브러리는 표준 클래스로 <code class="language-plaintext highlighter-rouge">Properties</code> 라는게 있다(<code class="language-plaintext highlighter-rouge">java.util.Properties</code>).</p>
+
+<p><code class="language-plaintext highlighter-rouge">Key-Value</code> 쌍으로 데이터를 저장하는 특수한 <code class="language-plaintext highlighter-rouge">Map</code> 이다. 주로 설정 파일(<code class="language-plaintext highlighter-rouge">.properties</code>) 을 읽어오거나 환경 변수 같은 설정을 관리하고 싶을 때 사용한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 마비노기 최고</span>
+<span class="nc">Properties</span> <span class="n">props</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Properties</span><span class="o">();</span>
+<span class="n">props</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">"game.name"</span><span class="o">,</span> <span class="s">"Mabinogi"</span><span class="o">);</span>
+<span class="n">props</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">"game.level.max"</span><span class="o">,</span> <span class="s">"50"</span><span class="o">);</span>
+
+<span class="nc">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">"game.name"</span><span class="o">);</span> <span class="c1">// "Mabinogi"</span></code></pre></figure>
+
+<p>프로퍼티는 코드 단에서 뿐 아니라 파일을 자동으로 읽어들여서 사용할 수도 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Exam</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+		<span class="nc">Properties</span> <span class="n">props</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Properties</span><span class="o">();</span>
+		<span class="n">props</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="k">new</span> <span class="nc">FileInputStream</span><span class="o">(</span><span class="s">"config.properties"</span><span class="o">));</span>
+	<span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">application.properties</code> 를 어떻게 읽어들이는지 파악될 것이다.</p>
+
+<h5 id="value-로-프로퍼티-주입해보기">@Value 로 프로퍼티 주입해보기</h5>
+
+<p>Spring Boot 에서는 기본적으로 <code class="language-plaintext highlighter-rouge">application.properties</code> 를 자동으로 읽어온다(따로 어디에도 이를 읽는 코드를 찾을 수 없지만, 내부적으로 어딘가에 읽는 코드가 있을 것이다). 이를 Bean 으로 정의된 클래스 내부에 <code class="language-plaintext highlighter-rouge">@Value</code> 를 통해 간단하게 읽어들여서 쓸 수 있다.</p>
+
+<p><strong>application.properties 파일</strong></p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="c"># 서버 설정
+</span><span class="py">server.port</span><span class="p">=</span><span class="s">8080</span>
+<span class="py">server.servlet.context-path</span><span class="p">=</span><span class="s">/api</span>
+
+<span class="c"># DB 설정
+</span><span class="py">spring.datasource.url</span><span class="p">=</span><span class="s">jdbc:mysql://localhost:3306/shop</span>
+<span class="py">spring.datasource.username</span><span class="p">=</span><span class="s">root</span>
+<span class="py">spring.datasource.password</span><span class="p">=</span><span class="s">1234</span>
+
+<span class="c"># 커스텀 프로퍼티
+</span><span class="py">shop.name</span><span class="p">=</span><span class="s">MyCafe</span>
+<span class="py">shop.owner</span><span class="p">=</span><span class="s">Seonghun</span>
+<span class="py">shop.maxCustomers</span><span class="p">=</span><span class="s">50</span></code></pre></figure>
+
+<p><strong>코드</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Value</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="o">;</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ShopInfo</span> <span class="o">{</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${shop.name}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${shop.owner}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">owner</span><span class="o">;</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${shop.maxCustomers}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">maxCustomers</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printInfo</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Shop: "</span> <span class="o">+</span> <span class="n">name</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Owner: "</span> <span class="o">+</span> <span class="n">owner</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Max Customers: "</span> <span class="o">+</span> <span class="n">maxCustomers</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>실무에서는 커스텀 프로퍼티(<code class="language-plaintext highlighter-rouge">application.properties</code> 를 제외한 개발자가 서비스를 위해 임의로 만든 프로퍼티들)을 <code class="language-plaintext highlighter-rouge">@ConfigurationProperties</code>로 그룹화하여 설정 주입을 한다.</p>
+
+<h5 id="configurationproperties-를-사용해-key-를-기준으로-값-들고오기">@ConfigurationProperties 를 사용해 key 를 기준으로 값 들고오기</h5>
+
+<p>아래를 보면 알겠지만 <code class="language-plaintext highlighter-rouge">ConfigurationProperties</code> 는 key 의 prefix 를 기준으로 쌍을 들고올 수 있다. 이는 전부 필드와 매핑되게 되는데, <code class="language-plaintext highlighter-rouge">shop.name</code>, <code class="language-plaintext highlighter-rouge">shop.owner</code>, <code class="language-plaintext highlighter-rouge">shop.maxCustomers</code> 로 매핑됨을 볼 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="nd">@ConfigurationProperties</span><span class="o">(</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">"shop"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ShopProperties</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">owner</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">maxCustomers</span><span class="o">;</span>
+
+    <span class="c1">// getter / setter 필수</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">name</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span> <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getOwner</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">owner</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setOwner</span><span class="o">(</span><span class="nc">String</span> <span class="n">owner</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">owner</span> <span class="o">=</span> <span class="n">owner</span><span class="o">;</span> <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getMaxCustomers</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">maxCustomers</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setMaxCustomers</span><span class="o">(</span><span class="kt">int</span> <span class="n">maxCustomers</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">maxCustomers</span> <span class="o">=</span> <span class="n">maxCustomers</span><span class="o">;</span> <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// ============================</span>
+
+<span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ShopService</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">ShopProperties</span> <span class="n">shopProperties</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ShopService</span><span class="o">(</span><span class="nc">ShopProperties</span> <span class="n">shopProperties</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">shopProperties</span> <span class="o">=</span> <span class="n">shopProperties</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">info</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Shop: "</span> <span class="o">+</span> <span class="n">shopProperties</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Owner: "</span> <span class="o">+</span> <span class="n">shopProperties</span><span class="o">.</span><span class="na">getOwner</span><span class="o">());</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Max Customers: "</span> <span class="o">+</span> <span class="n">shopProperties</span><span class="o">.</span><span class="na">getMaxCustomers</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이렇게 가져간다면 컴파일 수준에서 타입 안전성을 가져갈 수 있어 실무에서 자주 사용한다.</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">@PropertySource</code> 라는 것도 있는데, 굳이 싶다. <code class="language-plaintext highlighter-rouge">application.properties</code> 혹은 <code class="language-plaintext highlighter-rouge">application.yml</code> 에 key-value 를 체계적으로 써 놓고, 그걸 가져오는 편이 더 좋을 듯하다. 개발자 마음대로 사용하면 되는 듯하다. 하지만 만약 Spring 이 자동으로 로드하지 않는 별도의 <code class="language-plaintext highlighter-rouge">properties</code> 나 <code class="language-plaintext highlighter-rouge">yml</code> 파일을 읽어들이고 싶을때 사용할 수 있을거 같다. 또한 <code class="language-plaintext highlighter-rouge">Property</code> 를 따로 클래스를 두어 가져간다면 Bean 으로 등록하여 POJO 를 Bean 으로 연결시킬 수도 있을거 같다.</p>
+</blockquote>
+
+<h4 id="di-시-주의점">DI 시 주의점</h4>
+
+<p>기본적으로 다음 규칙이 있다.</p>
+
+<ul>
+  <li>생성자 주입은 생성자 하나에 대해 주입 동작이 실행된다. 만약 2개가 있다면 <strong>default 생성자</strong>를 기준으로 한다(인자가 없는).</li>
+  <li><code class="language-plaintext highlighter-rouge">@Autowired</code> 를 생성자에 명시하면, 여러 생성자 중 어디에 주입할지 명확히 지정 가능하다.</li>
+  <li>세터 주입은 선택적 의존성(optional) 주입에 유용하며, 순환 의존성이 있는 경우 유리하다.</li>
+</ul>
+
+<blockquote>
+  <p>순환 의존성(Circular Dependency): 두 개 이상의 Bean 이 서로를 참조하는 경우 생성자 주입에서는 에러가 발생할 수 있으므로 세터 주입이나 <code class="language-plaintext highlighter-rouge">@Lazy</code> 옵션을 고려해야 함</p>
+</blockquote>
+
+<h5 id="lazy">@Lazy</h5>
+
+<p>Bean 의 초기화 시점을 늦춰 순환 참조를 막고자 할 때 사용하는 어노테이션이다. Bean 의 생성을 실제 사용 시점때 생성해달라고 스프링에게 요청하는 것이다.</p>
+
+<p><strong>대상</strong></p>
+<ul>
+  <li>무거운 초기화 작업이 필요한 Bean</li>
+  <li>순환 의존성을 피하고 싶은 Bean</li>
+</ul>
+
+<p><strong>클래스 레벨에서 사용</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Lazy</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="o">;</span>
+
+<span class="nd">@Component</span>
+<span class="nd">@Lazy</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HeavyBean</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="nf">HeavyBean</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"HeavyBean 생성됨!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>의존성 주입에 Lazy 사용</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserService</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">HeavyBean</span> <span class="n">heavyBean</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">UserService</span><span class="o">(</span><span class="nd">@Lazy</span> <span class="nc">HeavyBean</span> <span class="n">heavyBean</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">heavyBean</span> <span class="o">=</span> <span class="n">heavyBean</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>Bean 에 사용</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppConfig</span> <span class="o">{</span>
+
+    <span class="nd">@Bean</span>
+    <span class="nd">@Lazy</span>
+    <span class="kd">public</span> <span class="nc">HeavyBean</span> <span class="nf">heavyBean</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">HeavyBean</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>에러 발생</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">A</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="no">B</span> <span class="n">b</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">public</span> <span class="nf">A</span><span class="o">(</span><span class="no">B</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">B</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="no">A</span> <span class="n">a</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">public</span> <span class="nf">B</span><span class="o">(</span><span class="no">A</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>세터로 해결</strong></p>
+
+<p>해결 방법: Spring 이 Bean 인스턴스를 생성(생성자 실행) -&gt; 세터를 통해 서로 주입</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Component</span><span class="o">;</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">A</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="no">B</span> <span class="n">b</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setB</span><span class="o">(</span><span class="no">B</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">B</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="no">A</span> <span class="n">a</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setA</span><span class="o">(</span><span class="no">A</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>Lazy 를 통해 해결</strong></p>
+
+<p>한쪽만 붙이면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">A</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="no">B</span> <span class="n">b</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">public</span> <span class="nf">A</span><span class="o">(</span><span class="nd">@Lazy</span> <span class="no">B</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">B</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="no">A</span> <span class="n">a</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">public</span> <span class="nf">B</span><span class="o">(</span><span class="no">A</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>장점</strong></p>
+<ul>
+  <li>어플리케이션 시작 속도 향상</li>
+  <li>순환 의존성 해결</li>
+  <li>메모리 최적화</li>
+</ul>
+
+<p><strong>주의점</strong></p>
+<ul>
+  <li>싱글톤 Bean 과 잘 맞지만, 프로토타입 Bean 에는 사용 안함</li>
+</ul>
+
+<h4 id="spring-application-의-실행-과정-중-실행-코드-넣기">Spring Application 의 실행 과정 중 실행 코드 넣기</h4>
+
+<p>가끔 어플리케이션이 실행되는 도중에 특정 시점에 특정 코드를 실행시키고 싶을 수 있을 것이다. 이를 위해 Spring Application 의 실행과정을 먼저 살펴보자.</p>
+
+<p><strong>Spring Application</strong></p>
+
+<p>순수 스프링은 보통 <code class="language-plaintext highlighter-rouge">AnnotationConfigApplicationContext</code>(컨피그를 넣어서 사용) 나 <code class="language-plaintext highlighter-rouge">ClassPathXmlApplicationContext</code>(xml 파일 넣어서 사용) 를 통해 IoC 를 직접 띄우게 된다.</p>
+
+<p>실행 순서는 다음과 같다:</p>
+
+<p><strong>순수 Spring</strong></p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">SpringApplication</code> 실행(<code class="language-plaintext highlighter-rouge">SpringAppication.run()</code>)
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">ClassPathXmlApplicationContext</code> 또는 <code class="language-plaintext highlighter-rouge">AnnotationConfigApplicationContext</code> 생성</li>
+      <li><code class="language-plaintext highlighter-rouge">BeanFactory</code> 생성</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Bean Definition</code> 메타데이터 읽기
+    <ul>
+      <li>XML 파싱 또는 Java Config 클래스 스캔</li>
+      <li><code class="language-plaintext highlighter-rouge">@Component</code>, <code class="language-plaintext highlighter-rouge">@Service</code>, <code class="language-plaintext highlighter-rouge">@Repository</code> 등 어노테이션 스캔</li>
+      <li>Bean 메타데이터를 <code class="language-plaintext highlighter-rouge">BeanDefinition</code> 객체로 변환</li>
+    </ul>
+  </li>
+  <li>Bean 생성 및 의존성 주입
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">BeanFactory</code> 에서 Bean 인스턴스 생성</li>
+      <li>생성자 주입, 세터 주입, 필드 주입 처리</li>
+      <li><code class="language-plaintext highlighter-rouge">BeanPostProcessor</code> 실행</li>
+    </ul>
+  </li>
+  <li>초기화 콜백
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">@PostConstruct</code> 메서드 실행</li>
+      <li><code class="language-plaintext highlighter-rouge">InitializingBean.afterPropertiesSet()</code> 실행</li>
+      <li><code class="language-plaintext highlighter-rouge">init-method</code> 실행</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Spring Boot Application</strong></p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">SpringApplication</code> 실행
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">SpringApplication.run(MyApplication.class, args)</code> 호출</li>
+      <li>실행 환경(Web, Reactive, None) 결정</li>
+      <li><code class="language-plaintext highlighter-rouge">ApplicationContextInitializer</code> 로 초기화 인스턴스 로드</li>
+      <li><code class="language-plaintext highlighter-rouge">ApplicationListener</code> 로 이벤트 리스너 로드</li>
+      <li>메인 애플리케이션 클래스 결정</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Environment</code> 준비
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">application.properties</code> / <code class="language-plaintext highlighter-rouge">application.yml</code> 로딩</li>
+      <li>활성 프로파일(<code class="language-plaintext highlighter-rouge">Profile</code>) 적용</li>
+      <li>커맨드라인 인자, 시스템 프로퍼티, 환경 변수 바인딩</li>
+      <li><code class="language-plaintext highlighter-rouge">PropertySource</code> 우선순위 적용</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">ApplicationContext</code> 생성
+    <ul>
+      <li>웹 애플리케이션: <code class="language-plaintext highlighter-rouge">AnnotationConfigServletWebServerApplicationContext</code></li>
+      <li>리액티브: <code class="language-plaintext highlighter-rouge">AnnotationConfigReactiveWebServerApplicationContext</code></li>
+      <li>일반(non-web): <code class="language-plaintext highlighter-rouge">AnnotationConfigApplicationContext</code></li>
+    </ul>
+  </li>
+  <li>Auto-Configuration 적용
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">@EnableAutoConfiguration</code> 처리</li>
+      <li><code class="language-plaintext highlighter-rouge">spring.factories</code>에서 Auto-Configuration 클래스 로드</li>
+      <li>조건부 빈 등록:
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">@ConditionalOnClass</code>: 특정 클래스 존재 여부</li>
+          <li><code class="language-plaintext highlighter-rouge">@ConditionalOnMissingBean</code>: 특정 빈 부재 여부</li>
+          <li><code class="language-plaintext highlighter-rouge">@ConditionalOnProperty</code>: 프로퍼티 값 존재 여부</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">ComponentScan</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">@SpringBootApplication</code> 위치 기준 하위 패키지 스캔</li>
+      <li><code class="language-plaintext highlighter-rouge">@Component</code>, <code class="language-plaintext highlighter-rouge">@Service</code>, <code class="language-plaintext highlighter-rouge">@Repository</code>, <code class="language-plaintext highlighter-rouge">@Controller</code> 등 감지</li>
+    </ul>
+  </li>
+  <li>Bean 생성 및 의존성 주입
+    <ul>
+      <li>일반 Spring과 동일</li>
+      <li>Auto-configured Bean들이 먼저 등록</li>
+      <li>생성자 주입, 세터 주입, 필드 주입 수행</li>
+      <li><code class="language-plaintext highlighter-rouge">BeanPostProcessor</code> 실행</li>
+    </ul>
+  </li>
+  <li>내장 웹 서버 시작
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">ServletWebServerFactory</code> 빈을 통해 Tomcat/Jetty/Undertow 시작</li>
+      <li>기본 포트 8080, <code class="language-plaintext highlighter-rouge">server.port</code> 프로퍼티로 변경 가능</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">CommandLineRunner</code> / <code class="language-plaintext highlighter-rouge">ApplicationRunner</code> 실행
+    <ul>
+      <li>모든 Bean 초기화 완료 후 실행</li>
+      <li>애플리케이션 시작 직후 초기화 로직 수행 가능</li>
+    </ul>
+  </li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyRunner</span> <span class="kd">implements</span> <span class="nc">CommandLineRunner</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"애플리케이션 시작 후 실행되는 코드"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이 흐름을 가지고 다음을 읽자.</p>
+
+<h5 id="commandlinerunner">CommandLineRunner</h5>
+
+<p>Spring Boot 어플리케이션이 완전히 실행된 직후(의존서 주입이 끝난 뒤) 자동으로 실행되는 초기화용 인터페이스이며, <code class="language-plaintext highlighter-rouge">@FunctionalInterface</code>이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@FunctionalInterface</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CommandLineRunner</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<ul>
+  <li>Spring Boot 가 실행될 때, <code class="language-plaintext highlighter-rouge">SpringApplication.run()</code> 이 끝난 뒤에 모든 <code class="language-plaintext highlighter-rouge">CommandLineRunner</code> Bean 들의 <code class="language-plaintext highlighter-rouge">run()</code> 메서드를 자동으로 호출한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">@Order</code> 을 통해 실행 순서도 지정할 수 있다.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">StartupRunner</span> <span class="kd">implements</span> <span class="nc">CommandLineRunner</span> <span class="o">{</span>
+    
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">RedisTemplate</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">redisTemplate</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">KafkaTemplate</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">kafkaTemplate</span><span class="o">;</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="c1">// 1. Redis 연결 확인</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">redisTemplate</span><span class="o">.</span><span class="na">opsForValue</span><span class="o">().</span><span class="na">set</span><span class="o">(</span><span class="s">"health:check"</span><span class="o">,</span> <span class="s">"ok"</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"✓ Redis 연결 성공"</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"✗ Redis 연결 실패"</span><span class="o">);</span>
+        <span class="o">}</span>
+        
+        <span class="c1">// 2. Kafka 연결 확인</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">kafkaTemplate</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="s">"health-check"</span><span class="o">,</span> <span class="s">"ping"</span><span class="o">);</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"✓ Kafka 연결 성공"</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"✗ Kafka 연결 실패"</span><span class="o">);</span>
+        <span class="o">}</span>
+        
+        <span class="c1">// 3. 초기 데이터 로딩</span>
+        <span class="n">loadInitialData</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">loadInitialData</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"초기 데이터 로딩 중..."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>기본적으로 <code class="language-plaintext highlighter-rouge">CommandLineRunner</code> 는 Bean 으로 등록되어야 실행이 되게 된다.</p>
+</blockquote>
+
+<h4 id="️-spring-event-system">⭐️ Spring Event System</h4>
+
+<p>Spring의 이벤트 시스템은 <strong>Publisher-Subscriber 패턴</strong>을 구현한다. 이는 이벤트 기반 통신 구조를 구현하는 디자인 패턴이며, 역할은 다음과 같다.</p>
+
+<ul>
+  <li>Publisher(발행자): 이벤트를 발생시키는 주체</li>
+  <li>Subscriber(구독자): 이벤트가 발생하면 이를 감지하고 처리하는 주체들</li>
+</ul>
+
+<p>즉 이벤트라는 매개체로만 소통하는 구조이다.</p>
+
+<p><strong>장점</strong></p>
+<ul>
+  <li>느슨한 결합</li>
+  <li>코드의 유연성</li>
+  <li>이벤트 발생 시 여러 구독자가 동시에 반응 가능</li>
+</ul>
+
+<p><strong>이벤트 정의</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 1. 이벤트 클래스 정의 (POJO)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserRegisteredEvent</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">username</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">LocalDateTime</span> <span class="n">registeredAt</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="nf">UserRegisteredEvent</span><span class="o">(</span><span class="nc">String</span> <span class="n">email</span><span class="o">,</span> <span class="nc">String</span> <span class="n">username</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">email</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">username</span> <span class="o">=</span> <span class="n">username</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">registeredAt</span> <span class="o">=</span> <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// Getters</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getEmail</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">email</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getUsername</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">username</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="nc">LocalDateTime</span> <span class="nf">getRegisteredAt</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">registeredAt</span><span class="o">;</span> <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>Publisher</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserService</span> <span class="o">{</span>
+    
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">ApplicationEventPublisher</span> <span class="n">eventPublisher</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="nc">User</span> <span class="nf">registerUser</span><span class="o">(</span><span class="nc">String</span> <span class="n">email</span><span class="o">,</span> <span class="nc">String</span> <span class="n">username</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 1. 비즈니스 로직 실행</span>
+        <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">(</span><span class="n">email</span><span class="o">,</span> <span class="n">username</span><span class="o">);</span>
+        <span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+        
+        <span class="c1">// 2. 이벤트 발행</span>
+        <span class="nc">UserRegisteredEvent</span> <span class="n">event</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">UserRegisteredEvent</span><span class="o">(</span><span class="n">email</span><span class="o">,</span> <span class="n">username</span><span class="o">);</span>
+        <span class="n">eventPublisher</span><span class="o">.</span><span class="na">publishEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+        
+        <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>Subscriber</strong></p>
+
+<p>구독자의 구현은 다양하다. 선호에 따라 사용하자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserEventListener</span> <span class="o">{</span>
+    
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="nc">EmailService</span> <span class="n">emailService</span><span class="o">;</span>
+    
+    <span class="c1">// 회원가입 시 환영 이메일 발송</span>
+    <span class="nd">@EventListener</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleUserRegistered</span><span class="o">(</span><span class="nc">UserRegisteredEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"새로운 사용자 등록: {}"</span><span class="o">,</span> <span class="n">event</span><span class="o">.</span><span class="na">getUsername</span><span class="o">());</span>
+        <span class="n">emailService</span><span class="o">.</span><span class="na">sendWelcomeEmail</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getEmail</span><span class="o">());</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 조건부 리스너</span>
+    <span class="nd">@EventListener</span><span class="o">(</span><span class="n">condition</span> <span class="o">=</span> <span class="s">"#event.email.endsWith('@company.com')"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleCompanyUserRegistered</span><span class="o">(</span><span class="nc">UserRegisteredEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"회사 이메일로 등록: {}"</span><span class="o">,</span> <span class="n">event</span><span class="o">.</span><span class="na">getEmail</span><span class="o">());</span>
+        <span class="c1">// 특별한 처리</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LegacyUserEventListener</span> 
+        <span class="kd">implements</span> <span class="nc">ApplicationListener</span><span class="o">&lt;</span><span class="nc">UserRegisteredEvent</span><span class="o">&gt;</span> <span class="o">{</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onApplicationEvent</span><span class="o">(</span><span class="nc">UserRegisteredEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"레거시 방식 리스너: "</span> <span class="o">+</span> <span class="n">event</span><span class="o">.</span><span class="na">getUsername</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="asynchronized-event-로-구성하기">Asynchronized Event 로 구성하기</h5>
+
+<p>이벤트의 동작이 너무 무겁거나 오래 걸리는 작업이면 원래 작업이 지연되기 때문에 비동기로 처리할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Configuration</span>
+<span class="nd">@EnableAsync</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AsyncConfig</span> <span class="o">{</span>
+    
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="nc">TaskExecutor</span> <span class="nf">taskExecutor</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">ThreadPoolTaskExecutor</span> <span class="n">executor</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ThreadPoolTaskExecutor</span><span class="o">();</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">setCorePoolSize</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">setMaxPoolSize</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">setQueueCapacity</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">setThreadNamePrefix</span><span class="o">(</span><span class="s">"event-"</span><span class="o">);</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">executor</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">@EnableAsync</code> 는 Spring 에서 비동기 메서드를 실행을 활성화시키는 어노테이션인데, 쉽게 말하여 특정 메서드를 별도의 스레드에서 동시에 실행하도록 허용하는 기능이다. 이렇게 해두고 비동기 메서드에 <code class="language-plaintext highlighter-rouge">@Async</code> 만 붙이면 간단하게 비동기로 실행이 가능하게 된다. 우선 실행할 스레드 풀을 커스터마이징하여 선언해놓고, <code class="language-plaintext highlighter-rouge">Subscriber</code> 를 구현하면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AsyncEventListener</span> <span class="o">{</span>
+    
+    <span class="c1">// 비동기로 처리 - 메인 스레드 블로킹 없음</span>
+    <span class="nd">@Async</span>
+    <span class="nd">@EventListener</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleUserRegisteredAsync</span><span class="o">(</span><span class="nc">UserRegisteredEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"비동기 이벤트 처리 시작: {}"</span><span class="o">,</span> <span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+        
+        <span class="c1">// 시간이 오래 걸리는 작업</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">3000</span><span class="o">);</span>
+            <span class="n">sendSlackNotification</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">interrupt</span><span class="o">();</span>
+        <span class="o">}</span>
+        
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"비동기 이벤트 처리 완료"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">sendSlackNotification</span><span class="o">(</span><span class="nc">UserRegisteredEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// Slack 알림 발송</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="transaction-event-listener">Transaction Event Listener</h5>
+
+<p>스프링은 트랜잭션 별로 세세한 컨트롤이 가능하도록 각 생명주기 사이사이에 코드를 실행할 수 있는 애너테이션들을 제공한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TransactionalEventListener</span> <span class="o">{</span>
+    
+    <span class="c1">// 트랜잭션 커밋 후에만 실행</span>
+    <span class="nd">@TransactionalEventListener</span><span class="o">(</span><span class="n">phase</span> <span class="o">=</span> <span class="nc">TransactionPhase</span><span class="o">.</span><span class="na">AFTER_COMMIT</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleAfterCommit</span><span class="o">(</span><span class="nc">UserRegisteredEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"트랜잭션 커밋 후 실행: {}"</span><span class="o">,</span> <span class="n">event</span><span class="o">.</span><span class="na">getUsername</span><span class="o">());</span>
+        <span class="c1">// 외부 API 호출, 메시지 큐 발송 등</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 트랜잭션 롤백 시 실행</span>
+    <span class="nd">@TransactionalEventListener</span><span class="o">(</span><span class="n">phase</span> <span class="o">=</span> <span class="nc">TransactionPhase</span><span class="o">.</span><span class="na">AFTER_ROLLBACK</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleAfterRollback</span><span class="o">(</span><span class="nc">UserRegisteredEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"트랜잭션 롤백됨: {}"</span><span class="o">,</span> <span class="n">event</span><span class="o">.</span><span class="na">getUsername</span><span class="o">());</span>
+        <span class="c1">// 롤백 처리</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 트랜잭션 완료 후 실행 (커밋/롤백 상관없이)</span>
+    <span class="nd">@TransactionalEventListener</span><span class="o">(</span><span class="n">phase</span> <span class="o">=</span> <span class="nc">TransactionPhase</span><span class="o">.</span><span class="na">AFTER_COMPLETION</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleAfterCompletion</span><span class="o">(</span><span class="nc">UserRegisteredEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"트랜잭션 완료: {}"</span><span class="o">,</span> <span class="n">event</span><span class="o">.</span><span class="na">getUsername</span><span class="o">());</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 트랜잭션 시작 전 실행</span>
+    <span class="nd">@TransactionalEventListener</span><span class="o">(</span><span class="n">phase</span> <span class="o">=</span> <span class="nc">TransactionPhase</span><span class="o">.</span><span class="na">BEFORE_COMMIT</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleBeforeCommit</span><span class="o">(</span><span class="nc">UserRegisteredEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"트랜잭션 커밋 직전: {}"</span><span class="o">,</span> <span class="n">event</span><span class="o">.</span><span class="na">getUsername</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>활용 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 이벤트 정의</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderCreatedEvent</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Long</span> <span class="n">orderId</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Long</span> <span class="n">userId</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">BigDecimal</span> <span class="n">amount</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">LocalDateTime</span> <span class="n">createdAt</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="nf">OrderCreatedEvent</span><span class="o">(</span><span class="nc">Long</span> <span class="n">orderId</span><span class="o">,</span> <span class="nc">Long</span> <span class="n">userId</span><span class="o">,</span> <span class="nc">BigDecimal</span> <span class="n">amount</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">orderId</span> <span class="o">=</span> <span class="n">orderId</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">userId</span> <span class="o">=</span> <span class="n">userId</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">amount</span> <span class="o">=</span> <span class="n">amount</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">createdAt</span> <span class="o">=</span> <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">();</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// Getters...</span>
+<span class="o">}</span>
+
+<span class="c1">// 서비스에서 이벤트 발행</span>
+<span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="nd">@Transactional</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderService</span> <span class="o">{</span>
+    
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">OrderRepository</span> <span class="n">orderRepository</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">ApplicationEventPublisher</span> <span class="n">eventPublisher</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="nc">Order</span> <span class="nf">createOrder</span><span class="o">(</span><span class="nc">OrderRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 주문 생성</span>
+        <span class="nc">Order</span> <span class="n">order</span> <span class="o">=</span> <span class="nc">Order</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">userId</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getUserId</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">amount</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getAmount</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="nc">OrderStatus</span><span class="o">.</span><span class="na">PENDING</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        
+        <span class="n">orderRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+        
+        <span class="c1">// 이벤트 발행</span>
+        <span class="n">eventPublisher</span><span class="o">.</span><span class="na">publishEvent</span><span class="o">(</span>
+            <span class="k">new</span> <span class="nf">OrderCreatedEvent</span><span class="o">(</span><span class="n">order</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">order</span><span class="o">.</span><span class="na">getUserId</span><span class="o">(),</span> <span class="n">order</span><span class="o">.</span><span class="na">getAmount</span><span class="o">())</span>
+        <span class="o">);</span>
+        
+        <span class="k">return</span> <span class="n">order</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 다양한 리스너들</span>
+<span class="nd">@Component</span>
+<span class="nd">@Slf4j</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderEventHandlers</span> <span class="o">{</span>
+    
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">EmailService</span> <span class="n">emailService</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">InventoryService</span> <span class="n">inventoryService</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">PaymentService</span> <span class="n">paymentService</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">SlackService</span> <span class="n">slackService</span><span class="o">;</span>
+    
+    <span class="c1">// 1. 재고 차감 (동기)</span>
+    <span class="nd">@EventListener</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleInventoryDeduction</span><span class="o">(</span><span class="nc">OrderCreatedEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"재고 차감 시작: Order {}"</span><span class="o">,</span> <span class="n">event</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">());</span>
+        <span class="n">inventoryService</span><span class="o">.</span><span class="na">deductInventory</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">());</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 2. 결제 처리 (트랜잭션 커밋 후)</span>
+    <span class="nd">@TransactionalEventListener</span><span class="o">(</span><span class="n">phase</span> <span class="o">=</span> <span class="nc">TransactionPhase</span><span class="o">.</span><span class="na">AFTER_COMMIT</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handlePayment</span><span class="o">(</span><span class="nc">OrderCreatedEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"결제 처리 시작: Order {}"</span><span class="o">,</span> <span class="n">event</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">());</span>
+        <span class="n">paymentService</span><span class="o">.</span><span class="na">processPayment</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">(),</span> <span class="n">event</span><span class="o">.</span><span class="na">getAmount</span><span class="o">());</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 3. 이메일 발송 (비동기)</span>
+    <span class="nd">@Async</span>
+    <span class="nd">@EventListener</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sendOrderConfirmationEmail</span><span class="o">(</span><span class="nc">OrderCreatedEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"주문 확인 이메일 발송: Order {}"</span><span class="o">,</span> <span class="n">event</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">());</span>
+        <span class="n">emailService</span><span class="o">.</span><span class="na">sendOrderConfirmation</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getUserId</span><span class="o">(),</span> <span class="n">event</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">());</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 4. Slack 알림 (비동기, 고액 주문만)</span>
+    <span class="nd">@Async</span>
+    <span class="nd">@EventListener</span><span class="o">(</span><span class="n">condition</span> <span class="o">=</span> <span class="s">"#event.amount.compareTo(new java.math.BigDecimal('1000000')) &gt; 0"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">notifyLargeOrder</span><span class="o">(</span><span class="nc">OrderCreatedEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"고액 주문 알림: Order {} - {}"</span><span class="o">,</span> <span class="n">event</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">(),</span> <span class="n">event</span><span class="o">.</span><span class="na">getAmount</span><span class="o">());</span>
+        <span class="n">slackService</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="s">"고액 주문 발생: "</span> <span class="o">+</span> <span class="n">event</span><span class="o">.</span><span class="na">getAmount</span><span class="o">()</span> <span class="o">+</span> <span class="s">"원"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="spring-내장-eventlistener">Spring 내장 EventListener</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApplicationEventListener</span> <span class="o">{</span>
+    
+    <span class="c1">// 1. 애플리케이션 시작 중</span>
+    <span class="nd">@EventListener</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleContextRefreshed</span><span class="o">(</span><span class="nc">ContextRefreshedEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"1. ApplicationContext가 초기화되거나 리프레시됨"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 2. 애플리케이션 준비 완료</span>
+    <span class="nd">@EventListener</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleApplicationReady</span><span class="o">(</span><span class="nc">ApplicationReadyEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"2. 애플리케이션이 요청을 처리할 준비가 됨"</span><span class="o">);</span>
+        <span class="c1">// 헬스체크, 외부 시스템 연결 등</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 3. 애플리케이션 시작 완료</span>
+    <span class="nd">@EventListener</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleApplicationStarted</span><span class="o">(</span><span class="nc">ApplicationStartedEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"3. 애플리케이션이 시작됨 (리스너 호출 전)"</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 4. 애플리케이션 종료 시작</span>
+    <span class="nd">@EventListener</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleContextClosing</span><span class="o">(</span><span class="nc">ContextClosedEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"4. ApplicationContext가 닫히는 중"</span><span class="o">);</span>
+        <span class="c1">// 리소스 정리, 연결 종료 등</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<hr />
+
+<h2 id="️-용어">✒️ 용어</h2>
+
+<h6 id="cglib-프록시">CGLIB 프록시</h6>
+
+<p>Spring에서 실제 클래스 자체를 상속받아 동적으로 프록시 객체를 생성하는 기술을 의미한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Spring AOP</code>, <code class="language-plaintext highlighter-rouge">@Configuration(proxyBeanMethods = true)</code> 등에서 사용</li>
+  <li>클래스 기반 프록시이기 때문에 인터페이스가 없어도 프록시를 만들 수 있음</li>
+</ul>
+
+<ol>
+  <li>Spring이 대상 클래스(예: AppConfig)를 상속한 서브클래스를 런타임에 생성</li>
+  <li>Bean 메서드 호출 시 원래 객체가 아닌 <strong>프록시 객체를 통해 호출</strong></li>
+  <li>프록시가 메서드 호출을 가로채어 싱글톤 보장, AOP 적용 등 추가 기능 수행</li>
+</ol>
+
+<blockquote>
+  <p>프록시 객체를 호출한다는 점이 핵심, proxyBeanMethods = true → CGLIB 프록시를 통해 <code class="language-plaintext highlighter-rouge">Bean 메서드 간</code> 호출 시 동일한 싱글톤 인스턴스 반환</p>
+</blockquote>
+
+<p>제일 중요한 것은 ⭐️ <strong>Bean 메서드 간 호출 시 동일한 싱글톤 인스턴스 반환</strong> 의 문장이다.</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/14/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-35%EC%9D%BC%EC%B0%A8-Spring-Core-Container.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/14/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-35%EC%9D%BC%EC%B0%A8-Spring-Core-Container.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

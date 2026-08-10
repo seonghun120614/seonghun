@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 6일차 Effective Java 맛보기</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 6일차 Effective Java 맛보기 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 6일차 Effective Java 맛보기" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/22/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-6%EC%9D%BC%EC%B0%A8-Effective-Java-%EB%A7%9B%EB%B3%B4%EA%B8%B0.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/22/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-6%EC%9D%BC%EC%B0%A8-Effective-Java-%EB%A7%9B%EB%B3%B4%EA%B8%B0.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-08-22T01:28:07+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 6일차 Effective Java 맛보기" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-08-22T01:28:07+00:00","datePublished":"2025-08-22T01:28:07+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 6일차 Effective Java 맛보기","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/22/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-6%EC%9D%BC%EC%B0%A8-Effective-Java-%EB%A7%9B%EB%B3%B4%EA%B8%B0.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/22/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-6%EC%9D%BC%EC%B0%A8-Effective-Java-%EB%A7%9B%EB%B3%B4%EA%B8%B0.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/22/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-6%EC%9D%BC%EC%B0%A8-Effective-Java-%EB%A7%9B%EB%B3%B4%EA%B8%B0.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 6일차 Effective Java 맛보기</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Aug 22, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#effective-java">Effective Java</a>
+    <ul>
+      <li><a href="#생성-관련">생성 관련</a>
+        <ul>
+          <li><a href="#static-factory-method">Static Factory Method</a></li>
+          <li><a href="#builder-pattern">Builder Pattern</a></li>
+          <li><a href="#인스턴스가-불필요한-클래스">인스턴스가 불필요한 클래스</a></li>
+          <li><a href="#try-with-resources를-활용">try-with-resources를 활용</a></li>
+        </ul>
+      </li>
+      <li><a href="#class--interface">Class &amp; Interface</a>
+        <ul>
+          <li><a href="#클래스와-멤버의-접근-권한을-최소화">클래스와 멤버의 접근 권한을 최소화</a></li>
+          <li><a href="#변경-가능성을-최소화">변경 가능성을 최소화</a></li>
+          <li><a href="#상속보다는-조합을-사용">상속보다는 조합을 사용</a></li>
+          <li><a href="#상속을-고려하여-설계-및-문서화하기">상속을 고려하여 설계 및 문서화하기</a></li>
+          <li><a href="#추상-클래스보다는-인터페이스를">추상 클래스보다는 인터페이스를</a></li>
+          <li><a href="#태그-달린-클래스보다는-계층-구조-이용">태그 달린 클래스보다는 계층 구조 이용</a></li>
+          <li><a href="#nested-class-는-static-으로">Nested Class 는 Static 으로</a></li>
+        </ul>
+      </li>
+      <li><a href="#generic">Generic</a>
+        <ul>
+          <li><a href="#raw-타입-사용하지-말기">Raw 타입 사용하지 말기</a></li>
+          <li><a href="#array-보다는-list">Array 보다는 List</a></li>
+          <li><a href="#한정적-와일드-카드를-사용해-api-유연성-높이기">한정적 와일드 카드를 사용해 API 유연성 높이기</a></li>
+        </ul>
+      </li>
+      <li><a href="#enumerate">Enumerate</a></li>
+      <li><a href="#lambda--stream">Lambda &amp; Stream</a></li>
+      <li><a href="#method">Method</a></li>
+      <li><a href="#일반적-프로그래밍-원칙">일반적 프로그래밍 원칙</a></li>
+      <li><a href="#예외">예외</a></li>
+      <li><a href="#직렬화">직렬화</a></li>
+    </ul>
+  </li>
+  <li><a href="#기타-가져갈-것들">기타 가져갈 것들</a></li>
+</ul>
+
+<hr />
+
+<p>참고: <a href="https://mangkyu.tistory.com/133">망나니 개발자</a></p>
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>이번에는 자바의 코드를 좋게 만드는 과정을 보려고 한다.</p>
+
+<h3 id="effective-java">Effective Java</h3>
+
+<h4 id="생성-관련">생성 관련</h4>
+
+<h5 id="static-factory-method">Static Factory Method</h5>
+
+<p><strong>장점</strong></p>
+<ul>
+  <li>이름을 가지며 의도 표현 가능</li>
+  <li>호출 시 항상 새 인스턴스를 만들 필요가 없음</li>
+  <li>하위 클래스 반환 가능</li>
+  <li>매개변수에 따라 다른 클래스 객체 반환 가능</li>
+  <li>클래스가 존재하지 않아도 작성 가능</li>
+</ul>
+
+<p><strong>단점</strong></p>
+<ul>
+  <li>하위 클래스로 상속하려면 public/protected 생성자가 필요</li>
+  <li>직관적이지 않아서 찾기가 어려움</li>
+</ul>
+
+<p><strong>예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Person</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">Person</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">age</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// Static Factory Method</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Person</span> <span class="nf">of</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">age</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>심화 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">();</span>
+
+    <span class="c1">// Static Factory Method</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Shape</span> <span class="nf">create</span><span class="o">(</span><span class="nc">String</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">switch</span> <span class="o">(</span><span class="n">type</span><span class="o">.</span><span class="na">toLowerCase</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="s">"circle"</span><span class="o">:</span> <span class="k">return</span> <span class="k">new</span> <span class="nc">Circle</span><span class="o">();</span>
+            <span class="k">case</span> <span class="s">"square"</span><span class="o">:</span> <span class="k">return</span> <span class="k">new</span> <span class="nc">Square</span><span class="o">();</span>
+            <span class="k">default</span><span class="o">:</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">IllegalArgumentException</span><span class="o">(</span><span class="s">"Unknown Type"</span><span class="o">);</span>
+        <span class="o">};</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">Circle</span> <span class="kd">extends</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Drawing a circle"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">Square</span> <span class="kd">extends</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Drawing a square"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="builder-pattern">Builder Pattern</h5>
+
+<p>생성자의 매개변수가 많아짐에 따라 코드 이해가 힘들고, <code class="language-plaintext highlighter-rouge">Setter</code> 를 사용하면 객체 일관성이 깨지며 <code class="language-plaintext highlighter-rouge">Open-Closed</code> 원칙 위배이다.</p>
+
+<p>이때 <code class="language-plaintext highlighter-rouge">Builder</code> 패턴을 사용하면 이 문제를 쉽게 해결할 수 있다.</p>
+
+<p><strong>예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Person</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">phone</span><span class="o">;</span>
+
+    <span class="c1">// private 생성자</span>
+    <span class="kd">private</span> <span class="nf">Person</span><span class="o">(</span><span class="nc">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">age</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">email</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">phone</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">phone</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Builder 클래스</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span> <span class="c1">// 필수</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>       <span class="c1">// 선택, 기본값 0</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span> <span class="c1">// 선택, 기본값 ""</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">phone</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span> <span class="c1">// 선택, 기본값 ""</span>
+
+        <span class="kd">public</span> <span class="nf">Builder</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">age</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">email</span><span class="o">(</span><span class="nc">String</span> <span class="n">email</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">email</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">phone</span><span class="o">(</span><span class="nc">String</span> <span class="n">phone</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">phone</span> <span class="o">=</span> <span class="n">phone</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Person</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이를 <code class="language-plaintext highlighter-rouge">Static Factory Method</code> 와 함께하면 다음과 같이 짤 수도 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Person</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">phone</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">Person</span><span class="o">(</span><span class="nc">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">age</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">email</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">phone</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">phone</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Static Factory Method</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Person</span> <span class="nf">builder</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Builder</span><span class="o">(</span><span class="n">name</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">phone</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">Builder</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">age</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">email</span><span class="o">(</span><span class="nc">String</span> <span class="n">email</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">email</span> <span class="o">=</span> <span class="n">email</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">phone</span><span class="o">(</span><span class="nc">String</span> <span class="n">phone</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">phone</span> <span class="o">=</span> <span class="n">phone</span><span class="o">;</span>
+            <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="kd">public</span> <span class="nc">Person</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">Person</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">final</code> 이라 값을 변경할 수 없지만 다음과 같이 새로 생성하는 것은 쉽게 된다:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">Person</span> <span class="n">p1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Person</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">).</span><span class="na">age</span><span class="o">(</span><span class="mi">30</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+<span class="nc">Person</span> <span class="n">p2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Person</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="n">p1</span><span class="o">.</span><span class="na">getName</span><span class="o">())</span>
+                 <span class="o">.</span><span class="na">age</span><span class="o">(</span><span class="mi">35</span><span class="o">)</span> <span class="c1">// 새 나이로 새 객체 생성</span>
+                 <span class="o">.</span><span class="na">build</span><span class="o">();</span></code></pre></figure>
+
+<h5 id="인스턴스가-불필요한-클래스">인스턴스가 불필요한 클래스</h5>
+
+<ul>
+  <li>유틸성 클래스</li>
+  <li>Validator 관련</li>
+  <li>Exception 관련</li>
+  <li>…</li>
+</ul>
+
+<p>전부 생성자를 private 로 명시해버린다.</p>
+
+<h5 id="try-with-resources를-활용">try-with-resources를 활용</h5>
+
+<p>try 안에 특정 변수를 선언하여서 해당 블럭이 종료되면 그 변수를 자동 메모리 할당 해제해주는<br />
+즉, AutoClosable 인터페이스가 구현이 되어 있다면, try 블록이 종료되면 자동으로 메모리를 회수해준다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="k">try</span> <span class="o">(</span><span class="nc">ResourceType</span> <span class="n">resource</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ResourceType</span><span class="o">())</span> <span class="o">{</span>
+    <span class="c1">// 리소스 사용</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">AutoClosable</code> 인터페이스는 따로 구현하지 않아도 자바에서 거의 다 지원해준다.</p>
+</blockquote>
+
+<p>실제 예시를 보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BufferedReaderExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">filePath</span> <span class="o">=</span> <span class="s">"example.txt"</span><span class="o">;</span> <span class="c1">// 읽을 파일 경로</span>
+
+        <span class="c1">// try-with-resources 사용</span>
+        <span class="k">try</span> <span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">FileReader</span><span class="o">(</span><span class="n">filePath</span><span class="o">)))</span> <span class="o">{</span>
+            <span class="nc">String</span> <span class="n">line</span><span class="o">;</span>
+            <span class="k">while</span> <span class="o">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 한 줄씩 읽기</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">line</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span> <span class="c1">// 예외 발생 시 출력</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConsoleInputExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"이름을 입력하세요: "</span><span class="o">);</span>
+
+        <span class="c1">// try-with-resources로 BufferedReader 사용</span>
+        <span class="k">try</span> <span class="o">(</span><span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">)))</span> <span class="o">{</span>
+            <span class="nc">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span> <span class="c1">// 한 줄 입력 받기</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"입력한 이름: "</span> <span class="o">+</span> <span class="n">name</span><span class="o">);</span>
+
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"나이를 입력하세요: "</span><span class="o">);</span>
+            <span class="nc">String</span> <span class="n">ageInput</span> <span class="o">=</span> <span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">();</span>
+            <span class="kt">int</span> <span class="n">age</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">ageInput</span><span class="o">);</span> <span class="c1">// 문자열을 정수로 변환</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"입력한 나이: "</span> <span class="o">+</span> <span class="n">age</span><span class="o">);</span>
+
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">NumberFormatException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"나이는 숫자로 입력해야 합니다."</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="class--interface">Class &amp; Interface</h4>
+
+<h5 id="클래스와-멤버의-접근-권한을-최소화">클래스와 멤버의 접근 권한을 최소화</h5>
+
+<p>접근 제한자 활용 및 은닉화 잘되어 있게 설계를 해야한다.</p>
+
+<p>예시를 보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Person</span> <span class="o">{</span>
+    <span class="c1">// public 필드: 외부에서 직접 접근 가능</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Person</span> <span class="n">p</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Person</span><span class="o">();</span>
+        <span class="n">p</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>  <span class="c1">// 잘못된 이름 넣을 수 있음</span>
+        <span class="n">p</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="o">;</span>   <span class="c1">// 말이 안 되는 나이 넣을 수 있음</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위처럼 해버리면 아무 변수나 막 넣을 수 있고,<br />
+그 값이 정말 신뢰할 수 있는지도 모른다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Person</span> <span class="o">{</span>
+    <span class="c1">// private 필드: 외부에서 직접 접근 불가</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+
+    <span class="c1">// public getter/setter 제공: 필요한 경우만</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 간단한 검증 가능</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">name</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">name</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getAge</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">age</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setAge</span><span class="o">(</span><span class="kt">int</span> <span class="n">age</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">age</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 유효성 체크</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이렇게 작성하면 함수 내에서 유효성 검증도 가능하게 되며 직접 멤버 변수로 접근을 못하게 할 수 있다.</p>
+
+<h5 id="변경-가능성을-최소화">변경 가능성을 최소화</h5>
+
+<p>불변의 객체(위에서 봤던 <code class="language-plaintext highlighter-rouge">Builder</code> 패턴 처럼)를 생성하여, 생성된 시점에 파괴되는 시점까지 동일한 값을 유지하도록 하게 최종적인, 가장 구체적인 클래스는 <code class="language-plaintext highlighter-rouge">final</code> 로 선언하거나, 정적 팩토리 메서드를 사용하여 더욱 유연하게 불변 객체를 생성 가능하다.</p>
+
+<p>모르겠다면 위에 쓴 <code class="language-plaintext highlighter-rouge">Builder</code> 패턴을 보고 오자.</p>
+
+<h5 id="상속보다는-조합을-사용">상속보다는 조합을 사용</h5>
+
+<p>상속은 좋지만, 상위 클래스의 구현이 하위 클래스로 노출되어 캡슐화를 깨뜨림.</p>
+
+<ul>
+  <li>상속은 <code class="language-plaintext highlighter-rouge">is-a</code> 의 관계의 경우에만 사용하도록</li>
+  <li>그 외에는 <strong>강하게 결합(strictly coupling)</strong> 되는 상속은 되도록 X</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 상위 클래스 구현이 그대로 하위로 노출됨</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Vehicle</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">speed</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accelerate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">speed</span> <span class="o">+=</span> <span class="mi">10</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="kd">extends</span> <span class="nc">Vehicle</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turboBoost</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 상위 클래스 필드 직접 접근</span>
+        <span class="n">speed</span> <span class="o">+=</span> <span class="mi">50</span><span class="o">;</span> <span class="c1">// 하위 클래스가 상위 구현에 강하게 의존</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+        <span class="n">car</span><span class="o">.</span><span class="na">accelerate</span><span class="o">();</span> <span class="c1">// Vehicle 메서드 사용</span>
+        <span class="n">car</span><span class="o">.</span><span class="na">turboBoost</span><span class="o">();</span> <span class="c1">// Vehicle 내부 구현 직접 활용</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위는 하위 클래스가 상위 클래스의 직접 멤버 변수를 참조하는 것을 볼 수 있다.<br />
+이렇게 되면 캡슐화가 제대로 된게 아니며, 강한 결합이 생긴다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Vehicle은 내부 상태를 은닉</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Vehicle</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">speed</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accelerate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">speed</span> <span class="o">+=</span> <span class="mi">10</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getSpeed</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">speed</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// Car는 Vehicle을 필드로 가지고 조합 사용</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Vehicle</span> <span class="n">vehicle</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Vehicle</span><span class="o">();</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accelerate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">vehicle</span><span class="o">.</span><span class="na">accelerate</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turboBoost</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// vehicle 내부 구현에 직접 접근하지 않고, 메서드만 사용</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">vehicle</span><span class="o">.</span><span class="na">accelerate</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getSpeed</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">vehicle</span><span class="o">.</span><span class="na">getSpeed</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+        <span class="n">car</span><span class="o">.</span><span class="na">accelerate</span><span class="o">();</span>
+        <span class="n">car</span><span class="o">.</span><span class="na">turboBoost</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">getSpeed</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위와 같이 가지는, 조합하는 형태로 바꾼다.</p>
+
+<h5 id="상속을-고려하여-설계-및-문서화하기">상속을 고려하여 설계 및 문서화하기</h5>
+
+<ul>
+  <li>상속된 메서드는 공개</li>
+  <li>hook 을 이용했다면 그 hook 도 <code class="language-plaintext highlighter-rouge">protected</code> 로 공개</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Vehicle</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">speed</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">accelerate</span><span class="o">()</span> <span class="o">{</span> 
+        <span class="n">speed</span> <span class="o">+=</span> <span class="mi">10</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="kd">extends</span> <span class="nc">Vehicle</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turboBoost</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">speed</span> <span class="o">+=</span> <span class="mi">50</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위는 얼핏 보면 잘 설계한 것 같지만, 상속된 메서드에 대해 private 때문에 공개를 하지 않고 있다. 밑과 같이 바꾸자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Vehicle</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">speed</span><span class="o">;</span>
+
+    <span class="c1">// 상속된 메서드는 공개</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accelerate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">speed</span> <span class="o">+=</span> <span class="mi">10</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Hook 제공, 하위 클래스에서 필요 시 오버라이드 가능</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onSpeedChange</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 기본 동작은 아무것도 하지 않음</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getSpeed</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">speed</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">changeSpeed</span><span class="o">(</span><span class="kt">int</span> <span class="n">delta</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">speed</span> <span class="o">+=</span> <span class="n">delta</span><span class="o">;</span>
+        <span class="n">onSpeedChange</span><span class="o">();</span> <span class="c1">// Hook 호출</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="kd">extends</span> <span class="nc">Vehicle</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onSpeedChange</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"차의 속도가 변경되었습니다: "</span> <span class="o">+</span> <span class="n">getSpeed</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turboBoost</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">changeSpeed</span><span class="o">(</span><span class="mi">50</span><span class="o">);</span> <span class="c1">// 내부 구현에 직접 접근하지 않고 메서드 사용</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Car</span> <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+        <span class="n">car</span><span class="o">.</span><span class="na">accelerate</span><span class="o">();</span>     <span class="c1">// 상속된 메서드 사용</span>
+        <span class="n">car</span><span class="o">.</span><span class="na">turboBoost</span><span class="o">();</span>     <span class="c1">// Hook 활용</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="추상-클래스보다는-인터페이스를">추상 클래스보다는 인터페이스를</h5>
+
+<ul>
+  <li>추상 클래스는 최상단의 조상 클래스이다. 이는 계층 구조에 혼란을 줄 수 있음</li>
+  <li>하지만 인터페이스는 유연하고 mix-in도 가능함</li>
+  <li>Java8 부터는 <code class="language-plaintext highlighter-rouge">default</code> 메서드도 있어서 인터페이스 구현이 명확한 부분은 개발하여 제공 가능</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 최상위 조상으로만 사용되어 계층 구조가 복잡</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Animal</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">makeSound</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dog</span> <span class="kd">extends</span> <span class="nc">Animal</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">makeSound</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"멍멍"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cat</span> <span class="kd">extends</span> <span class="nc">Animal</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">makeSound</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"야옹"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>추상 클래스가 계층 구조의 최상위에 위치하여 확장성에 제한을 시킨다.<br />
+코드의 유연성을 해치며, 다중 상속이 불가능 하도록 한다. 인터페이스로 바꾸자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 인터페이스 정의</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Soundable</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">makeSound</span><span class="o">();</span>
+
+    <span class="c1">// Java8 부터 default 메서드 제공 가능</span>
+    <span class="k">default</span> <span class="kt">void</span> <span class="nf">greet</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"안녕하세요!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 개 클래스</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dog</span> <span class="kd">implements</span> <span class="nc">Soundable</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">makeSound</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"멍멍"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 고양이 클래스</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cat</span> <span class="kd">implements</span> <span class="nc">Soundable</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">makeSound</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"야옹"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// mix-in 예시: Flying 기능 추가</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Flyable</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">fly</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Bird</span> <span class="kd">implements</span> <span class="nc">Soundable</span><span class="o">,</span> <span class="nc">Flyable</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">makeSound</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"짹짹"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">fly</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"날아간다!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="태그-달린-클래스보다는-계층-구조-이용">태그 달린 클래스보다는 계층 구조 이용</h5>
+
+<ul>
+  <li>어떤 객체가 동일 클래스 안에서 여러 타입을 구분하기 위해 추가 필드를 사용하는 것, 그 필드를 <code class="language-plaintext highlighter-rouge">Tag</code> 라고 함.</li>
+  <li>이는 새 <code class="language-plaintext highlighter-rouge">class</code> 추가 시 기존 클래스 수정이 필요하게 됨</li>
+  <li>이보다는 계층 <code class="language-plaintext highlighter-rouge">extends</code> 와 같은 걸 이용해 구조화를 함.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">CIRCLE</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">SQUARE</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">type</span><span class="o">;</span> <span class="c1">// Tag 필드</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">size</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Shape</span><span class="o">(</span><span class="kt">int</span> <span class="n">type</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">type</span> <span class="o">=</span> <span class="n">type</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">size</span> <span class="o">=</span> <span class="n">size</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">type</span> <span class="o">==</span> <span class="no">CIRCLE</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Drawing a circle of size "</span> <span class="o">+</span> <span class="n">size</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">type</span> <span class="o">==</span> <span class="no">SQUARE</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Drawing a square of size "</span> <span class="o">+</span> <span class="n">size</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>멤버 변수에 <code class="language-plaintext highlighter-rouge">type</code> 이라는 태그를 만들었다. 이는 새로운 <code class="language-plaintext highlighter-rouge">Shape</code> 가 추가될 때마다 확장성에 굉장히 예민하게 동작하며, 기존 클래스를 수정해야 한다.</p>
+
+<p>또한 타입 별 동작이 조건문으로 분기하여 코드가 복잡하고, 유지보수가 어렵다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 상위 추상 클래스</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">int</span> <span class="n">size</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Shape</span><span class="o">(</span><span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">size</span> <span class="o">=</span> <span class="n">size</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// 하위 클래스별 구현</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Circle</span> <span class="kd">extends</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">Circle</span><span class="o">(</span><span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">size</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Drawing a circle of size "</span> <span class="o">+</span> <span class="n">size</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Square</span> <span class="kd">extends</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">Square</span><span class="o">(</span><span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">size</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Drawing a square of size "</span> <span class="o">+</span> <span class="n">size</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이를 계층으로 해결한다.</p>
+
+<h5 id="nested-class-는-static-으로">Nested Class 는 Static 으로</h5>
+
+<p>이는 이전에 살펴보았다.</p>
+
+<h4 id="generic">Generic</h4>
+
+<h5 id="raw-타입-사용하지-말기">Raw 타입 사용하지 말기</h5>
+
+<p>다시 말해서 Generic 타입을 생략하지 않아야 한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Object</code> 는 Raw Type 과 마찬가지로 모든 타입을 포용할 수 있지만, 컴파일러에게 모든 타입을 허용하겠다는 의사를 전달했다는 것과 Raw 타입과는 다르다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">();</span> <span class="c1">// Raw 타입</span>
+        <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">);</span>
+        <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">123</span><span class="o">);</span> <span class="c1">// 다른 타입도 추가 가능</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Object</span> <span class="n">obj</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">obj</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>제너릭 타입을 지정하지 않으면 모든 타입이 추가 가능하여<br />
+값의 다양성이 높아져 <code class="language-plaintext highlighter-rouge">ClassCastException</code> 에러가 발생할 우려가 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span> <span class="c1">// 제네릭 타입 지정</span>
+        <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">);</span>
+        <span class="c1">// list.add(123); // 컴파일 단계에서 오류 발생</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">str</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">str</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>제너릭 타입을 명시하여 타입 안정성을 확보하고, 컴파일러가 타입을 체크하도록 한다.</p>
+
+<h5 id="array-보다는-list">Array 보다는 List</h5>
+
+<ul>
+  <li>배열은 공변이지만, 제너릭인 리스트는 불공변임<br />
+만약 <code class="language-plaintext highlighter-rouge">A</code> 가 <code class="language-plaintext highlighter-rouge">B</code> 의 하위 타입이면 <code class="language-plaintext highlighter-rouge">A[]</code> 역시 <code class="language-plaintext highlighter-rouge">B[]</code> 의 하위타입이 되는걸 공변 관계에 있다고 한다.<br />
+하지만 <code class="language-plaintext highlighter-rouge">List</code> 는 <code class="language-plaintext highlighter-rouge">Generic</code> 을 쓰기에 <code class="language-plaintext highlighter-rouge">Generic</code> 에서는 이러한 공변관계가 성립하지 않아 이를 컴파일 시점에서 잡아낼 수 있다.</li>
+  <li>배열은 실체화 됨.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">Animal</span> <span class="o">{}</span>
+<span class="kd">class</span> <span class="nc">Dog</span> <span class="kd">extends</span> <span class="nc">Animal</span> <span class="o">{}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Dog</span><span class="o">[]</span> <span class="n">dogs</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Dog</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
+        <span class="nc">Animal</span><span class="o">[]</span> <span class="n">animals</span> <span class="o">=</span> <span class="n">dogs</span><span class="o">;</span> <span class="c1">// 배열은 공변</span>
+
+        <span class="n">animals</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Animal</span><span class="o">();</span> <span class="c1">// 런타임 오류 발생 (ArrayStoreException)</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이는 컴파일 시 오류가 없지만, 런타임에 <code class="language-plaintext highlighter-rouge">ArrayStoreException</code> 이 발생할 수 있다. 타입 안전성도 보장되지 않으므로 다음과 같이 변경한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">Animal</span> <span class="o">{}</span>
+<span class="kd">class</span> <span class="nc">Dog</span> <span class="kd">extends</span> <span class="nc">Animal</span> <span class="o">{}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="n">dogs</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="c1">// List&lt;Animal&gt; animals = dogs; // 컴파일 오류 발생, 불공변</span>
+
+        <span class="n">dogs</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">Dog</span><span class="o">());</span>
+        <span class="c1">// dogs.add(new Animal()); // 컴파일 오류, 타입 안전성 확보</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="한정적-와일드-카드를-사용해-api-유연성-높이기">한정적 와일드 카드를 사용해 API 유연성 높이기</h5>
+<ul>
+  <li>? extends E, ? super E 등을 사용</li>
+  <li>Pecs(Producer-extends, Consumer-super) 공식:<br />
+매개변수화 타입이 생산자 = extends<br />
+매개변수화 타입이 소비자 = super  (한 번만 나오면 그냥 super 쓰자)</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// static 와 void 사이의 &lt;E&gt; 는 이 제너릭 타입을 쓰겠다 라는 의미</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">swap</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">);</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">swap</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;?&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="kt">int</span> <span class="n">j</span><span class="o">);</span></code></pre></figure>
+
+<p>한 번만 제너릭이 나오면 두번째(와일드카드)가 좋음</p>
+
+<h4 id="enumerate">Enumerate</h4>
+
+<ul>
+  <li>필요한 원소가 컴파일 시점때 다 알 수 있으면 열거가 좋음</li>
+  <li><code class="language-plaintext highlighter-rouge">switch</code> 문에서는 좀 길어져서 유지보수가 힘든데,<br />
+이때는 중첩 열거 타입이나 내부 메소드를 추가하여 해결할 수 있다.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Direction</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">NORTH</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">SOUTH</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">EAST</span>  <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">WEST</span>  <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">dir</span> <span class="o">=</span> <span class="nc">Direction</span><span class="o">.</span><span class="na">NORTH</span><span class="o">;</span>
+
+        <span class="k">switch</span> <span class="o">(</span><span class="n">dir</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="mi">0</span><span class="o">:</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"북쪽"</span><span class="o">);</span> <span class="k">break</span><span class="o">;</span>
+            <span class="k">case</span> <span class="mi">1</span><span class="o">:</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"남쪽"</span><span class="o">);</span> <span class="k">break</span><span class="o">;</span>
+            <span class="k">case</span> <span class="mi">2</span><span class="o">:</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"동쪽"</span><span class="o">);</span> <span class="k">break</span><span class="o">;</span>
+            <span class="k">case</span> <span class="mi">3</span><span class="o">:</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"서쪽"</span><span class="o">);</span> <span class="k">break</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이는 상수값으로 방향을 표현하며 의미가 불분명하다. 새로운 방향을 추가하면 또 기존 코드를 수정해야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Direction</span> <span class="o">{</span>
+    <span class="no">NORTH</span><span class="o">(</span><span class="s">"북쪽"</span><span class="o">),</span>
+    <span class="no">SOUTH</span><span class="o">(</span><span class="s">"남쪽"</span><span class="o">),</span>
+    <span class="no">EAST</span><span class="o">(</span><span class="s">"동쪽"</span><span class="o">),</span>
+    <span class="no">WEST</span><span class="o">(</span><span class="s">"서쪽"</span><span class="o">);</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">label</span><span class="o">;</span>
+
+    <span class="nc">Direction</span><span class="o">(</span><span class="nc">String</span> <span class="n">label</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getLabel</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">label</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 내부 메서드 활용 가능</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printDirection</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"방향: "</span> <span class="o">+</span> <span class="n">label</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Direction</span> <span class="n">dir</span> <span class="o">=</span> <span class="nc">Direction</span><span class="o">.</span><span class="na">NORTH</span><span class="o">;</span>
+
+        <span class="c1">// switch 대신 내부 메서드 사용</span>
+        <span class="n">dir</span><span class="o">.</span><span class="na">printDirection</span><span class="o">();</span>
+
+        <span class="c1">// switch 사용 시에도 enum 사용 가능</span>
+        <span class="k">switch</span> <span class="o">(</span><span class="n">dir</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">case</span> <span class="no">NORTH</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"북쪽으로 이동"</span><span class="o">);</span>
+            <span class="k">case</span> <span class="no">SOUTH</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"남쪽으로 이동"</span><span class="o">);</span>
+            <span class="k">case</span> <span class="no">EAST</span>  <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"동쪽으로 이동"</span><span class="o">);</span>
+            <span class="k">case</span> <span class="no">WEST</span>  <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"서쪽으로 이동"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="lambda--stream">Lambda &amp; Stream</h4>
+
+<ul>
+  <li>익명 클래스보다는 람다 사용을 하되 남용하진 말고 코드 줄도 길어지지 않는 선에서 사용한다.</li>
+  <li>람다보다는 메소드 참조를 이용하여 코드를 더 간결하게 작성한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Stream</code> 은 주의해서 사용해야 한다. 장점도 많지만, 과용하면 유지보수가 힘들며, 메소드 이름을 잘 지어주어야 한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Stream</code> 에서는 부작용(<strong>Side Effect</strong>)이 없는 함수를 이용한다.<br />
+ex) <code class="language-plaintext highlighter-rouge">forEach</code> 내에서 값을 set 하는 건 부작용 우려가 있음. 순회하는 동안 데이터를 변경했기 때문에 다른 스레드에 영향을 줌</li>
+  <li>병렬 스트림은 주의!!!
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">long</code> 형 범위가 병렬화 효과가 가장 좋음(데이터가 연속적이고 손쉽게 나눌 수 있기 때문)</li>
+      <li><code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">long</code> 이 참조 지역성이 뛰어남</li>
+      <li><code class="language-plaintext highlighter-rouge">collect</code> 메서드는 합치는 비용 때문에 병렬화에 적합하지 않음</li>
+      <li><code class="language-plaintext highlighter-rouge">Stream</code> 은 처리할 데이터가 수십만은 되어야 성능 향상이 됨</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>잘못된 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">,</span> <span class="s">"Bob"</span><span class="o">,</span> <span class="s">"Charlie"</span><span class="o">));</span>
+
+        <span class="c1">// 불필요하게 긴 람다</span>
+        <span class="n">names</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">name</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"A"</span><span class="o">))</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">());</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="na">toLowerCase</span><span class="o">());</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+
+        <span class="c1">// forEach 내에서 외부 상태 변경 (부작용 발생)</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">count</span> <span class="o">=</span> <span class="o">{</span><span class="mi">0</span><span class="o">};</span>
+        <span class="n">names</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">n</span> <span class="o">-&gt;</span> <span class="n">count</span><span class="o">[</span><span class="mi">0</span><span class="o">]++);</span> <span class="c1">// 공유 변수 변경 → 동시성 문제 발생 가능</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>잘된 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.stream.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">,</span> <span class="s">"Bob"</span><span class="o">,</span> <span class="s">"Charlie"</span><span class="o">);</span>
+
+        <span class="c1">// 간단한 경우 메서드 참조 활용</span>
+        <span class="n">names</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+
+        <span class="c1">// Stream 연산에서 부작용 없는 함수 사용</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">upperNames</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                                       <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">n</span> <span class="o">-&gt;</span> <span class="n">n</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"A"</span><span class="o">))</span>
+                                       <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">toUpperCase</span><span class="o">)</span> <span class="c1">// 순수 함수</span>
+                                       <span class="o">.</span><span class="na">toList</span><span class="o">();</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">upperNames</span><span class="o">);</span>
+
+        <span class="c1">// 병렬 스트림은 신중히</span>
+        <span class="kt">long</span> <span class="n">count</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">rangeClosed</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1_000_000</span><span class="o">)</span>
+                              <span class="o">.</span><span class="na">parallel</span><span class="o">()</span>
+                              <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+                              <span class="o">.</span><span class="na">count</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"짝수 개수: "</span> <span class="o">+</span> <span class="n">count</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="method">Method</h4>
+
+<ul>
+  <li>메서드 시그니처를 신중히 설계
+    <ul>
+      <li>편의 메서드 많이 만들지 말기</li>
+      <li>이름 신중히 짓기</li>
+      <li>매개변수가 <code class="language-plaintext highlighter-rouge">boolean</code> 이 있다면 <code class="language-plaintext highlighter-rouge">Enum</code> 을 사용하는 것을 고려</li>
+      <li>빌더 패턴을 메서드 호출에 응용</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Overloading</code> 은 신중히 사용
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Overloading</code> 은 가변 인수를 쓰면서 오버로딩하면 컴파일러가 헷갈릴 수 있으며, 특히 매개변수 수가 같다면 어떤 메서드가 선택될 지 혼란을 줄 수 있음</li>
+    </ul>
+  </li>
+  <li>가변인수는 신중히 사용
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Overriding</code> 할 때 컴파일러에게 혼동을 줄 수 있음</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Optional</code> 반환은 신중히 반환
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Optional</code> 은 <code class="language-plaintext highlighter-rouge">null</code> 일 수도 있기 때문에 API 사용자에게 명확히 알려주어야 한다.</li>
+      <li>특히 이를 받은 사용자는 다음 행동을 할 수 있다.
+        <ul>
+          <li>기본값 정함</li>
+          <li>예외 던짐</li>
+          <li>항상 값이 있다고 가정하고 꺼냄</li>
+          <li>값의 여부를 <code class="language-plaintext highlighter-rouge">boolean</code> 으로 받음(<code class="language-plaintext highlighter-rouge">isPresent</code> 활용)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>잘못된 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// boolean 매개변수 → 의미 불명확</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setMode</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">flag</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">flag</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Dark mode ON"</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Dark mode OFF"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 오버로딩이 헷갈림</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">print</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{}</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">print</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{}</span> <span class="c1">// String도 Object라 애매</span>
+
+<span class="c1">// Optional 반환을 남용</span>
+<span class="kd">public</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">findName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span> <span class="c1">// 무의미한 Optional</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>잘된 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Enum 활용 → 의미 명확</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Mode</span> <span class="o">{</span> <span class="no">DARK</span><span class="o">,</span> <span class="no">LIGHT</span> <span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setMode</span><span class="o">(</span><span class="nc">Mode</span> <span class="n">mode</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">switch</span> <span class="o">(</span><span class="n">mode</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">case</span> <span class="no">DARK</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Dark mode ON"</span><span class="o">);</span>
+        <span class="k">case</span> <span class="no">LIGHT</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Light mode OFF"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 오버로딩 대신 명확한 메서드명</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">printString</span><span class="o">(</span><span class="nc">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{}</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">printObject</span><span class="o">(</span><span class="nc">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{}</span>
+
+<span class="c1">// Optional은 null 가능성이 있을 때만</span>
+<span class="kd">public</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">findNameById</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">id</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="k">return</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">);</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="nc">Optional</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// Optional 활용 예시</span>
+    <span class="nc">String</span> <span class="n">name</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Main</span><span class="o">().</span><span class="na">findNameById</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+                            <span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="s">"기본 이름"</span><span class="o">);</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="일반적-프로그래밍-원칙">일반적 프로그래밍 원칙</h4>
+
+<ul>
+  <li>라이브러리 익히고 사용: 특히 <code class="language-plaintext highlighter-rouge">java.lang</code>, <code class="language-plaintext highlighter-rouge">java.util</code>, <code class="language-plaintext highlighter-rouge">java.io</code> 와 그 하위 패키지, <code class="language-plaintext highlighter-rouge">Collection</code>, <code class="language-plaintext highlighter-rouge">Stream</code> 패키지에 대해서 눈여겨 보기</li>
+  <li>정확한 계산을 위해서는 <code class="language-plaintext highlighter-rouge">float</code> 나 <code class="language-plaintext highlighter-rouge">double</code> 을 피하기.
+    <ul>
+      <li>정확한 계산을 하고 싶다면, 소수점 추적이 필요하다면<br />
+  <code class="language-plaintext highlighter-rouge">BigDecimal</code> 을 사용하는 것이 더 좋다.</li>
+    </ul>
+  </li>
+  <li>박싱된 기본 타입 보다는 기본 타입을 사용하기</li>
+  <li>다른 타입이 적절하다면 문자열 사용을 피하기</li>
+  <li>문자열 연결은 느리니 주의하기 =&gt; <code class="language-plaintext highlighter-rouge">StringBuilder</code> 를 사용</li>
+  <li>객체는 인터페이스를 사용해 참조(Open-Closed Principle)</li>
+  <li>최적화는 신중하게 하기</li>
+</ul>
+
+<h4 id="예외">예외</h4>
+
+<ul>
+  <li>예외는 진짜 예외 상황에만 적용</li>
+  <li>복구 가능한 상황에는 검사 예외 사용</li>
+  <li>프로그래밍 오류에는 런타임 예외 사용</li>
+  <li>메소드가 던지는 모든 예외를 문서화 하기</li>
+  <li>예외의 상세 메시지에 실패 관련 정보를 담기</li>
+  <li>가능한 실패를 Atomic 하게 만들기</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Calculator</span> <span class="o">{</span>
+    <span class="c1">// 단순 조건에도 예외를 던짐 (남용)</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">divide</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">Exception</span><span class="o">(</span><span class="s">"0으로 나눌 수 없음"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Calculator</span> <span class="n">calc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Calculator</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="na">divide</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 광범위한 Exception</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 복구 가능한 상황 → 검사 예외</span>
+<span class="kd">class</span> <span class="nc">FileFormatException</span> <span class="kd">extends</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">FileFormatException</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 프로그래밍 오류 → 런타임 예외</span>
+<span class="kd">class</span> <span class="nc">NegativeNumberException</span> <span class="kd">extends</span> <span class="nc">RuntimeException</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">NegativeNumberException</span><span class="o">(</span><span class="nc">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Calculator</span> <span class="o">{</span>
+    <span class="cm">/**
+     * @throws FileFormatException 잘못된 입력 형식일 경우
+     * @throws NegativeNumberException 음수 입력 시
+     */</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">parseAndAdd</span><span class="o">(</span><span class="nc">String</span> <span class="n">input</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">FileFormatException</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">num</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">NegativeNumberException</span><span class="o">(</span><span class="s">"음수는 허용되지 않음: "</span> <span class="o">+</span> <span class="n">num</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">num</span> <span class="o">+</span> <span class="mi">10</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">NumberFormatException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">FileFormatException</span><span class="o">(</span><span class="s">"잘못된 숫자 형식: "</span> <span class="o">+</span> <span class="n">input</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Calculator</span> <span class="n">calc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Calculator</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="na">parseAndAdd</span><span class="o">(</span><span class="s">"abc"</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">FileFormatException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"입력 오류 → "</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="직렬화">직렬화</h4>
+
+<ul>
+  <li>직렬화 대안을 찾기: 직렬화는 상당히 우험함. <code class="language-plaintext highlighter-rouge">Json</code> 이나 프로토콜 버퍼와 같은 대안을 사용하는 것이 좋음.<br />
+신뢰할 수 없는 데이터는 역직렬화 하지 않으며, 필터를 통해 먼저 검사하기</li>
+  <li><code class="language-plaintext highlighter-rouge">Serializable</code> 을 구현할지는 신중히 결정하기
+    <ul>
+      <li>버그와 보안 구멍이 생길 우려</li>
+      <li><code class="language-plaintext highlighter-rouge">Serializable</code> 을 구현 시 릴리즈 한 뒤 수정이 힘듦</li>
+      <li>해당 클래스의 신 버전을 릴리즈할 때 테스트 할 것들이 늘어남</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="기타-가져갈-것들">기타 가져갈 것들</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">import</code> 문에 와일드 카드 생략하지 않기</li>
+  <li>패키지명은 도메인 역순 사용</li>
+  <li>모든 생성자는 첫 줄에 super() 또는 this()를 호출해야 함</li>
+  <li>명시하지 않으면 자동으로 super() 호출</li>
+  <li>인터페이스의 메서드에도 default, static 이 올 수 있다.</li>
+</ul>
+
+<h3 id="과제하며-배운점">과제하며 배운점</h3>
+
+<p>다음을 java docs 의 <code class="language-plaintext highlighter-rouge">Marker</code> 와 함께 써넣으면 좋다.</p>
+
+<ol>
+  <li>DRY – Don’t Repeat Yourself</li>
+  <li>YAGNI – You Aren’t Gonna Need It</li>
+  <li>KISS – Keep It Simple, Stupid</li>
+  <li>SRP - Single Responsibility Principle</li>
+  <li>OCP - Open-Closed Principle</li>
+  <li>LSP - Liskov Substitution Principle</li>
+  <li>ISP - Interfaced Segregation Principle</li>
+  <li>DIP - Dependency Inversion Principle</li>
+  <li>POJO - Plain Old Java Object</li>
+  <li>VO - Value Object</li>
+  <li>DTO - Data Transfer Object</li>
+  <li>DAO - Data Access Object</li>
+</ol>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/22/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-6%EC%9D%BC%EC%B0%A8-Effective-Java-%EB%A7%9B%EB%B3%B4%EA%B8%B0.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/22/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-6%EC%9D%BC%EC%B0%A8-Effective-Java-%EB%A7%9B%EB%B3%B4%EA%B8%B0.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

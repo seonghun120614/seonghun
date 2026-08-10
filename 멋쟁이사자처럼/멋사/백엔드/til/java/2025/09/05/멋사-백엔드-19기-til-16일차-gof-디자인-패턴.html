@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 16일차 GoF 디자인 패턴(생성, 구조)</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 16일차 GoF 디자인 패턴(생성, 구조) | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 16일차 GoF 디자인 패턴(생성, 구조)" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/05/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-16%EC%9D%BC%EC%B0%A8-gof-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/05/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-16%EC%9D%BC%EC%B0%A8-gof-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-05T07:35:37+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 16일차 GoF 디자인 패턴(생성, 구조)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-09-05T07:35:37+00:00","datePublished":"2025-09-05T07:35:37+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 16일차 GoF 디자인 패턴(생성, 구조)","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/05/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-16%EC%9D%BC%EC%B0%A8-gof-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/05/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-16%EC%9D%BC%EC%B0%A8-gof-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/05/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-16%EC%9D%BC%EC%B0%A8-gof-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 16일차 GoF 디자인 패턴(생성, 구조)</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Sep 5, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#gof-디자인-패턴">GoF 디자인 패턴</a>
+    <ul>
+      <li><a href="#생성-패턴">생성 패턴</a>
+        <ul>
+          <li><a href="#singleton">Singleton</a></li>
+          <li><a href="#factory">Factory</a></li>
+          <li><a href="#builder">Builder</a></li>
+          <li><a href="#prototype">Prototype</a></li>
+          <li><a href="#abstract-factory">Abstract Factory</a></li>
+        </ul>
+      </li>
+      <li><a href="#구조-패턴">구조 패턴</a>
+        <ul>
+          <li><a href="#adapter">Adapter</a></li>
+          <li><a href="#bridge">Bridge</a></li>
+          <li><a href="#composite">Composite</a></li>
+          <li><a href="#decorator">Decorator</a></li>
+          <li><a href="#facade">Facade</a></li>
+          <li><a href="#proxy">Proxy</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="gof-디자인-패턴">GoF 디자인 패턴</h3>
+
+<p>정처기에서 정리를 다 했지만, 다시 본다. 글 보다는 이번에는 코드 위주로 설명한다.</p>
+
+<h4 id="생성-패턴">생성 패턴</h4>
+
+<p>객체를 생성할 때 마주할 수 있는 프로그래밍 문제를 해결할 솔루션이며<br />
+객체 생성 과정을 캡슐화해서 유연하고 재사용 가능한 객체 생성을 돕는 패턴이다.</p>
+
+<h5 id="singleton">Singleton</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"> 
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Example</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">Example</span> <span class="n">instance</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">Example</span><span class="o">()</span> <span class="o">{</span> <span class="cm">/* 생성은 감추고 */</span> <span class="o">}</span>
+
+    <span class="c1">// synchronized 를 쓰는건 때에 따라서</span>
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kd">static</span> <span class="nc">Example</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="nc">Objects</span><span class="o">.</span><span class="na">requiredNonNullElseGet</span><span class="o">(</span><span class="n">instance</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span>
+            <span class="k">new</span> <span class="nf">Example</span><span class="o">()</span>
+        <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="factory">Factory</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">interface</span> <span class="nc">Phone</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">call</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">IPhone</span> <span class="kd">implements</span> <span class="nc">Phone</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">call</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"아이폰 짱"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">Galaxy</span> <span class="kd">implements</span> <span class="nc">Phone</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">call</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"갤럭시 짱"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">PhoneFactory</span> <span class="o">{</span>
+    <span class="c1">// 어떤 제품이 나올지 모르니 공통적인 제품에 대해</span>
+    <span class="c1">// 추상화를 반환하도록</span>
+    <span class="nc">Phone</span> <span class="nf">createPhone</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// 서브 클래스가 이를 구현하여 다양한 Factory 구현</span>
+<span class="kd">public</span> <span class="nc">GalaxyFactory</span> <span class="kd">implements</span> <span class="nc">PhoneFactory</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nc">Phone</span> <span class="nf">createPhone</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Galaxy</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="nc">IPhoneFactory</span> <span class="kd">implements</span> <span class="nc">IPhoneFactory</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="nc">Phone</span> <span class="nf">createPhone</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">IPhone</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="builder">Builder</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Person</span> <span class="o">{</span>
+    <span class="c1">// 전부 private final 하게</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">height</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">weight</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">phoneNumber</span><span class="o">;</span>
+    
+    <span class="c1">// 생성자를 encapsulation</span>
+    <span class="kd">private</span> <span class="nf">Person</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">,</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">height</span><span class="o">,</span> <span class="kt">int</span> <span class="n">weight</span><span class="o">,</span> <span class="nc">String</span> <span class="n">phoneNumber</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">height</span> <span class="o">=</span> <span class="n">height</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">weight</span> <span class="o">=</span> <span class="n">weight</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">phoneNumber</span> <span class="o">=</span> <span class="n">phoneNumber</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Getter 만 구현</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kt">long</span> <span class="n">id</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">height</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kt">int</span> <span class="n">weight</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">phoneNumber</span><span class="o">;</span>
+
+        <span class="c1">// 기본 생성자로</span>
+
+        <span class="c1">// Lombok 에서는 set 없이 id() 로 가져가기는 한다.</span>
+        <span class="kd">public</span> <span class="nc">Builder</span> <span class="nf">id</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="c1">// ... 이하 setter 생략</span>
+
+        <span class="kd">public</span> <span class="nc">Person</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="nf">Person</span> <span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">height</span><span class="o">,</span> <span class="n">weight</span><span class="o">,</span> <span class="n">phoneNumber</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="prototype">Prototype</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Rectangle</span> <span class="kd">implements</span> <span class="nc">Cloneable</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">height</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">weight</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Rectangle</span><span class="o">(</span><span class="kt">int</span> <span class="n">height</span><span class="o">,</span> <span class="kt">int</span> <span class="n">weight</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">height</span> <span class="o">=</span> <span class="n">height</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">weight</span> <span class="o">=</span> <span class="n">weight</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 생성자로 복제하기</span>
+    <span class="kd">public</span> <span class="nf">Rectangle</span><span class="o">(</span><span class="nc">Rectangle</span> <span class="n">rectangle</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">height</span> <span class="o">=</span> <span class="n">rectangle</span><span class="o">.</span><span class="na">height</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">weight</span> <span class="o">=</span> <span class="n">rectangle</span><span class="o">.</span><span class="na">weight</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 메서드로 복제하기 (Clonable 구현)</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Rectangle</span> <span class="nf">clone</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// 깊은 복사 로직도 필요 시 추가</span>
+        <span class="c1">// 상위 구현체에 cloneable 하다면 해당 메서드를 써도 됨</span>
+        <span class="c1">// 단, 캐스팅을 할지 말지는 선택</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Rectangle</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="abstract-factory">Abstract Factory</h5>
+
+<p>다수의 부품들을 유연하게 제작하고 싶을때 가져가는 패턴이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 1️⃣ Product 인터페이스</span>
+<span class="kd">interface</span> <span class="nc">Chair</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">sitOn</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">interface</span> <span class="nc">Sofa</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">lieOn</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// 2️⃣ ConcreteProduct 클래스</span>
+<span class="kd">class</span> <span class="nc">ModernChair</span> <span class="kd">implements</span> <span class="nc">Chair</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sitOn</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"앉는 중: 모던 체어"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">ModernSofa</span> <span class="kd">implements</span> <span class="nc">Sofa</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">lieOn</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"누워보는 중: 모던 소파"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">VictorianChair</span> <span class="kd">implements</span> <span class="nc">Chair</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sitOn</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"앉는 중: 빅토리안 체어"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">VictorianSofa</span> <span class="kd">implements</span> <span class="nc">Sofa</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">lieOn</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"누워보는 중: 빅토리안 소파"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 3️⃣ AbstractFactory</span>
+<span class="kd">interface</span> <span class="nc">FurnitureFactory</span> <span class="o">{</span>
+    <span class="nc">Chair</span> <span class="nf">createChair</span><span class="o">();</span>
+    <span class="nc">Sofa</span> <span class="nf">createSofa</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위처럼 쓰면 <code class="language-plaintext highlighter-rouge">FurnitureFactory</code> 의 하위로 다수의 다양한 가구들을 만들어내는<br />
+팩토리들을 생성시킬 수 있을 것이다.</p>
+
+<h4 id="구조-패턴">구조 패턴</h4>
+
+<p>클래스와 객체를 조합하여 더 큰 구조를 만들 때 사용하는 패턴이다.</p>
+
+<h5 id="adapter">Adapter</h5>
+
+<p>호환되지 않는 인터페이스를 맞춰주고 싶을 때 사용하는 패턴이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 기존 클래스 1</span>
+<span class="kd">class</span> <span class="nc">KakaoRemote</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turnOn</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"카카오 TV ON"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">turnOff</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"카카오 TV OFF"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// 기존 클래스 2</span>
+<span class="kd">class</span> <span class="nc">NaverRemote</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">on</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"네이버 TV ON"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">off</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"네이버 TV OFF"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위 두 인터페이스는 기능은 동일하되 인터페이스는 맞지 않으므로 인터페이스를 하나 더 추가하여 위 API를 통일시켜준다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">interface</span> <span class="nc">Remote</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">on</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">off</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// Adapter: KakaoRemote를 Remote 인터페이스로 변환</span>
+<span class="c1">// has-a 로 느슨하게 연결</span>
+<span class="kd">class</span> <span class="nc">KakaoRemoteAdapter</span> <span class="kd">implements</span> <span class="nc">Remote</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">KakaoRemote</span> <span class="n">kakaoRemote</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">KakaoRemoteAdapter</span><span class="o">(</span><span class="nc">KakaoRemote</span> <span class="n">kakaoRemote</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">kakaoRemote</span> <span class="o">=</span> <span class="n">kakaoRemote</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">on</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">kakaoRemote</span><span class="o">.</span><span class="na">turnOn</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">off</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">kakaoRemote</span><span class="o">.</span><span class="na">turnOff</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// Adapter: NaverRemote를 Remote 인터페이스로 변환</span>
+<span class="c1">// has-a 로 느슨하게 연결</span>
+<span class="kd">class</span> <span class="nc">NaverRemoteAdapter</span> <span class="kd">implements</span> <span class="nc">Remote</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">NaverRemote</span> <span class="n">naverRemote</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">NaverRemoteAdapter</span><span class="o">(</span><span class="nc">NaverRemote</span> <span class="n">naverRemote</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">naverRemote</span> <span class="o">=</span> <span class="n">naverRemote</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">on</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">naverRemote</span><span class="o">.</span><span class="na">on</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">off</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">naverRemote</span><span class="o">.</span><span class="na">off</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// Client</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Remote</span> <span class="n">kakao</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">KakaoRemoteAdapter</span><span class="o">(</span><span class="k">new</span> <span class="nc">KakaoRemote</span><span class="o">());</span>
+        <span class="nc">Remote</span> <span class="n">naver</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">NaverRemoteAdapter</span><span class="o">(</span><span class="k">new</span> <span class="nc">NaverRemote</span><span class="o">());</span>
+
+        <span class="n">kakao</span><span class="o">.</span><span class="na">on</span><span class="o">();</span>   <span class="c1">// "카카오 TV ON"</span>
+        <span class="n">kakao</span><span class="o">.</span><span class="na">off</span><span class="o">();</span>  <span class="c1">// "카카오 TV OFF"</span>
+
+        <span class="n">naver</span><span class="o">.</span><span class="na">on</span><span class="o">();</span>   <span class="c1">// "네이버 TV ON"</span>
+        <span class="n">naver</span><span class="o">.</span><span class="na">off</span><span class="o">();</span>  <span class="c1">// "네이버 TV OFF"</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="bridge">Bridge</h5>
+
+<p>실체과 실행을 분리시켜 독립적으로 확장시키도록 하는 패턴이다.</p>
+
+<p>여기서 실행은 어떤 것이든 될 수 있다. 어쨋든 분리시키는게 중요한 것이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">interface</span> <span class="nc">Renderer</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">renderCircle</span><span class="o">(</span><span class="kt">float</span> <span class="n">x</span><span class="o">,</span> <span class="kt">float</span> <span class="n">y</span><span class="o">,</span> <span class="kt">float</span> <span class="n">radius</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">VectorRenderer</span> <span class="kd">implements</span> <span class="nc">Renderer</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">renderCircle</span><span class="o">(</span><span class="kt">float</span> <span class="n">x</span><span class="o">,</span> <span class="kt">float</span> <span class="n">y</span><span class="o">,</span> <span class="kt">float</span> <span class="n">radius</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Vector 방식으로 원 그리기 at ("</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="s">","</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="s">") radius "</span> <span class="o">+</span> <span class="n">radius</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">RasterRenderer</span> <span class="kd">implements</span> <span class="nc">Renderer</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">renderCircle</span><span class="o">(</span><span class="kt">float</span> <span class="n">x</span><span class="o">,</span> <span class="kt">float</span> <span class="n">y</span><span class="o">,</span> <span class="kt">float</span> <span class="n">radius</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Raster 방식으로 원 그리기 at ("</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="s">","</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="s">") radius "</span> <span class="o">+</span> <span class="n">radius</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">Renderer</code> 는 실행하는 인터페이스 이다. 즉 특정 행위를 하는 인터페이스를 정의하고,<br />
+특정 행위를 하는 구현체를 <code class="language-plaintext highlighter-rouge">VectorRenderer</code>, <code class="language-plaintext highlighter-rouge">RasterRenderer</code> 로 가져가고 있다.</p>
+
+<p>여기서 이 행위의 중심에 있는, 행위를 하는 주체가 없다. 즉, 실체가 없다는 뜻이다.</p>
+
+<p>해당 실체를 Renderer 을 has-a 로 가지게 하여서 구현하면 되겠다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="nc">Renderer</span> <span class="n">renderer</span><span class="o">;</span>
+
+    <span class="kd">protected</span> <span class="nf">Shape</span><span class="o">(</span><span class="nc">Renderer</span> <span class="n">renderer</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">renderer</span> <span class="o">=</span> <span class="n">renderer</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">draw</span><span class="o">();</span>
+    <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">resize</span><span class="o">(</span><span class="kt">float</span> <span class="n">factor</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">Circle</span> <span class="kd">extends</span> <span class="nc">Shape</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">float</span> <span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">radius</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Circle</span><span class="o">(</span><span class="nc">Renderer</span> <span class="n">renderer</span><span class="o">,</span> <span class="kt">float</span> <span class="n">x</span><span class="o">,</span> <span class="kt">float</span> <span class="n">y</span><span class="o">,</span> <span class="kt">float</span> <span class="n">radius</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">renderer</span><span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">radius</span> <span class="o">=</span> <span class="n">radius</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kt">void</span> <span class="nf">draw</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">renderer</span><span class="o">.</span><span class="na">renderCircle</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">,</span> <span class="n">radius</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kt">void</span> <span class="nf">resize</span><span class="o">(</span><span class="kt">float</span> <span class="n">factor</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">radius</span> <span class="o">*=</span> <span class="n">factor</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Renderer</span> <span class="n">vector</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">VectorRenderer</span><span class="o">();</span>
+        <span class="nc">Renderer</span> <span class="n">raster</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RasterRenderer</span><span class="o">();</span>
+
+        <span class="nc">Circle</span> <span class="n">circle1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Circle</span><span class="o">(</span><span class="n">vector</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">10</span><span class="o">);</span>
+        <span class="nc">Circle</span> <span class="n">circle2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Circle</span><span class="o">(</span><span class="n">raster</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">20</span><span class="o">);</span>
+
+        <span class="n">circle1</span><span class="o">.</span><span class="na">draw</span><span class="o">();</span> <span class="c1">// Vector 방식</span>
+        <span class="n">circle2</span><span class="o">.</span><span class="na">draw</span><span class="o">();</span> <span class="c1">// Raster 방식</span>
+
+        <span class="n">circle1</span><span class="o">.</span><span class="na">resize</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+        <span class="n">circle1</span><span class="o">.</span><span class="na">draw</span><span class="o">();</span> <span class="c1">// Vector 방식, radius 20</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="composite">Composite</h5>
+
+<p>말 그대로 그냥 객체를 조립하여서 부분-전체 관계로 표현하는 것이다.</p>
+
+<p>Application에 DI 를 할 때 해당 instance 들을 다 들고 있는 클래스를 생각해보자.</p>
+
+<p>이는 쉬우니 그냥 넘어간다.</p>
+
+<h5 id="decorator">Decorator</h5>
+
+<p>이는 Java IO 로 많이 보았을 것이다.</p>
+
+<p>객체에 새로운 책임을 추가할 수 있는 패턴이며, 상속 대신 구성(has-a 관계) 를 사용하여 기능을 확장한다.</p>
+
+<ul>
+  <li>Interface Component</li>
+  <li>Concrete Component</li>
+  <li>Decorator Class</li>
+  <li>Decorator Concrete Class</li>
+</ul>
+
+<p><strong>Interface Component</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Component</span>
+<span class="kd">interface</span> <span class="nc">Coffee</span> <span class="o">{</span>
+    <span class="nc">String</span> <span class="nf">getDescription</span><span class="o">();</span>
+    <span class="kt">int</span> <span class="nf">cost</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>기본 뼈대를 정의하고, Concrete Component 실체를 구현한다.</p>
+
+<p><strong>Concrete Component</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">BasicCoffee</span> <span class="kd">implements</span> <span class="nc">Coffee</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"기본 커피"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">cost</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="mi">2000</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>여기까지는 일반적인 클래스 설계 및 구현과 다를 바가 없다. 하지만 그 이후 Decorator(추상 클래스) 를 통해</p>
+
+<ol>
+  <li>Component 를 상속하여 내부에 Concrete Component 를 두고,</li>
+  <li>해당 기능들을 전부 유지시키며 Overriding 을 한다.</li>
+</ol>
+
+<p><strong>Decorator</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">CoffeeDecorator</span> <span class="kd">implements</span> <span class="nc">Coffee</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="nc">Coffee</span> <span class="n">coffee</span><span class="o">;</span>
+
+    <span class="kd">protected</span> <span class="nf">CoffeeDecorator</span><span class="o">(</span><span class="nc">Coffee</span> <span class="n">coffee</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">coffee</span> <span class="o">=</span> <span class="n">coffee</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">coffee</span><span class="o">.</span><span class="na">getDescription</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">cost</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">coffee</span><span class="o">.</span><span class="na">cost</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>여기서 이 추상 클래스의 하위 클래스도 base object(Concrete component) 를 사용할 수 있도록 protected 로 구성해야 한다.</p>
+
+<p>그 이후는 추가하고 싶은 기능들을 Decorator 를 통해 다양한 기능을 가진 클래스들로 확장해나가면 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">MilkDecorator</span> <span class="kd">extends</span> <span class="nc">CoffeeDecorator</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">MilkDecorator</span><span class="o">(</span><span class="nc">Coffee</span> <span class="n">coffee</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">coffee</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">coffee</span><span class="o">.</span><span class="na">getDescription</span><span class="o">()</span> <span class="o">+</span> <span class="s">", 우유 추가"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">cost</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">coffee</span><span class="o">.</span><span class="na">cost</span><span class="o">()</span> <span class="o">+</span> <span class="mi">500</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">SugarDecorator</span> <span class="kd">extends</span> <span class="nc">CoffeeDecorator</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">SugarDecorator</span><span class="o">(</span><span class="nc">Coffee</span> <span class="n">coffee</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">coffee</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">coffee</span><span class="o">.</span><span class="na">getDescription</span><span class="o">()</span> <span class="o">+</span> <span class="s">", 설탕 추가"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">cost</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">coffee</span><span class="o">.</span><span class="na">cost</span><span class="o">()</span> <span class="o">+</span> <span class="mi">200</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="facade">Facade</h5>
+
+<p>복잡한 서브시스템을 단순화된 인터페이스로 제공하기 위해(여러 라이브러리를 하나의 API로 통합하기 위해) 사용된다.</p>
+
+<p>Adapter 랑 다른 점은 Adapter 는 유사한 기능을 가진 클래스 끼리 메서드 시그니처가 다를 때 사용하고,<br />
+Facade 는 다수의 다양한 기능들과 복합적이고 복잡한 인터페이스들을 제공하는 시스템에 대해 여러 객체를 단일 접근점을 통해<br />
+단순하게 접근할 수 있도록 사용하는 것이다. 즉 Facade 는 종합 리모컨 느낌이면 Adapter 는 연결만 시켜주는 애다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">TV</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">on</span><span class="o">()</span> <span class="o">{</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"TV 켜기"</span><span class="o">);</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">off</span><span class="o">()</span> <span class="o">{</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"TV 끄기"</span><span class="o">);</span> <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">SoundSystem</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">on</span><span class="o">()</span> <span class="o">{</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"사운드 시스템 켜기"</span><span class="o">);</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">off</span><span class="o">()</span> <span class="o">{</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"사운드 시스템 끄기"</span><span class="o">);</span> <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">DVDPlayer</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">on</span><span class="o">()</span> <span class="o">{</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"DVD 플레이어 켜기"</span><span class="o">);</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">off</span><span class="o">()</span> <span class="o">{</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"DVD 플레이어 끄기"</span><span class="o">);</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">play</span><span class="o">(</span><span class="nc">String</span> <span class="n">movie</span><span class="o">)</span> <span class="o">{</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">movie</span> <span class="o">+</span> <span class="s">" 재생"</span><span class="o">);</span> <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>다수의 기기들이 다양한 기능들을 제공함을 볼 수 있지만 각각 메서드 시그니처가 다를 수도, 같을 수도 있다.</p>
+
+<p><strong>Facade</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">HomeTheaterFacade</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="no">TV</span> <span class="n">tv</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">SoundSystem</span> <span class="n">sound</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">DVDPlayer</span> <span class="n">dvd</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">HomeTheaterFacade</span><span class="o">(</span><span class="no">TV</span> <span class="n">tv</span><span class="o">,</span> <span class="nc">SoundSystem</span> <span class="n">sound</span><span class="o">,</span> <span class="nc">DVDPlayer</span> <span class="n">dvd</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">tv</span> <span class="o">=</span> <span class="n">tv</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">sound</span> <span class="o">=</span> <span class="n">sound</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">dvd</span> <span class="o">=</span> <span class="n">dvd</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">watchMovie</span><span class="o">(</span><span class="nc">String</span> <span class="n">movie</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">tv</span><span class="o">.</span><span class="na">on</span><span class="o">();</span>
+        <span class="n">sound</span><span class="o">.</span><span class="na">on</span><span class="o">();</span>
+        <span class="n">dvd</span><span class="o">.</span><span class="na">on</span><span class="o">();</span>
+        <span class="n">dvd</span><span class="o">.</span><span class="na">play</span><span class="o">(</span><span class="n">movie</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"영화 시작 준비 완료!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">endMovie</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">dvd</span><span class="o">.</span><span class="na">off</span><span class="o">();</span>
+        <span class="n">sound</span><span class="o">.</span><span class="na">off</span><span class="o">();</span>
+        <span class="n">tv</span><span class="o">.</span><span class="na">off</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"영화 종료!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Facade 를 두어 모든 기능들을 조합하여 다양한 기능들을 생성해낼 수 있다.</p>
+
+<h5 id="proxy">Proxy</h5>
+
+<p>실체 객체에 접근하기 전에 대리 객체를 두어 제어한다. 목표하는 기능으로는 다음과 같다:</p>
+
+<ul>
+  <li>접근 제어</li>
+  <li>지연 로딩</li>
+  <li>로깅, 캐싱</li>
+</ul>
+
+<p>구조는 Subject(inteface), RealSubject, Proxy(RealSubject 를 감싸고 접근 제어) 로 가져간다.</p>
+
+<p><strong>Lazy Proxy</strong></p>
+
+<p>필요할 때만 초기화를 수행하도록 하여 메모리를 최적화 할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Subject</span>
+<span class="kd">interface</span> <span class="nc">Image</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">display</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// RealSubject</span>
+<span class="kd">class</span> <span class="nc">RealImage</span> <span class="kd">implements</span> <span class="nc">Image</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">filename</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">RealImage</span><span class="o">(</span><span class="nc">String</span> <span class="n">filename</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">;</span>
+        <span class="n">loadFromDisk</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">loadFromDisk</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"이미지 로딩: "</span> <span class="o">+</span> <span class="n">filename</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">display</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"이미지 표시: "</span> <span class="o">+</span> <span class="n">filename</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">// 아직 생성되지 않은 상태</span>
+
+<span class="c1">// Proxy 를 통해 has-a 관계로 RealImage 를 부르기 전까지는 초기화 X</span>
+<span class="kd">class</span> <span class="nc">ProxyImage</span> <span class="kd">implements</span> <span class="nc">Image</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">RealImage</span> <span class="n">realImage</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">filename</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ProxyImage</span><span class="o">(</span><span class="nc">String</span> <span class="n">filename</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">display</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">realImage</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// Lazy initialization</span>
+            <span class="n">realImage</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RealImage</span><span class="o">(</span><span class="n">filename</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"프록시를 통해 접근 중..."</span><span class="o">);</span>
+        <span class="n">realImage</span><span class="o">.</span><span class="na">display</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>Protection Proxy</strong></p>
+
+<p>사용자의 권한에 따라 접근을 제어한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">ProtectedImageProxy</span> <span class="kd">implements</span> <span class="nc">Image</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">RealImage</span> <span class="n">realImage</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">filename</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">userRole</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ProtectedImageProxy</span><span class="o">(</span><span class="nc">String</span> <span class="n">filename</span><span class="o">,</span> <span class="nc">String</span> <span class="n">userRole</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">userRole</span> <span class="o">=</span> <span class="n">userRole</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">display</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="s">"ADMIN"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">userRole</span><span class="o">))</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">realImage</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="n">realImage</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RealImage</span><span class="o">(</span><span class="n">filename</span><span class="o">);</span>
+            <span class="n">realImage</span><span class="o">.</span><span class="na">display</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"권한 없음: 이미지 접근 불가"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>Virtual Proxy</strong></p>
+
+<p>필요한 기능만을 가져오고 싶을 때 사용한다. 이때는 Subject 가 분리가 잘 되어 있어야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Subject</span>
+<span class="kd">interface</span> <span class="nc">Image</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">display</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// RealSubject</span>
+<span class="kd">class</span> <span class="nc">RealImage</span> <span class="kd">implements</span> <span class="nc">Image</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">filename</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">RealImage</span><span class="o">(</span><span class="nc">String</span> <span class="n">filename</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">;</span>
+        <span class="n">loadFromDisk</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">loadFromDisk</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"원본 이미지 로딩: "</span> <span class="o">+</span> <span class="n">filename</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">display</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"이미지 표시: "</span> <span class="o">+</span> <span class="n">filename</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// Virtual Proxy</span>
+<span class="kd">class</span> <span class="nc">VirtualImageProxy</span> <span class="kd">implements</span> <span class="nc">Image</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">RealImage</span> <span class="n">realImage</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">filename</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">showThumbnailOnly</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">VirtualImageProxy</span><span class="o">(</span><span class="nc">String</span> <span class="n">filename</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">showThumbnailOnly</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">showThumbnailOnly</span> <span class="o">=</span> <span class="n">showThumbnailOnly</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">display</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">showThumbnailOnly</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"썸네일 표시: "</span> <span class="o">+</span> <span class="n">filename</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">realImage</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">realImage</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RealImage</span><span class="o">(</span><span class="n">filename</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">realImage</span><span class="o">.</span><span class="na">display</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>Smart Proxy</strong></p>
+
+<p>실 객체에 접근할 때 추가 기능을 제공하는 프록시이며, 캐싱 기능, 로깅 기능 등등을 예로 들 수 있겠다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">interface</span> <span class="nc">Image</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">display</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// 실제 객체</span>
+<span class="kd">class</span> <span class="nc">RealImage</span> <span class="kd">implements</span> <span class="nc">Image</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">filename</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">RealImage</span><span class="o">(</span><span class="nc">String</span> <span class="n">filename</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">;</span>
+        <span class="n">loadFromDisk</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">loadFromDisk</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"이미지 로딩: "</span> <span class="o">+</span> <span class="n">filename</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">display</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"이미지 표시: "</span> <span class="o">+</span> <span class="n">filename</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// Smart Proxy</span>
+<span class="kd">class</span> <span class="nc">SmartImageProxy</span> <span class="kd">implements</span> <span class="nc">Image</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">RealImage</span> <span class="n">realImage</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">filename</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">cached</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">SmartImageProxy</span><span class="o">(</span><span class="nc">String</span> <span class="n">filename</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">display</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[Smart Proxy] display 호출 기록"</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(!</span><span class="n">cached</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">realImage</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RealImage</span><span class="o">(</span><span class="n">filename</span><span class="o">);</span>
+            <span class="n">cached</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"[Smart Proxy] 캐시된 이미지 사용"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">realImage</span><span class="o">.</span><span class="na">display</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>행위 패턴은 다음 장에서..</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/05/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-16%EC%9D%BC%EC%B0%A8-gof-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/05/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-16%EC%9D%BC%EC%B0%A8-gof-%EB%94%94%EC%9E%90%EC%9D%B8-%ED%8C%A8%ED%84%B4.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

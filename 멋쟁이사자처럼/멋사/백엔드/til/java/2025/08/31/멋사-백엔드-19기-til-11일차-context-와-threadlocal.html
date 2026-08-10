@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 11일차 Context 와 ThreadLocal</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 11일차 Context 와 ThreadLocal | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 11일차 Context 와 ThreadLocal" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/31/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-11%EC%9D%BC%EC%B0%A8-context-%EC%99%80-threadlocal.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/31/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-11%EC%9D%BC%EC%B0%A8-context-%EC%99%80-threadlocal.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-08-31T05:32:17+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 11일차 Context 와 ThreadLocal" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-08-31T05:32:17+00:00","datePublished":"2025-08-31T05:32:17+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 11일차 Context 와 ThreadLocal","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/31/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-11%EC%9D%BC%EC%B0%A8-context-%EC%99%80-threadlocal.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/31/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-11%EC%9D%BC%EC%B0%A8-context-%EC%99%80-threadlocal.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/31/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-11%EC%9D%BC%EC%B0%A8-context-%EC%99%80-threadlocal.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 11일차 Context 와 ThreadLocal</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Aug 31, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-한계점">🪛 한계점</h2>
+
+<p>실무에서 이론을 적용시키기에는 몸이 단련이 되어 익숙해있어야 한다.<br />
+미니 프로젝트를 통해서 체화 되도록 연습해야한다.</p>
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#context">Context</a>
+    <ul>
+      <li><a href="#threadlocal">ThreadLocal</a></li>
+      <li><a href="#executorservice">ExecutorService</a></li>
+      <li><a href="#modern-java-concurrent-버전">Modern Java Concurrent 버전</a>
+        <ul>
+          <li><a href="#allof-anyof">allOf(), anyOf()</a></li>
+          <li><a href="#exceptionally">exceptionally()</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>미니프로젝트를 하면서 필요했던 것들을 구현해보자. 여기서는 순수 자바에 대한 구현에 대해 말한다.</p>
+
+<h3 id="context">Context</h3>
+
+<p>어플리케이션의 상태, 환경 정보, 공통 리소스 등을 중앙에서 관리하는 역할을 한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">RequestContext</code>: 요청별 정보(사용자, 세션, 트랜잭션) 등을 저장한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">ThreadPool</code> + <code class="language-plaintext highlighter-rouge">Context</code>: 스레드 풀에서 작업을 실행할 때,<br />
+작업이 필요한 환경 정보나 리소스를 컨텍스트에서 가져오게 된다.</li>
+</ul>
+
+<p>두 번째 형태는 보통 순수 자바 서버에서 특정 시스템을 구현할 때 사용한다고 한다.</p>
+
+<h4 id="threadlocal">ThreadLocal</h4>
+
+<p>우선 작업을 처리할 스레드 여러 개를 다룰 수 있게 스레드 한 단위를 구현해보자.</p>
+
+<p>순수 자바에서는 <code class="language-plaintext highlighter-rouge">ThreadLocal</code> 이라는 클래스를 제공하는데, 해당 인스턴스는 독립적으로<br />
+변수 저장소를 가지고, 일반적인 인스턴스 변수나 static 변수와는 달리 thread 마다 별도의 값을 지닌다.</p>
+
+<p>따라서 여러 스레드가 같은 <code class="language-plaintext highlighter-rouge">ThreadLocal</code> 객체를 공유해도, 실제 값은 스레드 별로 독립적이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// ThreadLocal 선언</span>
+<span class="nc">ThreadLocal</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">threadLocal</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ThreadLocal</span><span class="o">&lt;&gt;();</span>
+
+<span class="c1">// 값 저장</span>
+<span class="n">threadLocal</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">"Alice"</span><span class="o">);</span>
+
+<span class="c1">// 값 읽기</span>
+<span class="nc">String</span> <span class="n">user</span> <span class="o">=</span> <span class="n">threadLocal</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">user</span><span class="o">);</span> <span class="c1">// Alice</span>
+
+<span class="c1">// 값 제거 (필수는 아니지만 메모리 누수 방지를 위해 권장)</span>
+<span class="n">threadLocal</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span></code></pre></figure>
+
+<p><strong>요약</strong></p>
+<ul>
+  <li>각 thread 에서 <code class="language-plaintext highlighter-rouge">get()</code> 을 호출 시 자기 스레드 전용 값이 나옴</li>
+  <li>다른 스레드에서 <code class="language-plaintext highlighter-rouge">set()</code> 을 해도 다른 스레드 전용 값에는 영향을 안미침</li>
+</ul>
+
+<p>이를 토대로 <code class="language-plaintext highlighter-rouge">RequestContext</code> 에 해당 인스턴스를 적용시키면,</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RequestContext</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">ThreadLocal</span><span class="o">&lt;</span><span class="nc">RequestContext</span><span class="o">&gt;</span> <span class="n">context</span> <span class="o">=</span>
+        <span class="nc">ThreadLocal</span><span class="o">.</span><span class="na">withInitial</span><span class="o">(</span><span class="nl">RequestContext:</span><span class="o">:</span><span class="k">new</span><span class="o">);</span>
+
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">currentUser</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">RequestContext</span> <span class="nf">get</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">context</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getCurrentUser</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">currentUser</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setCurrentUser</span><span class="o">(</span><span class="nc">String</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">currentUser</span> <span class="o">=</span> <span class="n">user</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">clear</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">context</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위와 같이 선언하면 스레드 별로 다른 값들을 관리할 수 있게 된다.</p>
+
+<h4 id="executorservice">ExecutorService</h4>
+
+<p>이제 로컬 스레드의 저장소 관리를 보았으니, 처리하는 프로세스를 정의 할 차례이다.</p>
+
+<p>순수 자바에서 <code class="language-plaintext highlighter-rouge">ExecutorService</code> 는 스레드 풀(Thread Pool)을 관리하고,<br />
+스레드 작업을 쉽게 실행할 수 있게 해주는 핵심 클래스이다.<br />
+여기에 작업을 제출하여 실행할 수 있게 된다.</p>
+
+<p><strong>예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.concurrent.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExecutorServiceExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="c1">// 1. 고정 스레드 풀 생성 (스레드 3개)</span>
+        <span class="nc">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+
+        <span class="c1">// 2. 작업 제출</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="kt">int</span> <span class="n">taskId</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+            <span class="n">executor</span><span class="o">.</span><span class="na">submit</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">" 처리중: Task-"</span> <span class="o">+</span> <span class="n">taskId</span><span class="o">);</span>
+            <span class="o">});</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 3. 종료</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위처럼 작업(<code class="language-plaintext highlighter-rouge">Runnable</code>, <code class="language-plaintext highlighter-rouge">Callable</code>)을 받아들여 작업 큐를 통해 3개의 스레드로 들어가 처리한다. 여기서 <code class="language-plaintext highlighter-rouge">submit</code> 은 비동기로 실행된다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ExecutorService</code> 에 <code class="language-plaintext highlighter-rouge">submit()</code> 된 task 들은 전부 Future 를 통해 값을 받을 수 있다.</p>
+
+<h4 id="modern-java-concurrent-버전">Modern Java Concurrent 버전</h4>
+
+<p>하지만 위와 같이 여러 개의 작업을 실행 후에 <code class="language-plaintext highlighter-rouge">Future</code> 로 받는다고 치면 <code class="language-plaintext highlighter-rouge">Future</code> 이 여러개 있어야 한다. 이를 한 변수로 담아서 한 번에 처리하려면 다음 코드를 보자:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.concurrent.CompletableFuture</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.ExecutorService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.Executors</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.ThreadLocalRandom</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CompletableFutureExample</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"작업 시작..."</span><span class="o">);</span>
+
+        <span class="nc">CompletableFuture</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">future</span> <span class="o">=</span> <span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"에서 비동기 작업 실행 중..."</span><span class="o">);</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="nc">ThreadLocalRandom</span><span class="o">.</span><span class="na">current</span><span class="o">().</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">1000</span><span class="o">,</span> <span class="mi">3000</span><span class="o">));</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">interrupt</span><span class="o">();</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="s">"작업 완료!"</span><span class="o">;</span>
+        <span class="o">},</span> <span class="n">executor</span><span class="o">);</span> <span class="c1">// 사용 할 Executor를 명시적으로 지정</span>
+
+        <span class="n">future</span><span class="o">.</span><span class="na">thenAccept</span><span class="o">(</span><span class="n">result</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"에서 결과값 받음: "</span> <span class="o">+</span> <span class="n">result</span><span class="o">);</span>
+        <span class="o">});</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"메인 스레드는 다른 작업 진행 중..."</span><span class="o">);</span>
+
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">future</span><span class="o">.</span><span class="na">get</span><span class="o">();</span> <span class="c1">// 작업이 끝날 때까지 기다림</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="n">executor</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"모든 작업 종료."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위 예제에서는 <code class="language-plaintext highlighter-rouge">CompletableFuture</code> 라는 클래스의</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">thenAccept</code> 를 통해 값이 들어올 때마다 <code class="language-plaintext highlighter-rouge">consume</code> 되도록 하는 함수를 볼 수 있고,</li>
+  <li><code class="language-plaintext highlighter-rouge">supplyAsync</code> 함수를 통해 값을 <code class="language-plaintext highlighter-rouge">Supplier</code> 를 통해 <code class="language-plaintext highlighter-rouge">ExecutorService</code> 에게 제공함을 볼 수 있다.</li>
+  <li>만약 스레드 간의 각 task 를 처리 중에 있어 예외가 발생하면 자동적으로 스레드의 interrupt 값은 true -&gt; false 로 초기화가 된다. 이때 상위 호출자에게 하위 호출자가 interrupt 되었다는 것을 알리기 위해 <code class="language-plaintext highlighter-rouge">interrupt()</code> 를 호출하여 여기에 <code class="language-plaintext highlighter-rouge">Exception</code> 이 터졌다는 것을 알려주게 된다.</li>
+</ul>
+
+<h5 id="allof-anyof">allOf(), anyOf()</h5>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">CompletableFuture.allOf()</code> 인자로 받은 <code class="language-plaintext highlighter-rouge">CompletableFuture</code> 들에 대해 모든 결과가 성공적으로 완료됐을 때, <code class="language-plaintext highlighter-rouge">CompletableFuture&lt;Void&gt;</code> 를 생성하는 함수</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">CompletableFuture</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">future1</span> <span class="o">=</span> <span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="s">"결과1"</span><span class="o">);</span>
+<span class="nc">CompletableFuture</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">future2</span> <span class="o">=</span> <span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="s">"결과2"</span><span class="o">);</span>
+
+<span class="c1">// 모든 작업이 끝날 때까지 기다림</span>
+<span class="nc">CompletableFuture</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;</span> <span class="n">allFutures</span> <span class="o">=</span> <span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">allOf</span><span class="o">(</span><span class="n">future1</span><span class="o">,</span> <span class="n">future2</span><span class="o">);</span>
+
+<span class="c1">// 모든 작업이 완료된 후에 실행</span>
+<span class="n">allFutures</span><span class="o">.</span><span class="na">thenRun</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"모든 작업이 완료되었습니다."</span><span class="o">);</span>
+<span class="o">});</span></code></pre></figure>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">CompletableFuture.anyOf()</code> 인자로 받은 <code class="language-plaintext highlighter-rouge">CompletableFuture</code> 중에 하나라도 완료되면 해당 완료된 값을 담는 새로운 <code class="language-plaintext highlighter-rouge">CompletableFuture&lt;Object&gt;</code> 를 생성한다.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">CompletableFuture</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">futureA</span> <span class="o">=</span> <span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span> <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">3000</span><span class="o">);</span> <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>
+    <span class="k">return</span> <span class="s">"서버 A의 결과"</span><span class="o">;</span>
+<span class="o">});</span>
+<span class="nc">CompletableFuture</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">futureB</span> <span class="o">=</span> <span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span> <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span> <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>
+    <span class="k">return</span> <span class="s">"서버 B의 결과"</span><span class="o">;</span> <span class="c1">// 더 빨리 끝남</span>
+<span class="o">});</span>
+
+<span class="c1">// 둘 중 하나라도 먼저 끝나는 것을 기다림</span>
+<span class="nc">CompletableFuture</span><span class="o">&lt;</span><span class="nc">Object</span><span class="o">&gt;</span> <span class="n">anyFuture</span> <span class="o">=</span> <span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">anyOf</span><span class="o">(</span><span class="n">futureA</span><span class="o">,</span> <span class="n">futureB</span><span class="o">);</span>
+
+<span class="c1">// 가장 먼저 완료된 작업의 결과값을 사용</span>
+<span class="n">anyFuture</span><span class="o">.</span><span class="na">thenAccept</span><span class="o">(</span><span class="n">result</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"가장 먼저 완료된 결과: "</span> <span class="o">+</span> <span class="n">result</span><span class="o">);</span>
+<span class="o">});</span></code></pre></figure>
+
+<blockquote>
+  <p>이때 명시적 형변환이 불가피하다.</p>
+</blockquote>
+
+<h5 id="exceptionally">exceptionally()</h5>
+
+<p><code class="language-plaintext highlighter-rouge">CompletableFuture</code> 에서 비동기 작업 중 예외가 발생했을 때 그 예외를 잡아서 처리하고, 정상적인 결과값으로 복구할 수 있게 해주는 메서드이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.concurrent.CompletableFuture</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.Executors</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExceptionallyExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 1. 의도적으로 예외를 발생시키는 CompletableFuture</span>
+        <span class="nc">CompletableFuture</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">futureWithException</span> <span class="o">=</span> <span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"작업 시작: 예외를 발생시킵니다."</span><span class="o">);</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"고의로 발생시킨 에러!"</span><span class="o">);</span>
+        <span class="o">},</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newSingleThreadExecutor</span><span class="o">());</span>
+
+        <span class="c1">// 2. exceptionally()를 사용하여 예외 처리</span>
+        <span class="nc">CompletableFuture</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">recoveredFuture</span> <span class="o">=</span> <span class="n">futureWithException</span><span class="o">.</span><span class="na">exceptionally</span><span class="o">(</span><span class="n">ex</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"예외를 잡았습니다: "</span> <span class="o">+</span> <span class="n">ex</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+            <span class="c1">// 예외가 발생했을 때 대체할 값(정상 값)을 반환</span>
+            <span class="k">return</span> <span class="s">"복구된 기본값"</span><span class="o">;</span> 
+        <span class="o">});</span>
+
+        <span class="c1">// 3. thenAccept()로 최종 결과를 받아서 출력</span>
+        <span class="n">recoveredFuture</span><span class="o">.</span><span class="na">thenAccept</span><span class="o">(</span><span class="n">result</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"최종 결과: "</span> <span class="o">+</span> <span class="n">result</span><span class="o">);</span>
+        <span class="o">});</span>
+        
+        <span class="c1">// main 스레드가 종료되지 않도록 잠시 대기</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">interrupt</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/31/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-11%EC%9D%BC%EC%B0%A8-context-%EC%99%80-threadlocal.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/31/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-11%EC%9D%BC%EC%B0%A8-context-%EC%99%80-threadlocal.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

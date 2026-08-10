@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 65일차 TDD(1)</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 65일차 TDD(1) | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 65일차 TDD(1)" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="작성중" />
+<meta property="og:description" content="작성중" />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/tdd/2025/11/28/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-65%EC%9D%BC%EC%B0%A8-tdd(1).html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/tdd/2025/11/28/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-65%EC%9D%BC%EC%B0%A8-tdd(1).html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-11-28T03:36:34+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 65일차 TDD(1)" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-11-28T03:36:34+00:00","datePublished":"2025-11-28T03:36:34+00:00","description":"작성중","headline":"[멋사 백엔드 19기] TIL 65일차 TDD(1)","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/tdd/2025/11/28/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-65%EC%9D%BC%EC%B0%A8-tdd(1).html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/tdd/2025/11/28/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-65%EC%9D%BC%EC%B0%A8-tdd(1).html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/tdd/2025/11/28/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-65%EC%9D%BC%EC%B0%A8-tdd(1).html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 65일차 TDD(1)</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Nov 28, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>TDD</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+<p>작성중</p>
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#junit-601">JUnit 6.0.1</a>
+    <ul>
+      <li><a href="#junit-platform">JUnit Platform</a>
+        <ul>
+          <li><a href="#testengine-api">TestEngine API</a></li>
+          <li><a href="#console-launcher">Console Launcher</a></li>
+          <li><a href="#junit-platform-suite-engine">JUnit Platform Suite Engine</a></li>
+          <li><a href="#ide--build-tool-지원">IDE &amp; Build Tool 지원</a></li>
+        </ul>
+      </li>
+      <li><a href="#junit-jupiter">JUnit Jupiter</a></li>
+      <li><a href="#junit-vintage">JUnit Vintage</a></li>
+      <li><a href="#annotations">Annotations</a>
+        <ul>
+          <li><a href="#meta-annotations-and-composed-annotations">Meta-Annotations and Composed Annotations</a></li>
+          <li><a href="#definitions">Definitions</a></li>
+        </ul>
+      </li>
+      <li><a href="#test-classes-and-methods">Test Classes and Methods</a></li>
+      <li><a href="#displayname">DisplayName</a>
+        <ul>
+          <li><a href="#display-name-generators">Display Name Generators</a></li>
+        </ul>
+      </li>
+      <li><a href="#assertions">Assertions</a></li>
+      <li><a href="#assumptions">Assumptions</a></li>
+      <li><a href="#disabling-tests">Disabling Tests</a></li>
+      <li><a href="#conditional-test-execution">Conditional Test Execution</a>
+        <ul>
+          <li><a href="#condition">Condition</a></li>
+        </ul>
+      </li>
+      <li><a href="#test-instance-lifecycle">Test Instance Lifecycle</a></li>
+      <li><a href="#nested-tests">Nested Tests</a></li>
+      <li><a href="#interoperability">Interoperability</a></li>
+      <li><a href="#dependency-injection-for-constructors-and-methods">Dependency Injection for Constructors and Methods</a>
+        <ul>
+          <li><a href="#parameterresolver">ParameterResolver</a></li>
+          <li><a href="#mockitoextensionclass">MockitoExtension.class</a></li>
+          <li><a href="#springextension">SpringExtension</a></li>
+        </ul>
+      </li>
+      <li><a href="#test-interfaces-and-default-methods">Test Interfaces and Default Methods</a></li>
+      <li><a href="#sources-of-arguments">Sources of Arguments</a>
+        <ul>
+          <li><a href="#valuesource">@ValueSource</a></li>
+          <li><a href="#nullsource--emptysource">@NullSource &amp; @EmptySource</a></li>
+          <li><a href="#enumsource">@EnumSource</a></li>
+          <li><a href="#️-methodsource">⭐️ @MethodSource</a></li>
+          <li><a href="#fieldsource">@FieldSource</a></li>
+          <li><a href="#csvsource">@CsvSource</a></li>
+        </ul>
+      </li>
+      <li><a href="#argument-conversion">Argument Conversion</a>
+        <ul>
+          <li><a href="#widening-primitive-conversion">Widening Primitive Conversion</a></li>
+          <li><a href="#implicit-conversion">Implicit Conversion</a></li>
+          <li><a href="#explicitly-conversion">Explicitly Conversion</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="junit-601">JUnit 6.0.1</h3>
+
+<blockquote>
+  <p><strong>JUnit 6.0.1 = JUnit Platform + JUnit Jupiter + JUnit 빈티지(JUnit4)</strong></p>
+</blockquote>
+
+<h4 id="junit-platform">JUnit Platform</h4>
+
+<p>JUnit 5 는 크게 3 계층이며, 그중 맨 아래 바닥이 JUnit Platform 이다. 이는 테스트를 돌릴 수 있도록 판을 마련하며, 여러 종류의 테스트 프레임워크를 JVM 에서 실행해줄 수 있는 공통 모듈이다.</p>
+
+<ul>
+  <li>JUnit 4</li>
+  <li>JUnit 5</li>
+  <li>KotlinTest</li>
+  <li>Spock</li>
+</ul>
+
+<p>…</p>
+
+<p>JUnit Platform 은 다양한 기능들을 주고 있다.</p>
+
+<h5 id="testengine-api">TestEngine API</h5>
+
+<p>위를 전부 동작시키게 하여 호환성을 가져갔다. 이런 일을 가능하게 해주는게 TestEngine API 이며, 테스트 엔진을 만드는 규격으로 이를 지켜주면 JUnit 에서 돌아가는 테스트 프레임워크를 만들 수 있게 된다.</p>
+
+<h5 id="console-launcher">Console Launcher</h5>
+
+<p>더 나아가 기능적으로는 Console Launcher(터미널에서 JUnit Platform 실행기) 라는 CLI 도 지원해주기 때문에 커맨드라인에서 직접 테스트를 실행할 수 있다.</p>
+
+<h5 id="junit-platform-suite-engine">JUnit Platform Suite Engine</h5>
+
+<p>여러 테스트를 섞어서 돌릴 수도 있는데, JUnit5, JUnit4, 다른 커스텀 엔진 테스트 들 또한 돌리고 싶을때 이를 사용하여 테스트 묶음을 만들 수 있다.</p>
+
+<h5 id="ide--build-tool-지원">IDE &amp; Build Tool 지원</h5>
+
+<p>IntelliJ, Eclipse, VS Code 와 같은 IDE 에서 테스트를 위해 손 쉽게 사용할 수 있도록 JUnit Platform 을 쉽게 호출할 수 있다.</p>
+
+<h4 id="junit-jupiter">JUnit Jupiter</h4>
+
+<p>우리가 쓰는 JUnit 5 의 진짜 본체이며, <code class="language-plaintext highlighter-rouge">@Test</code>, <code class="language-plaintext highlighter-rouge">@BeforeEach</code>, … 등을 제공하는 프로그래밍 모듈이다.</p>
+
+<p>확장 모델(Extension Model: <code class="language-plaintext highlighter-rouge">@ExtendsWith</code>, <code class="language-plaintext highlighter-rouge">@BeforeEachCallback</code>, …) 같은 기능도 있다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">SpringExtension</code></li>
+  <li><code class="language-plaintext highlighter-rouge">MockitoExtension</code></li>
+  <li><code class="language-plaintext highlighter-rouge">CustomExtension</code></li>
+  <li>…</li>
+</ul>
+
+<p>따라서 Jupiter 테스트 를 실행할 수 있는 테스트 엔진을 제공, 이 엔진을 JUnit Platform 이 실행하는 것.</p>
+
+<h4 id="junit-vintage">JUnit Vintage</h4>
+
+<p>옛날 테스트 실행기이며, JUnit3/4 테스트 코드가 남아있을 수 있기 때문에 이를 JUnit 5 플랫폼에서 실행할 수 있도록 해주는 TestEngine 이다. 다만,</p>
+
+<ul>
+  <li>JUnit 4.12+ 라이브러리가 classpath 에 있어야 한다</li>
+  <li>지금은 Deprecated 이며, Vintage 엔진은 더이상 지원하지 않는다.</li>
+</ul>
+
+<h4 id="annotations">Annotations</h4>
+
+<p>여기서는 기본적인 애노테이션은 뺐다.</p>
+
+<h5 id="meta-annotations-and-composed-annotations">Meta-Annotations and Composed Annotations</h5>
+
+<p>JUnit 5 에서는 JUnit 애노테이션을 다른 애노테이션 위에 붙여서 조합 애노테이션을 만들 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Tag</span><span class="o">(</span><span class="s">"fast"</span><span class="o">)</span></code></pre></figure>
+
+<p>위 처럼 내가 직접 <code class="language-plaintext highlighter-rouge">@Test</code> 같은 기능을 가진 나만의 <code class="language-plaintext highlighter-rouge">@XXX</code> 어노테이션을 만들 수 있다. Tag 를 굳이 쓰지 않아도 된다는 것이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Fast</span></code></pre></figure>
+
+<p>한 번 만들어보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Target</span><span class="o">({</span> <span class="nc">ElementType</span><span class="o">.</span><span class="na">TYPE</span><span class="o">,</span> <span class="nc">ElementType</span><span class="o">.</span><span class="na">METHOD</span> <span class="o">})</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="nc">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
+<span class="nd">@Tag</span><span class="o">(</span><span class="s">"fast"</span><span class="o">)</span>
+<span class="nd">@Test</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">FastTest</span> <span class="o">{</span> <span class="o">}</span></code></pre></figure>
+
+<p>이제 이를 클래스와 메서드에 붙일 수 있고, 다음과 같이 사용할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@FastTest</span>
+<span class="kt">void</span> <span class="nf">myFastTest</span><span class="o">()</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span></code></pre></figure>
+
+<h5 id="definitions">Definitions</h5>
+
+<p>JUnit Platform 에서 쓰이는 용어들을 보자.</p>
+
+<p><strong>Platform</strong></p>
+<ul>
+  <li><strong>Container</strong>: 안에 무언가(테스트 클래스, <code class="language-plaintext highlighter-rouge">@Nested</code> 클래스)를 여러 개 담을 수 있는 노드, 여러 테스트를 포함하는 상위 노드</li>
+  <li><strong>Test</strong>: 실제로 실행해서 성공 혹은 실패를 판단하는 노드</li>
+</ul>
+
+<p>Jupiter 에서 쓰이는 용어들을 보자.</p>
+
+<p><strong>Jupiter</strong></p>
+<ul>
+  <li><strong>Lifecycle Method</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">@BeforeAll</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@AfterAll</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@BeforeEach</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@AfterEach</code></li>
+    </ul>
+  </li>
+  <li><strong>Test Class</strong>: 테스트를 담을 수 있는 클래스들
+    <ul>
+      <li>적어도 하나의 테스트 메서드 포함</li>
+      <li>추상 클래스이면 안됨</li>
+      <li>생성자는 단 하나만 있어야 함</li>
+      <li>record 클래스도 허용</li>
+    </ul>
+  </li>
+  <li><strong>Test Method</strong>: 다음 아래 중 하나로 어노테이션 된 메서드
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">@Test</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@RepeatedTest</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@ParameterizedTest</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@TestFactory</code></li>
+      <li><code class="language-plaintext highlighter-rouge">@TestTemplate</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>오직 <code class="language-plaintext highlighter-rouge">@Test</code> 만 단일 Test 노드를 만들며, 나머지 어노테이션은 테스트 메서드들은 테스트들을 그룹으로 묶는 <code class="language-plaintext highlighter-rouge">Container</code> 역할도 한다.</p>
+
+<h4 id="test-classes-and-methods">Test Classes and Methods</h4>
+
+<p>테스트/라이프사이클 메서드는 다음에서 올 수 있다.</p>
+
+<ul>
+  <li>현재 테스트 클래스 안에서 직접 선언</li>
+  <li>부모 클래스에서 상속</li>
+  <li>인터페이스에서 상속</li>
+</ul>
+
+<p>단 테스트/라이프사이클 메서드는 조건이 있다:</p>
+
+<ul>
+  <li>추상이면 안되며</li>
+  <li>리턴 값이 없어야 하며(단, <code class="language-plaintext highlighter-rouge">@TestFactory</code> 는 예외임)</li>
+  <li>클래스/메서드 visibility 규칙을 지켜야 한다
+    <ul>
+      <li>private 안됨</li>
+      <li>public 일 필요 없음</li>
+      <li>default 로 사용하는 것을 권장</li>
+      <li>public 을 사용이 필요하다면 그때 public 사용</li>
+    </ul>
+  </li>
+  <li>필드 &amp; 메서드 상속 규칙
+    <ul>
+      <li>필드는 무조건 상속됨</li>
+      <li>테스트/라이프사이클 메서드도 상속</li>
+      <li>override 가능하면 대체되며, 불가능 시 상속 유지이다(그냥 일반 자바 생각)</li>
+    </ul>
+  </li>
+</ul>
+
+<p>즉,</p>
+
+<ul>
+  <li>테스트/라이프사이클 메서드는 상속 가능</li>
+  <li><code class="language-plaintext highlighter-rouge">@TestFactory</code> 제외하고 <code class="language-plaintext highlighter-rouge">void</code> + <code class="language-plaintext highlighter-rouge">non-abstract</code> 여야 함</li>
+  <li><code class="language-plaintext highlighter-rouge">private</code> 만 아니면 됨(보통 <code class="language-plaintext highlighter-rouge">public</code> 안 붙이는 것을 추천).</li>
+  <li>필드도 상속되고, 패키지 다르면 <code class="language-plaintext highlighter-rouge">override</code> 못하면 그대로 상속됨.</li>
+  <li>부모에 있는 테스트도 자식에서 <code class="language-plaintext highlighter-rouge">override</code> 하지 않으면 그대로 실행됨.</li>
+</ul>
+
+<p>다음 구조를 따르자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">SampleTest</span> <span class="o">{</span>
+	<span class="nd">@BeforeAll</span>
+	<span class="kd">static</span> <span class="kt">void</span> <span class="nf">beforeAll</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+	<span class="nd">@BeforeEach</span>
+	<span class="kt">void</span> <span class="nf">beforeEach</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+
+	<span class="nd">@Test</span>
+	<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"👾"</span><span class="o">)</span>
+	<span class="kt">void</span> <span class="nf">failingTest</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+
+	<span class="nd">@Test</span>
+	<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"👾👾"</span><span class="o">)</span>
+	<span class="kt">void</span> <span class="nf">successTest</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+
+	<span class="nd">@Test</span>
+	<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"👾👾👾"</span><span class="o">)</span>
+	<span class="kt">void</span> <span class="nf">abortedTest</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+
+	<span class="nd">@AfterEach</span>
+	<span class="kt">void</span> <span class="nf">afterEach</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+
+	<span class="nd">@AfterAll</span>
+	<span class="kd">static</span> <span class="kt">void</span> <span class="nf">afterAll</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>물론 레코드 클래스도 쓸 수 있다</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">addition</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Calculator</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">));</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="displayname">DisplayName</h4>
+
+<p>JUnit 5 의 테스트는 표시 이름을 자유롭게 바꿀 수 있다. 이런 이름은 다양한 IDE 창에 띄워질 수 있다. 테스트에 들어갈 수 있는 이름은 원하는 대로 설정할 수 있고 특수문자도 들어갈 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"A special test cases"</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">DisplayTests</span> <span class="o">{</span>
+
+    <span class="nd">@Test</span>
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"Custom test"</span><span class="o">)</span>
+    <span class="kt">void</span> <span class="nf">customTest</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"╯°□°）╯"</span><span class="o">)</span>
+    <span class="kt">void</span> <span class="nf">testWithDisplayNameContainingSpecialCharacters</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"😱"</span><span class="o">)</span>
+    <span class="kt">void</span> <span class="nf">testWithDisplayNameContainingEmoji</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이를 지원한 이유는 더 읽기 좋은 테스트 리포트를 위함이며, 메서드명이 given/when/then 의 형식을 따르면 snake 형태를 써야 하는 것을 바꿀 수 있고, BDD 스타일과도 잘 어울리기 때문이다.</p>
+
+<blockquote>
+  <p>Given user is logged in, when viewing dashboard, then show stats</p>
+</blockquote>
+
+<p>Display Name 안의 제어 문자(Control Characters) 처리 규칙인데, JUnit 5 에서는 이름 안에 제어문자(보이지 않는 특수문자)가 들어 있다면, JUnit 이 자동으로 보기 좋은 형태로 바꿔주게 된다.</p>
+
+<ul>
+  <li>\n -&gt; <code class="language-plaintext highlighter-rouge">&lt;CR&gt;</code></li>
+  <li>\r -&gt; <code class="language-plaintext highlighter-rouge">&lt;LR&gt;</code></li>
+  <li>기타 눈에 안보이는 문자 -&gt; �(U+FFFD)</li>
+</ul>
+
+<h5 id="display-name-generators">Display Name Generators</h5>
+
+<p>테스트 이름 자동변환기인데, 기본적으로 JUnit 은 클래스 이름 / 메서드 이름을 그대로 보여주게 된다. 하지만 <code class="language-plaintext highlighter-rouge">DisplayNameGenerator</code>를 사용한다면, 자동으로 더 읽기 좋은 테스트 이름으로 만들어준다. 사용은 <code class="language-plaintext highlighter-rouge">@DisplayNameGeneration</code> 애노테이션으로 할 수 있다.</p>
+
+<p><strong>DisplayNameGenerator 종류</strong></p>
+<ul>
+  <li>Standard: JUnit 5 기본 방식, 원래 이름을 그대로</li>
+  <li>Simple: Standard 와 동일하지만, 파라미터 없는 메서드의 <code class="language-plaintext highlighter-rouge">()</code> 를 제거</li>
+  <li>ReplaceUnderscores: 메서드/클래스 이름의 언더스코어를 공백으로 바꿈</li>
+  <li>IndicativeSentences: 클래스 + 메서드 이름을 연결해서 문장처럼 만듦</li>
+</ul>
+
+<blockquote>
+  <p>여기서 <code class="language-plaintext highlighter-rouge">DisplayName</code> 과 <code class="language-plaintext highlighter-rouge">DisplayNameGenerator</code> 들 중 우선 순위는 <code class="language-plaintext highlighter-rouge">DisplayName</code> 이 우선시 됨</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@DisplayNameGeneration</span><span class="o">(</span><span class="nc">DisplayNameGenerator</span><span class="o">.</span><span class="na">ReplaceUnderscores</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">A_year_is_not_supported</span> <span class="o">{</span>
+
+	<span class="nd">@Test</span>
+	<span class="kt">void</span> <span class="nf">if_it_is_zero</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+
+	<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"A negative value for year is not supported by the leap year computation."</span><span class="o">)</span>
+	<span class="nd">@ParameterizedTest</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"For example, year {0} is not supported."</span><span class="o">)</span>
+	<span class="nd">@ValueSource</span><span class="o">(</span><span class="n">ints</span> <span class="o">=</span> <span class="o">{</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">4</span><span class="o">})</span>
+	<span class="kt">void</span> <span class="nf">if_it_is_negative</span><span class="o">(</span><span class="kt">int</span> <span class="n">year</span><span class="o">)</span> <span class="o">{</span> <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><img src="/seonghun120614/assets/img/junit-displaynamegenerator-test.png" alt="assets/img/junit-displaynamegenerator-test.png" /></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">@ParameterizedTest</code> 는 <code class="language-plaintext highlighter-rouge">{0}</code> 으로 파라미터를 넣을 수 있고, 안에 값이 들어가며 개별 테스트 이름이 생성된다.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@IndicativeSentencesGeneration</span><span class="o">(</span><span class="n">separator</span> <span class="o">=</span> <span class="s">" -&gt; "</span><span class="o">,</span> <span class="n">generator</span> <span class="o">=</span> <span class="nc">ReplaceUnderscores</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">A_year_is_a_leap_year</span> <span class="o">{</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">if_it_is_divisible_by_4_but_not_by_100</span><span class="o">()</span> <span class="o">{}</span>
+
+    <span class="nd">@ParameterizedTest</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"Year {0} is a leap year."</span><span class="o">)</span>
+    <span class="nd">@ValueSource</span><span class="o">(</span><span class="n">ints</span><span class="o">={</span><span class="mi">2016</span><span class="o">,</span><span class="mi">2020</span><span class="o">,</span><span class="mi">2048</span><span class="o">})</span>
+    <span class="kt">void</span> <span class="nf">if_it_is_one_of_the_following_years</span><span class="o">(</span><span class="kt">int</span> <span class="n">year</span><span class="o">)</span> <span class="o">{}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>다음과 같이 출력된다고 한다.</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">A year is a leap year ✔
+├─ A year is a leap year -&gt; if it is divisible by 4 but not by 100 ✔
+└─ A year is a leap year -&gt; if it is one of the following years ✔
+   ├─ Year 2016 is a leap year. ✔
+   ├─ Year 2020 is a leap year. ✔
+   └─ Year 2048 is a leap year. ✔</code></pre></figure>
+
+<p>위에서 클래스/메서드 이름에 _ 를 붙이기 싫다면 다음을 사용한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@SentenceFragment</span><span class="o">(</span><span class="s">"A year is a leap year"</span><span class="o">)</span>
+<span class="nd">@IndicativeSentencesGeneration</span>
+<span class="kd">class</span> <span class="nc">LeapYearTests</span> <span class="o">{</span>
+    <span class="nd">@SentenceFragment</span><span class="o">(</span><span class="s">"if it is divisible by 4 but not by 100"</span><span class="o">)</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">divisibleBy4ButNotBy100</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+
+    <span class="nd">@SentenceFragment</span><span class="o">(</span><span class="s">"if it is one of the following years"</span><span class="o">)</span>
+    <span class="nd">@ParameterizedTest</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"{0}"</span><span class="o">)</span>
+    <span class="nd">@ValueSource</span><span class="o">(</span><span class="n">ints</span> <span class="o">=</span> <span class="o">{</span> <span class="mi">2016</span><span class="o">,</span> <span class="mi">2020</span><span class="o">,</span> <span class="mi">2048</span> <span class="o">})</span>
+    <span class="kt">void</span> <span class="nf">validLeapYear</span><span class="o">(</span><span class="kt">int</span> <span class="n">year</span><span class="o">)</span> <span class="o">{</span> <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">separator</code> 의 기본값은 <code class="language-plaintext highlighter-rouge">, </code>이다.</p>
+</blockquote>
+
+<p>다음은 설정에서 DisplayNameGenerator 기본 값을 바꾸는 설정값이다.</p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="c"># src/test/resources/junit-platform.properties
+</span><span class="py">junit.jupiter.displayname.generator.default</span> <span class="p">=</span> <span class="s">org.junit.jupiter.api.DisplayNameGenerator$ReplaceUnderscores</span></code></pre></figure>
+
+<blockquote>
+  <p>적용 순서: <code class="language-plaintext highlighter-rouge">@DisplayName</code> 항상 우선 &gt; <code class="language-plaintext highlighter-rouge">@DisplayNameGeneration</code> &gt; <code class="language-plaintext highlighter-rouge">junit.jupiter.displayname.generator.default</code> &gt; 그 외</p>
+</blockquote>
+
+<h4 id="assertions">Assertions</h4>
+
+<p>Assert 구문은 생략하지만 생소한 것들만 소개한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">assertThrowsExactly</code>: 정확히 그 <code class="language-plaintext highlighter-rouge">throwable</code> 타입만(not subclass)</li>
+  <li><code class="language-plaintext highlighter-rouge">assertDoesNotThrow</code>: 예외가 발생하면 Fail</li>
+  <li><code class="language-plaintext highlighter-rouge">assertThrow</code></li>
+  <li><code class="language-plaintext highlighter-rouge">assertInstanceOf&lt;T&gt;()</code>: 객체가 특정 타입 클래스인지 확인</li>
+  <li><code class="language-plaintext highlighter-rouge">assertTimeoutPreemptively</code>: 코드 블록이 지정한 시간 안에 실행되는지 확인, 시간을 초과하면 바로 중단(preemptive)</li>
+</ul>
+
+<h4 id="assumptions">Assumptions</h4>
+
+<p>가정은 테스트를 특정 조건에서만 실행하고 싶을 때 사용한다.</p>
+
+<ul>
+  <li>특정 OS에서만 테스트 실행</li>
+  <li>DB 나 환경 변수가 있어야 테스트 실행</li>
+  <li>네트워크 연결이 필요할 때</li>
+</ul>
+
+<p>조건이 맞지 않으면 해당 테스트를 건너뛰게 된다(Skip/Abort). 보통 가장 첫줄에 사용된다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">assumeTrue</code></li>
+  <li><code class="language-plaintext highlighter-rouge">assumingThat</code></li>
+</ul>
+
+<h4 id="disabling-tests">Disabling Tests</h4>
+
+<p>말 그대로 테스트를 실행하지 않도록 비활성화하는 애노테이션이며, 전체 클래스 또는 개별 메서드에 적용이 가능하다. skip 으로 쓰여지고 실패로 동작이 안된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Disabled</span><span class="o">(</span><span class="s">"Disabled until bug #99 has been fixed"</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">DisabledClassDemo</span> <span class="o">{</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testWillBeSkipped</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="conditional-test-execution">Conditional Test Execution</h4>
+
+<p>JUnit Jupiter 에서는 조건에 따라 테스트를 실행하거나 건너뛸 수 있다. 건너뛰는건 위에 있으니 넘긴다.</p>
+
+<h5 id="condition">Condition</h5>
+
+<p>조건 기반 어노테이션을 쓴다면 Disabled 외에도 OS, 환경, JDK 버전 등 조건부 실행 애노테이션을 제공할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@EnabledOnOs</span><span class="o">(</span><span class="no">OS</span><span class="o">.</span><span class="na">MAC</span><span class="o">)</span>
+<span class="nd">@EnabledOnJre</span><span class="o">(</span><span class="no">JRE</span><span class="o">.</span><span class="na">JAVA_17</span><span class="o">)</span>
+
+<span class="nd">@Target</span><span class="o">(</span><span class="nc">ElementType</span><span class="o">.</span><span class="na">METHOD</span><span class="o">)</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="nc">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
+<span class="nd">@Test</span>
+<span class="nd">@DisabledOnOs</span><span class="o">(</span><span class="no">WINDOWS</span><span class="o">)</span>
+<span class="nd">@interface</span> <span class="nc">TestOnWindow</span><span class="o">{</span> <span class="o">}</span></code></pre></figure>
+
+<p><strong>Architecture 에 따른 조건부 실행</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span>
+<span class="nd">@EnabledOnOs</span><span class="o">(</span><span class="n">architectures</span> <span class="o">=</span> <span class="s">"aarch64"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">onAarch64</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// ...</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="nd">@DisabledOnOs</span><span class="o">(</span><span class="n">architectures</span> <span class="o">=</span> <span class="s">"x86_64"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">notOnX86_64</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// ...</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="nd">@EnabledOnOs</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="no">MAC</span><span class="o">,</span> <span class="n">architectures</span> <span class="o">=</span> <span class="s">"aarch64"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">onNewMacs</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// ...</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="nd">@DisabledOnOs</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="no">MAC</span><span class="o">,</span> <span class="n">architectures</span> <span class="o">=</span> <span class="s">"aarch64"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">notOnNewMacs</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// ...</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>Java Runtime Environment 에 따른 테스트 실행</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">@EnableOnJre</code></li>
+  <li><code class="language-plaintext highlighter-rouge">@DisabledOnJre</code></li>
+  <li><code class="language-plaintext highlighter-rouge">@EnabledForJreRange</code></li>
+  <li><code class="language-plaintext highlighter-rouge">@DisabledForJreRange</code></li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span> <span class="nd">@EnabledOnJre</span><span class="o">(</span><span class="no">JAVA_17</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">onlyOnJava17</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@EnabledOnJre</span><span class="o">({</span> <span class="no">JAVA_17</span><span class="o">,</span> <span class="no">JAVA_21</span> <span class="o">})</span> <span class="kt">void</span> <span class="nf">onJava17And21</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@EnabledForJreRange</span><span class="o">(</span><span class="n">min</span> <span class="o">=</span> <span class="no">JAVA_21</span><span class="o">,</span> <span class="n">max</span> <span class="o">=</span> <span class="no">JAVA_25</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">fromJava21To25</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@EnabledForJreRange</span><span class="o">(</span><span class="n">min</span> <span class="o">=</span> <span class="no">JAVA_21</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">onJava21ndHigher</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@EnabledForJreRange</span><span class="o">(</span><span class="n">max</span> <span class="o">=</span> <span class="no">JAVA_18</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">fromJava17To18</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@DisabledOnJre</span><span class="o">(</span><span class="no">JAVA_19</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">notOnJava19</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@DisabledForJreRange</span><span class="o">(</span><span class="n">min</span> <span class="o">=</span> <span class="no">JAVA_17</span><span class="o">,</span> <span class="n">max</span> <span class="o">=</span> <span class="no">JAVA_17</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">notFromJava17To19</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@DisabledForJreRange</span><span class="o">(</span><span class="n">min</span> <span class="o">=</span> <span class="no">JAVA_19</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">notOnJava19AndHigher</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@DisabledForJreRange</span><span class="o">(</span><span class="n">max</span> <span class="o">=</span> <span class="no">JAVA_18</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">notFromJava17To18</span><span class="o">()</span> <span class="o">{}</span></code></pre></figure>
+
+<p>versions 속성을 사용하면 숫자만 쓸 수도 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span> <span class="nd">@EnabledOnJre</span><span class="o">(</span><span class="n">versions</span> <span class="o">=</span> <span class="mi">26</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">onlyOnJava26</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@EnabledOnJre</span><span class="o">(</span><span class="n">versions</span> <span class="o">=</span> <span class="o">{</span> <span class="mi">25</span><span class="o">,</span> <span class="mi">26</span> <span class="o">})</span> <span class="kt">void</span> <span class="nf">onJava25And26</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@EnabledForJreRange</span><span class="o">(</span><span class="n">minVersion</span> <span class="o">=</span> <span class="mi">26</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">onJava26AndHigher</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@EnabledForJreRange</span><span class="o">(</span><span class="n">minVersion</span> <span class="o">=</span> <span class="mi">25</span><span class="o">,</span> <span class="n">maxVersion</span> <span class="o">=</span> <span class="mi">27</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">fromJava25To27</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@DisabledOnJre</span><span class="o">(</span><span class="n">versions</span> <span class="o">=</span> <span class="mi">26</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">notOnJava26</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@DisabledOnJre</span><span class="o">(</span><span class="n">versions</span> <span class="o">=</span> <span class="o">{</span> <span class="mi">25</span><span class="o">,</span> <span class="mi">26</span> <span class="o">})</span> <span class="kt">void</span> <span class="nf">notOnJava25And26</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@DisabledForJreRange</span><span class="o">(</span><span class="n">minVersion</span> <span class="o">=</span> <span class="mi">26</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">notOnJava26AndHigher</span><span class="o">()</span> <span class="o">{}</span>
+<span class="nd">@Test</span> <span class="nd">@DisabledForJreRange</span><span class="o">(</span><span class="n">minVersion</span> <span class="o">=</span> <span class="mi">25</span><span class="o">,</span> <span class="n">maxVersion</span> <span class="o">=</span> <span class="mi">27</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">notFromJava25To27</span><span class="o">()</span> <span class="o">{}</span></code></pre></figure>
+
+<p>이 외에도 환경변수 등을 통해서도 조건부 실행이 가능하다.</p>
+
+<h4 id="test-instance-lifecycle">Test Instance Lifecycle</h4>
+
+<p>테스트 클래스는 보통 두 가지의 인스턴스 생성 방식을 가진다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">PER_METHOD</code>(기본값): 각 테스트 메서드 실행 전마다 새로운 테스트 클래스 생성</li>
+  <li><code class="language-plaintext highlighter-rouge">PER_CLASS</code>: <code class="language-plaintext highlighter-rouge">@TestInstance(Lifecycle.PER_CLASS)</code> 애노테이션 사용하며 테스트 클래스 하나당 하나의 인스턴스만 생성한다. 모든 테스트 메서드가 동일한 인스턴스에서 실행되게 된다.
+    <ul>
+      <li>인스턴스 변수에 상태 저장 가능</li>
+      <li><code class="language-plaintext highlighter-rouge">@BeforeAll</code>, <code class="language-plaintext highlighter-rouge">@AfterAll</code> 을 non-static 하게 사용 가능</li>
+    </ul>
+  </li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">PER_CLASS</code> 로 세팅하고 싶다면, 다음 <code class="language-plaintext highlighter-rouge">key-value</code> 를 파일에 입력해준다.</p>
+
+<figure class="highlight"><pre><code class="language-properties" data-lang="properties"><span class="py">Djunit.jupiter.testinstance.lifecycle.default</span><span class="p">=</span><span class="s">per_class</span></code></pre></figure>
+
+<h4 id="nested-tests">Nested Tests</h4>
+
+<p><code class="language-plaintext highlighter-rouge">@Nested</code> 테스트는 테스트 클래스 안에 또 다른 테스트 클래스를 만들어 테스트 간의 계층적 관계를 유지하면서 테스트 그룹을 묶어 논리적 구조로 표현할 수 있게 한다. 이때 inner class 는 자신만의 독자적인 <code class="language-plaintext highlighter-rouge">@BeforeEach</code> / <code class="language-plaintext highlighter-rouge">@AfterEach</code> 를 가지며, 상위 부모의 필드를 참조할 수 있는 장점이 있어 상태를 공유할 수 있게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"A stack"</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">TestingAStackDemo</span> <span class="o">{</span>
+
+    <span class="nd">@Test</span>
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"is instantiated with new Stack()"</span><span class="o">)</span>
+    <span class="kt">void</span> <span class="nf">isInstantiatedWithNew</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">new</span> <span class="nc">Stack</span><span class="o">&lt;&gt;();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Nested</span>
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"when new"</span><span class="o">)</span>
+    <span class="kd">class</span> <span class="nc">WhenNew</span> <span class="o">{</span>
+
+        <span class="nc">Stack</span><span class="o">&lt;</span><span class="nc">Object</span><span class="o">&gt;</span> <span class="n">stack</span><span class="o">;</span>
+
+        <span class="nd">@BeforeEach</span>
+        <span class="kt">void</span> <span class="nf">createNewStack</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">stack</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Stack</span><span class="o">&lt;&gt;();</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Test</span>
+        <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"is empty"</span><span class="o">)</span>
+        <span class="kt">void</span> <span class="nf">isEmpty</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">assertTrue</span><span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Test</span>
+        <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"throws EmptyStackException when popped"</span><span class="o">)</span>
+        <span class="kt">void</span> <span class="nf">throwsExceptionWhenPopped</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">assertThrows</span><span class="o">(</span><span class="nc">EmptyStackException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="nl">stack:</span><span class="o">:</span><span class="n">pop</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Test</span>
+        <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"throws EmptyStackException when peeked"</span><span class="o">)</span>
+        <span class="kt">void</span> <span class="nf">throwsExceptionWhenPeeked</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">assertThrows</span><span class="o">(</span><span class="nc">EmptyStackException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="nl">stack:</span><span class="o">:</span><span class="n">peek</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Nested</span>
+        <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"after pushing an element"</span><span class="o">)</span>
+        <span class="kd">class</span> <span class="nc">AfterPushing</span> <span class="o">{</span>
+
+            <span class="nc">String</span> <span class="n">anElement</span> <span class="o">=</span> <span class="s">"an element"</span><span class="o">;</span>
+
+            <span class="nd">@BeforeEach</span>
+            <span class="kt">void</span> <span class="nf">pushAnElement</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">anElement</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="nd">@Test</span>
+            <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"it is no longer empty"</span><span class="o">)</span>
+            <span class="kt">void</span> <span class="nf">isNotEmpty</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">assertFalse</span><span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+            <span class="o">}</span>
+
+            <span class="nd">@Test</span>
+            <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"returns the element when popped and is empty"</span><span class="o">)</span>
+            <span class="kt">void</span> <span class="nf">returnElementWhenPopped</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">assertEquals</span><span class="o">(</span><span class="n">anElement</span><span class="o">,</span> <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">());</span>
+                <span class="n">assertTrue</span><span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+            <span class="o">}</span>
+
+            <span class="nd">@Test</span>
+            <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"returns the element when peeked but remains not empty"</span><span class="o">)</span>
+            <span class="kt">void</span> <span class="nf">returnElementWhenPeeked</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">assertEquals</span><span class="o">(</span><span class="n">anElement</span><span class="o">,</span> <span class="n">stack</span><span class="o">.</span><span class="na">peek</span><span class="o">());</span>
+                <span class="n">assertFalse</span><span class="o">(</span><span class="n">stack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="interoperability">Interoperability</h4>
+
+<p><code class="language-plaintext highlighter-rouge">@Nested</code> 클래스는 <code class="language-plaintext highlighter-rouge">@ParameterizedClass</code> 와 결합이 가능하며, 순서는 아래와 같이 진행될 것이다.</p>
+
+<ol>
+  <li>Outer 클래스 매개변수별 반복</li>
+  <li>Inner 클래스 매개변수별 반복</li>
+  <li>Inner 클래스 @ParameterizedTest 매개변수별 반복</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Execution</span><span class="o">(</span><span class="no">SAME_THREAD</span><span class="o">)</span>
+<span class="nd">@ParameterizedClass</span>
+<span class="nd">@ValueSource</span><span class="o">(</span><span class="n">strings</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"apple"</span><span class="o">,</span> <span class="s">"banana"</span> <span class="o">})</span>
+<span class="kd">class</span> <span class="nc">FruitTests</span> <span class="o">{</span>
+
+    <span class="nd">@Parameter</span>
+    <span class="nc">String</span> <span class="n">fruit</span><span class="o">;</span>
+
+    <span class="nd">@Nested</span>
+    <span class="nd">@ParameterizedClass</span>
+    <span class="nd">@ValueSource</span><span class="o">(</span><span class="n">ints</span> <span class="o">=</span> <span class="o">{</span> <span class="mi">23</span><span class="o">,</span> <span class="mi">42</span> <span class="o">})</span>
+    <span class="kd">class</span> <span class="nc">QuantityTests</span> <span class="o">{</span>
+
+        <span class="nd">@Parameter</span>
+        <span class="kt">int</span> <span class="n">quantity</span><span class="o">;</span>
+
+        <span class="nd">@ParameterizedTest</span>
+        <span class="nd">@ValueSource</span><span class="o">(</span><span class="n">strings</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"PT1H"</span><span class="o">,</span> <span class="s">"PT2H"</span> <span class="o">})</span>
+        <span class="kt">void</span> <span class="nf">test</span><span class="o">(</span><span class="nc">Duration</span> <span class="n">duration</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">assertFruit</span><span class="o">(</span><span class="n">fruit</span><span class="o">);</span>
+            <span class="n">assertQuantity</span><span class="o">(</span><span class="n">quantity</span><span class="o">);</span>
+            <span class="n">assertFalse</span><span class="o">(</span><span class="n">duration</span><span class="o">.</span><span class="na">isNegative</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">FruitTests
+├─ fruit = "apple"
+│  └─ QuantityTests
+│     ├─ quantity = 23
+│     │  └─ test(Duration) → PT1H, PT2H
+│     └─ quantity = 42
+│        └─ test(Duration) → PT1H, PT2H
+└─ fruit = "banana"
+   └─ QuantityTests
+      ├─ quantity = 23
+      │  └─ test(Duration) → PT1H, PT2H
+      └─ quantity = 42
+         └─ test(Duration) → PT1H, PT2H</code></pre></figure>
+
+<h4 id="dependency-injection-for-constructors-and-methods">Dependency Injection for Constructors and Methods</h4>
+
+<p>JUnit Jupiter 에서는 테스트 생성자와 테스트 메서드에 매개변수를 넣을 수 있고, 이 덕분에 DI 가 가능하며, 이전 버전 JUnit4 보다 훨씬 유연하게 테스트가 작성이 가능해졌다.</p>
+
+<h5 id="parameterresolver">ParameterResolver</h5>
+
+<p>런타임에 테스트 매개변수를 동적으로 제공하는 API 이며, 테스트 생성자, 메서드, 라이프사이클 메서드에서 사용이 가능하며, 다음 3가지 ParameterResolver 를 제공한다.</p>
+
+<ol>
+  <li><strong>TestInfoParameterResolver</strong>: 현재 테스트 정보 제공</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@BeforeAll</span>
+<span class="kd">static</span> <span class="kt">void</span> <span class="nf">beforeAll</span><span class="o">(</span><span class="nc">TestInfo</span> <span class="n">testInfo</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">testInfo</span><span class="o">.</span><span class="na">getDisplayName</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"TEST 1"</span><span class="o">)</span>
+<span class="nd">@Tag</span><span class="o">(</span><span class="s">"my-tag"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">test1</span><span class="o">(</span><span class="nc">TestInfo</span> <span class="n">testInfo</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">testInfo</span><span class="o">.</span><span class="na">getDisplayName</span><span class="o">());</span> <span class="c1">// TEST 1</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">testInfo</span><span class="o">.</span><span class="na">getTags</span><span class="o">());</span>        <span class="c1">// [my-tag]</span>
+<span class="o">}</span></code></pre></figure>
+
+<ol>
+  <li><strong>ReptitionExtension</strong>: <code class="language-plaintext highlighter-rouge">@RepeatedTest</code>, <code class="language-plaintext highlighter-rouge">@BeforeEach</code>, <code class="language-plaintext highlighter-rouge">@AfterEach</code> 에서 현재 반복 정도를 제공한다.</li>
+  <li><strong>TestReporterParameterResolver</strong>: 테스트 실행 중 추가 데이터 출력</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">reportSingleValue</span><span class="o">(</span><span class="nc">TestReporter</span> <span class="n">testReporter</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">testReporter</span><span class="o">.</span><span class="na">publishEntry</span><span class="o">(</span><span class="s">"status"</span><span class="o">,</span> <span class="s">"ok"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">reportKeyValuePair</span><span class="o">(</span><span class="nc">TestReporter</span> <span class="n">testReporter</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">testReporter</span><span class="o">.</span><span class="na">publishEntry</span><span class="o">(</span><span class="s">"user"</span><span class="o">,</span> <span class="s">"dk38"</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">reportFiles</span><span class="o">(</span><span class="nc">TestReporter</span> <span class="n">testReporter</span><span class="o">,</span> <span class="nd">@TempDir</span> <span class="nc">Path</span> <span class="n">tempDir</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+    <span class="nc">Path</span> <span class="n">file</span> <span class="o">=</span> <span class="n">tempDir</span><span class="o">.</span><span class="na">resolve</span><span class="o">(</span><span class="s">"test.txt"</span><span class="o">);</span>
+    <span class="nc">Files</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">));</span>
+    <span class="n">testReporter</span><span class="o">.</span><span class="na">publishFile</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="nc">MediaType</span><span class="o">.</span><span class="na">TEXT_PLAIN_UTF_8</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="custom-parameterresolver">Custom ParameterResolver</h5>
+
+<p>JUnit Jupiter 에서는 사용자 정의 <code class="language-plaintext highlighter-rouge">ParameterResolver</code> 를 만들어서 테스트 메서드 매개변수를 동적으로 주입할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomParameterResolver</span>
+		<span class="kd">implements</span> <span class="nc">ParameterResolver</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">supportsParameter</span><span class="o">(</span><span class="nc">ParameterContext</span> <span class="n">parameterContext</span><span class="o">,</span> <span class="nc">ExtensionContext</span> <span class="n">extensionContext</span><span class="o">)</span>
+			<span class="kd">throws</span> <span class="nc">ParameterResolutionException</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="nd">@Nullable</span> <span class="nc">Object</span> <span class="nf">resolveParameter</span><span class="o">(</span><span class="nc">ParameterContext</span> <span class="n">parameterContext</span><span class="o">,</span> <span class="nc">ExtensionContext</span> <span class="n">extensionContext</span><span class="o">)</span>
+			<span class="kd">throws</span> <span class="nc">ParameterResolutionException</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위와 같이 만들 수 있고, 메서드 각각은 다음 역할을 지닌다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)</code>: 해당 매개변수를 내가 처리할 수 있는지 판단. 조건(true/false) 반환</li>
+  <li><code class="language-plaintext highlighter-rouge">resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)</code>: 실제 매개변수를 생성하여 반환</li>
+</ul>
+
+<p>이를 통해 랜덤 값을 내뱉는 <code class="language-plaintext highlighter-rouge">ParameterResolver</code> 를 만들어보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomParameterResolver</span>
+		<span class="kd">implements</span> <span class="nc">ParameterResolver</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">supportsParameter</span><span class="o">(</span><span class="nc">ParameterContext</span> <span class="n">parameterContext</span><span class="o">,</span> <span class="nc">ExtensionContext</span> <span class="n">extensionContext</span><span class="o">)</span>
+			<span class="kd">throws</span> <span class="nc">ParameterResolutionException</span> <span class="o">{</span>
+		<span class="c1">// 타입이 int 라면 지원</span>
+		<span class="k">return</span> <span class="n">parameterContext</span><span class="o">.</span><span class="na">getParameter</span><span class="o">().</span><span class="na">getType</span><span class="o">()</span> <span class="o">==</span> <span class="kt">int</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="nd">@Nullable</span> <span class="nc">Object</span> <span class="nf">resolveParameter</span><span class="o">(</span><span class="nc">ParameterContext</span> <span class="n">parameterContext</span><span class="o">,</span> <span class="nc">ExtensionContext</span> <span class="n">extensionContext</span><span class="o">)</span>
+			<span class="kd">throws</span> <span class="nc">ParameterResolutionException</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="nc">Math</span><span class="o">.</span><span class="na">random</span><span class="o">()</span> <span class="o">*</span> <span class="mi">100</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>RandomParametersExtension</strong></p>
+
+<p>이제 위를 테스트 클래스에 적용시킬 수 있겠다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.extension.ExtendWith</span><span class="o">;</span>
+
+<span class="nd">@ExtendWith</span><span class="o">(</span><span class="nc">CustomParameterResolver</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">MyTest</span> <span class="o">{</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testWithInjectedInt</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Injected value: "</span> <span class="o">+</span> <span class="n">value</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>필요에 따라 애노테이션을 사용할 수 있는데, <code class="language-plaintext highlighter-rouge">supportParameter</code> 메서드에서 <code class="language-plaintext highlighter-rouge">parameterContext.isAnnotated(RandomInt.class)</code> 로 조건이 추가되었다면, 다음 <code class="language-plaintext highlighter-rouge">RandomInt</code> 애노테이션을 정의해야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Target</span><span class="o">(</span><span class="nc">ElementType</span><span class="o">.</span><span class="na">PARAMETER</span><span class="o">)</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="nc">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">RandomInt</span> <span class="o">{}</span></code></pre></figure>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">ExtendWith</code> 에 들어갈 수 있는 것들이 뭐 있는지 더 보자.</p>
+
+<h5 id="mockitoextensionclass">MockitoExtension.class</h5>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">org.mockito.junit.jupiter.MockitoExtension</code></p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">Mockito</code> 의 Mock 객체를 자동 주입하기 위해 사용되며, <code class="language-plaintext highlighter-rouge">@Mock</code> 으로 선언한 Mock 객체를 자동 초기화를 시켜준다.</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">@Mock</code> 으로 선언한 Mock 객체 자동 초기화</li>
+  <li><code class="language-plaintext highlighter-rouge">@InjectMocks</code> 로 의존성 주입 자동 처리</li>
+  <li>생성자, 필드, 메서드 매개변수에도 Mock 객체 주입 가능</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.extension.ExtendWith</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.mockito.InjectMocks</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.mockito.Mock</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.mockito.junit.jupiter.MockitoExtension</span><span class="o">;</span>
+
+<span class="nd">@ExtendWith</span><span class="o">(</span><span class="nc">MockitoExtension</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">MyServiceTest</span> <span class="o">{</span>
+
+    <span class="nd">@Mock</span>
+    <span class="kd">private</span> <span class="nc">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+
+    <span class="nd">@InjectMocks</span>
+    <span class="kd">private</span> <span class="nc">UserService</span> <span class="n">userService</span><span class="o">;</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testService</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">// userRepository는 Mockito가 자동으로 주입</span>
+        <span class="n">userService</span><span class="o">.</span><span class="na">doSomething</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>장점: 매번 <code class="language-plaintext highlighter-rouge">MocktoAnnotations.openMocks(this)</code> 를 호출할 필요가 없음</p>
+</blockquote>
+
+<h5 id="springextension">SpringExtension</h5>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">org.springframework.test.context.junit.jupiter.SpringExtension</code></p>
+</blockquote>
+
+<p>스프링 IoC 도 여기에 연결 가능한데, 다만 <code class="language-plaintext highlighter-rouge">SpringBootTest</code> 어노테이션을 반드시 붙여줘야 한다(안붙여주면 알아서 <code class="language-plaintext highlighter-rouge">ApplicationContext</code> 를 로딩할 방법을 찾아서 로딩을 시켜야 한다 아래는 그 예시).</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.extension.ExtendWith</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.context.junit.jupiter.SpringExtension</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.AnnotationConfigApplicationContext</span><span class="o">;</span>
+
+<span class="nd">@ExtendWith</span><span class="o">(</span><span class="nc">SpringExtension</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">MySpringTest</span> <span class="o">{</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testContext</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">AnnotationConfigApplicationContext</span> <span class="n">ctx</span> <span class="o">=</span> 
+            <span class="k">new</span> <span class="nf">AnnotationConfigApplicationContext</span><span class="o">(</span><span class="nc">MyConfig</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+        <span class="c1">// 직접 ApplicationContext 생성 가능</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<ol>
+  <li>@Autowired로 스프링 빈 주입 가능</li>
+  <li>@MockBean 등 Spring Test용 Mock 객체 지원</li>
+  <li>트랜잭션 관리, ApplicationContext 초기화 등 Spring 환경과 통합</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">org.junit.jupiter.api.Test</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.jupiter.api.extension.ExtendWith</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.test.context.SpringBootTest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.test.context.junit.jupiter.SpringExtension</span><span class="o">;</span>
+
+<span class="nd">@ExtendWith</span><span class="o">(</span><span class="nc">SpringExtension</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@SpringBootTest</span>
+<span class="kd">class</span> <span class="nc">MyServiceSpringTest</span> <span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="nc">UserService</span> <span class="n">userService</span><span class="o">;</span>
+
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">testService</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">userService</span><span class="o">.</span><span class="na">doSomething</span><span class="o">();</span> <span class="c1">// Spring Bean 자동 주입</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="test-interfaces-and-default-methods">Test Interfaces and Default Methods</h4>
+
+<p>테스트 인터페이스의 default method 에 다음 어노테이션을 사용 가능하다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">@Test</code></li>
+  <li><code class="language-plaintext highlighter-rouge">@RepeatedTest</code></li>
+  <li><code class="language-plaintext highlighter-rouge">@ParameterizedTest</code></li>
+  <li><code class="language-plaintext highlighter-rouge">@TestFactory</code></li>
+  <li><code class="language-plaintext highlighter-rouge">@BeforeEach</code></li>
+  <li><code class="language-plaintext highlighter-rouge">@AfterEach</code></li>
+</ul>
+
+<p><strong>TestInstance(Lifecycle.PER_CLASS) 필요</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">@BeforeAll</code></li>
+  <li><code class="language-plaintext highlighter-rouge">@AfterAll</code></li>
+</ul>
+
+<p><strong>예시: Dynamic Test Interface</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">interface</span> <span class="nc">TestInterfaceDynamicTestsDemo</span> <span class="o">{</span>
+    <span class="nd">@TestFactory</span>
+    <span class="k">default</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">DynamicTest</span><span class="o">&gt;</span> <span class="nf">dynamicTestsForPalindromes</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"rececar"</span><span class="o">,</span> <span class="s">"radar"</span><span class="o">,</span> <span class="s">"mom"</span><span class="o">,</span> <span class="s">"dad"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">test</span> <span class="o">-&gt;</span> <span class="n">dynamicTest</span><span class="o">(</span><span class="n">text</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertTrue</span><span class="o">(</span><span class="n">isPalindrome</span><span class="o">(</span><span class="n">text</span><span class="o">))));</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="sources-of-arguments">Sources of Arguments</h4>
+
+<p><code class="language-plaintext highlighter-rouge">@ParameterizedTest</code> 와 함께 쓰이는 애노테이션을 보자.</p>
+
+<h5 id="valuesource">@ValueSource</h5>
+
+<p>가장 기본적인 파라미터 소스이며, 리터럴 값 배열 하나만 제공할 수 있다. 각 테스트 호출마다 하나의 인자만 전달 가능하다.</p>
+
+<p><strong>지원 리터럴 타입</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">short</code></li>
+  <li><code class="language-plaintext highlighter-rouge">byte</code></li>
+  <li><code class="language-plaintext highlighter-rouge">int</code></li>
+  <li><code class="language-plaintext highlighter-rouge">long</code></li>
+  <li><code class="language-plaintext highlighter-rouge">float</code></li>
+  <li><code class="language-plaintext highlighter-rouge">double</code></li>
+  <li><code class="language-plaintext highlighter-rouge">char</code></li>
+  <li><code class="language-plaintext highlighter-rouge">boolean</code></li>
+  <li><code class="language-plaintext highlighter-rouge">String</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Class</code></li>
+</ul>
+
+<h5 id="nullsource--emptysource">@NullSource &amp; @EmptySource</h5>
+
+<p><code class="language-plaintext highlighter-rouge">null</code>, <code class="language-plaintext highlighter-rouge">empty</code>, blank 값을 테스트하여 입력 검증 로직의 견고성을 확인할 수 있게 하기 위해 이 애노테이션을 쓸 수 있다.</p>
+
+<p><strong>@NullSource</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@NullSource</span>
+<span class="kt">void</span> <span class="nf">testNull</span><span class="o">(</span><span class="nc">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>당연하겠지만, primitive 에서는 이를 쓸 수 없다.</p>
+</blockquote>
+
+<p><strong>@EmptySource</strong></p>
+
+<p>지원 타입은 다음과 같다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">String</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Collection</code>, <code class="language-plaintext highlighter-rouge">List</code>, <code class="language-plaintext highlighter-rouge">Set</code>, <code class="language-plaintext highlighter-rouge">SortedSet</code>, <code class="language-plaintext highlighter-rouge">NavigableSet</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Map</code>, <code class="language-plaintext highlighter-rouge">SortedMap</code>, <code class="language-plaintext highlighter-rouge">NavigableMap</code></li>
+  <li>primitive 배열(<code class="language-plaintext highlighter-rouge">int[]</code>, <code class="language-plaintext highlighter-rouge">char[][]</code> 등)</li>
+  <li>object 배열(<code class="language-plaintext highlighter-rouge">String[]</code>, <code class="language-plaintext highlighter-rouge">Integer[][]</code> 등)</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@EmptySource</span>
+<span class="kt">void</span> <span class="nf">testOnlyEmptyString</span><span class="o">(</span><span class="nc">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="s">""</span><span class="o">,</span> <span class="n">text</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@ParameterizedTest</span>
+<span class="nd">@EmptySource</span>
+<span class="kt">void</span> <span class="nf">testEmptyIntArray</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">numbers</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@ParameterizedTest</span>
+<span class="nd">@EmptySource</span>
+<span class="kt">void</span> <span class="nf">testEmptyList</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">items</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertTrue</span><span class="o">(</span><span class="n">items</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>@NullAndEmptySource</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@NullAndEmptySource</span>
+<span class="kt">void</span> <span class="nf">testNullAndEmptyStrings</span><span class="o">(</span><span class="nc">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// text == null 또는 text.isEmpty() 인 케이스가 들어옴</span>
+    <span class="n">assertTrue</span><span class="o">(</span><span class="n">text</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">text</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="enumsource">@EnumSource</h5>
+
+<p>Enum 의 모든 상수 또는 일부 상수를 파라미터로 넣어서 반복 테스트할 때 사용한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 명시적 Enum 타입 지정</span>
+<span class="nd">@ParameterizedTest</span>
+<span class="nd">@EnumSource</span><span class="o">(</span><span class="nc">ChronoUnit</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">testWithEnumSource</span><span class="o">(</span><span class="nc">TemporalUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">unit</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 암묵적 타입 자동 감지</span>
+<span class="nd">@ParameterizedTest</span>
+<span class="nd">@EnumSource</span>
+<span class="kt">void</span> <span class="nf">testWithEnumSourceWithAutoDetection</span><span class="o">(</span><span class="nc">ChronoUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">unit</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 특정 상수 선택</span>
+<span class="nd">@ParameterizedTest</span>
+<span class="nd">@EnumSource</span><span class="o">(</span><span class="n">names</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"DAYS"</span><span class="o">,</span> <span class="s">"HOURS"</span> <span class="o">})</span>
+<span class="kt">void</span> <span class="nf">testWithEnumSourceInclude</span><span class="o">(</span><span class="nc">ChronoUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertTrue</span><span class="o">(</span><span class="nc">EnumSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">ChronoUnit</span><span class="o">.</span><span class="na">DAYS</span><span class="o">,</span> <span class="nc">ChronoUnit</span><span class="o">.</span><span class="na">HOURS</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="n">unit</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="c1">// from / to 속성</span>
+<span class="nd">@ParameterizedTest</span>
+<span class="nd">@EnumSource</span><span class="o">(</span><span class="n">from</span> <span class="o">=</span> <span class="s">"HOURS"</span><span class="o">,</span> <span class="n">to</span> <span class="o">=</span> <span class="s">"DAYS"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">testWithEnumSourceRange</span><span class="o">(</span><span class="nc">ChronoUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertTrue</span><span class="o">(</span><span class="nc">EnumSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="nc">ChronoUnit</span><span class="o">.</span><span class="na">HOURS</span><span class="o">,</span>
+        <span class="nc">ChronoUnit</span><span class="o">.</span><span class="na">HALF_DAYS</span><span class="o">,</span>
+        <span class="nc">ChronoUnit</span><span class="o">.</span><span class="na">DAYS</span>
+    <span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="n">unit</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="c1">// mode = EXCLUDE, names 속성으로 제외 시키기 </span>
+<span class="nd">@ParameterizedTest</span>
+<span class="nd">@EnumSource</span><span class="o">(</span><span class="n">mode</span> <span class="o">=</span> <span class="no">EXCLUDE</span><span class="o">,</span> <span class="n">names</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"ERAS"</span><span class="o">,</span> <span class="s">"FOREVER"</span> <span class="o">})</span>
+<span class="kt">void</span> <span class="nf">testWithEnumSourceExclude</span><span class="o">(</span><span class="nc">ChronoUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertFalse</span><span class="o">(</span><span class="nc">EnumSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nc">ChronoUnit</span><span class="o">.</span><span class="na">ERAS</span><span class="o">,</span> <span class="nc">ChronoUnit</span><span class="o">.</span><span class="na">FOREVER</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="n">unit</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="c1">// mode = MATCH_ALL 정규식 매칭</span>
+<span class="nd">@ParameterizedTest</span>
+<span class="nd">@EnumSource</span><span class="o">(</span><span class="n">mode</span> <span class="o">=</span> <span class="no">MATCH_ALL</span><span class="o">,</span> <span class="n">names</span> <span class="o">=</span> <span class="s">"^.*DAYS$"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">testWithEnumSourceRegex</span><span class="o">(</span><span class="nc">ChronoUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertTrue</span><span class="o">(</span><span class="n">unit</span><span class="o">.</span><span class="na">name</span><span class="o">().</span><span class="na">endsWith</span><span class="o">(</span><span class="s">"DAYS"</span><span class="o">));</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="️-methodsource">⭐️ @MethodSource</h5>
+
+<p>외부 혹은 현재 테스트 클래스의 factory method 에서 생성된 값을 파라미터로 사용하기 위해 존재하는 애노테이션이다.</p>
+
+<p><strong>기본 규칙</strong></p>
+<ul>
+  <li>Test 클래스 내부 factory method
+    <ul>
+      <li>static</li>
+      <li><code class="language-plaintext highlighter-rouge">@TestInstance(Lifecycle.PER_CLASS)</code> 라면 non-static 허용</li>
+    </ul>
+  </li>
+  <li>외부 클래스 factory method
+    <ul>
+      <li>static</li>
+    </ul>
+  </li>
+  <li>Factory method 가 제공하는 데이터
+    <ul>
+      <li>Stream</li>
+      <li>Collection</li>
+      <li>Iterable</li>
+      <li>Iterator</li>
+      <li>배열</li>
+      <li>primitive stream</li>
+    </ul>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@MethodSource</span><span class="o">(</span><span class="s">"stringProvider"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">testWithExplicitLocalMethodSource</span><span class="o">(</span><span class="nc">String</span> <span class="n">argument</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">argument</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">static</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">stringProvider</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"apple"</span><span class="o">,</span> <span class="s">"banana"</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>메서드 자동 탐색</strong></p>
+
+<p>이름을 생략할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@MethodSource</span>
+<span class="kt">void</span> <span class="nf">testWithDefaultLocalMethodSource</span><span class="o">(</span><span class="nc">String</span> <span class="n">argument</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">argument</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">static</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">testWithDefaultLocalMethodSource</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"apple"</span><span class="o">,</span> <span class="s">"banana"</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>다중 파라미터 사용</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@MethodSource</span><span class="o">(</span><span class="s">"stringIntAndListProvider"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">testWithMultiArgMethodSource</span><span class="o">(</span><span class="nc">String</span> <span class="n">str</span><span class="o">,</span> <span class="kt">int</span> <span class="n">num</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="n">str</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+    <span class="n">assertTrue</span><span class="o">(</span><span class="n">num</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">num</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="o">);</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="kd">static</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Arguments</span><span class="o">&gt;</span> <span class="nf">stringIntAndListProvider</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="n">arguments</span><span class="o">(</span><span class="s">"apple"</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"a"</span><span class="o">,</span> <span class="s">"b"</span><span class="o">)),</span>
+        <span class="n">arguments</span><span class="o">(</span><span class="s">"lemon"</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"x"</span><span class="o">,</span> <span class="s">"y"</span><span class="o">))</span>
+    <span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>외부 클래스의 factory method 사용</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">ExternalMethodSourceDemo</span> <span class="o">{</span>
+
+    <span class="nd">@ParameterizedTest</span>
+    <span class="nd">@MethodSource</span><span class="o">(</span><span class="s">"example.StringsProviders#tinyStrings"</span><span class="o">)</span>
+    <span class="kt">void</span> <span class="nf">testWithExternalMethodSource</span><span class="o">(</span><span class="nc">String</span> <span class="n">tinyString</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// test</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">StringsProviders</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">tinyStrings</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"."</span><span class="o">,</span> <span class="s">"oo"</span><span class="o">,</span> <span class="s">"OOO"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>⭐️ factory method 에 파라미터 전달하기</strong></p>
+
+<p>Test:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@RegisterExtension</span>
+<span class="kd">static</span> <span class="kd">final</span> <span class="nc">IntegerResoler</span> <span class="n">integerResolver</span> 
+    <span class="o">=</span> <span class="k">new</span> <span class="nc">IntegerResolver</span><span class="o">();</span>
+
+<span class="nd">@ParameterizedTest</span>
+<span class="nd">@MethodSource</span><span class="o">(</span><span class="s">"factoryMethodWithArguments"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">testWithFactoryMethodWithArguments</span><span class="o">(</span><span class="nc">String</span> <span class="n">argument</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertTrue</span><span class="o">(</span><span class="n">argument</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"2"</span><span class="o">));</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>factory method:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Extension 이 int 파라미터 제공</span>
+<span class="kd">static</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Arguments</span><span class="o">&gt;</span> <span class="nf">factoryMethodWithArguments</span><span class="o">(</span>
+    <span class="kt">int</span> <span class="n">quantity</span>
+<span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="n">arguments</span><span class="o">(</span><span class="n">quantity</span> <span class="o">+</span> <span class="s">" apples"</span><span class="o">),</span>
+        <span class="n">arguments</span><span class="o">(</span><span class="n">quantity</span> <span class="o">+</span> <span class="s">" lemons"</span><span class="o">)</span>
+    <span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>ParameterResolver 구현:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="kd">class</span> <span class="nc">IntegerResolver</span> <span class="kd">implements</span> <span class="nc">ParameterResolver</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">supportsParameter</span><span class="o">(</span><span class="nc">ParameterContext</span> <span class="n">pc</span><span class="o">,</span> <span class="nc">ExtensionContext</span> <span class="n">ec</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">pc</span><span class="o">.</span><span class="na">getParameter</span><span class="o">().</span><span class="na">getType</span><span class="o">()</span> <span class="o">==</span> <span class="kt">int</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">resolveParameter</span><span class="o">(</span><span class="nc">ParameterContext</span> <span class="n">pc</span><span class="o">,</span> <span class="nc">ExtensionContext</span> <span class="n">ec</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="mi">2</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>가장 많이 사용함</p>
+</blockquote>
+
+<h5 id="fieldsource">@FieldSource</h5>
+
+<p>테스트 클래스 혹은 외부 클래스의 필드를 파라미터 소스로 사용하기 위해 존재하는 애노테이션이며, 필드는 테스트 클래스 안 이거나 외부 클래스 일때 항상 static 으로 선언해주도록 하면 된다.</p>
+
+<blockquote>
+  <p>단 <code class="language-plaintext highlighter-rouge">@TestInstance(Lifecycle.PER_CLASS)</code> 는 non-static</p>
+</blockquote>
+
+<p>필드 타입은 <code class="language-plaintext highlighter-rouge">Collection</code>, <code class="language-plaintext highlighter-rouge">Interable</code>, <code class="language-plaintext highlighter-rouge">Array</code>, <code class="language-plaintext highlighter-rouge">Supplier</code>, <code class="language-plaintext highlighter-rouge">Supplier</code> 등 거의 다 가능하다.</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">Stream</code> 은 <code class="language-plaintext highlighter-rouge">Supplier</code> 로 감싸야 한다.</p>
+</blockquote>
+
+<p><strong>같은 이름의 필드를 자동으로 찾기</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@FieldSource</span>
+<span class="kt">void</span> <span class="nf">arrayOfFruits</span><span class="o">(</span><span class="nc">String</span> <span class="n">fruit</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">fruit</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">static</span> <span class="kd">final</span> <span class="nc">String</span><span class="o">[]</span> <span class="n">arrayOfFruits</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"apple"</span><span class="o">,</span> <span class="s">"banana"</span> <span class="o">};</span></code></pre></figure>
+
+<p><strong>명시적으로 필드 이름 지정</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@FieldSource</span><span class="o">(</span><span class="s">"listOfFruits"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">singleFieldSource</span><span class="o">(</span><span class="nc">String</span> <span class="n">fruit</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">fruit</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">static</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">listOfFruits</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"apple"</span><span class="o">,</span> <span class="s">"banana"</span><span class="o">);</span></code></pre></figure>
+
+<p><strong>여러 필드 합쳐서 사용</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@FieldSource</span><span class="o">({</span> <span class="s">"listOfFruits"</span><span class="o">,</span> <span class="s">"additionalFruits"</span> <span class="o">})</span>
+<span class="kt">void</span> <span class="nf">multipleFieldSources</span><span class="o">(</span><span class="nc">String</span> <span class="n">fruit</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">fruit</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">static</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">listOfFruits</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"apple"</span><span class="o">,</span> <span class="s">"banana"</span><span class="o">);</span>
+<span class="kd">static</span> <span class="kd">final</span> <span class="nc">Collection</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">additionalFruits</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"cherry"</span><span class="o">,</span> <span class="s">"dewberry"</span><span class="o">);</span></code></pre></figure>
+
+<p><strong>Stream 을 Supplier 로 제공</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@FieldSource</span>
+<span class="kt">void</span> <span class="nf">namedArgumentsSupplier</span><span class="o">(</span><span class="nc">String</span> <span class="n">fruit</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">fruit</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">static</span> <span class="kd">final</span> <span class="nc">Supplier</span><span class="o">&lt;</span><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Arguments</span><span class="o">&gt;&gt;</span> <span class="n">namedArgumentsSupplier</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+        <span class="n">arguments</span><span class="o">(</span><span class="n">named</span><span class="o">(</span><span class="s">"Apple"</span><span class="o">,</span> <span class="s">"apple"</span><span class="o">)),</span>
+        <span class="n">arguments</span><span class="o">(</span><span class="n">named</span><span class="o">(</span><span class="s">"Banana"</span><span class="o">,</span> <span class="s">"banana"</span><span class="o">))</span>
+<span class="o">);</span></code></pre></figure>
+
+<p><strong>여러 인자 받기</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@FieldSource</span><span class="o">(</span><span class="s">"stringIntAndListArguments"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">testWithMultiArgFieldSource</span><span class="o">(</span><span class="nc">String</span> <span class="n">str</span><span class="o">,</span> <span class="kt">int</span> <span class="n">num</span><span class="o">,</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="n">str</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+    <span class="n">assertTrue</span><span class="o">(</span><span class="n">num</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">num</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="o">);</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="kd">static</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Arguments</span><span class="o">&gt;</span> <span class="n">stringIntAndListArguments</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span>
+        <span class="n">arguments</span><span class="o">(</span><span class="s">"apple"</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"a"</span><span class="o">,</span> <span class="s">"b"</span><span class="o">)),</span>
+        <span class="n">arguments</span><span class="o">(</span><span class="s">"lemon"</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"x"</span><span class="o">,</span> <span class="s">"y"</span><span class="o">))</span>
+<span class="o">);</span></code></pre></figure>
+
+<h5 id="csvsource">@CsvSource</h5>
+
+<p>값이 2개 이상일 때 적당히 깔끔하게 테스트 가능</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@CsvSource</span><span class="o">({</span>
+    <span class="s">"apple, 5"</span><span class="o">,</span>
+    <span class="s">"banana, 6"</span>
+<span class="o">})</span>
+<span class="kt">void</span> <span class="nf">test</span><span class="o">(</span><span class="nc">String</span> <span class="n">fruit</span><span class="o">,</span> <span class="kt">int</span> <span class="n">length</span><span class="o">)</span> <span class="o">{}</span></code></pre></figure>
+
+<h4 id="argument-conversion">Argument Conversion</h4>
+
+<h5 id="widening-primitive-conversion">Widening Primitive Conversion</h5>
+
+<p>JUnit 은 primitive 타입을 더 큰 primitive 타입으로 자동 변환한다.</p>
+
+<h5 id="implicit-conversion">Implicit Conversion</h5>
+
+<p>JUnit 5 는 문자열을 많은 타입으로 자동 변환해준다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@ParameterizedTest</span>
+<span class="nd">@ValueSource</span><span class="o">(</span><span class="n">strings</span> <span class="o">=</span> <span class="s">"SECONDS"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">testWithImplicitArgumentConversion</span><span class="o">(</span><span class="nc">ChronoUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">unit</span><span class="o">.</span><span class="na">name</span><span class="o">());</span>   <span class="c1">// "SECONDS" → ChronoUnit.SECONDS 자동 변환</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>String 을 String -&gt; decimal, hex, octal, <code class="language-plaintext highlighter-rouge">boolean</code>, <code class="language-plaintext highlighter-rouge">Enum</code>, <code class="language-plaintext highlighter-rouge">File</code>, <code class="language-plaintext highlighter-rouge">Path</code>, <code class="language-plaintext highlighter-rouge">Locale</code>, <code class="language-plaintext highlighter-rouge">Charset</code>, <code class="language-plaintext highlighter-rouge">URI</code>, <code class="language-plaintext highlighter-rouge">URL</code> 로 변환할 수 있다.</p>
+
+<h5 id="explicitly-conversion">Explicitly Conversion</h5>
+
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/tdd/2025/11/28/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-65%EC%9D%BC%EC%B0%A8-tdd(1).html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/tdd/2025/11/28/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-65%EC%9D%BC%EC%B0%A8-tdd(1).html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

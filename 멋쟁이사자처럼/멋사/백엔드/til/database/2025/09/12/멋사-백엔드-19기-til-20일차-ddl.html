@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 20일차 DDL</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 20일차 DDL | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 20일차 DDL" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/12/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-20%EC%9D%BC%EC%B0%A8-ddl.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/12/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-20%EC%9D%BC%EC%B0%A8-ddl.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-12T05:41:45+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 20일차 DDL" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-09-12T05:41:45+00:00","datePublished":"2025-09-12T05:41:45+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 20일차 DDL","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/12/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-20%EC%9D%BC%EC%B0%A8-ddl.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/12/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-20%EC%9D%BC%EC%B0%A8-ddl.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/12/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-20%EC%9D%BC%EC%B0%A8-ddl.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 20일차 DDL</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Sep 12, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Database</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#ddl-심화">DDL 심화</a>
+    <ul>
+      <li><a href="#alter-table">ALTER TABLE</a></li>
+    </ul>
+  </li>
+  <li><a href="#mysql-데이터-타입">MySQL 데이터 타입</a></li>
+  <li><a href="#null-타입">NULL 타입</a></li>
+  <li><a href="#unknown-타입">Unknown 타입</a></li>
+  <li><a href="#인덱스-최적화">인덱스 최적화</a></li>
+  <li><a href="#설계-단계">설계 단계</a></li>
+  <li><a href="#트랜잭션-제어">트랜잭션 제어</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="ddl-심화">DDL 심화</h3>
+
+<p>ddl 을 이제 응용 관점에서 살펴보기 전에 기본적인 MySQL 이 지원하는 데이터 타입이 얼마나 있는지 보자.</p>
+
+<h4 id="alter-table">ALTER TABLE</h4>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">tbl_name</span>
+    <span class="p">[</span><span class="n">alter_option</span> <span class="p">[,</span> <span class="n">alter_option</span><span class="p">]</span> <span class="p">...]</span>
+    <span class="p">[</span><span class="n">partition_options</span><span class="p">]</span></code></pre></figure>
+
+<p>ALTER TABLE 은 위 문법을 따르게 된다. alter_option 을 여러개 나열시키게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">alter_option</span><span class="p">:</span> <span class="err">{</span>
+    <span class="n">table_options</span>
+  <span class="o">|</span> <span class="k">ADD</span> <span class="p">[</span><span class="k">COLUMN</span><span class="p">]</span> <span class="n">col_name</span> <span class="n">column_definition</span>
+        <span class="p">[</span><span class="k">FIRST</span> <span class="o">|</span> <span class="k">AFTER</span> <span class="n">col_name</span><span class="p">]</span>
+  <span class="o">|</span> <span class="k">ADD</span> <span class="p">[</span><span class="k">COLUMN</span><span class="p">]</span> <span class="p">(</span><span class="n">col_name</span> <span class="n">column_definition</span><span class="p">,...)</span>
+  <span class="o">|</span> <span class="k">ADD</span> <span class="err">{</span><span class="k">INDEX</span> <span class="o">|</span> <span class="k">KEY</span><span class="err">}</span> <span class="p">[</span><span class="n">index_name</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">index_type</span><span class="p">]</span> <span class="p">(</span><span class="n">key_part</span><span class="p">,...)</span> <span class="p">[</span><span class="n">index_option</span><span class="p">]</span> <span class="p">...</span>
+  <span class="o">|</span> <span class="k">ADD</span> <span class="err">{</span><span class="n">FULLTEXT</span> <span class="o">|</span> <span class="n">SPATIAL</span><span class="err">}</span> <span class="p">[</span><span class="k">INDEX</span> <span class="o">|</span> <span class="k">KEY</span><span class="p">]</span> <span class="p">[</span><span class="n">index_name</span><span class="p">]</span>
+        <span class="p">(</span><span class="n">key_part</span><span class="p">,...)</span> <span class="p">[</span><span class="n">index_option</span><span class="p">]</span> <span class="p">...</span>
+  <span class="o">|</span> <span class="k">ADD</span> <span class="p">[</span><span class="k">CONSTRAINT</span> <span class="p">[</span><span class="n">symbol</span><span class="p">]]</span> <span class="k">PRIMARY</span> <span class="k">KEY</span>
+        <span class="p">[</span><span class="n">index_type</span><span class="p">]</span> <span class="p">(</span><span class="n">key_part</span><span class="p">,...)</span>
+        <span class="p">[</span><span class="n">index_option</span><span class="p">]</span> <span class="p">...</span>
+  <span class="o">|</span> <span class="k">ADD</span> <span class="p">[</span><span class="k">CONSTRAINT</span> <span class="p">[</span><span class="n">symbol</span><span class="p">]]</span> <span class="k">UNIQUE</span> <span class="p">[</span><span class="k">INDEX</span> <span class="o">|</span> <span class="k">KEY</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">index_name</span><span class="p">]</span> <span class="p">[</span><span class="n">index_type</span><span class="p">]</span> <span class="p">(</span><span class="n">key_part</span><span class="p">,...)</span>
+        <span class="p">[</span><span class="n">index_option</span><span class="p">]</span> <span class="p">...</span>
+  <span class="o">|</span> <span class="k">ADD</span> <span class="p">[</span><span class="k">CONSTRAINT</span> <span class="p">[</span><span class="n">symbol</span><span class="p">]]</span> <span class="k">FOREIGN</span> <span class="k">KEY</span>
+        <span class="p">[</span><span class="n">index_name</span><span class="p">]</span> <span class="p">(</span><span class="n">col_name</span><span class="p">,...)</span>
+        <span class="n">reference_definition</span>
+  <span class="o">|</span> <span class="k">ADD</span> <span class="p">[</span><span class="k">CONSTRAINT</span> <span class="p">[</span><span class="n">symbol</span><span class="p">]]</span> <span class="k">CHECK</span> <span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="p">[[</span><span class="k">NOT</span><span class="p">]</span> <span class="n">ENFORCED</span><span class="p">]</span>
+  <span class="o">|</span> <span class="k">DROP</span> <span class="err">{</span><span class="k">CHECK</span> <span class="o">|</span> <span class="k">CONSTRAINT</span><span class="err">}</span> <span class="n">symbol</span>
+  <span class="o">|</span> <span class="k">ALTER</span> <span class="err">{</span><span class="k">CHECK</span> <span class="o">|</span> <span class="k">CONSTRAINT</span><span class="err">}</span> <span class="n">symbol</span> <span class="p">[</span><span class="k">NOT</span><span class="p">]</span> <span class="n">ENFORCED</span>
+  <span class="o">|</span> <span class="n">ALGORITHM</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="err">{</span><span class="k">DEFAULT</span> <span class="o">|</span> <span class="n">INSTANT</span> <span class="o">|</span> <span class="n">INPLACE</span> <span class="o">|</span> <span class="k">COPY</span><span class="err">}</span>
+  <span class="o">|</span> <span class="k">ALTER</span> <span class="p">[</span><span class="k">COLUMN</span><span class="p">]</span> <span class="n">col_name</span> <span class="err">{</span>
+        <span class="k">SET</span> <span class="k">DEFAULT</span> <span class="err">{</span><span class="n">literal</span> <span class="o">|</span> <span class="p">(</span><span class="n">expr</span><span class="p">)</span><span class="err">}</span>
+      <span class="o">|</span> <span class="k">SET</span> <span class="err">{</span><span class="n">VISIBLE</span> <span class="o">|</span> <span class="n">INVISIBLE</span><span class="err">}</span>
+      <span class="o">|</span> <span class="k">DROP</span> <span class="k">DEFAULT</span>
+    <span class="err">}</span>
+  <span class="o">|</span> <span class="k">ALTER</span> <span class="k">INDEX</span> <span class="n">index_name</span> <span class="err">{</span><span class="n">VISIBLE</span> <span class="o">|</span> <span class="n">INVISIBLE</span><span class="err">}</span>
+  <span class="o">|</span> <span class="n">CHANGE</span> <span class="p">[</span><span class="k">COLUMN</span><span class="p">]</span> <span class="n">old_col_name</span> <span class="n">new_col_name</span> <span class="n">column_definition</span>
+        <span class="p">[</span><span class="k">FIRST</span> <span class="o">|</span> <span class="k">AFTER</span> <span class="n">col_name</span><span class="p">]</span>
+  <span class="o">|</span> <span class="p">[</span><span class="k">DEFAULT</span><span class="p">]</span> <span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="n">charset_name</span> <span class="p">[</span><span class="k">COLLATE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="k">collation_name</span><span class="p">]</span>
+  <span class="o">|</span> <span class="k">CONVERT</span> <span class="k">TO</span> <span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="n">charset_name</span> <span class="p">[</span><span class="k">COLLATE</span> <span class="k">collation_name</span><span class="p">]</span>
+  <span class="o">|</span> <span class="err">{</span><span class="n">DISABLE</span> <span class="o">|</span> <span class="n">ENABLE</span><span class="err">}</span> <span class="n">KEYS</span>
+  <span class="o">|</span> <span class="err">{</span><span class="n">DISCARD</span> <span class="o">|</span> <span class="n">IMPORT</span><span class="err">}</span> <span class="n">TABLESPACE</span>
+  <span class="o">|</span> <span class="k">DROP</span> <span class="p">[</span><span class="k">COLUMN</span><span class="p">]</span> <span class="n">col_name</span>
+  <span class="o">|</span> <span class="k">DROP</span> <span class="err">{</span><span class="k">INDEX</span> <span class="o">|</span> <span class="k">KEY</span><span class="err">}</span> <span class="n">index_name</span>
+  <span class="o">|</span> <span class="k">DROP</span> <span class="k">PRIMARY</span> <span class="k">KEY</span>
+  <span class="o">|</span> <span class="k">DROP</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="n">fk_symbol</span>
+  <span class="o">|</span> <span class="k">FORCE</span>
+  <span class="o">|</span> <span class="k">LOCK</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="err">{</span><span class="k">DEFAULT</span> <span class="o">|</span> <span class="k">NONE</span> <span class="o">|</span> <span class="n">SHARED</span> <span class="o">|</span> <span class="k">EXCLUSIVE</span><span class="err">}</span>
+  <span class="o">|</span> <span class="k">MODIFY</span> <span class="p">[</span><span class="k">COLUMN</span><span class="p">]</span> <span class="n">col_name</span> <span class="n">column_definition</span>
+        <span class="p">[</span><span class="k">FIRST</span> <span class="o">|</span> <span class="k">AFTER</span> <span class="n">col_name</span><span class="p">]</span>
+  <span class="o">|</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">col_name</span> <span class="p">[,</span> <span class="n">col_name</span><span class="p">]</span> <span class="p">...</span>
+  <span class="o">|</span> <span class="k">RENAME</span> <span class="k">COLUMN</span> <span class="n">old_col_name</span> <span class="k">TO</span> <span class="n">new_col_name</span>
+  <span class="o">|</span> <span class="k">RENAME</span> <span class="err">{</span><span class="k">INDEX</span> <span class="o">|</span> <span class="k">KEY</span><span class="err">}</span> <span class="n">old_index_name</span> <span class="k">TO</span> <span class="n">new_index_name</span>
+  <span class="o">|</span> <span class="k">RENAME</span> <span class="p">[</span><span class="k">TO</span> <span class="o">|</span> <span class="k">AS</span><span class="p">]</span> <span class="n">new_tbl_name</span>
+  <span class="o">|</span> <span class="err">{</span><span class="k">WITHOUT</span> <span class="o">|</span> <span class="k">WITH</span><span class="err">}</span> <span class="n">VALIDATION</span>
+<span class="err">}</span></code></pre></figure>
+
+<p>ALTER table_name 문은 기본적으로 가져가고, 그 이후에 나오는 alter_option 이 핵심임을 기억하고 sql 문을 짠다.</p>
+
+<ul>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>ADD [COLUMN] col_name column_definition [FIRST</td>
+          <td>ALTER col_name]: 컬럼을 새로 추가</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>CHANGE [COLUMN] old_col_name new_col_name [FIRST</td>
+          <td>ALTER col_name]: 컬럼 이름 및 데이터 타입 변경 시 사용</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>MODIFY [COLUMN] col_name column_definition [FIRST</td>
+          <td>ALTER col_name]: 컬럼 이름 및 데이터 타입 변경 시 사용</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>DROP [COLUMN] col_name</li>
+  <li>ALTER [COLUMN] col_name {<br />
+  SET DEFAULT {literal | (expr)}<br />
+| SET {VISIBLE | INVISIBLE}<br />
+| DROP DEFAULT<br />
+}: 기본값 가시성 설정</li>
+</ul>
+
+<p><strong>인덱스 수정</strong></p>
+<ul>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>ADD {INDEX</td>
+          <td>KEY} [index_name] (key_part,…) [index_option …]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>DROP {INDEX</td>
+          <td>KEY} index_name</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>ADD {FULLTEXT</td>
+          <td>SPATIAL} [INDEX</td>
+          <td>KEY] …</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<p><strong>제약조건 수정</strong></p>
+<ul>
+  <li>ADD [CONSTRAINT [symbol]] PRIMARY KEY(…)</li>
+  <li>ADD [CONSTRAINT [symbol]] UNIQUE(…)</li>
+  <li>ADD [CONSTRAINT [symbol]] FOREIGN KEY(…)</li>
+  <li>DROP PRIMARY KEY</li>
+  <li>DROP FOREIGN KEY fk_symbol</li>
+</ul>
+
+<h3 id="mysql-데이터-타입">MySQL 데이터 타입</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>분류</th>
+      <th>타입</th>
+      <th>설명</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>숫자형</td>
+      <td>INT, BIGINT, DECIMAL</td>
+      <td>정수, 실수</td>
+    </tr>
+    <tr>
+      <td>문자형</td>
+      <td>VARCHAR, CHAR, TEXT</td>
+      <td>문자열</td>
+    </tr>
+    <tr>
+      <td>날짜형</td>
+      <td>DATE, TIME, DATETIME, TIMESTAMP</td>
+      <td>날짜와 시간</td>
+    </tr>
+    <tr>
+      <td>기타</td>
+      <td>JSON, BLOB</td>
+      <td>JSON 데이터, 바이너리</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="null-타입">NULL 타입</h4>
+
+<p>null 은 의미적으로 분명하지만, 연산하는데 있어 정의가 직관적이지 않아 문제를 일으킨다.</p>
+
+<ul>
+  <li>산술 식(+, -, *, /) 에서 결과는 입력값이 하나라도 NULL 이면 결과도 NULL</li>
+  <li>비교 연산에서는 NULL 이 포함되면 unknown(알 수 없음) 값으로 처리한다. 즉 논리 리터럴에 대해 true, false, unknown 이 3가지의 논리값으로 처리된다.</li>
+</ul>
+
+<h4 id="unknown-타입">Unknown 타입</h4>
+
+<ul>
+  <li>true and unknown: unknown</li>
+  <li>false and unknown: false</li>
+  <li>true or unknown: true</li>
+  <li>false or unknown: unknown</li>
+  <li>not unknown: unknown</li>
+  <li>null = null: unknown</li>
+</ul>
+
+<blockquote>
+  <p>어떤 값인지 모르기에 unknown 으로 나오는건 당연한 의미이다. 또한 처리할 때 (‘A’, NULL), (‘A’, NULL) 은 동일한 값이기에 distinct 옵션을 쓸 때 두 튜플 중 하나만 남게 된다.</p>
+</blockquote>
+
+<p><strong>unknown 처리 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="n">name</span>
+<span class="k">from</span> <span class="n">instructor</span>
+<span class="k">where</span> <span class="n">salary</span> <span class="o">&gt;</span> <span class="mi">10000</span> <span class="k">is</span> <span class="k">unknown</span><span class="p">;</span></code></pre></figure>
+
+<h3 id="인덱스-최적화">인덱스 최적화</h3>
+
+<ul>
+  <li><strong>인덱스 사용 시 주의사항</strong>
+    <ul>
+      <li>컬럼의 좌변을 변형하면 인덱스를 사용할 수 없음
+        <ul>
+          <li>❌ <code class="language-plaintext highlighter-rouge">WHERE SUBSTRING(hire_date, 1, 4) = '2005'</code></li>
+          <li>✅ <code class="language-plaintext highlighter-rouge">WHERE hire_date LIKE '2005%'</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>복합 인덱스 활용</strong>
+    <ul>
+      <li>자주 함께 조회되는 컬럼들을 묶어서 인덱스 생성</li>
+      <li>WHERE절에서 사용 빈도가 높은 컬럼 순서대로 인덱스 구성</li>
+      <li>선택도가 높은(데이터 분포가 다양한) 컬럼을 앞쪽에 배치</li>
+    </ul>
+  </li>
+  <li><strong>인덱스 성능 관리</strong>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">SHOW INDEX FROM 테이블명</code> : 인덱스 상태 확인</li>
+      <li><code class="language-plaintext highlighter-rouge">EXPLAIN 쿼리</code> : 실행 계획 분석</li>
+      <li>불필요한 인덱스는 제거 → INSERT/UPDATE 성능 저하 방지</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="설계-단계">설계 단계</h3>
+
+<ol>
+  <li>요구조건 분석: 데이터 및 처리 요구 조건</li>
+  <li>개념적 설계: E-R 다이어그램, DBMS 독립적</li>
+  <li>논리적 설계: 정규화, 목표 DBMS에 맞는 스키마</li>
+  <li>물리적 설계: 반정규화, 인덱스 설계</li>
+  <li>구현: DDL로 스키마 작성</li>
+</ol>
+
+<h3 id="트랜잭션-제어">트랜잭션 제어</h3>
+
+<p>기본적으로 MySQL은 자동 커밋이 되는데, 트랜잭션 제어를 위해 AUTOCOMMIT 옵션을 수정하여 수동으로 커밋을 관리할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">@@</span><span class="n">AUTOCOMMIT</span><span class="p">;</span>
+
+<span class="k">SET</span> <span class="n">AUTOCOMMIT</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="k">START</span> <span class="n">TRANSACTION</span><span class="p">;</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="k">user</span> <span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+<span class="k">VALUES</span> <span class="p">(</span><span class="s1">'test@test.com'</span><span class="p">,</span> <span class="s1">'테스트'</span><span class="p">,</span> <span class="s1">'1234'</span><span class="p">);</span>
+
+<span class="k">COMMIT</span><span class="p">;</span> <span class="c1">-- 변경사항 확정</span>
+<span class="k">ROLLBACK</span><span class="p">;</span> <span class="c1">-- 변경사항 취소, START TRANSACTION 이전으로 돌아감</span>
+
+<span class="k">SET</span> <span class="n">AUTOCOMMIT</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span></code></pre></figure>
+
+<p>정확히는 START TRANSACTION 이후의 INSERT, DELETE, UPDATE 등의 데이터 변경 수행만 취소하게 된다.</p>
+
+<p>이때 SET AUTOCOMMIT 을 하는 것은 해당 <strong>열려있는 세션에 대해 설정이 변경</strong>되는 것이다.</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/12/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-20%EC%9D%BC%EC%B0%A8-ddl.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/12/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-20%EC%9D%BC%EC%B0%A8-ddl.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

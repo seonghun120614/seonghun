@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 12일차 SOLID 규칙과 아키텍쳐</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 12일차 SOLID 규칙과 아키텍쳐 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 12일차 SOLID 규칙과 아키텍쳐" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/01/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-12%EC%9D%BC%EC%B0%A8-solid-%EA%B7%9C%EC%B9%99%EA%B3%BC-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/01/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-12%EC%9D%BC%EC%B0%A8-solid-%EA%B7%9C%EC%B9%99%EA%B3%BC-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-01T12:46:45+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 12일차 SOLID 규칙과 아키텍쳐" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-09-01T12:46:45+00:00","datePublished":"2025-09-01T12:46:45+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 12일차 SOLID 규칙과 아키텍쳐","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/01/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-12%EC%9D%BC%EC%B0%A8-solid-%EA%B7%9C%EC%B9%99%EA%B3%BC-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/01/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-12%EC%9D%BC%EC%B0%A8-solid-%EA%B7%9C%EC%B9%99%EA%B3%BC-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/01/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-12%EC%9D%BC%EC%B0%A8-solid-%EA%B7%9C%EC%B9%99%EA%B3%BC-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 12일차 SOLID 규칙과 아키텍쳐</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Sep 1, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#solid">SOLID</a>
+    <ul>
+      <li><a href="#single-responsibility-principle">Single Responsibility Principle</a></li>
+      <li><a href="#open-closed-principle">Open-Closed Principle</a></li>
+      <li><a href="#liskov-substitution-principle">Liskov Substitution Principle</a></li>
+      <li><a href="#interface-segregation-principle">Interface Segregation Principle</a></li>
+      <li><a href="#dependency-inversion-principle">Dependency Inversion Principle</a></li>
+    </ul>
+  </li>
+  <li><a href="#패키지-혼동">패키지 혼동</a>
+    <ul>
+      <li><a href="#vo-패키지">VO 패키지</a></li>
+      <li><a href="#domain-패키지">Domain 패키지</a></li>
+      <li><a href="#entity-패키지">Entity 패키지</a></li>
+      <li><a href="#data-패키지">Data 패키지</a></li>
+    </ul>
+  </li>
+  <li><a href="#구조-아키텍쳐">구조 아키텍쳐</a>
+    <ul>
+      <li><a href="#mvc-아키텍처">MVC 아키텍처</a></li>
+      <li><a href="#domain-driven-design-아키텍처">Domain-Driven Design 아키텍처</a></li>
+      <li><a href="#port-adapter-아키텍처">Port-Adapter 아키텍처</a>
+        <ul>
+          <li><a href="#port">Port</a></li>
+          <li><a href="#adapter">Adapter</a></li>
+          <li><a href="#primary">primary</a></li>
+        </ul>
+      </li>
+      <li><a href="#layered-아키텍처">Layered 아키텍처</a></li>
+      <li><a href="#fsd-아키텍처">FSD 아키텍처</a></li>
+    </ul>
+  </li>
+  <li><a href="#접근제한자">접근제한자</a></li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>미니프로젝트(도서 서비스, 멤버 서비스) 구현에 있어 겪었던 문제점과 해결책들을 적어보려고 한다.</p>
+
+<p>내가 느꼈던 혼란을 좀 정리하여서 다음에는 의미가 분명하도록 하기 위함이다.</p>
+
+<h3 id="solid">SOLID</h3>
+
+<h4 id="single-responsibility-principle">Single Responsibility Principle</h4>
+
+<p>클래스 또는 모듈은 하나의 책임만을 가져야 하며,<br />
+변경 사유가 여러 가지가 되면 안된다.</p>
+
+<blockquote>
+  <p>MemberService 는 회원 가입/탈퇴/조회만 하고,<br />
+책 관리는 LibraryService 가 하도록</p>
+</blockquote>
+
+<p>나는 위를 Service 계층에서 적용시키지 못하여 추후에 수정하려고 한다.</p>
+
+<h4 id="open-closed-principle">Open-Closed Principle</h4>
+
+<p>확장에는 열려있고, 수정에는 닫혀 있어야 한다.</p>
+
+<p>새로운 기능을 추가할 때에는 기존 코드를 직접 수정하지 않고도 확장으로 해결 할 수 있도록 한다.</p>
+
+<blockquote>
+  <p>전략 패턴은 할인 정책을 바꾸려면 DiscountPolicy 인터페이스<br />
+구현체만 추가 하여 새로운 기능을 추가할 수 있을 것이다.</p>
+</blockquote>
+
+<h4 id="liskov-substitution-principle">Liskov Substitution Principle</h4>
+
+<p>상위 타입 객체를 하위 타입으로 바꿔도 프로그램 동작이 깨지면 안된다.</p>
+
+<p>즉 자식 클래스는 부모 클래스의 계약(기능)을 위반하지 않아야 한다.</p>
+
+<blockquote>
+  <p>Rectangle 의 자식이 Square 라면, setWidth() 와 setHeight() 동작이 부모의 기대를 충족해야 한다.</p>
+</blockquote>
+
+<p>즉 상위 동작이 하위 동작을 포함시키냐는 것이다.</p>
+
+<h4 id="interface-segregation-principle">Interface Segregation Principle</h4>
+
+<p>클라이언트는 자신이 사용하지 않는 기능에 의존적이지 않아야 한다.</p>
+
+<p>너무 많은 기능을 가진 인터페이스를 나눠서 꼭 필요한 것만 구현하도록 한다.</p>
+
+<blockquote>
+  <p>Printer 인터페이스는 print(), scan(), fax() 를 가지게 된다면 단순히 프린터만 하는 PurePrinter 는 위 세 개를 다 구현해야 한다.</p>
+</blockquote>
+
+<h5 id="dependency-inversion-principle">Dependency Inversion Principle</h5>
+
+<p>의존관계를 맺을 때 변화하는 클래스와 관계를 맺기 보다 변화하지 않는 클래스와 관계를 맺는 것.</p>
+
+<h3 id="패키지-혼동">패키지 혼동</h3>
+
+<p>패키지 의미가 분명하지 않아 나도 클래스를 여기저기 의미가 이거겠지 하고 유추하며<br />
+분배했던 기억이 나서 이를 확실히 하기 위해 다음처럼 나눈다.</p>
+
+<h4 id="vo-패키지">VO 패키지</h4>
+
+<p>Value Object의 약자이며 멋사를 진행할 때 처음 보았던 패키지이다.</p>
+
+<ul>
+  <li>Equality 를 가지고 이 동등성을 식별자가 아니라 값 그 자체로 비교하는 객체</li>
+  <li>Immutable 로 설계하는 것이 바람직하며, 두 VO 는 필드 값이 같으면 같은 객체로 취급되게 된다.</li>
+  <li><strong>equals/hashCode 오버라이드가 중요</strong>하다.</li>
+</ul>
+
+<p>내가 구현했던 <code class="language-plaintext highlighter-rouge">Book</code> 클래스는 <code class="language-plaintext highlighter-rouge">record</code> 를 사용해서 선언했으며 이는 3번의 수고를 덜 수 있어 괜찮았다.</p>
+
+<p>좋은 점은 불변이라서 값이 안변하여 로직에서 어떤 값이 들어가 있을지 예상이 간다는 것이다.</p>
+
+<h4 id="domain-패키지">Domain 패키지</h4>
+
+<p>비즈니스 로직과 규칙과 함께 핵심적인 계층이다.</p>
+
+<p><strong>포함되는 것</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Entity</code> 패키지</li>
+  <li><code class="language-plaintext highlighter-rouge">VO</code> 패키지</li>
+  <li><code class="language-plaintext highlighter-rouge">Domain Service</code>(특정 엔티티에 귀속되지 않는 도메인 로직)</li>
+  <li><code class="language-plaintext highlighter-rouge">Aggregate</code>, <code class="language-plaintext highlighter-rouge">Repository</code> 인터페이스</li>
+</ul>
+
+<p>가 여기에 들어간다고 한다. 특히, 외부 기술에 의존하지 않아야 하며(POJO),<br />
+시스템이 해결하는 문제의 본질적인 개념을 모델링한 공간이라고 한다.</p>
+
+<blockquote>
+  <p>내가 틀렸던 것은 Domain 을 Entity 와 혼동하고 있었기 때문이다.<br />
+조금 더 국소적인 개념으로 바라본게 의사소통의 문제가 생겼던거 같다.</p>
+</blockquote>
+
+<h4 id="entity-패키지">Entity 패키지</h4>
+
+<p>식별자(ID)를 가지며, 라이프 사이클이 관리되는 객체이다.</p>
+
+<ul>
+  <li>같은 ID = 같은 객체</li>
+  <li>DB 테이블과 1:1 매핑이 됨(JPA @Entity)</li>
+  <li>가변적(mutable) 일 수 있음</li>
+</ul>
+
+<h4 id="data-패키지">Data 패키지</h4>
+
+<p>데이터 전송, 저장 계층이며, DB, API 등 외부 저장소와의 상호작용을 담당하는 계층이다.</p>
+
+<p><strong>포함되는 것</strong></p>
+<ul>
+  <li>Repository 구현체 (JPA Repository)</li>
+  <li>DAO (Data Access Object) 패키지</li>
+  <li>DTO (Data Transfrer Object) 패키지</li>
+</ul>
+
+<p>특징으로는 아까와는 다르게 Repository 가 외부 라이브러리에 의존적임을 볼 수 있으며,<br />
+domain 을 그대로 노출하지 않고, data 레이어에서 직접 변환 후 전달하는게 특징이다.</p>
+
+<h3 id="구조-아키텍쳐">구조 아키텍쳐</h3>
+
+<h4 id="mvc-아키텍처">MVC 아키텍처</h4>
+
+<ul>
+  <li><strong>Model</strong>: 핵심 데이터와 비즈니스 로직을 담당한다.<br />
+DB 와 연결된 엔티티, 서비스 로직 등이 들어간다.</li>
+  <li><strong>View</strong>: 사용자에게 보여질 화면이다.</li>
+  <li><strong>Controller</strong>: 사용자의 요청을 받아 Model 을 조작하고 결과를 View 에 전달한다.</li>
+</ul>
+
+<blockquote>
+  <p>대규모 프로젝트에서는 맞지 않다. Controller 가 비대해지게 되고, 서비스/도메인 계층이 부족하면 Model 과 Controller 간의 경계가 모호해진다.</p>
+</blockquote>
+
+<h4 id="domain-driven-design-아키텍처">Domain-Driven Design 아키텍처</h4>
+
+<p>비즈니스 로직을 중심으로 설계하는 아키텍쳐이다.</p>
+
+<ul>
+  <li>Domain: 엔티티, VO, 도메인 서비스 등등</li>
+  <li>Application: 유스케이스, 흐름 제어</li>
+  <li>Infrastructure: DB, Messaging, 외부 API 등</li>
+  <li>Interface: UI, Controller</li>
+</ul>
+
+<p>도메인 개념이 코드에 녹아들어 협업, 유지보수에 좋다.<br />
+여기서 특이하게 유스케이스, 흐름 제어가 보이는데,</p>
+
+<h4 id="port-adapter-아키텍처">Port-Adapter 아키텍처</h4>
+
+<p>어플리케이션을 비즈니스 로직과 외부 의존성으로 분리하는 아키텍처이다. 이번에 리팩터링 해야 할 아키텍처 대상이다.</p>
+
+<ul>
+  <li>Port: 도메인이 외부와 통신하는 인터페이스(추상화)</li>
+  <li>Adapter: 외부 구현체(DB, API, UI)</li>
+</ul>
+
+<p>장점으로는 DB, UI, 메시징 같은 외부 기술을 교체하기가 쉽다.<br />
+그리고 테스트하기에도 유리하다(mock adapter).</p>
+
+<h5 id="port">Port</h5>
+
+<p>포트는 꽂는 그 장소를 말한다. 우리의 프로그래밍에서는 특정 함수를 예로 들 수 있는데 가령 <code class="language-plaintext highlighter-rouge">login()</code> 이라는 함수가 있다면 우리의 요청이 여기에 들어가 꽂히게 되는 것이다. 이런 것을 <code class="language-plaintext highlighter-rouge">Port</code> 라고 한다.</p>
+
+<p>그렇다면 이런 함수를 구현하는 아이는 <code class="language-plaintext highlighter-rouge">Interface</code> 이기에 Port 가 자바의 interface 임을 알 수 있다.</p>
+
+<h5 id="adapter">Adapter</h5>
+
+<p>위에서 <code class="language-plaintext highlighter-rouge">login()</code> 이 포트였다면 여기에 들어갈 어댑터가 필요하다. 어댑터는 포트로 연결해주는 아이라고 보면 된다. 따라서 이를 연결시켜주는 것은 <code class="language-plaintext highlighter-rouge">MVC</code> 패턴에서 <code class="language-plaintext highlighter-rouge">Controller</code> 가 했음을 볼 수 있다. 따라서 Controller 가 어댑터 기능을 하게 된다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">MemberController</code></li>
+  <li><code class="language-plaintext highlighter-rouge">MemberService</code>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">MemberServiceImpl</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>이 있다고 하자. 여기서 <code class="language-plaintext highlighter-rouge">MemberService</code> 는 포트, <code class="language-plaintext highlighter-rouge">MemberController</code> 는 어댑터가 되는 것이다.</p>
+
+<h5 id="primary">primary</h5>
+
+<p>위 포트, 어댑터 개념에서 외부의 요청을 직접 받아 동작하는 포트와 어댑터를 주포트, 주어댑터라고 하고 통틀어서 주요소(primary) 라고 한다.</p>
+
+<p>주요소 외에도 이러한 포트 어댑터는 요청 앞단만 있는게 아니라 뒷단에도 있다.</p>
+
+<p>예를 들어 <code class="language-plaintext highlighter-rouge">MemberService</code> 라는 서비스는 특정 레포지토리에 접근하여 실제 DB 로의 연결을 통해 데이터를 주고 받게 된다.</p>
+
+<p>이를 접근하게 해주는 것이 <code class="language-plaintext highlighter-rouge">Service</code> 인터페이스, <code class="language-plaintext highlighter-rouge">Repository</code> 인터페이스 이므로 <code class="language-plaintext highlighter-rouge">MemberService</code> 기준으로 이 둘은 포트가 된다.</p>
+
+<p>또한 DB에서의 API 가 <code class="language-plaintext highlighter-rouge">Port</code>, 중간에 껴있는 <code class="language-plaintext highlighter-rouge">MemberRepository</code> 구현체가 <code class="language-plaintext highlighter-rouge">Adapter</code> 가 되게 된다.</p>
+
+<h4 id="layered-아키텍처">Layered 아키텍처</h4>
+
+<p>가장 전통적이고 흔한 방식이다.</p>
+
+<ul>
+  <li>Presentation: Controller, View</li>
+  <li>Application, Service: 유스케이스</li>
+  <li>Domain: 엔티티, 도메인 로직</li>
+  <li>Infrastructure: DB, 외부 시스템</li>
+</ul>
+
+<p>단순하고 직관적이며, 계층 간 의존성이 단방향이다.</p>
+
+<h4 id="fsd-아키텍처">FSD 아키텍처</h4>
+
+<p>프론트엔드에서 주로 사용하는 방식이며, 기능 단위로 모듈을 나누는 구조이다.</p>
+
+<ul>
+  <li>App</li>
+  <li>Process: Deprecated</li>
+  <li>Pages</li>
+  <li>Widgets</li>
+  <li>Features</li>
+  <li>Entities</li>
+  <li>Shared</li>
+</ul>
+
+<p>단방향이며 모놀리식 서비스에서 기능 단위 패키징 방식으로 사용이 가능하다.</p>
+
+<h3 id="접근제한자">접근제한자</h3>
+
+<p><code class="language-plaintext highlighter-rouge">static final</code>을 Service, Repository 등에 사용하는 것을 구현했는데, 이때 굳이 상수로 취급하여서 둔 이유가 있을까? 가 질문이었다.</p>
+
+<p>우선은 구현 의도는 다음과 같았다.</p>
+<ul>
+  <li>싱글톤 의도에 더 적합하고</li>
+  <li>멀티 스레드 환경에서 실수로 참조를 바꿔치기 하는 것을 막는다.</li>
+</ul>
+
+<p>하지만 이렇게 구현하면 다음과 같은 단점이 생긴다.</p>
+<ul>
+  <li>테스트에 불편하다(Mock 이나 Stub 으로 교체가 안된다)</li>
+  <li>재설정이 불가능하다</li>
+  <li>DI 의존성 주입 패턴과 충돌하게 된다.</li>
+</ul>
+
+<p>후자가 더 유연하고 맞는거 같아 후자를 택하여 다시 리팩터링했다.</p>
+
+<hr />
+
+<h2 id="️-용어">✒️ 용어</h2>
+
+<h6 id="모놀리식-서비스">모놀리식 서비스</h6>
+
+<p>어플리케이션을 하나의 통합된 코드베이스와 단일 배포 단위로 구성하는 아키텍처이다. 기능이 많더라도 모두 한 프로젝트 안에 들어가고, 하나의 실행 파일로 배포되게 된다.</p>
+
+<p><strong>장점</strong></p>
+<ul>
+  <li>단순</li>
+  <li>개발 속도가 빠름</li>
+  <li>디버깅 쉬움</li>
+  <li>배포가 간단</li>
+</ul>
+
+<p><strong>단점</strong></p>
+<ul>
+  <li>서비스가 커질수록 빌드/배포 시간이 느려짐</li>
+  <li>코드베이스가 거대해져 유지보수가 어려워짐(스파게티 코드화)</li>
+  <li>특정 기능에 장애가 나면 전체 서비스가 다운됨</li>
+  <li>기술 스택을 기능 별로 다르게 쓰기 힘듦</li>
+</ul>
+
+<h6 id="마이크로-서비스">마이크로 서비스</h6>
+
+<p>기능을 서비스 단위로 쪼개서 독립적으로 배포하고 운영한다.</p>
+
+<p>회원서비스 따로, 주문 서비스 따로 등등</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/01/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-12%EC%9D%BC%EC%B0%A8-solid-%EA%B7%9C%EC%B9%99%EA%B3%BC-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/01/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-12%EC%9D%BC%EC%B0%A8-solid-%EA%B7%9C%EC%B9%99%EA%B3%BC-%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 9일차 열거형 클래스, 문자열 핸들링</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 9일차 열거형 클래스, 문자열 핸들링 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 9일차 열거형 클래스, 문자열 핸들링" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-9%EC%9D%BC%EC%B0%A8-%EC%97%B4%EA%B1%B0%ED%98%95-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%AC%B8%EC%9E%90%EC%97%B4-%ED%95%B8%EB%93%A4%EB%A7%81.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-9%EC%9D%BC%EC%B0%A8-%EC%97%B4%EA%B1%B0%ED%98%95-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%AC%B8%EC%9E%90%EC%97%B4-%ED%95%B8%EB%93%A4%EB%A7%81.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-08-27T01:56:28+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 9일차 열거형 클래스, 문자열 핸들링" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-08-27T01:56:28+00:00","datePublished":"2025-08-27T01:56:28+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 9일차 열거형 클래스, 문자열 핸들링","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-9%EC%9D%BC%EC%B0%A8-%EC%97%B4%EA%B1%B0%ED%98%95-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%AC%B8%EC%9E%90%EC%97%B4-%ED%95%B8%EB%93%A4%EB%A7%81.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-9%EC%9D%BC%EC%B0%A8-%EC%97%B4%EA%B1%B0%ED%98%95-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%AC%B8%EC%9E%90%EC%97%B4-%ED%95%B8%EB%93%A4%EB%A7%81.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-9%EC%9D%BC%EC%B0%A8-%EC%97%B4%EA%B1%B0%ED%98%95-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%AC%B8%EC%9E%90%EC%97%B4-%ED%95%B8%EB%93%A4%EB%A7%81.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 9일차 열거형 클래스, 문자열 핸들링</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Aug 27, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#enum">Enum</a>
+    <ul>
+      <li><a href="#enum-선언">enum 선언</a></li>
+      <li><a href="#javalangenum">java.lang.Enum</a></li>
+      <li><a href="#필드와-생성자">필드와 생성자</a></li>
+      <li><a href="#주의점">주의점</a></li>
+    </ul>
+  </li>
+  <li><a href="#자주-사용하는-클래스">자주 사용하는 클래스</a>
+    <ul>
+      <li><a href="#stringbuffer-와-string-builder">StringBuffer 와 String Builder</a></li>
+      <li><a href="#string-builder-의-thread-unsafety-살펴보기">String Builder 의 thread unsafety 살펴보기</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="enum">Enum</h3>
+
+<p><code class="language-plaintext highlighter-rouge">enum</code> 으로 선언되어 있지만 사실상 class 이다.</p>
+
+<h4 id="배경">배경</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Direction</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">NORTH</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">SOUTH</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">EAST</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">WEST</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>자바 1.5 이전에 상수를 보통 static final 로 정의했지만, 이에 대한 문제는</p>
+<ul>
+  <li>타입 안전성 보장 X</li>
+  <li>디버깅 시 상수 값만 보일 수 있음</li>
+  <li>유지보수가 어려움</li>
+</ul>
+
+<p>이러한 문제점 등으로 타입 안전성과 가독성을 해결하기 위해 enum 이 탄생했다.</p>
+
+<h4 id="enum-선언">enum 선언</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Direction</span> <span class="o">{</span>
+    <span class="no">NORTH</span><span class="o">,</span> <span class="no">SOUTH</span><span class="o">,</span> <span class="no">EAST</span><span class="o">,</span> <span class="no">WEST</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이는 컴파일러 차원에서 잘못된 값은 넣지 못하기 때문에 사전에 타입 안전성을 가져갈 수 있다.</p>
+
+<h4 id="javalangenum">java.lang.Enum</h4>
+
+<p>자바 enum 은 위 클래스를 상속하는 클래스이며, 사실상 위 Direction 의 코드는 컴파일 시 다음과 같다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Direction</span> <span class="kd">extends</span> <span class="nc">Enum</span><span class="o">&lt;</span><span class="nc">Direction</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Direction</span> <span class="no">NORTH</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Direction</span><span class="o">(</span><span class="s">"NORTH"</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Direction</span> <span class="no">SOUTH</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Direction</span><span class="o">(</span><span class="s">"SOUTH"</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Direction</span> <span class="no">EAST</span>  <span class="o">=</span> <span class="k">new</span> <span class="nc">Direction</span><span class="o">(</span><span class="s">"EAST"</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Direction</span> <span class="no">WEST</span>  <span class="o">=</span> <span class="k">new</span> <span class="nc">Direction</span><span class="o">(</span><span class="s">"WEST"</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+
+    <span class="kd">private</span> <span class="nf">Direction</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">ordinal</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">ordinal</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Direction</span><span class="o">[]</span> <span class="nf">values</span><span class="o">()</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span> <span class="c1">// 모든 enum 반환</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Direction</span> <span class="nf">valueOf</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span> <span class="c1">// 이름으로 검색</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="필드와-생성자">필드와 생성자</h4>
+
+<p>실제로 클래스이기 때문에 필드와 생성자 또한 정의 할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Season</span> <span class="o">{</span>
+    <span class="no">SPRING</span><span class="o">(</span><span class="s">"꽃이 피는 계절"</span><span class="o">),</span>
+    <span class="no">SUMMER</span><span class="o">(</span><span class="s">"더운 계절"</span><span class="o">),</span>
+    <span class="no">FALL</span><span class="o">(</span><span class="s">"단풍이 드는 계절"</span><span class="o">),</span>
+    <span class="no">WINTER</span><span class="o">(</span><span class="s">"눈이 오는 계절"</span><span class="o">);</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">description</span><span class="o">;</span>
+
+    <span class="nc">Season</span><span class="o">(</span><span class="nc">String</span> <span class="n">description</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// private 생성자</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">description</span> <span class="o">=</span> <span class="n">description</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">description</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>또한 아래와 같이 abstract 메서드로 오버라이딩도 가능하다. 즉, 각 상수가 서로 다른 동작을 가질 수 있는 다형성까지 가져갈 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Operation</span> <span class="o">{</span>
+    <span class="no">PLUS</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">apply</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">;</span> <span class="o">}</span>
+    <span class="o">},</span>
+    <span class="no">MINUS</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">int</span> <span class="nf">apply</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="o">;</span> <span class="o">}</span>
+    <span class="o">};</span>
+
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">int</span> <span class="nf">apply</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>상속이 된다면 interface 도 집어넣을 수 있게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Printable</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">print</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Color</span> <span class="kd">implements</span> <span class="nc">Printable</span> <span class="o">{</span>
+    <span class="no">RED</span><span class="o">,</span> <span class="no">GREEN</span><span class="o">,</span> <span class="no">BLUE</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">print</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Color: "</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">name</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<blockquote>
+  <p>Enum 은 보통 switch 가독성을 위해 쓰이게 된다.</p>
+</blockquote>
+
+<h4 id="주의점">주의점</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ordinal()</code> 사용 지양: 상수의 순서가 바뀌면 로직이 깨지며 대신 name 과 같은 별도의 필드를 사용한다.</li>
+  <li>직렬화 시 주의해야 한다. enum 은 싱글턴 보장이라 역직렬화해도 같은 인스턴스가 유지된다.</li>
+  <li>상속 불가 enum 은 상속이 안된다(public final class 이기 때문).</li>
+</ul>
+
+<blockquote>
+  <p>ordinal() 은 enum 내부에 구현되어 있는 것이고 로직에 직접 사용되지 않기 때문에 보지도 않을 것이다.</p>
+</blockquote>
+
+<h3 id="자주-사용하는-클래스">자주 사용하는 클래스</h3>
+
+<h4 id="stringbuffer-와-string-builder">StringBuffer 와 String Builder</h4>
+
+<p><strong>StringBuffer</strong></p>
+<ul>
+  <li>동기화를 지원함</li>
+  <li>성능이 느림</li>
+  <li>스레드 세이프</li>
+  <li>멀티 스레드 환경에서 사용하면 좋다.</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">Serializable</code> 이라는 인터페이스를 구현하지만 이는 메타데이터 용도로만 쓰이고</p>
+
+<p><strong>StringBuilder</strong></p>
+<ul>
+  <li>비동기</li>
+  <li>성능이 빠름</li>
+  <li>쓰레드 세이프하지 않음</li>
+  <li>단일 스레드 환경에서 사용하면 좋다.</li>
+</ul>
+
+<h4 id="string-builder-의-thread-unsafety-살펴보기">String Builder 의 thread unsafety 살펴보기</h4>
+
+<p>이번엔 StringBuilder 가 두 개의 쓰레드를 사용했을때 데이터 일관성을 가져가지 못하는 상황을 재현해보자.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kd">final</span> <span class="nc">StringBuilder</span> <span class="no">SB</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuilder</span><span class="o">();</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
+        <span class="nc">Runnable</span> <span class="n">run1</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1_000_000</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="no">SB</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"a"</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+        <span class="nc">Runnable</span> <span class="n">run2</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1_000_000</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="no">SB</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+
+        <span class="nc">Thread</span> <span class="n">t1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">run1</span><span class="o">);</span>
+        <span class="nc">Thread</span> <span class="n">t2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">run2</span><span class="o">);</span>
+
+
+        <span class="n">t1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">t2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+
+        <span class="n">t1</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+        <span class="n">t2</span><span class="o">.</span><span class="na">join</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="no">SB</span><span class="o">);</span>
+        <span class="kt">long</span> <span class="n">a</span> <span class="o">=</span> <span class="no">SB</span><span class="o">.</span><span class="na">chars</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">c</span> <span class="o">-&gt;</span> <span class="n">c</span> <span class="o">==</span> <span class="sc">'a'</span><span class="o">).</span><span class="na">count</span><span class="o">();</span>
+        <span class="kt">long</span> <span class="n">one</span> <span class="o">=</span> <span class="no">SB</span><span class="o">.</span><span class="na">chars</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">c</span> <span class="o">-&gt;</span> <span class="n">c</span> <span class="o">==</span> <span class="sc">'1'</span><span class="o">).</span><span class="na">count</span><span class="o">();</span>
+        <span class="kt">long</span> <span class="n">na</span> <span class="o">=</span> <span class="no">SB</span><span class="o">.</span><span class="na">chars</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">c</span> <span class="o">-&gt;</span> <span class="n">c</span> <span class="o">==</span> <span class="sc">'\0'</span><span class="o">).</span><span class="na">count</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">one</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">na</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">+</span><span class="n">one</span><span class="o">+</span><span class="n">na</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="no">SB</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="no">SB</span><span class="o">.</span><span class="na">capacity</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위를 출력해보면 a가 먼저 출력이 된 후에 1이 출력이 되어야 하는데, a와 1이 번갈아가면서 되어지기도 하고, 어쩔때는 null 값이 들어가버리기도 한다..</p>
+
+<p><img src="/seonghun120614/assets/img/stringbuilder-thread-unsafety.png" alt="stringbuilder-thread-unsafety" /></p>
+
+<p>이 이유는 <code class="language-plaintext highlighter-rouge">append</code> 작업이 원자적이지 않은 작업이기에 <code class="language-plaintext highlighter-rouge">StringBuffer</code> 자체가 a 혹은 1을 저장하려고 할 때, 할당된 String 메모리가 부족하면 이를 더 늘리는 작업을 하는데 이 늘리는 작업 때문에 실제 문자열의 길이와 할당된 메모리의 크기가 달라 null 이 생성되게 된다.</p>
+
+<p>또한 a와 1의 저장된 숫자도 다른 것을 알 수 있는데,</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">...
+1111111111111111111
+505014
+944207
+31755
+1480976
+1480976
+2359294</code></pre></figure>
+
+<p>와 같이 출력됨을 볼 수 있다. 이는 출력할 때마다 바뀔 것이다(전체 capacity 는 일정한 값으로 증가하기 때문에 맨 마지막 값은 왠만해서는 안바뀐다).</p>
+
+<p>따라서 Spring 은 multi-thread 를 우선 지원하기에 어떤 컴포넌트가 어떤 방식으로(단일, 다중) 요청을 넣는지 잘 살피고 맞는 구현을 하면 될 것이다.</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-9%EC%9D%BC%EC%B0%A8-%EC%97%B4%EA%B1%B0%ED%98%95-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%AC%B8%EC%9E%90%EC%97%B4-%ED%95%B8%EB%93%A4%EB%A7%81.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/08/27/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-9%EC%9D%BC%EC%B0%A8-%EC%97%B4%EA%B1%B0%ED%98%95-%ED%81%B4%EB%9E%98%EC%8A%A4-%EB%AC%B8%EC%9E%90%EC%97%B4-%ED%95%B8%EB%93%A4%EB%A7%81.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 45일차 Rest API</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 45일차 Rest API | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 45일차 Rest API" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/web/2025/10/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-45%EC%9D%BC%EC%B0%A8-rest-api.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/web/2025/10/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-45%EC%9D%BC%EC%B0%A8-rest-api.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-29T00:20:57+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 45일차 Rest API" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-10-29T00:20:57+00:00","datePublished":"2025-10-29T00:20:57+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 45일차 Rest API","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/web/2025/10/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-45%EC%9D%BC%EC%B0%A8-rest-api.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/web/2025/10/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-45%EC%9D%BC%EC%B0%A8-rest-api.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/web/2025/10/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-45%EC%9D%BC%EC%B0%A8-rest-api.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 45일차 Rest API</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Oct 29, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Web</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#rest-api">Rest API</a>
+    <ul>
+      <li><a href="#rest의-주요-원칙">REST의 주요 원칙</a></li>
+      <li><a href="#rest-controller">Rest Controller</a>
+        <ul>
+          <li><a href="#httpmessageconverter">HttpMessageConverter</a></li>
+        </ul>
+      </li>
+      <li><a href="#responseentity">ResponseEntity</a>
+        <ul>
+          <li><a href="#responseentity-builder">ResponseEntity Builder</a></li>
+          <li><a href="#responseentity-bodybuilder">ResponseEntity BodyBuilder</a></li>
+          <li><a href="#responseentity-응답-생성">ResponseEntity 응답 생성</a></li>
+        </ul>
+      </li>
+      <li><a href="#servleturicomponentsbuilder">ServletUriComponentsBuilder</a>
+        <ul>
+          <li><a href="#create-rest">CREATE REST</a></li>
+          <li><a href="#read-rest">READ REST</a></li>
+          <li><a href="#update-rest">UPDATE REST</a></li>
+          <li><a href="#delete-rest">DELETE REST</a></li>
+        </ul>
+      </li>
+      <li><a href="#spring-hateoas">Spring HATEOAS</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="rest-api">Rest API</h3>
+
+<p>웹 서비스의 한 형태로 <strong>Representational State Transfer (REST)</strong> 아키텍처 스타일을 따르도록 구성하는 API 를 써야 한다.</p>
+
+<h4 id="rest의-주요-원칙">REST의 주요 원칙</h4>
+
+<ol>
+  <li><strong>자원(Resource) 기반 설계</strong>
+    <ul>
+      <li>RESTful 서비스에서 모든 콘텐츠는 <strong>자원(Resource)</strong> 으로 표현된다.</li>
+      <li>각 자원은 <strong>URI(Uniform Resource Identifier)</strong> 로 식별된다.</li>
+      <li>예시: <code class="language-plaintext highlighter-rouge">/api/users/1</code> → id가 1인 사용자 자원</li>
+    </ul>
+  </li>
+  <li><strong>무상태(Stateless)</strong>
+    <ul>
+      <li>각 요청(Request)은 <strong>서버와 독립적으로 처리</strong>된다.</li>
+      <li>서버는 클라이언트의 상태를 저장하지 않으며, 모든 요청은 필요한 정보를 스스로 포함해야 한다.</li>
+      <li>이를 통해 <strong>서버 설계가 단순해지고</strong>, <strong>확장성(Scalability)</strong> 이 높아진다.</li>
+    </ul>
+  </li>
+  <li><strong>표준 HTTP 메서드 활용</strong>
+    <ul>
+      <li>자원에 대한 CRUD 동작을 HTTP 메서드로 명확히 표현한다.
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">GET</code>: 조회(Read)</li>
+          <li><code class="language-plaintext highlighter-rouge">POST</code>: 생성(Create), 멱등성 성질 X</li>
+          <li><code class="language-plaintext highlighter-rouge">PUT</code>: 수정(Update)</li>
+          <li><code class="language-plaintext highlighter-rouge">PATCH</code>: 부분 수정</li>
+          <li><code class="language-plaintext highlighter-rouge">DELETE</code>: 삭제(Delete)</li>
+        </ul>
+      </li>
+      <li>이를 통해 <strong>API가 직관적이고 일관성 있게 설계</strong>된다.</li>
+    </ul>
+  </li>
+</ol>
+
+<blockquote>
+  <p>멱등성은 동일 요청을 보내면 서버의 상태를 동일하게 유지하냐이다.</p>
+</blockquote>
+
+<ol>
+  <li><strong>다양한 표현(Representation)</strong>
+    <ul>
+      <li>자원은 <strong>JSON</strong>, <strong>XML</strong> 등 다양한 형태로 표현될 수 있다.</li>
+      <li>클라이언트의 <code class="language-plaintext highlighter-rouge">Accept</code> 헤더에 따라 서버는 <strong>가장 적절한 데이터 형식</strong>으로 응답한다.</li>
+    </ul>
+  </li>
+  <li><strong>연결성(Connectivity) &amp; HATEOAS</strong>
+    <ul>
+      <li>자원들은 <strong>하이퍼링크(Hyperlink)</strong> 를 통해 서로 연결될 수 있다.</li>
+      <li><strong>HATEOAS(Hypermedia As The Engine Of Application State)</strong> 를 통해 클라이언트는 API 응답 내 링크를 따라가며<br />
+추가적인 자원에 접근할 수 있다.</li>
+    </ul>
+  </li>
+</ol>
+
+<h4 id="rest-controller">Rest Controller</h4>
+
+<p><code class="language-plaintext highlighter-rouge">@Controller</code> + <code class="language-plaintext highlighter-rouge">@ResponseBody</code> 어노테이션의 결합이며, <code class="language-plaintext highlighter-rouge">viewname</code> 을 반환하는 부분이 데이터(JSON/XML) 를 직접 응답으로 보내는 컨트롤러를 의미한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/users"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserController</span> <span class="o">{</span>
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">User</span> <span class="nf">getUser</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">User</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="s">"홍길동"</span><span class="o">,</span> <span class="s">"hong@example.com"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이전에 <code class="language-plaintext highlighter-rouge">Controller</code> 어노테이션은 <code class="language-plaintext highlighter-rouge">viewname</code> 을 반환하고, model 에 데이터를 넣어주는 역할을 하지만, 여기서는 <code class="language-plaintext highlighter-rouge">Model</code> 이 안쓰이기 때문에 전달하지 않고 데이터를 그대로 <code class="language-plaintext highlighter-rouge">HandlerAdapter</code> 에 전달한다.</p>
+
+<h5 id="httpmessageconverter">HttpMessageConverter</h5>
+
+<p>데이터를 전달할 때 위처럼 객체를 전달함을 볼 수 있는데, 우선 반환값으로는 다음을 전달할 수 있다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">String</code></li>
+  <li><code class="language-plaintext highlighter-rouge">DTO</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ResponseEntity&lt;?&gt;</code></li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">@RestController</code> 는 객체를 반환하면 뷰를 렌더링하지 않고,
+<code class="language-plaintext highlighter-rouge">HttpMessageConverter</code> 가 그 객체를 <code class="language-plaintext highlighter-rouge">JSON</code> 또는 <code class="language-plaintext highlighter-rouge">XML</code> 형식으로 변환하여 HTTP 응답 본문(Response Body) 에 직접 기록한다.</p>
+
+<p>즉, <code class="language-plaintext highlighter-rouge">HandlerAdapter</code> 가 컨트롤러 메서드를 실행한 뒤 반환값을 전달하면, <code class="language-plaintext highlighter-rouge">HttpMessageConverter</code> 가 해당 객체 타입과 <code class="language-plaintext highlighter-rouge">Accept</code> 헤더를 참고하여 적절한 변환기(<code class="language-plaintext highlighter-rouge">MappingJackson2HttpMessageConverter</code>)를 선택하고 직렬화(JSON 변환)를 수행 후 반환시키게 된다.</p>
+
+<p><strong>변환기 구현체</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">MappingJackson2HttpMessageConverter</code>: JSON 변환</li>
+  <li><code class="language-plaintext highlighter-rouge">Jaxb2RootElementHttpMessageConverter</code>: XML 변환</li>
+  <li><code class="language-plaintext highlighter-rouge">StringHttpMessageConverter</code>: 문자열 처리</li>
+</ul>
+
+<h4 id="responseentity">ResponseEntity</h4>
+
+<p>HTTP 응답을 객체의 형태로 추상화한 클래스이다. Spring MVC 에서 <code class="language-plaintext highlighter-rouge">@RestController</code> 나 <code class="language-plaintext highlighter-rouge">@Controller</code>(<code class="language-plaintext highlighter-rouge">@ResponseBody</code> 어노테이션을 함수에 붙여야 함) 에서 사용가능하며, HTTP 스펙 까지 세밀하게 제어가 가능하다.</p>
+
+<p>넣을 수 있는 정보는 다음과 같다:</p>
+<ul>
+  <li>
+    <p>Body</p>
+  </li>
+  <li>Headers
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Content-Type</code></li>
+      <li><code class="language-plaintext highlighter-rouge">Location</code></li>
+      <li><code class="language-plaintext highlighter-rouge">Authorization</code></li>
+    </ul>
+  </li>
+  <li>Status Code
+    <ul>
+      <li>200</li>
+      <li>201</li>
+      <li>404</li>
+      <li>…</li>
+    </ul>
+  </li>
+</ul>
+
+<p>메서드들을 파헤쳐 본다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nf">ResponseEntity</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="no">T</span> <span class="n">body</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="nc">MultiValueMap</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">headers</span><span class="o">,</span> <span class="kt">int</span> <span class="n">rawStatus</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">(</span><span class="n">body</span><span class="o">,</span> <span class="n">headers</span><span class="o">,</span> <span class="nc">HttpStatusCode</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">rawStatus</span><span class="o">));</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+    * Create a {@code ResponseEntity} with a body, headers, and a status code.
+    * @param body the entity body
+    * @param headers the entity headers
+    * @param statusCode the status code
+    */</span>
+<span class="kd">public</span> <span class="nf">ResponseEntity</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="no">T</span> <span class="n">body</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="nc">MultiValueMap</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">headers</span><span class="o">,</span> <span class="nc">HttpStatusCode</span> <span class="n">statusCode</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span><span class="n">body</span><span class="o">,</span> <span class="n">headers</span><span class="o">);</span>
+    <span class="nc">Assert</span><span class="o">.</span><span class="na">notNull</span><span class="o">(</span><span class="n">statusCode</span><span class="o">,</span> <span class="s">"HttpStatusCode must not be null"</span><span class="o">);</span>
+
+    <span class="k">this</span><span class="o">.</span><span class="na">status</span> <span class="o">=</span> <span class="n">statusCode</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위가 완전체의 생성자이다. <code class="language-plaintext highlighter-rouge">body</code>, <code class="language-plaintext highlighter-rouge">headers</code>, <code class="language-plaintext highlighter-rouge">statusCode</code> 순으로 넣을 수 있으며, headers 에는 <code class="language-plaintext highlighter-rouge">MultiValueMap</code> 이 들어가는 것을 볼 수 있다. <code class="language-plaintext highlighter-rouge">ResponseEntity</code> 는 위 생성자 외에도 이를 builder 패턴으로 만드는 것도 허용한다. 따라서 정적 Builder 메서드들을 보자.</p>
+
+<h5 id="responseentity-builder">ResponseEntity Builder</h5>
+
+<p>우선 가장 기본적으로 <code class="language-plaintext highlighter-rouge">ResponseEntity.status()</code> 로 먼저 틀을 잡는다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="nc">BodyBuilder</span> <span class="nf">status</span><span class="o">(</span><span class="nc">HttpStatusCode</span> <span class="n">status</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Assert</span><span class="o">.</span><span class="na">notNull</span><span class="o">(</span><span class="n">status</span><span class="o">,</span> <span class="s">"HttpStatusCode must not be null"</span><span class="o">);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">DefaultBuilder</span><span class="o">(</span><span class="n">status</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>내부적으로는 위와 같이 되어 있으며, status 가 null 이라면 당연히 예외가 발생하도록 설계되어 있다. 마지막으로는 <code class="language-plaintext highlighter-rouge">DefaultBuilder</code>를 생성하면서 리턴하고 있다. <code class="language-plaintext highlighter-rouge">DefaultBuilder</code> 는 private static 의 nested class 로 구성하여서 우리가 굳이 볼 필요는 없지만, <code class="language-plaintext highlighter-rouge">ResponseEntity.BodyBuilder</code> 인터페이스를 구현하는 것을 볼 수 있다. 이를 잠깐 살펴보자.</p>
+
+<h5 id="responseentity-bodybuilder">ResponseEntity BodyBuilder</h5>
+
+<p><strong>필드</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">HttpStatusCode</code></li>
+  <li><code class="language-plaintext highlighter-rouge">HttpHeaders</code></li>
+</ul>
+
+<p><strong>생성자</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">int statusCode</code></li>
+  <li><code class="language-plaintext highlighter-rouge">HttpStatusCode statusCode</code></li>
+</ul>
+
+<p><strong>관련 메서드</strong></p>
+
+<p>메서드는 전부 Builder 패턴이기에 method chaining 이 가능하다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">header</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">String</span><span class="o">...</span> <span class="n">values</span><span class="o">)</span>        <span class="c1">// 단일/복수 헤더 추가</span>
+<span class="n">headers</span><span class="o">(</span><span class="nc">HttpHeaders</span> <span class="n">headers</span><span class="o">)</span>                <span class="c1">// HttpHeaders 전체 복사</span>
+<span class="n">headers</span><span class="o">(</span><span class="nc">Consumer</span><span class="o">&lt;</span><span class="nc">HttpHeaders</span><span class="o">&gt;</span> <span class="n">consumer</span><span class="o">)</span>     <span class="c1">// 람다로 헤더 커스터마이징</span>
+
+<span class="n">allow</span><span class="o">(</span><span class="nc">HttpMethod</span><span class="o">...</span> <span class="n">methods</span><span class="o">)</span>        <span class="c1">// Allow 헤더 설정</span>
+<span class="n">contentLength</span><span class="o">(</span><span class="kt">long</span> <span class="n">length</span><span class="o">)</span>          <span class="c1">// Content-Length</span>
+<span class="n">contentType</span><span class="o">(</span><span class="nc">MediaType</span> <span class="n">type</span><span class="o">)</span>         <span class="c1">// Content-Type</span>
+<span class="n">eTag</span><span class="o">(</span><span class="nc">String</span> <span class="n">tag</span><span class="o">)</span>                    <span class="c1">// ETag</span>
+<span class="n">lastModified</span><span class="o">(</span><span class="nc">ZonedDateTime</span><span class="o">/</span><span class="nc">Instant</span><span class="o">/</span><span class="kt">long</span><span class="o">)</span> <span class="c1">// Last-Modified</span>
+<span class="n">location</span><span class="o">(</span><span class="no">URI</span> <span class="n">location</span><span class="o">)</span>              <span class="c1">// Location 헤더</span>
+<span class="n">cacheControl</span><span class="o">(</span><span class="nc">CacheControl</span> <span class="n">cache</span><span class="o">)</span>    <span class="c1">// Cache-Control</span>
+<span class="n">varyBy</span><span class="o">(</span><span class="nc">String</span><span class="o">...</span> <span class="n">headers</span><span class="o">)</span>           <span class="c1">// Vary 헤더</span></code></pre></figure>
+
+<p>최종 생성 <code class="language-plaintext highlighter-rouge">ResponseEntity</code> 로 반환하는 메서드는 다음과 같다:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">body</span><span class="o">(</span><span class="no">T</span> <span class="n">body</span><span class="o">)</span>  <span class="c1">// 실제 body 포함하여 생성</span>
+<span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="nf">build</span><span class="o">()</span>       <span class="c1">// body 없이 ResponseEntity 생성</span></code></pre></figure>
+
+<p>위를 토대로 <code class="language-plaintext highlighter-rouge">ResponseEntity</code> 는 <code class="language-plaintext highlighter-rouge">HTTP</code> 상태코드와 함께 <code class="language-plaintext highlighter-rouge">ResponseEntity</code> 를 쉽게 생성할 수 있게 된다.</p>
+
+<h5 id="responseentity-응답-생성">ResponseEntity 응답 생성</h5>
+
+<p><strong>Status 200</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ok()</code>: 상태 코드 <code class="language-plaintext highlighter-rouge">200 OK</code> 로 <code class="language-plaintext highlighter-rouge">BodyBuilder</code> 생성</li>
+  <li><code class="language-plaintext highlighter-rouge">ok(T body)</code>: 상태 코드 <code class="language-plaintext highlighter-rouge">200 OK</code> 와 <code class="language-plaintext highlighter-rouge">body</code> 를 포함한 <code class="language-plaintext highlighter-rouge">ResponseEntity</code> 생성</li>
+  <li><code class="language-plaintext highlighter-rouge">of(Optional&lt;T&gt; body)</code>: <code class="language-plaintext highlighter-rouge">Optional</code> 값이 있으면 <code class="language-plaintext highlighter-rouge">200 OK</code> + <code class="language-plaintext highlighter-rouge">body</code>, 비어있으면 <code class="language-plaintext highlighter-rouge">404 Not Found</code></li>
+  <li><code class="language-plaintext highlighter-rouge">ofNullable(T body)</code>: <code class="language-plaintext highlighter-rouge">null</code> 이면 <code class="language-plaintext highlighter-rouge">404 Not Found</code>, <code class="language-plaintext highlighter-rouge">null</code> 이 아니면 <code class="language-plaintext highlighter-rouge">200 OK</code> + <code class="language-plaintext highlighter-rouge">body</code></li>
+</ul>
+
+<p><strong>Status 201 created</strong></p>
+
+<p>반드시 생성된 자원의 위치를 헤더로 알려줘야 한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">created(URI location)</code>: <code class="language-plaintext highlighter-rouge">201 Created</code> 상태 + <code class="language-plaintext highlighter-rouge">Location</code> 헤더 설정 주로 <code class="language-plaintext highlighter-rouge">POST</code> 에서 새 리소스 생성 시 사용</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="no">URI</span> <span class="n">location</span> <span class="o">=</span> <span class="nc">ServletUriComponentsBuilder</span>
+    <span class="o">.</span><span class="na">fromCurrentRequest</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">path</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">buildAndExpand</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">toUri</span><span class="o">();</span>
+
+<span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">created</span><span class="o">(</span><span class="n">location</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">body</span><span class="o">(</span><span class="n">memo</span><span class="o">);</span></code></pre></figure>
+
+<p><strong>기타 상태 코드 빌더</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">accepted()</code> → 202 Accepted</li>
+  <li><code class="language-plaintext highlighter-rouge">noContent()</code> → 204 No Content</li>
+  <li><code class="language-plaintext highlighter-rouge">badRequest()</code> → 400 Bad Request</li>
+  <li><code class="language-plaintext highlighter-rouge">notFound()</code> → 404 Not Found</li>
+  <li><code class="language-plaintext highlighter-rouge">unprocessableEntity()</code> → 422 Unprocessable Entity</li>
+  <li><code class="language-plaintext highlighter-rouge">internalServerError()</code> → 500 Internal Server Error</li>
+</ul>
+
+<p>이제 위를 이용하여 CRUD 전부를 만들어보자.</p>
+
+<h4 id="servleturicomponentsbuilder">ServletUriComponentsBuilder</h4>
+
+<p><code class="language-plaintext highlighter-rouge">HTTP</code> 요청을 기반으로 URI 를 편리하게 생성할 때 사용할 수 있는 유틸리티 클래스이며, 주로 REST API 에서 새 리소스 생성(CREATED) 후에 <code class="language-plaintext highlighter-rouge">Location</code> 헤더 설정에 많이 쓰이게 된다.</p>
+
+<p><strong>요청 설정</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">fromCurrentRequest()</code>: 현재 요청 URI 를 기준으로 Builder 생성</li>
+  <li><code class="language-plaintext highlighter-rouge">fromCurrentContextPath()</code>: 컨텍스트 루트 기준</li>
+  <li><code class="language-plaintext highlighter-rouge">fromServletMapping()</code>: 서블릿 매핑 기준</li>
+</ul>
+
+<p><strong>Path 변수/쿼리 추가</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">path("/subpath")</code>: URI 뒤에 경로 추가</li>
+  <li><code class="language-plaintext highlighter-rouge">queryParm("page", 1)</code>: 쿼리 파라미터 추가</li>
+</ul>
+
+<p><strong>URI 객체 생성</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">buildAndExpand(Object... uriVariables)</code>: <code class="language-plaintext highlighter-rouge">{id}</code> 같은 Path 변수 치환</li>
+  <li><code class="language-plaintext highlighter-rouge">toUri()</code>: <code class="language-plaintext highlighter-rouge">java.net.URI</code> 객체 반환</li>
+</ul>
+
+<h5 id="create-rest">CREATE REST</h5>
+
+<p>201 상태 코드를 가지며, <code class="language-plaintext highlighter-rouge">ResponseEntity.created()</code> 함수로 간단히 세팅할 수 있다. 상태코드만 세팅 되기 때문에 <code class="language-plaintext highlighter-rouge">body</code> 와 <code class="language-plaintext highlighter-rouge">header</code> 는 자유롭게 넣어주어야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@PostMapping</span><span class="o">(</span><span class="n">consumes</span> <span class="o">=</span> <span class="s">"text/plain"</span><span class="o">,</span>
+             <span class="n">produces</span> <span class="o">=</span> <span class="s">"application/json"</span><span class="o">)</span>
+<span class="nd">@Transactional</span>
+<span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;</span> <span class="nf">createMemo</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="nc">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">content</span><span class="o">.</span><span class="na">isBlank</span><span class="o">())</span>
+        <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="nc">HttpStatus</span><span class="o">.</span><span class="na">BAD_REQUEST</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+    <span class="kt">long</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">memos</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+    <span class="kt">var</span> <span class="n">memo</span> <span class="o">=</span> <span class="n">memos</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">idx</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Memo</span><span class="o">(</span><span class="n">idx</span><span class="o">,</span> <span class="n">content</span><span class="o">));</span>
+
+    <span class="no">URI</span> <span class="n">location</span> <span class="o">=</span> <span class="nc">ServletUriComponentsBuilder</span><span class="o">.</span><span class="na">fromCurrentRequest</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">path</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">buildAndExpand</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="n">idx</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">toUri</span><span class="o">();</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">created</span><span class="o">(</span><span class="n">location</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">body</span><span class="o">(</span><span class="n">memo</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">PostMapping</code> 에는 들어올 <code class="language-plaintext highlighter-rouge">content-type</code> 을 지정해주어야 <code class="language-plaintext highlighter-rouge">String</code> 으로 알맞게 mapping 이 될 수 있겠다. 만약 <code class="language-plaintext highlighter-rouge">application/json</code> 으로 받으려면 DTO 를 따로 정의해주고 Body 에는 구조적 데이터 형태를 지키면서 요청을 보내야 한다.</p>
+
+<blockquote>
+  <p>location 을 넣음으로써 self-descriptive 성질을 충족한다고 볼 수 있다.<br />
+create 에는 RESTful 을 위해 이렇게 자기 설명을 해주는 헤더가 필요하고,<br />
+이를 통해 새로 생성된 리소스의 URI 가 어디있는지 알려주어야 한다.</p>
+</blockquote>
+
+<h5 id="read-rest">READ REST</h5>
+
+<p><strong>Mutiple READ</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span><span class="o">(</span><span class="n">produces</span> <span class="o">=</span> <span class="s">"application/json"</span><span class="o">)</span>
+<span class="nd">@Transactional</span><span class="o">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;&gt;</span> <span class="nf">getMemos</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;</span> <span class="n">lst</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">memos</span><span class="o">.</span><span class="na">values</span><span class="o">().</span><span class="na">toArray</span><span class="o">(</span><span class="k">new</span> <span class="nc">Memo</span><span class="o">[</span><span class="mi">0</span><span class="o">]));</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">"X-Total-Count"</span><span class="o">,</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">lst</span><span class="o">.</span><span class="na">size</span><span class="o">()))</span>
+            <span class="o">.</span><span class="na">body</span><span class="o">(</span><span class="n">lst</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>Single READ</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">"/{id}"</span><span class="o">,</span>
+            <span class="n">produces</span> <span class="o">=</span> <span class="s">"application/json"</span><span class="o">)</span>
+<span class="nd">@Transactional</span><span class="o">(</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;</span> <span class="nf">getMemos</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">id</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="o">!</span><span class="n">memos</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">id</span><span class="o">))</span>
+        <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="nc">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">)</span>
+                                <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+                                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">header</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+                            <span class="o">.</span><span class="na">body</span><span class="o">(</span><span class="n">memos</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">id</span><span class="o">));</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="update-rest">UPDATE REST</h5>
+
+<p>업데이트는 좀 복잡하다. create + read 의 구현을 좀 가져와서 사용하면 되겠다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@PutMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">"/{id}"</span><span class="o">,</span>
+            <span class="n">consumes</span> <span class="o">=</span> <span class="s">"text/plain"</span><span class="o">,</span>
+            <span class="n">produces</span> <span class="o">=</span> <span class="s">"application/json"</span><span class="o">)</span>
+<span class="nd">@Transactional</span>
+<span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;</span> <span class="nf">updateMemo</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">,</span>
+                                        <span class="nd">@RequestBody</span> <span class="nc">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">id</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">content</span><span class="o">.</span><span class="na">isBlank</span><span class="o">()</span> <span class="o">||</span> <span class="o">!</span><span class="n">memos</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">id</span><span class="o">))</span>
+        <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="nc">HttpStatus</span><span class="o">.</span><span class="na">BAD_REQUEST</span><span class="o">)</span>
+                             <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+                             <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+    <span class="kt">var</span> <span class="n">memo</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Memo</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">content</span><span class="o">);</span>
+    <span class="n">memos</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">memo</span><span class="o">);</span>
+
+    <span class="no">URI</span> <span class="n">location</span> <span class="o">=</span> <span class="nc">ServletUriComponentsBuilder</span><span class="o">.</span><span class="na">fromCurrentRequest</span><span class="o">()</span>
+                                              <span class="o">.</span><span class="na">path</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+                                              <span class="o">.</span><span class="na">buildAndExpand</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="n">id</span><span class="o">)</span>
+                                              <span class="o">.</span><span class="na">toUri</span><span class="o">();</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">()</span>
+                         <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+                         <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">"Location"</span><span class="o">,</span> <span class="n">location</span><span class="o">.</span><span class="na">toString</span><span class="o">())</span>
+                         <span class="o">.</span><span class="na">body</span><span class="o">(</span><span class="n">memo</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="delete-rest">DELETE REST</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@DeleteMapping</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">"/{id}"</span><span class="o">)</span>
+<span class="nd">@Transactional</span>
+<span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;?&gt;</span> <span class="n">deleteMemo</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">id</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="o">!</span><span class="n">memos</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">id</span><span class="o">))</span>
+        <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="nc">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">)</span>
+                                <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">)</span>
+                                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+    <span class="n">memos</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">noContent</span><span class="o">().</span><span class="na">build</span><span class="o">();</span> <span class="c1">// 204 Status</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이렇게 하면 REST 의 제약조건들을 대부분 만족하지만 <strong>HATEOAS</strong> 가 없게 된다.</p>
+
+<h4 id="spring-hateoas">Spring HATEOAS</h4>
+
+<p>스프링에서는 REST 를 지키기 위해 <code class="language-plaintext highlighter-rouge">Spring HATEOAS</code> 를 제공한다. 이는 REST 원칙을 엄격하게 지키기 위함이며, 단순한 DTO 나 객체 반환만으로는 링크 정보 제공이 불가하기 때문에 <code class="language-plaintext highlighter-rouge">Spring HATEOAS</code> 에서 제공해주는 <code class="language-plaintext highlighter-rouge">EntityModel</code> 으로 한 번 더 감싸서 반환시켜주는게 원칙이다.</p>
+
+<figure class="highlight"><pre><code class="language-gradle" data-lang="gradle"><span class="n">implementation</span> <span class="s1">'org.springframework.boot:spring-boot-starter-hateoas'</span></code></pre></figure>
+
+<p>위를 추가하면 다음이 자동으로 추가된다:</p>
+<ul>
+  <li>spring-hateoas</li>
+  <li>spring-web</li>
+  <li>spring-context</li>
+  <li>Jackson 모듈</li>
+</ul>
+
+<p><strong>데이터</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">Memo</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">content</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">LocalDateTime</span> <span class="n">createdAt</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">LocalDateTime</span> <span class="n">updatedAt</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Memo</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">,</span> <span class="nc">String</span> <span class="n">content</span><span class="o">,</span> <span class="nc">LocalDateTime</span> <span class="n">createdAt</span><span class="o">,</span> <span class="nc">LocalDateTime</span> <span class="n">updatedAt</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">createdAt</span> <span class="o">=</span> <span class="n">createdAt</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">updatedAt</span> <span class="o">=</span> <span class="n">updatedAt</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">// getters and setters</span>
+    <span class="kd">public</span> <span class="nc">Long</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">id</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getContent</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">content</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setContent</span><span class="o">(</span><span class="nc">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="nc">LocalDateTime</span> <span class="nf">getCreatedAt</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">createdAt</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="nc">LocalDateTime</span> <span class="nf">getUpdatedAt</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">updatedAt</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUpdatedAt</span><span class="o">(</span><span class="nc">LocalDateTime</span> <span class="n">updatedAt</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">updatedAt</span> <span class="o">=</span> <span class="n">updatedAt</span><span class="o">;</span> <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">MemoRequest</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">content</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getContent</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">content</span><span class="o">;</span> <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setContent</span><span class="o">(</span><span class="nc">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span> <span class="k">this</span><span class="o">.</span><span class="na">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">;</span> <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>위를 토대로 작성해보자.</p>
+
+<p><strong>CREATE</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@PostMapping</span>
+<span class="nd">@Transactional</span>
+<span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">EntityModel</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;&gt;</span> <span class="nf">createMemo</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="nc">MemoRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// 새 메모 생성</span>
+    <span class="kt">long</span> <span class="n">id</span> <span class="o">=</span> <span class="n">memos</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+    <span class="nc">Memo</span> <span class="n">memo</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Memo</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">request</span><span class="o">.</span><span class="na">getContent</span><span class="o">(),</span> <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">(),</span> <span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">());</span>
+    <span class="n">memos</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">memo</span><span class="o">);</span>
+
+    <span class="c1">// HATEOAS 링크 생성</span>
+    <span class="nc">EntityModel</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;</span> <span class="n">resource</span> <span class="o">=</span> <span class="nc">EntityModel</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">memo</span><span class="o">);</span>
+    <span class="n">resource</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span>
+            <span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">methodOn</span><span class="o">(</span><span class="nc">MemoController</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">getMemo</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+    <span class="o">).</span><span class="na">withSelfRel</span><span class="o">());</span>
+    <span class="n">resource</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span>
+            <span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">methodOn</span><span class="o">(</span><span class="nc">MemoController</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">updateMemo</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="kc">null</span><span class="o">)</span>
+    <span class="o">).</span><span class="na">withRel</span><span class="o">(</span><span class="s">"update"</span><span class="o">));</span>
+    <span class="n">resource</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span>
+            <span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">methodOn</span><span class="o">(</span><span class="nc">MemoController</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">deleteMemo</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+    <span class="o">).</span><span class="na">withRel</span><span class="o">(</span><span class="s">"delete"</span><span class="o">));</span>
+
+    <span class="c1">// HTTP 201 Created와 Location 헤더 반환</span>
+    <span class="no">URI</span> <span class="n">location</span> <span class="o">=</span> <span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span>
+            <span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">methodOn</span><span class="o">(</span><span class="nc">MemoController</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">getMemo</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+    <span class="o">).</span><span class="na">toUri</span><span class="o">();</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">created</span><span class="o">(</span><span class="n">location</span><span class="o">).</span><span class="na">body</span><span class="o">(</span><span class="n">resource</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>READ 단건</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">EntityModel</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;&gt;</span> <span class="nf">getUser</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">userService</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">user</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">notFound</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+
+    <span class="nc">EntityModel</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">resource</span> <span class="o">=</span> <span class="nc">EntityModel</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+    <span class="n">resource</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span>
+        <span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">methodOn</span><span class="o">(</span><span class="nc">UserController</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">getUser</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+    <span class="o">).</span><span class="na">withSelfRel</span><span class="o">());</span>
+    <span class="n">resource</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span>
+        <span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">methodOn</span><span class="o">(</span><span class="nc">UserController</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">updateUser</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="kc">null</span><span class="o">)</span>
+    <span class="o">).</span><span class="na">withRel</span><span class="o">(</span><span class="s">"update"</span><span class="o">));</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">resource</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>READ 다건</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GetMapping</span>
+<span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">EntityModel</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;&gt;&gt;</span> <span class="nf">getAllMemos</span><span class="o">(</span>
+        <span class="nd">@RequestParam</span><span class="o">(</span><span class="n">defaultValue</span> <span class="o">=</span> <span class="s">"0"</span><span class="o">)</span> <span class="kt">int</span> <span class="n">page</span><span class="o">,</span>
+        <span class="nd">@RequestParam</span><span class="o">(</span><span class="n">defaultValue</span> <span class="o">=</span> <span class="s">"10"</span><span class="o">)</span> <span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;</span> <span class="n">allMemos</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">memos</span><span class="o">.</span><span class="na">values</span><span class="o">());</span>
+    <span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="n">size</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">start</span> <span class="o">+</span> <span class="n">size</span><span class="o">,</span> <span class="n">allMemos</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;</span> <span class="n">pagedMemos</span> <span class="o">=</span> <span class="n">allMemos</span><span class="o">.</span><span class="na">subList</span><span class="o">(</span><span class="n">start</span><span class="o">,</span> <span class="n">end</span><span class="o">);</span>
+
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">EntityModel</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;&gt;</span> <span class="n">resources</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="k">for</span> <span class="o">(</span><span class="nc">Memo</span> <span class="n">memo</span> <span class="o">:</span> <span class="n">pagedMemos</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">EntityModel</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;</span> <span class="n">resource</span> <span class="o">=</span> <span class="nc">EntityModel</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">memo</span><span class="o">);</span>
+        <span class="n">resource</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span>
+                <span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">methodOn</span><span class="o">(</span><span class="nc">MemoController</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">getMemo</span><span class="o">(</span><span class="n">memo</span><span class="o">.</span><span class="na">getId</span><span class="o">())</span>
+        <span class="o">).</span><span class="na">withSelfRel</span><span class="o">());</span>
+        <span class="n">resources</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">resource</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">"X-Total-Count"</span><span class="o">,</span> <span class="nc">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">allMemos</span><span class="o">.</span><span class="na">size</span><span class="o">()))</span>
+            <span class="o">.</span><span class="na">body</span><span class="o">(</span><span class="n">resources</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>UPDATE</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@PutMapping</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">EntityModel</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;&gt;</span> <span class="nf">updateMemo</span><span class="o">(</span>
+        <span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">,</span>
+        <span class="nd">@RequestBody</span> <span class="nc">MemoRequest</span> <span class="n">request</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="nc">Memo</span> <span class="n">memo</span> <span class="o">=</span> <span class="n">memos</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">memo</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">notFound</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+
+    <span class="n">memo</span><span class="o">.</span><span class="na">setContent</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getContent</span><span class="o">());</span>
+    <span class="n">memo</span><span class="o">.</span><span class="na">setUpdatedAt</span><span class="o">(</span><span class="nc">LocalDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">());</span>
+
+    <span class="nc">EntityModel</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;</span> <span class="n">resource</span> <span class="o">=</span> <span class="nc">EntityModel</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">memo</span><span class="o">);</span>
+    <span class="n">resource</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span>
+            <span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">methodOn</span><span class="o">(</span><span class="nc">MemoController</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">getMemo</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+    <span class="o">).</span><span class="na">withSelfRel</span><span class="o">());</span>
+    <span class="n">resource</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span>
+            <span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">methodOn</span><span class="o">(</span><span class="nc">MemoController</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">deleteMemo</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+    <span class="o">).</span><span class="na">withRel</span><span class="o">(</span><span class="s">"delete"</span><span class="o">));</span>
+
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">resource</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>DELETE</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@DeleteMapping</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">ResponseEntity</span><span class="o">&lt;</span><span class="nc">Void</span><span class="o">&gt;</span> <span class="nf">deleteMemo</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Memo</span> <span class="n">removed</span> <span class="o">=</span> <span class="n">memos</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">removed</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">notFound</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+    <span class="k">return</span> <span class="nc">ResponseEntity</span><span class="o">.</span><span class="na">noContent</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>코드가 너무 많아서 AI 도움을 받아서 정확한 부분은 아직 검증은 못했다.<br />
+하지만 다음 메서드를 통해 보일러플레이트 코드를 조금 줄일 수 있을 것이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="nc">EntityModel</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;</span> <span class="nf">wrapping</span><span class="o">(</span><span class="nc">Memo</span> <span class="n">memo</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">EntityModel</span><span class="o">&lt;</span><span class="nc">Memo</span><span class="o">&gt;</span> <span class="n">resource</span> <span class="o">=</span> <span class="nc">EntityModel</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">memo</span><span class="o">);</span>
+
+    <span class="kt">var</span> <span class="n">memoCtrl</span> <span class="o">=</span> <span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">methodOn</span><span class="o">(</span><span class="nc">MemoController</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+    <span class="n">resource</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span><span class="n">memoCtrl</span><span class="o">.</span><span class="na">getMemo</span><span class="o">(</span><span class="n">memo</span><span class="o">.</span><span class="na">id</span><span class="o">())).</span><span class="na">withSelfRel</span><span class="o">());</span>
+    <span class="n">resource</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span><span class="n">memoCtrl</span><span class="o">.</span><span class="na">updateMemo</span><span class="o">(</span><span class="n">memo</span><span class="o">.</span><span class="na">id</span><span class="o">(),</span> <span class="kc">null</span><span class="o">)).</span><span class="na">withSelfRel</span><span class="o">());</span>
+    <span class="n">resource</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span><span class="n">memoCtrl</span><span class="o">.</span><span class="na">deleteMemo</span><span class="o">(</span><span class="n">memo</span><span class="o">.</span><span class="na">id</span><span class="o">())).</span><span class="na">withSelfRel</span><span class="o">());</span>
+    <span class="n">resource</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">WebMvcLinkBuilder</span><span class="o">.</span><span class="na">linkTo</span><span class="o">(</span><span class="n">memoCtrl</span><span class="o">.</span><span class="na">getMemos</span><span class="o">()).</span><span class="na">withSelfRel</span><span class="o">());</span>
+    <span class="k">return</span> <span class="n">resource</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="http-헤더">HTTP 헤더</h4>
+
+<p>헤더에는 다양한 값을 넣을 수 있는데:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Cache-Control</code>: 클라이언트 / 중간 프록시가 캐싱할 수 있는지, 얼마나 오래 캐시할지 지정</li>
+  <li><code class="language-plaintext highlighter-rouge">ETag</code>: 리소스의 고유 식별자(보통 해시값), 변경 시 새 값으로 갱신</li>
+  <li><code class="language-plaintext highlighter-rouge">Last-Modified</code>: 리소스 최종 수정 시각</li>
+  <li><code class="language-plaintext highlighter-rouge">Expires</code>: 캐시 만료 기간</li>
+</ul>
+
+<h5 id="cache-관련-헤더">Cache 관련 헤더</h5>
+
+<p>HTTP는 리소스를 효율적으로 전송하기 위해 캐싱(Caching) 메커니즘을 제공한다. 이를 제어하는 핵심 수단은 HTTP 헤더(Header) 이며, 서버와 클라이언트가 리소스의 유효성, 만료 시점, 재검증 정책 등을 협의할 수 있다.</p>
+
+<p><strong>Cache-Control</strong></p>
+
+<p>캐시 정책을 가장 세밀하게 제어할 수 있는 핵심 헤더로써, HTTP/1.1 이후의 모든 캐싱 로직은 이 헤더를 기준으로 동작한다.</p>
+
+<blockquote>
+  <p>Cache-Control: <directive1>, <directive2>=<value>, ...</value></directive2></directive1></p>
+</blockquote>
+
+<p>디렉티브라는게 있는데, 디렉티브에는 다음 내용들이 들어갈 수 있다.</p>
+
+<p><strong>캐싱 가능 여부</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">no-store</code>: 요청/응답 모두 캐시에 저장하지 않음</li>
+  <li><code class="language-plaintext highlighter-rouge">no-cache</code>: 저장은 가능하지만, 재사용 전 서버 검증이 필요함 (ETag / Last-Modified)</li>
+  <li><code class="language-plaintext highlighter-rouge">public</code>: 모든 캐시(공유 캐시 포함) 에서 저장 및 재사용 가능</li>
+  <li><code class="language-plaintext highlighter-rouge">private</code>: 사용자 전용 캐시(브라우저 등) 에서만 저장 가능</li>
+</ul>
+
+<p><strong>유효 기간</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">max-age=초</code>: 캐시된 리소스의 유효시간(초 단위)</li>
+  <li><code class="language-plaintext highlighter-rouge">s-maxage=초</code>: 공유 캐시(프록시, CDN 등)에서의 유효 시간</li>
+  <li><code class="language-plaintext highlighter-rouge">max-stale=초</code>: 만료된 캐시라도 지정된 시간 안이면 사용 허용</li>
+  <li><code class="language-plaintext highlighter-rouge">min-fresh=초</code>: 앞으로 최소 초 이내에 새로고침해야 사용 가능</li>
+</ul>
+
+<p><strong>재검증 정책</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">must-revalidate</code>: 만료 후 반드시 원서버에 검증 후 사용</li>
+  <li><code class="language-plaintext highlighter-rouge">proxy-revalidate</code>: 중간 프록시 캐시만 재검증 강제</li>
+</ul>
+
+<p><strong>기타</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">immutable</code>: 리소스가 절대 바뀌지 않음을 명시(브라우저 재검증 생략 가능)</li>
+  <li><code class="language-plaintext highlighter-rouge">stale-while-revalidate=초</code>: 만료 후에도 지정 시간 동안 캐시 사용하며 백그라운드 갱신</li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">stale-if-error=초</code>: 서버 오류 발생 시, 지정 시간 내 캐시 사용 허용</p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Last-Modified</code>: 서버 -&gt; 클라이언트 로의 리소스 최종 수정 시각 제공</li>
+  <li><code class="language-plaintext highlighter-rouge">If-Modified-Since</code>: 클라이언트 -&gt; 서버 로의 이전 응답의 수정 시각을 보냄(서버가 비교 후 반환)</li>
+</ul>
+
+<p><strong>ETag &amp; If-None-Match</strong></p>
+
+<p>리소스의 고유 식별자(Entity Tag) 를 기반으로 더 정밀하게 캐시 재검증을 수행한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ETag</code>: 서버 -&gt; 클라이언트, 리소스 버전 식별자(보통 해시값)</li>
+  <li><code class="language-plaintext highlighter-rouge">If-None-Match</code>: 클라이언트 -&gt; 서버, 이전에 받은 ETag 를 전달, 일치 시 304 응답
+    <ul>
+      <li>만약 다르면 새 콘텐츠와 함께 200 OK + 새로운 ETag 반환</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Vary</strong></p>
+
+<p>캐시 구분 기준을 지정하는 헤더이며, 같은 URL 이라도 요청 헤더 값에 따라 다른 응답을 캐시해야 할 때 사용한다.</p>
+
+<blockquote>
+  <p>Vary: Accept-Encoding, User-Agent</p>
+</blockquote>
+
+<p>하지만 캐시는 터미널 자체에서는 없고 캐시 스토리지 기능이 있는 유저에게만 캐싱이 가능하다.</p>
+
+<ul>
+  <li>웹 브라우저</li>
+  <li><code class="language-plaintext highlighter-rouge">CDN(Cloudflare, Akamai, etc.)</code>: 서버 응답 헤더를 기준으로 전 세계 캐시 서버에 저장</li>
+  <li><code class="language-plaintext highlighter-rouge">Reverse Proxy(nginx, Varnish)</code>: 서버 앞단에서 HTTP 캐시를 수행</li>
+  <li><code class="language-plaintext highlighter-rouge">API Gateway</code> / <code class="language-plaintext highlighter-rouge">Load Balancer</code>: 응답 헤더 기반으로 캐싱 가능 (AWS API, Gateway, Nginx reverse cache)</li>
+  <li>HTTP 클라이언트 (Postman 등): 자체 캐시가 없거나 비활성화됨(직접 구현해야 함)</li>
+</ul>
+
+<p>다음 장에서 이를 더 자세히 다루자.</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/web/2025/10/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-45%EC%9D%BC%EC%B0%A8-rest-api.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/web/2025/10/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-45%EC%9D%BC%EC%B0%A8-rest-api.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

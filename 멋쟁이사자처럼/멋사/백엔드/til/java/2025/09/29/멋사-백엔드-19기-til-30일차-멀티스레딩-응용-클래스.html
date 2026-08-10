@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 30일차 멀티스레딩 응용 클래스</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 30일차 멀티스레딩 응용 클래스 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 30일차 멀티스레딩 응용 클래스" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-30%EC%9D%BC%EC%B0%A8-%EB%A9%80%ED%8B%B0%EC%8A%A4%EB%A0%88%EB%94%A9-%EC%9D%91%EC%9A%A9-%ED%81%B4%EB%9E%98%EC%8A%A4.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-30%EC%9D%BC%EC%B0%A8-%EB%A9%80%ED%8B%B0%EC%8A%A4%EB%A0%88%EB%94%A9-%EC%9D%91%EC%9A%A9-%ED%81%B4%EB%9E%98%EC%8A%A4.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-29T00:30:38+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 30일차 멀티스레딩 응용 클래스" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-09-29T00:30:38+00:00","datePublished":"2025-09-29T00:30:38+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 30일차 멀티스레딩 응용 클래스","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-30%EC%9D%BC%EC%B0%A8-%EB%A9%80%ED%8B%B0%EC%8A%A4%EB%A0%88%EB%94%A9-%EC%9D%91%EC%9A%A9-%ED%81%B4%EB%9E%98%EC%8A%A4.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-30%EC%9D%BC%EC%B0%A8-%EB%A9%80%ED%8B%B0%EC%8A%A4%EB%A0%88%EB%94%A9-%EC%9D%91%EC%9A%A9-%ED%81%B4%EB%9E%98%EC%8A%A4.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-30%EC%9D%BC%EC%B0%A8-%EB%A9%80%ED%8B%B0%EC%8A%A4%EB%A0%88%EB%94%A9-%EC%9D%91%EC%9A%A9-%ED%81%B4%EB%9E%98%EC%8A%A4.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 30일차 멀티스레딩 응용 클래스</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Sep 29, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#쓰레드-심화">쓰레드 심화</a>
+    <ul>
+      <li><a href="#쓰레드와-자원">쓰레드와 자원</a></li>
+      <li><a href="#wait-notify-notifyall">wait(), notify(), notifyAll()</a></li>
+      <li><a href="#producer-consumer-problems">Producer-Consumer Problems</a>
+        <ul>
+          <li><a href="#구현">구현</a></li>
+        </ul>
+      </li>
+      <li><a href="#executorservice">ExecutorService</a>
+        <ul>
+          <li><a href="#shutdown">shutdown()</a></li>
+          <li><a href="#callable--future">Callable &amp; Future</a></li>
+        </ul>
+      </li>
+      <li><a href="#reentrantlock">ReentrantLock</a>
+        <ul>
+          <li><a href="#condition">Condition</a></li>
+        </ul>
+      </li>
+      <li><a href="#countdownlatch">CountDownLatch</a></li>
+      <li><a href="#blockingqueue">BlockingQueue</a></li>
+      <li><a href="#cyclicbarrier">CyclicBarrier</a></li>
+    </ul>
+  </li>
+  <li><a href="#람다">람다</a>
+    <ul>
+      <li><a href="#First-Class-Citizen">First-Class Citizen</a></li>
+      <li><a href="#functional-programming-language">Functional Programming Language</a></li>
+      <li><a href="#익명-구현-객체">익명 구현 객체</a></li>
+      <li><a href="#functionalinterfaces">FunctionalInterfaces</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="쓰레드-심화">쓰레드 심화</h3>
+
+<p>실무에 근거하여 더 잘 활용할 수 있게 다양한 메서드들을 본다.</p>
+
+<h4 id="쓰레드와-자원">쓰레드와 자원</h4>
+
+<p>쓰레드는 처리 흐름, 자원은 데이터로 확실히 구분시켜야 한다. 그런 관점에서 볼때, repository, service 등등은 전부 흐름이고(Inmemory 는 예외), db, 임시 저장 공간(세션, 구성 정보) 등등은 전부 자원이 될 것이다.</p>
+
+<p>synchronized 를 걸때는 트래픽이 많을 때 서버 성능이 느려지지 않을지를 고민해야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nc">Book</span> <span class="nf">addBook</span><span class="o">(</span><span class="nc">String</span> <span class="n">title</span><span class="o">,</span>
+                    <span class="nc">String</span> <span class="n">author</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">var</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Book</span><span class="o">.</span><span class="na">Builder</span><span class="o">().</span><span class="na">setTitle</span><span class="o">(</span><span class="n">title</span><span class="o">)</span>
+                                    <span class="o">.</span><span class="na">setAuthor</span><span class="o">(</span><span class="n">author</span><span class="o">);</span>
+    <span class="nc">Book</span> <span class="n">book</span><span class="o">;</span>
+
+    <span class="c1">// 동시성 이슈가 있는 부분의 코드만 lock 걸기</span>
+    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">bookRepository</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">book</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">bookRepository</span><span class="o">.</span><span class="na">count</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">bookRepository</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">book</span><span class="o">)</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">SystemException</span><span class="o">(</span><span class="s">"책 저장 실패"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="n">book</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="wait-notify-notifyall">wait(), notify(), notifyAll()</h4>
+
+<p><code class="language-plaintext highlighter-rouge">wait</code>, <code class="language-plaintext highlighter-rouge">notify</code>, <code class="language-plaintext highlighter-rouge">notifyAll</code> 은 모니터 락을 보유한 상태에서 호출 가능하며, critical region 에 들어가는 thread 만이 이 메서드들을 쓸 수 있다(Object 라고 다 쓸 수 있지만 코드 블럭 수준에 제약이 있음).</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">sleep(ms)</code> 과의 차이는 lock 을 쥔 채로 대기하기에 얘는 critical region 에 없더라도 호출 가능하다.</p>
+</blockquote>
+
+<h4 id="producer-consumer-problems">Producer-Consumer Problems</h4>
+
+<p>Object 에는 <code class="language-plaintext highlighter-rouge">wait</code>, <code class="language-plaintext highlighter-rouge">notify</code> 가 있어서 모든 클래스들에 대해 해당 메서드를 수행함을 볼 수 있다.</p>
+
+<p>여기서는 <strong>Producer-Consumer</strong> 문제로 이를 다뤄보자. 생산자는 데이터를 생성하여 버퍼에 공급을 한다. 소비자는 <strong>Buffer</strong> 에서 데이터를 꺼내어 사용을 한다. 버퍼는 생산자와 소비자가 데이터를 주고받는 공유 공간이며, 진열대라고 생각하면 된다.</p>
+
+<p>다음과 같은 문제가 발생한다:</p>
+<ul>
+  <li>버퍼가 가득 찼을 때: 생산자가 데이터를 넣으려면 대기해야 한다</li>
+  <li>버퍼가 부족 할 때: 소비자가 데이터가 들어올 때까지 대기해야 한다</li>
+  <li>동시 접근 문제: 여러 소비자가 동시에 데이터를 소비하려고 할 때 데이터가 깨지거나 누락될 수도 있다</li>
+</ul>
+
+<h5 id="구현">구현</h5>
+
+<p>우선 상황 세팅을 해주자. 기본적으로 진열대가 필요할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="kd">final</span> <span class="nc">Object</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">();</span>
+<span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MAX_SIZE</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
+<span class="kd">static</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="no">MAX_SIZE</span><span class="o">];</span>
+<span class="kd">static</span> <span class="kt">int</span> <span class="n">consumeIdx</span><span class="o">;</span></code></pre></figure>
+
+<p>그 다음 생산자는 이 buffer 에 채우는 ‘행위’ 를 해야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 생산</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">produce</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
+    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">lock</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">while</span><span class="o">(</span><span class="n">buffer</span><span class="o">[</span><span class="no">MAX_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="o">])</span>
+            <span class="n">lock</span><span class="o">.</span><span class="na">wait</span><span class="o">();</span>
+        <span class="nc">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+        <span class="n">lock</span><span class="o">.</span><span class="na">notifyAll</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"생산 완료 !!!, 대기 모드 on"</span><span class="o">);</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>buffer 를 true 로 채운다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 소비</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">consume</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
+    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">lock</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(!</span><span class="n">buffer</span><span class="o">[</span><span class="no">MAX_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="o">])</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"소비 대기중"</span><span class="o">);</span>
+            <span class="n">lock</span><span class="o">.</span><span class="na">wait</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="n">buffer</span><span class="o">[</span><span class="n">consumeIdx</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="n">consumeIdx</span> <span class="o">=</span> <span class="o">(</span><span class="n">consumeIdx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="no">MAX_SIZE</span><span class="o">;</span>
+        <span class="n">lock</span><span class="o">.</span><span class="na">notify</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"소비함 현재 재고: "</span> <span class="o">+</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">buffer</span><span class="o">)</span> <span class="o">+</span> <span class="s">", consumeIdx: "</span> <span class="o">+</span> <span class="n">consumeIdx</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>소비자는 위와 같이 소비하게 된다. 메인에서는 재고를 채우고 소비하면서 값이 바뀐다</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">Thread</span> <span class="n">produce</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">produce</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+
+<span class="nc">Thread</span> <span class="n">consume</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">consume</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+
+<span class="n">produce</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+<span class="n">consume</span><span class="o">.</span><span class="na">start</span><span class="o">();</span></code></pre></figure>
+
+<p>위와 같은 상황은 비정상적인 상황이 잘 만들어지지 않지만, 여러 소비자가 들어가게 되면 말이 다르다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">Thread</span> <span class="n">produce</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">produce</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+
+<span class="nc">Thread</span> <span class="n">consume1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">consume</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+
+<span class="nc">Thread</span> <span class="n">consume2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">consume</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+
+<span class="nc">Thread</span> <span class="n">consume3</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">consume</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+
+<span class="n">produce</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+<span class="n">consume1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+<span class="n">consume2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+<span class="n">consume3</span><span class="o">.</span><span class="na">start</span><span class="o">();</span></code></pre></figure>
+
+<p><strong>consumer idx 가 적절하게 증가하지 않는 상황</strong></p>
+<blockquote>
+  <p>소비함 현재 재고: [true, true, false, false, false, false, false, false, false, false], consumeIdx: 0<br />
+소비함 현재 재고: [false, false, false, false, false, false, false, false, false, false], consumeIdx: 2<br />
+소비함 현재 재고: [false, false, false, false, false, false, false, false, false, false], consumeIdx: 2</p>
+</blockquote>
+
+<p><strong>생산되기도 전에 소비</strong></p>
+<blockquote>
+  <p>소비함 현재 재고: [false, false, true, true, true, true, false, false, false, false], consumeIdx: 2<br />
+소비함 현재 재고: [false, true, true, true, true, true, false, false, false, false], consumeIdx: 1<br />
+소비함 현재 재고: [false, false, false, true, true, true, false, false, false, false], consumeIdx: 3<br />
+6 만큼 채움 현재 재고: [false, true, true, true, true, true, false, false, false, false], prodIdx: 6</p>
+</blockquote>
+
+<p>이를 정상적으로 만들기 위해 <code class="language-plaintext highlighter-rouge">consumer</code> 는 버퍼에 재고가 있을 때, 다시 말하면 없을 때는 대기 상태에 들어갔다가, <code class="language-plaintext highlighter-rouge">producer</code> 가 생산했을 때 일어나서 소비를 해야한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">producer</code> 는 <code class="language-plaintext highlighter-rouge">consumer</code> 가 더 이상 소비할 수 있는 재고가 없을 때 일어나야 한다. 그렇다면 쓰레드 간에 서로 깨운다, 대기해라 라는 소통을 해야하는 창구가 필요하다. 그 창구가 바로 자원 <code class="language-plaintext highlighter-rouge">lock</code> 이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">static</span> <span class="kd">final</span> <span class="nc">Object</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">();</span>
+<span class="o">...</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">produce</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
+    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">lock</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">while</span><span class="o">(</span><span class="n">buffer</span><span class="o">[</span><span class="no">MAX_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="o">])</span>
+            <span class="n">lock</span><span class="o">.</span><span class="na">wait</span><span class="o">();</span>
+        <span class="nc">Arrays</span><span class="o">.</span><span class="na">fill</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+        <span class="n">lock</span><span class="o">.</span><span class="na">notifyAll</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"생산 완료 !!!, 대기 모드 on"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">consume</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
+    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">lock</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">while</span> <span class="o">(!</span><span class="n">buffer</span><span class="o">[</span><span class="no">MAX_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="o">])</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"소비 대기중"</span><span class="o">);</span>
+            <span class="n">lock</span><span class="o">.</span><span class="na">wait</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="n">buffer</span><span class="o">[</span><span class="n">consumeIdx</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="n">consumeIdx</span> <span class="o">=</span> <span class="o">(</span><span class="n">consumeIdx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="no">MAX_SIZE</span><span class="o">;</span>
+        <span class="n">lock</span><span class="o">.</span><span class="na">notify</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"소비함 현재 재고: "</span> <span class="o">+</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">buffer</span><span class="o">)</span> <span class="o">+</span> <span class="s">", consumeIdx: "</span> <span class="o">+</span> <span class="n">consumeIdx</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이제 계속적으로 생산 소비가 반복될 것이다.</p>
+
+<h4 id="executorservice">ExecutorService</h4>
+
+<p>스레드 풀을 생성하여 놀고 있는 스레드에 명령을 간편하게 내릴 수 있다. 스레드 풀의 사이즈는 스레드 개수와 똑같고, 생성은 Executors 의 정적 메서드로 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// 고정 스레드 풀</span>
+<span class="nc">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+<span class="c1">// 단일 스레드 풀</span>
+<span class="nc">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newSingleThreadExecutor</span><span class="o">();</span>
+<span class="c1">// 캐시형 스레드 풀: 필요할 때 스레드 만들고 놀고 있는 스레드가 있으면 재사용</span>
+<span class="nc">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newCachedThreadPool</span><span class="o">();</span>
+
+<span class="c1">// 스케줄링 가능한 풀</span>
+<span class="nc">ScheduledExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newScheduledThreadPool</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+<span class="c1">// 5초 뒤에 실행</span>
+<span class="n">executor</span><span class="o">.</span><span class="na">schedule</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"5초 뒤 실행"</span><span class="o">),</span> <span class="mi">5</span><span class="o">,</span> <span class="nc">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">);</span>
+<span class="c1">// 1초 뒤 시작, 이후 2초 간격으로 반복 실행</span>
+<span class="n">executor</span><span class="o">.</span><span class="na">scheduleAtFixedRate</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"주기 실행"</span><span class="o">),</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="nc">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">);</span>
+
+<span class="c1">// 병렬 처리 특화 풀</span>
+<span class="nc">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="nc">ForkJoinPool</span><span class="o">.</span><span class="na">commonPool</span><span class="o">();</span></code></pre></figure>
+
+<p>위처럼 안하고 밑처럼 세밀한 조정으로 풀을 생성할 수 있다.</p>
+
+<p><strong>Custom Thread Pool 생성</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ThreadPoolExecutor</span><span class="o">(</span>
+        <span class="mi">2</span><span class="o">,</span>                <span class="c1">// core pool size</span>
+        <span class="mi">4</span><span class="o">,</span>                <span class="c1">// maximum pool size</span>
+        <span class="mi">60L</span><span class="o">,</span>              <span class="c1">// idle thread keep-alive time</span>
+        <span class="nc">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">,</span> <span class="c1">// 시간 단위</span>
+        <span class="k">new</span> <span class="nc">LinkedBlockingQueue</span><span class="o">&lt;&gt;(</span><span class="mi">100</span><span class="o">)</span> <span class="c1">// 작업 큐</span>
+<span class="o">);</span></code></pre></figure>
+
+<h5 id="shutdown">shutdown()</h5>
+
+<p>스레드 풀을 종료하는 메서드이다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">executor</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span></code></pre></figure>
+
+<ul>
+  <li>이미 제출된 작업은 모두 끝까지 실행됨</li>
+  <li>새로운 작업 제출은 거부됨</li>
+</ul>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">shutdownNow()</code> 는 강제로 모든 작업을 종료하며, 실행 중인 스레드는 인터럽트를 발생시켜 즉시 종료해버린다. 반환하는 건 List<Runnable> 인데 실행중인 스레드의 작업에 대한 것은 반환하지 않기 때문에 작업이 날라갈 수도 있다.</Runnable></p>
+</blockquote>
+
+<h5 id="callable--future">Callable &amp; Future</h5>
+
+<p>함수형 인터페이스 <code class="language-plaintext highlighter-rouge">Callable&lt;V&gt;</code> 은 <code class="language-plaintext highlighter-rouge">V call()</code> 을 구현해야 하며, 반환값이 있는 작업을 정의할 수 있다. 이를 통해 <code class="language-plaintext highlighter-rouge">ExecutorService</code> 에게 <code class="language-plaintext highlighter-rouge">submit(Callable callable)</code> 에 넣어 제출할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.concurrent.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SumExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">10</span><span class="o">];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numbers</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="n">numbers</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">// 1~10</span>
+
+        <span class="c1">// 배열을 3부분으로 나눠서 합 계산</span>
+        <span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">sumPart1</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="n">sum</span> <span class="o">+=</span> <span class="n">numbers</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
+        <span class="o">};</span>
+        <span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">sumPart2</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">7</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="n">sum</span> <span class="o">+=</span> <span class="n">numbers</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
+        <span class="o">};</span>
+        <span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">sumPart3</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">7</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="n">sum</span> <span class="o">+=</span> <span class="n">numbers</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
+        <span class="o">};</span>
+
+        <span class="nc">Future</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">f1</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">sumPart1</span><span class="o">);</span>
+        <span class="nc">Future</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">sumPart2</span><span class="o">);</span>
+        <span class="nc">Future</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">f3</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">sumPart3</span><span class="o">);</span>
+
+        <span class="kt">int</span> <span class="n">totalSum</span> <span class="o">=</span> <span class="n">f1</span><span class="o">.</span><span class="na">get</span><span class="o">()</span> <span class="o">+</span> <span class="n">f2</span><span class="o">.</span><span class="na">get</span><span class="o">()</span> <span class="o">+</span> <span class="n">f3</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"총 합계: "</span> <span class="o">+</span> <span class="n">totalSum</span><span class="o">);</span>
+
+        <span class="n">executor</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>제출 후에 얻으려면 <code class="language-plaintext highlighter-rouge">Future&lt;V&gt;</code> 이 필요한데, 비동기 작업에 대한 결과를 나타내는 객체이다. <code class="language-plaintext highlighter-rouge">V get()</code>, <code class="language-plaintext highlighter-rouge">V get(long timeout, TimeUnit unit)</code> 으로 값을 얻어올 수 있다.</p>
+
+<p><strong>여러 개 값 가져오기</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">ExecutorService</span> <span class="n">executor</span> <span class="o">=</span> <span class="nc">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="n">tasks</span> <span class="o">=</span> <span class="nc">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+    <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span> <span class="k">return</span> <span class="s">"A 완료"</span><span class="o">;</span> <span class="o">},</span>
+    <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">2000</span><span class="o">);</span> <span class="k">return</span> <span class="s">"B 완료"</span><span class="o">;</span> <span class="o">},</span>
+    <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1500</span><span class="o">);</span> <span class="k">return</span> <span class="s">"C 완료"</span><span class="o">;</span> <span class="o">}</span>
+<span class="o">);</span>
+
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Future</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="n">futures</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="na">invokeAll</span><span class="o">(</span><span class="n">tasks</span><span class="o">);</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="nc">Future</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">:</span> <span class="n">futures</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">f</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="n">executor</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span></code></pre></figure>
+
+<h4 id="reentrantlock">ReentrantLock</h4>
+
+<p>자원에 대한 동시성 제어 메커니즘이다. 이전에는 흐름이 주된 제어 메커니즘이었다. <code class="language-plaintext highlighter-rouge">ReentrantLock</code> 은 이름 그대로 같은 스레드가 같은 락을 여러 번 획득 한다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">concurrent</span><span class="o">.</span><span class="na">locks</span><span class="o">.</span><span class="na">ReentrantLock</span></code></pre></figure>
+
+<p><strong>기본 사용</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.concurrent.locks.ReentrantLock</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">SharedResource</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">ReentrantLock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ReentrantLock</span><span class="o">();</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">increment</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">count</span><span class="o">++;</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">" : "</span> <span class="o">+</span> <span class="n">count</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><strong>시간 제한</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="k">if</span> <span class="o">(</span><span class="n">lock</span><span class="o">.</span><span class="na">tryLock</span><span class="o">())</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="c1">// 락 얻었을 때만 실행</span>
+    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+        <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"락을 얻지 못해 다른 작업 수행"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 일정 시간만 시도</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">lock</span><span class="o">.</span><span class="na">tryLock</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="nc">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">))</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="c1">// 2초 안에 락 얻으면 실행</span>
+    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+        <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h5 id="condition">Condition</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.concurrent.locks.*</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">BoundedBuffer</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">ReentrantLock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ReentrantLock</span><span class="o">();</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Condition</span> <span class="n">notFull</span>  <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Condition</span> <span class="n">notEmpty</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">10</span><span class="o">];</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">count</span><span class="o">,</span> <span class="n">putPtr</span><span class="o">,</span> <span class="n">takePtr</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
+        <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">buffer</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">notFull</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>  <span class="c1">// 버퍼 꽉 차면 대기</span>
+            <span class="o">}</span>
+            <span class="n">buffer</span><span class="o">[</span><span class="n">putPtr</span><span class="o">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+            <span class="n">putPtr</span> <span class="o">=</span> <span class="o">(</span><span class="n">putPtr</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">buffer</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+            <span class="n">count</span><span class="o">++;</span>
+            <span class="n">notEmpty</span><span class="o">.</span><span class="na">signal</span><span class="o">();</span>   <span class="c1">// 소비자 깨우기</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">take</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
+        <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">notEmpty</span><span class="o">.</span><span class="na">await</span><span class="o">();</span> <span class="c1">// 버퍼 비었으면 대기</span>
+            <span class="o">}</span>
+            <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">[</span><span class="n">takePtr</span><span class="o">];</span>
+            <span class="n">takePtr</span> <span class="o">=</span> <span class="o">(</span><span class="n">takePtr</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">%</span> <span class="n">buffer</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+            <span class="n">count</span><span class="o">--;</span>
+            <span class="n">notFull</span><span class="o">.</span><span class="na">signal</span><span class="o">();</span>    <span class="c1">// 생산자 깨우기</span>
+            <span class="k">return</span> <span class="n">x</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+            <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">wait</code>/<code class="language-plaintext highlighter-rouge">notify</code>/<code class="language-plaintext highlighter-rouge">notifyAll</code> 을 <code class="language-plaintext highlighter-rouge">await</code>/<code class="language-plaintext highlighter-rouge">signal</code>/<code class="language-plaintext highlighter-rouge">signalAll</code> 로 대체하고 여러 개의 Condition 을 나누어 관리하고 싶을 때 사용할 수 있다.</p>
+
+<h4 id="countdownlatch">CountDownLatch</h4>
+
+<p>lock 을 여러개 놓을 수 있다고 보면 된다. 0이 될때까지 대기할 수 있는 메커니즘이 있으며, 초기화된 값을 다 count 했을 때는 사용이 더 이상 불가하다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.concurrent.CountDownLatch</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CountDownLatchExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">nThreads</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+        <span class="nc">CountDownLatch</span> <span class="n">latch</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CountDownLatch</span><span class="o">(</span><span class="n">nThreads</span><span class="o">);</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nThreads</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+            <span class="k">new</span> <span class="nf">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"스레드 "</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="s">" 준비 완료"</span><span class="o">);</span>
+                <span class="n">latch</span><span class="o">.</span><span class="na">countDown</span><span class="o">();</span> <span class="c1">// 준비 완료</span>
+            <span class="o">}).</span><span class="na">start</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"모든 스레드 준비될 때까지 대기..."</span><span class="o">);</span>
+        <span class="n">latch</span><span class="o">.</span><span class="na">await</span><span class="o">();</span> <span class="c1">// 카운트가 0이 될 때까지 대기</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"모든 스레드 준비 완료! 작업 시작!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="blockingqueue">BlockingQueue</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BlockingQueueExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">BlockingQueue</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayBlockingQueue</span><span class="o">&lt;&gt;(</span><span class="mi">5</span><span class="o">);</span>
+
+        <span class="c1">// 생산자</span>
+        <span class="nc">Thread</span> <span class="n">producer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="nc">String</span> <span class="n">item</span> <span class="o">=</span> <span class="s">"Item-"</span> <span class="o">+</span> <span class="n">i</span><span class="o">;</span>
+                    <span class="n">queue</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">item</span><span class="o">);</span> <span class="c1">// 큐가 가득 차면 대기</span>
+                    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"생산: "</span> <span class="o">+</span> <span class="n">item</span><span class="o">);</span>
+                    <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">500</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+
+        <span class="c1">// 소비자</span>
+        <span class="nc">Thread</span> <span class="n">consumer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                    <span class="nc">String</span> <span class="n">item</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="na">take</span><span class="o">();</span> <span class="c1">// 큐가 비면 대기</span>
+                    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"소비: "</span> <span class="o">+</span> <span class="n">item</span><span class="o">);</span>
+                    <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+
+        <span class="n">producer</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">consumer</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="cyclicbarrier">CyclicBarrier</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.concurrent.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CyclicBarrierExample</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">nThreads</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+
+        <span class="nc">CyclicBarrier</span> <span class="n">barrier</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CyclicBarrier</span><span class="o">(</span><span class="n">nThreads</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"모든 스레드가 도착했습니다. 다음 단계로 진행!"</span><span class="o">);</span>
+        <span class="o">});</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nThreads</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+            <span class="k">new</span> <span class="nf">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"스레드 "</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="s">" 작업 중..."</span><span class="o">);</span>
+                    <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">((</span><span class="n">id</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">*</span> <span class="mi">1000</span><span class="o">);</span>
+                    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"스레드 "</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="s">" barrier 도착"</span><span class="o">);</span>
+                    <span class="n">barrier</span><span class="o">.</span><span class="na">await</span><span class="o">();</span> <span class="c1">// 모든 스레드가 여기서 대기</span>
+                    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"스레드 "</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="s">" 다음 단계 실행"</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}).</span><span class="na">start</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h3 id="람다">람다</h3>
+
+<p>저번에 다뤘기에 이번에는 이론적으로 조금 빠삭하게 살펴보고 가자.</p>
+
+<h4 id="first-class-citizen">First-Class Citizen</h4>
+
+<p><strong>조건</strong></p>
+<ul>
+  <li>변수에 담을 수 있어야 함</li>
+  <li>함수의 인자로 전달할 수 있어야 함</li>
+  <li>함수의 반환값으로 전달할 수 있어야 함</li>
+</ul>
+
+<p>자바는 함수를 <code class="language-plaintext highlighter-rouge">First-Class Citizen</code> 으로써 사용 가능하지만, FP 언어는 아니다.</p>
+
+<h4 id="functional-programming-language">Functional Programming Language</h4>
+
+<p>자바는 함수형 프로그래밍이 아니다. 함수형 프로그래밍이 되려면 다음을 만족시켜야 한다.</p>
+
+<ol>
+  <li>순수 함수(Pure Function)
+    <ul>
+      <li>동일 입력 -&gt; 동일 출력</li>
+      <li>함수 내부에서 외부 상태를 변경할 수 없음(즉, <strong>side effect</strong> 없음)</li>
+    </ul>
+  </li>
+  <li>불변성(Immutability)
+    <ul>
+      <li>데이터는 한 번 생성하면 변경하지 않음</li>
+      <li>상태 변경 대신 새로운 데이터 생성</li>
+    </ul>
+  </li>
+  <li>고차 함수(Higher-order Function)
+    <ul>
+      <li>함수를 인자로 받거나 함수를 반환 가능</li>
+    </ul>
+  </li>
+  <li>함수 조합(Function Composition)
+    <ul>
+      <li>작은 함수를 조합해 더 큰 함수를 만듦</li>
+    </ul>
+  </li>
+  <li>선언형 프로그래밍(Declarative)
+    <ul>
+      <li>무엇을 할 지 중심, 어떻게 할 지는 최소화</li>
+    </ul>
+  </li>
+</ol>
+
+<p>자바에서는 순수 함수는 아니며, 객체 상태를 변경할 수 있기에 함수형 프로그래밍은 아니다. 다만 FP 를 흉내내고 있는 것이다.</p>
+
+<h4 id="익명-구현-객체">익명 구현 객체</h4>
+
+<p>자바는 함수만 순수하게 존재할 수 없었기에 FP 흉내를 내려고 <code class="language-plaintext highlighter-rouge">익명 구현 객체</code>를 생성한다
+.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Runnable을 구현하는 이름 없는 객체</span>
+<span class="nc">Runnable</span> <span class="n">r</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Runnable</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"익명 구현 객체가 출력합니다."</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">};</span>
+<span class="n">r</span><span class="o">.</span><span class="na">run</span><span class="o">();</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">@FunctionalInterface</code> 가 무엇인지, <code class="language-plaintext highlighter-rouge">Runnable</code> 이 무엇인지는 이미 전에 다뤘으므로 넘어간다. 또한 수많은 미리 정의된 <code class="language-plaintext highlighter-rouge">FunctionalInterface</code> 들은 다음과 같다.</p>
+
+<h4 id="functionalinterfaces">FunctionalInterfaces</h4>
+
+<ul>
+  <li>Runnable: 입력 X, 반환 X</li>
+  <li>
+    <p>Callable: 입력 X, 반환 O, 비동기</p>
+  </li>
+  <li>Supplier: 입력 X, 반환 O
+    <ul>
+      <li>IntSupplier</li>
+      <li>LongSupplier</li>
+      <li>DoubleSupplier</li>
+    </ul>
+  </li>
+  <li>Consumer: 입력 X, 반환 X
+    <ul>
+      <li>IntConsumer</li>
+      <li>LongConsumer</li>
+      <li>DoubleConsumer</li>
+      <li>ObjIntConsumer: 제너릭 객체 + int 값을 입력</li>
+      <li>ObjLongConsumer</li>
+      <li>ObjDoubleConsumer</li>
+    </ul>
+  </li>
+  <li>Predicate
+    <ul>
+      <li>IntPredicate</li>
+      <li>LongPredicate</li>
+      <li>DoublePredicate</li>
+    </ul>
+  </li>
+  <li>Function&lt;T, R&gt;
+    <ul>
+      <li>IntFunction<R></R></li>
+      <li>LongFunction<R></R></li>
+      <li>DoubleFunction<R></R></li>
+      <li>ToIntFunction<T></T></li>
+      <li>ToLongFunction<T></T></li>
+      <li>ToDoubleFunction<T></T></li>
+    </ul>
+  </li>
+  <li>UnaryOperator
+    <ul>
+      <li>IntUnaryOperator</li>
+      <li>LongUnaryOperator</li>
+      <li>DoubleUnaryOperator</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>BiConsumer</li>
+  <li>BiPredicate</li>
+  <li>BiFunction</li>
+  <li>BinaryOperator
+    <ul>
+      <li>IntBinaryOperator</li>
+      <li>LongBinaryOperator</li>
+      <li>DoubleBinaryOperator</li>
+    </ul>
+  </li>
+</ul>
+
+<p>굳이 설명은 따로 하지 않으며, 그때그때 찾아서 쓰는 것으로 한다.</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-30%EC%9D%BC%EC%B0%A8-%EB%A9%80%ED%8B%B0%EC%8A%A4%EB%A0%88%EB%94%A9-%EC%9D%91%EC%9A%A9-%ED%81%B4%EB%9E%98%EC%8A%A4.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/2025/09/29/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-30%EC%9D%BC%EC%B0%A8-%EB%A9%80%ED%8B%B0%EC%8A%A4%EB%A0%88%EB%94%A9-%EC%9D%91%EC%9A%A9-%ED%81%B4%EB%9E%98%EC%8A%A4.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

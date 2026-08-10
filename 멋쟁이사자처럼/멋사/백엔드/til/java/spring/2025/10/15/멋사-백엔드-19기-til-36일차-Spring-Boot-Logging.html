@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 36일차 Spring Boot Logging</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 36일차 Spring Boot Logging | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 36일차 Spring Boot Logging" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/15/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-36%EC%9D%BC%EC%B0%A8-Spring-Boot-Logging.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/15/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-36%EC%9D%BC%EC%B0%A8-Spring-Boot-Logging.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-15T05:33:01+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 36일차 Spring Boot Logging" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-10-15T05:33:01+00:00","datePublished":"2025-10-15T05:33:01+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 36일차 Spring Boot Logging","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/15/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-36%EC%9D%BC%EC%B0%A8-Spring-Boot-Logging.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/15/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-36%EC%9D%BC%EC%B0%A8-Spring-Boot-Logging.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/15/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-36%EC%9D%BC%EC%B0%A8-Spring-Boot-Logging.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 36일차 Spring Boot Logging</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Oct 15, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Java</li><li>Spring</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+
+<ul>
+  <li><a href="#-목적">목적</a>
+    <ul>
+      <li><a href="#로깅-정보-종류">로깅 정보 종류</a></li>
+      <li><a href="#로깅-소스">로깅 소스</a></li>
+    </ul>
+  </li>
+  <li><a href="#spring-boot-logging">Spring Boot Logging</a>
+    <ul>
+      <li><a href="#logger-사용해보기">Logger 사용해보기</a></li>
+      <li><a href="#spring-boot-로깅-설정">Spring Boot 로깅 설정</a>
+        <ul>
+          <li><a href="#properties-yml-을-통한-설정">properties, yml 을 통한 설정</a></li>
+          <li><a href="#xml-을-통한-고급설정">xml 을 통한 고급설정</a></li>
+        </ul>
+      </li>
+      <li><a href="#logback">Logback</a>
+        <ul>
+          <li><a href="#logback-springxml-로딩-과정">logback-spring.xml 로딩 과정</a></li>
+          <li><a href="#️-logback-클래스-구조">⭐️ Logback 클래스 구조</a></li>
+        </ul>
+      </li>
+      <li><a href="#logger-가져오기">Logger 가져오기</a></li>
+      <li><a href="#mdc-를-통한-멀티-스레드-환경-사용자요청-단위의-로그-추적하기">MDC 를 통한 멀티 스레드 환경, 사용자/요청 단위의 로그 추적하기</a>
+        <ul>
+          <li><a href="#thead-간-mdc-주의점">Thead 간 MDC 주의점</a></li>
+          <li><a href="#mdc-구조">MDC 구조</a></li>
+        </ul>
+      </li>
+      <li><a href="#slf4j-parameterized-logging">SLF4J Parameterized Logging</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>우선 로깅은 프로그램이 실행되는 동안 발생하는 이벤트, 상태, 오류, 경고, 정보 등을 기록하는 행위이다.</p>
+
+<h3 id="목적">목적</h3>
+
+<ul>
+  <li>문제 해결(Debugging): 오류가 발생했을 때 원인을 추적할 수 있음</li>
+  <li>운영/모니터링: 서비스가 정상적으로 돌아가는지 확인</li>
+  <li>분석/통계: 사용자 행동, 성능, 트래픽 등을 분석</li>
+  <li>감사(Audit): 누가 언제 어떤 작업을 했는지 기록</li>
+</ul>
+
+<h4 id="로깅-정보-종류">로깅 정보 종류</h4>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">DEBUG</code>: 개발 중 세부적인 상태 정보</li>
+  <li><code class="language-plaintext highlighter-rouge">INFO</code>: 일반적인 실행 정보</li>
+  <li><code class="language-plaintext highlighter-rouge">WARN</code>: 경고, 문제가 될 수 있는 상황</li>
+  <li><code class="language-plaintext highlighter-rouge">ERROR</code>: 오류 발생, 예외 상황</li>
+  <li><code class="language-plaintext highlighter-rouge">FATAL</code>: 치명적인 오류, 프로그램 종료 필요</li>
+</ul>
+
+<h4 id="로깅-소스">로깅 소스</h4>
+
+<ul>
+  <li>파일: 로그 파일에 기록</li>
+  <li>콘솔: 터미널 또는 IDE 콘솔에 출력</li>
+  <li>원격 서버 / DB: 중앙 서버로 수집 후 분석</li>
+  <li>로그 관리 시스템: ELK(<strong>Elasticsearch, Logstash</strong>, Kibana), Grafana</li>
+</ul>
+
+<h3 id="spring-boot-logging">Spring Boot Logging</h3>
+
+<p>spring boot 는 log 구현체에 직접 접근하기 보다 SLF4J 의 <code class="language-plaintext highlighter-rouge">Facade</code> 패턴을 사용하여 추상화된 계층을 이용하게 된다. SLF4J 는 <code class="language-plaintext highlighter-rouge">Simple Logging Facade for Java</code> 의 약자로 자바용 로깅 추상화 라이브러리이다. 핵심 아이디어는 로깅 라이브러리 자체(<code class="language-plaintext highlighter-rouge">Log4j</code>, <code class="language-plaintext highlighter-rouge">Logback</code>, <code class="language-plaintext highlighter-rouge">java.util.logging</code> 등) 에 의존하지 않고 통일된 인터페이스를 통하여 로그를 남길 수 있도록 해준다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">Application</span> <span class="nc">Code</span>
+       <span class="err">↓</span>
+<span class="no">SLF4J</span> <span class="nf">API</span> <span class="o">(</span><span class="nc">Facade</span> <span class="n">패턴</span><span class="o">)</span>
+       <span class="err">↓</span>
+<span class="nc">Logback</span> <span class="o">(</span><span class="nc">Default</span><span class="o">)</span> <span class="o">/</span> <span class="nc">Log4j2</span> <span class="o">/</span> <span class="no">JUL</span>
+       <span class="err">↓</span>
+<span class="nc">Output</span> <span class="o">(</span><span class="nc">Console</span><span class="o">,</span> <span class="nc">File</span><span class="o">,</span> <span class="n">etc</span><span class="o">.)</span></code></pre></figure>
+
+<p>위 의존 관계를 보면 알다시피 실제 로그 처리 구현체와 코드를 분리시켜 어떤 로그 라이브러리를 써도 SLF4J 가 알아서 처리해준다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Logback</code>: Spring Boot 기본 로깅 구현체, 성능이 빠르고, 설정이 비교적 직관적이다, XML, Groovy 로 설정 가능</li>
+  <li><code class="language-plaintext highlighter-rouge">Log4j2</code>: Apache 사에서 개발하였고, 고성능, 비동기 기반의 로깅 프레임워크이다. Logback 의 장점을 흡수하고 Log4j 의 단점을 보완하여 만들어졌다.</li>
+</ul>
+
+<p>보통 위 두 패키지를 사용하게 되고, 개발팀마다 사용하는게 다르지만 둘 다 알아놓으면 좋을거 같다.</p>
+
+<blockquote>
+  <p>Facade 패턴 - 패키지 끼리 서로 다른 인터페이스를 제공하여 모듈을 갈아끼울 때마다 코드를 변경해야 하는 불편함이 생긴다. 이러한 불편함을 중간에 클래스를 두어 인터페이스를 통합하는 책임을 주어 해당 통합된 인터페이스를 사용하여 유지보수를 높인다.</p>
+</blockquote>
+
+<h4 id="logger-사용해보기">Logger 사용해보기</h4>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LogExampleController</span> <span class="o">{</span>
+
+    <span class="c1">// Logger 생성 (클래스 기준)</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="nc">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="nc">LogExampleController</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/log-test"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">logTest</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="s">"TRACE 레벨 로그 - 가장 상세한 로그"</span><span class="o">);</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"DEBUG 레벨 로그 - 개발 중 디버깅용"</span><span class="o">);</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"INFO 레벨 로그 - 일반 정보 출력"</span><span class="o">);</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="s">"WARN 레벨 로그 - 경고 상황"</span><span class="o">);</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"ERROR 레벨 로그 - 오류 발생"</span><span class="o">);</span>
+
+        <span class="k">return</span> <span class="s">"로그 출력 완료! (콘솔에서 확인)"</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">application.yml</code> 로 로그가 출력 될 수준을 정해준다. 쉽게 말해서 중요한 정도를 정해준다고 보면된다. 5 정도면 1, 2, 3, 4, 5 의 수준의 적은 중요도 순서로 로그를 출력하게 된다.</p>
+
+<ul>
+  <li>1: TRACE,</li>
+  <li>2: DEBUG</li>
+  <li>3: INFO</li>
+  <li>4: WARN</li>
+  <li>5: ERROR</li>
+  <li>6: FATAL(Log4j 에만 있음)</li>
+</ul>
+
+<p>순으로 중요하며 FATAL 이 가장 중요한 것으로 본다. 이는 심각한 오류를 뜻한다.</p>
+
+<p><strong>application.yml</strong></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nl">logging:</span>
+  <span class="nl">level:</span>
+    <span class="nl">root:</span> <span class="n">info</span>        <span class="err">#</span> <span class="n">전체</span> <span class="n">기본</span> <span class="n">로그</span> <span class="n">레벨</span>
+    <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">demo</span><span class="o">:</span> <span class="n">debug</span>  <span class="err">#</span> <span class="n">특정</span> <span class="n">패키지만</span> <span class="no">DEBUG</span> <span class="n">레벨</span>
+  <span class="nl">file:</span>
+    <span class="nl">name:</span> <span class="n">logs</span><span class="o">/</span><span class="n">app</span><span class="o">.</span><span class="na">log</span> <span class="err">#</span> <span class="n">로그</span> <span class="n">파일</span> <span class="n">저장</span> <span class="n">경로</span></code></pre></figure>
+
+<h4 id="spring-boot-로깅-설정">Spring Boot 로깅 설정</h4>
+
+<p>SLF4J API 를 통해 로그를 남기고, 실제 로깅은 구현체(Logback) 이 이를 처리한다, SLF4J 에 설정만 가하면 다양한 로그 커스터마이징 기능들을 사용할 수 있게 된다.</p>
+
+<p>로그 설정 방식은 크게 두 가지이다:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">application.properties</code> / <code class="language-plaintext highlighter-rouge">application.yml</code>: 간단 설정</li>
+  <li><code class="language-plaintext highlighter-rouge">logback-spring.xml</code> / <code class="language-plaintext highlighter-rouge">log4j2-spring.xml</code>: 정교한 제어</li>
+</ul>
+
+<h5 id="properties-yml-을-통한-설정">properties, yml 을 통한 설정</h5>
+
+<p><strong>레벨 설정</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">logging.level.root=INFO</code>: info 이하는 모두 출력</li>
+  <li><code class="language-plaintext highlighter-rouge">logging.level.com.example=DEBUG</code>: 패키지/클래스 단위로 사용 가능</li>
+</ul>
+
+<p><strong>파일/콘솔</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">logging.file.name=logs/app.log</code>: 파일 하나에 기록</li>
+  <li><code class="language-plaintext highlighter-rouge">logging.file.path=/var/log/myapp</code>: 디렉토리 지정</li>
+  <li><code class="language-plaintext highlighter-rouge">logging.file.max-size=10MB</code></li>
+  <li><code class="language-plaintext highlighter-rouge">logging.file.max-history=30</code></li>
+</ul>
+
+<p><strong>패턴(포맷)</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</code></li>
+  <li><code class="language-plaintext highlighter-rouge">logging.pattern.file</code></li>
+</ul>
+
+<p>출력할 포맷을 지정할 수 있는데, 콘솔과 파일 별로 가능하다.</p>
+
+<h5 id="xml-을-통한-고급설정">xml 을 통한 고급설정</h5>
+
+<p>xml 을 굳이 사용하는 이유는 롤링, 포맷, 서로 다른 appender 분리, 비동기 설정 등의 세세한 제어를 다 가져갈 수 있게 하기 위해 사용한다.</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;configuration</span> <span class="na">scan=</span><span class="s">"true"</span> <span class="na">scanPeriod=</span><span class="s">"30 seconds"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"LOG_HOME"</span> <span class="na">value=</span><span class="s">"./logs"</span> <span class="nt">/&gt;</span>
+
+  <span class="c">&lt;!-- 패턴 정의 --&gt;</span>
+  <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"PATTERN"</span> <span class="na">value=</span><span class="s">"%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"</span><span class="nt">/&gt;</span>
+
+  <span class="c">&lt;!-- 콘솔 appender --&gt;</span>
+  <span class="nt">&lt;appender</span> <span class="na">name=</span><span class="s">"STDOUT"</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.ConsoleAppender"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;encoder&gt;</span>
+      <span class="nt">&lt;pattern&gt;</span>${PATTERN}<span class="nt">&lt;/pattern&gt;</span>
+    <span class="nt">&lt;/encoder&gt;</span>
+  <span class="nt">&lt;/appender&gt;</span>
+
+  <span class="c">&lt;!-- 롤링 파일 appender --&gt;</span>
+  <span class="nt">&lt;appender</span> <span class="na">name=</span><span class="s">"FILE"</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.rolling.RollingFileAppender"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;file&gt;</span>${LOG_HOME}/app.log<span class="nt">&lt;/file&gt;</span>
+    <span class="nt">&lt;rollingPolicy</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.rolling.TimeBasedRollingPolicy"</span><span class="nt">&gt;</span>
+      <span class="c">&lt;!-- 7일치 보관, 하루 단위로 롤링 --&gt;</span>
+      <span class="nt">&lt;fileNamePattern&gt;</span>${LOG_HOME}/app.%d{yyyy-MM-dd}.log.gz<span class="nt">&lt;/fileNamePattern&gt;</span>
+      <span class="nt">&lt;maxHistory&gt;</span>7<span class="nt">&lt;/maxHistory&gt;</span>
+    <span class="nt">&lt;/rollingPolicy&gt;</span>
+    <span class="nt">&lt;encoder&gt;</span>
+      <span class="nt">&lt;pattern&gt;</span>${PATTERN}<span class="nt">&lt;/pattern&gt;</span>
+    <span class="nt">&lt;/encoder&gt;</span>
+  <span class="nt">&lt;/appender&gt;</span>
+
+  <span class="c">&lt;!-- 비동기 wrapper (성능) --&gt;</span>
+  <span class="nt">&lt;appender</span> <span class="na">name=</span><span class="s">"ASYNC_FILE"</span> <span class="na">class=</span><span class="s">"ch.qos.logback.classic.AsyncAppender"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"FILE"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;queueSize&gt;</span>5000<span class="nt">&lt;/queueSize&gt;</span>
+    <span class="nt">&lt;discardingThreshold&gt;</span>0<span class="nt">&lt;/discardingThreshold&gt;</span>
+  <span class="nt">&lt;/appender&gt;</span>
+
+  <span class="c">&lt;!-- 로거 레벨 설정 --&gt;</span>
+  <span class="nt">&lt;root</span> <span class="na">level=</span><span class="s">"INFO"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"STDOUT"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"ASYNC_FILE"</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/root&gt;</span>
+
+  <span class="c">&lt;!-- 특정 패키지 DEBUG --&gt;</span>
+  <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"com.example.demo"</span> <span class="na">level=</span><span class="s">"DEBUG"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span></code></pre></figure>
+
+<h4 id="logback">Logback</h4>
+
+<p>Spring Boot 에서는 Logback 이 SLF4J 의 기본값이며, Spring Boot 는 로거의 설정을 아래 파일들을 통해 자동으로 탐색한다.</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">logback-spring.xml</code> (Spring Boot 전용)</li>
+  <li><code class="language-plaintext highlighter-rouge">logback.xml</code></li>
+  <li><code class="language-plaintext highlighter-rouge">logback-test.xml</code> (테스트 환경용)</li>
+</ol>
+
+<p><code class="language-plaintext highlighter-rouge">logback-spring.xml</code> 을 사용하면 <code class="language-plaintext highlighter-rouge">Spring Profile</code>, <a href="#property-placeholder">Property Placeholder</a> 등을 지원하기 때문에 해당 파일을 사용하는게 더 좋을것이다.</p>
+
+<h5 id="logback-springxml-로딩-과정">logback-spring.xml 로딩 과정</h5>
+
+<p>스프링 부트 실행 시에 <code class="language-plaintext highlighter-rouge">SpringApplication.run()</code> 내부에서 <code class="language-plaintext highlighter-rouge">LoggingApplicationListener</code> 가 등록된다.</p>
+
+<p>이때 클래스가 어플리케이션 초기 단계에서 로깅 시스템을 설정하게 된다(이벤트가 들어오면 로그 설정 동작이 실행됨).</p>
+
+<p><strong>동작</strong></p>
+<ol>
+  <li>로깅 초기화 트리거</li>
+  <li><code class="language-plaintext highlighter-rouge">LoggingSystem</code> 결정: <code class="language-plaintext highlighter-rouge">Logback</code>, <code class="language-plaintext highlighter-rouge">Log4j2</code>, <code class="language-plaintext highlighter-rouge">Java Util Logging</code> 순으로 구현체 탐색</li>
+  <li>Logback 이 선택됐다면 LogbackLoggingSystem 초기화</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">initialize</span><span class="o">(</span><span class="nc">LoggingInitializationContext</span> <span class="n">initializationContext</span><span class="o">,</span>
+                       <span class="nc">String</span> <span class="n">configLocation</span><span class="o">,</span> <span class="nc">LogFile</span> <span class="n">logFile</span><span class="o">)</span></code></pre></figure>
+
+<ol>
+  <li>Spring Boot 전용 설정 처리
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">&lt;springProfile&gt;</code> 태그 지원</li>
+      <li><code class="language-plaintext highlighter-rouge">${}</code> property placeholder 지원</li>
+      <li>Spring Environment 연결</li>
+    </ul>
+  </li>
+  <li>실제 Logback 구성 로딩(xml 내부의 <code class="language-plaintext highlighter-rouge">LoggerContext</code>, <code class="language-plaintext highlighter-rouge">Appender</code>, <code class="language-plaintext highlighter-rouge">Logger</code>, <code class="language-plaintext highlighter-rouge">Layout</code> 로딩)</li>
+</ol>
+
+<h5 id="️-logback-클래스-구조">⭐️ Logback 클래스 구조</h5>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml">LoggerContext (ch.qos.logback.classic.LoggerContext)
+│
+├── Logger (ch.qos.logback.classic.Logger)
+│    ├── Appenders (ConsoleAppender, FileAppender, RollingFileAppender)
+│    └── Level (TRACE, DEBUG, INFO, WARN, ERROR)
+│
+├── AppenderBase (ch.qos.logback.core.AppenderBase)
+│    ├── ConsoleAppender
+│    ├── FileAppender
+│    └── RollingFileAppender
+│
+└── Layout (ch.qos.logback.classic.PatternLayout)</code></pre></figure>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">LoggerContext</code>: Logback 전체 설정 컨테이너</li>
+  <li><code class="language-plaintext highlighter-rouge">Logger</code>: 패키지별 로거</li>
+  <li><code class="language-plaintext highlighter-rouge">Appender</code>: 로그를 출력 할 대상(File, Console 등등)
+    <ul>
+      <li>파일이면 파일 어펜더, 콘솔이면 콘솔 어펜더라고도 부름</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Encoder</code>/<code class="language-plaintext highlighter-rouge">Layout</code>: 로그 메시지 포맷 지정</li>
+</ul>
+
+<p><strong>⭐️ logback-spring.xml 예시</strong></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;configuration&gt;</span>
+
+    <span class="c">&lt;!-- 변수 정의 --&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"LOG_DIR"</span> <span class="na">value=</span><span class="s">"logs"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"LOG_FILE"</span> <span class="na">value=</span><span class="s">"application"</span><span class="nt">/&gt;</span>
+
+    <span class="c">&lt;!-- 콘솔 Appender --&gt;</span>
+    <span class="nt">&lt;appender</span> <span class="na">name=</span><span class="s">"CONSOLE"</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.ConsoleAppender"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;encoder&gt;</span>
+            <span class="nt">&lt;pattern&gt;</span>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n<span class="nt">&lt;/pattern&gt;</span>
+            <span class="nt">&lt;charset&gt;</span>UTF-8<span class="nt">&lt;/charset&gt;</span>
+        <span class="nt">&lt;/encoder&gt;</span>
+    <span class="nt">&lt;/appender&gt;</span>
+
+    <span class="c">&lt;!-- 파일 롤링 Appender --&gt;</span>
+    <span class="nt">&lt;appender</span> <span class="na">name=</span><span class="s">"FILE"</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.rolling.RollingFileAppender"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;file&gt;</span>${LOG_DIR}/${LOG_FILE}.log<span class="nt">&lt;/file&gt;</span>
+
+        <span class="nt">&lt;rollingPolicy</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy"</span><span class="nt">&gt;</span>
+            <span class="c">&lt;!-- 일별 롤링 및 크기 제한 --&gt;</span>
+            <span class="nt">&lt;fileNamePattern&gt;</span>${LOG_DIR}/archived/${LOG_FILE}-%d{yyyy-MM-dd}.%i.log<span class="nt">&lt;/fileNamePattern&gt;</span>
+            <span class="nt">&lt;maxFileSize&gt;</span>10MB<span class="nt">&lt;/maxFileSize&gt;</span>
+            <span class="nt">&lt;maxHistory&gt;</span>30<span class="nt">&lt;/maxHistory&gt;</span>
+            <span class="nt">&lt;totalSizeCap&gt;</span>1GB<span class="nt">&lt;/totalSizeCap&gt;</span>
+        <span class="nt">&lt;/rollingPolicy&gt;</span>
+
+        <span class="nt">&lt;encoder&gt;</span>
+            <span class="nt">&lt;pattern&gt;</span>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n<span class="nt">&lt;/pattern&gt;</span>
+            <span class="nt">&lt;charset&gt;</span>UTF-8<span class="nt">&lt;/charset&gt;</span>
+        <span class="nt">&lt;/encoder&gt;</span>
+    <span class="nt">&lt;/appender&gt;</span>
+
+    <span class="c">&lt;!-- 에러 전용 Appender --&gt;</span>
+    <span class="nt">&lt;appender</span> <span class="na">name=</span><span class="s">"ERROR_FILE"</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.rolling.RollingFileAppender"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;file&gt;</span>${LOG_DIR}/error.log<span class="nt">&lt;/file&gt;</span>
+
+        <span class="nt">&lt;filter</span> <span class="na">class=</span><span class="s">"ch.qos.logback.classic.filter.ThresholdFilter"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;level&gt;</span>ERROR<span class="nt">&lt;/level&gt;</span>
+        <span class="nt">&lt;/filter&gt;</span>
+
+        <span class="nt">&lt;rollingPolicy</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.rolling.TimeBasedRollingPolicy"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;fileNamePattern&gt;</span>${LOG_DIR}/archived/error-%d{yyyy-MM-dd}.log<span class="nt">&lt;/fileNamePattern&gt;</span>
+            <span class="nt">&lt;maxHistory&gt;</span>30<span class="nt">&lt;/maxHistory&gt;</span>
+        <span class="nt">&lt;/rollingPolicy&gt;</span>
+
+        <span class="nt">&lt;encoder&gt;</span>
+            <span class="nt">&lt;pattern&gt;</span>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n<span class="nt">&lt;/pattern&gt;</span>
+        <span class="nt">&lt;/encoder&gt;</span>
+    <span class="nt">&lt;/appender&gt;</span>
+
+    <span class="c">&lt;!-- 비동기 Appender (성능 향상) --&gt;</span>
+    <span class="nt">&lt;appender</span> <span class="na">name=</span><span class="s">"ASYNC_FILE"</span> <span class="na">class=</span><span class="s">"ch.qos.logback.classic.AsyncAppender"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"FILE"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;queueSize&gt;</span>512<span class="nt">&lt;/queueSize&gt;</span>
+        <span class="nt">&lt;discardingThreshold&gt;</span>0<span class="nt">&lt;/discardingThreshold&gt;</span>
+        <span class="nt">&lt;includeCallerData&gt;</span>false<span class="nt">&lt;/includeCallerData&gt;</span>
+    <span class="nt">&lt;/appender&gt;</span>
+
+    <span class="c">&lt;!-- Spring Profile별 설정 --&gt;</span>
+    <span class="nt">&lt;springProfile</span> <span class="na">name=</span><span class="s">"dev"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"com.example"</span> <span class="na">level=</span><span class="s">"DEBUG"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"org.springframework.web"</span> <span class="na">level=</span><span class="s">"DEBUG"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/springProfile&gt;</span>
+
+    <span class="nt">&lt;springProfile</span> <span class="na">name=</span><span class="s">"prod"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"com.example"</span> <span class="na">level=</span><span class="s">"INFO"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"org.springframework"</span> <span class="na">level=</span><span class="s">"WARN"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/springProfile&gt;</span>
+
+    <span class="c">&lt;!-- 패키지별 로거 설정 --&gt;</span>
+    <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"org.hibernate.SQL"</span> <span class="na">level=</span><span class="s">"DEBUG"</span> <span class="na">additivity=</span><span class="s">"false"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"FILE"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/logger&gt;</span>
+
+    <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">"com.example.service"</span> <span class="na">level=</span><span class="s">"DEBUG"</span> <span class="na">additivity=</span><span class="s">"false"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"FILE"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"CONSOLE"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/logger&gt;</span>
+
+    <span class="c">&lt;!-- Root 로거 --&gt;</span>
+    <span class="nt">&lt;root</span> <span class="na">level=</span><span class="s">"INFO"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"CONSOLE"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"ASYNC_FILE"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"ERROR_FILE"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/root&gt;</span>
+
+<span class="nt">&lt;/configuration&gt;</span></code></pre></figure>
+
+<h4 id="logger-가져오기">Logger 가져오기</h4>
+
+<p>저 정도 설정을 하면 이제 로거를 들고올 준비가 끝났으며, 클래스 내부에서 로그를 찍어볼 수 있다. 이전에 봤던 필드 변수로 선언하여 <code class="language-plaintext highlighter-rouge">LoggerFactory.getLogger()</code> 를 사용하여 들고올 수 있지만, 더 쉽게 <code class="language-plaintext highlighter-rouge">@Slf4j</code> 어노테이션을 클래스에 붙이는 것만으로 클래스 내부에서 log 를 통해 사용할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Controller</span>
+<span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WelcomeController</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">hello</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Welcome to the WelcomeController."</span><span class="o">);</span>
+
+		<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
+        <span class="o">...</span></code></pre></figure>
+
+<h4 id="mdc-를-통한-멀티-스레드-환경-사용자요청-단위의-로그-추적하기">MDC 를 통한 멀티 스레드 환경, 사용자/요청 단위의 로그 추적하기</h4>
+
+<p>MDC 는 <strong>Mapped Diagnostic Context</strong> 의 약자로 스레드 로컬 기반의 로그 컨텍스트 저장소이다.</p>
+
+<ul>
+  <li>현재 스레드에서만 유효한 key-value 데이터를 저장</li>
+  <li>로그 패턴에서 그 값을 자동으로 출력할 수 있도록 하는 기능</li>
+</ul>
+
+<p>따라서 MDC 는 내부적으로 <code class="language-plaintext highlighter-rouge">ThreadLocal&lt;Map&lt;String, String&gt;&gt;</code> 구조를 사용하게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="no">MDC</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"userId"</span><span class="o">,</span> <span class="s">"A123"</span><span class="o">);</span>
+<span class="no">MDC</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"requestId"</span><span class="o">,</span> <span class="s">"req-20251016"</span><span class="o">);</span>
+
+<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"사용자 요청 처리 중..."</span><span class="o">);</span>
+
+<span class="no">MDC</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+
+<span class="c1">// 2025-10-16 13:45:12 [INFO] [userId=A123] [requestId=req-20251016] 사용자 요청 처리 중...</span></code></pre></figure>
+
+<p>위와 같이 출력이 되게 된다. 여기서 출력 포맷은 logback-spring.xml 에서 <code class="language-plaintext highlighter-rouge">%X{key}</code> 형태로 사용한다면, 다음과 같이 출력된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// &lt;pattern&gt;%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg [%X{userId}] [%X{requestId}]%n&lt;/pattern&gt; 일때</span>
+<span class="mi">13</span><span class="o">:</span><span class="mi">45</span><span class="o">:</span><span class="mf">12.234</span> <span class="o">[</span><span class="n">http</span><span class="o">-</span><span class="n">nio</span><span class="o">-</span><span class="mi">8080</span><span class="o">-</span><span class="n">exec</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span> <span class="no">INFO</span>  <span class="n">c</span><span class="o">.</span><span class="na">e</span><span class="o">.</span><span class="na">UserController</span> <span class="o">-</span> <span class="n">요청</span> <span class="n">처리</span> <span class="n">중</span> <span class="o">[</span><span class="no">A123</span><span class="o">]</span> <span class="o">[</span><span class="n">req</span><span class="o">-</span><span class="mi">20251016</span><span class="o">]</span></code></pre></figure>
+
+<p>X 를 스레드라고 보면 되고, 거기에 해당하는 <code class="language-plaintext highlighter-rouge">userId</code>, <code class="language-plaintext highlighter-rouge">requestId</code> 는 코드 내에서 put 했던 값을 호출하여서 출력하게 할 수 있다.</p>
+
+<h5 id="thead-간-mdc-주의점">Thead 간 MDC 주의점</h5>
+
+<p>MDC 는 <code class="language-plaintext highlighter-rouge">ThreadLocal</code> 기반임을 주의하자. 스레드가 바뀌면 값이 전파되지 않기 때문에 다음 코드를 쳐도 <code class="language-plaintext highlighter-rouge">traceId</code> 는 <code class="language-plaintext highlighter-rouge">null</code> 로 되게 된다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="no">MDC</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"traceId"</span><span class="o">,</span> <span class="s">"abc-123"</span><span class="o">);</span>
+
+<span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">runAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"비동기 로그"</span><span class="o">);</span> <span class="c1">// traceId 출력 ❌ (전파 안됨)</span>
+<span class="o">});</span></code></pre></figure>
+
+<p>위를 해결하려면 수동 복사를 통한 방법이 있다. 비동기나 <code class="language-plaintext highlighter-rouge">Reactor</code>, <code class="language-plaintext highlighter-rouge">WebFlux</code> 등 환경에서 MDC context 전파를 수동 또는 자동으로 하도록 한다.</p>
+
+<p><strong>개념</strong></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">@Async</code> (Spring MVC 내에 있는): 단일 스레드 풀 기반 비동기 처리 (기존 MVC 구조 유지)</li>
+  <li><code class="language-plaintext highlighter-rouge">Reactor</code> (Project Reactor): Reactive Streams 기반의 비동기 데이터 처리 라이브러리</li>
+  <li><code class="language-plaintext highlighter-rouge">Spring WebFlux</code>: Reactor 위에 만들어지는 비동기/논블로킹 웹 프레임워크, Spring MVC 대체 가능</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">context</span> <span class="o">=</span> <span class="no">MDC</span><span class="o">.</span><span class="na">getCopyOfContextMap</span><span class="o">();</span>
+<span class="nc">CompletableFuture</span><span class="o">.</span><span class="na">runAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="no">MDC</span><span class="o">.</span><span class="na">setContextMap</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"비동기 로그"</span><span class="o">);</span>
+    <span class="no">MDC</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+<span class="o">});</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">Spring Cloud Sleuth</code> / <code class="language-plaintext highlighter-rouge">Micrometer Tracing</code> 을 사용할 수도 있다. 이는 나중에 여유 시간이 되면 봐도 좋다. 당장 안사용한다.</p>
+
+<blockquote>
+  <p>MDC 를 사용할 일이 잘 없다.</p>
+</blockquote>
+
+<h5 id="mdc-구조">MDC 구조</h5>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">org</span><span class="o">.</span><span class="na">slf4j</span><span class="o">.</span><span class="na">MDC</span>
+ <span class="err">└──</span> <span class="kd">static</span> <span class="nc">MDCAdapter</span> <span class="n">mdcAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LogbackMDCAdapter</span><span class="o">();</span>
+
+<span class="n">ch</span><span class="o">.</span><span class="na">qos</span><span class="o">.</span><span class="na">logback</span><span class="o">.</span><span class="na">classic</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">LogbackMDCAdapter</span>
+ <span class="err">└──</span> <span class="nc">ThreadLocal</span><span class="o">&lt;</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="n">copyOnThreadLocal</span></code></pre></figure>
+
+<ul>
+  <li>SLF4J 의 MDC API 는 인터페이스 수준의 표준</li>
+  <li>Logback 이 실제 구현</li>
+  <li>스레드 별로 Map 을 보관</li>
+</ul>
+
+<h4 id="slf4j-parameterized-logging">SLF4J Parameterized Logging</h4>
+
+<p>SLF4J 에서는 플레이스 홀더 기능을 제공한다. <code class="language-plaintext highlighter-rouge">String.format()</code> 처럼 + 연산이나 문자열 합치는 연산 없이도 <code class="language-plaintext highlighter-rouge">{}</code> 를 통해 <code class="language-plaintext highlighter-rouge">lazy evaluation</code> 을 하도록 한다.</p>
+
+<p>이를 통해 성능을 최적화할 수 있고, 또 <code class="language-plaintext highlighter-rouge">is(LOG_LEVEL)Enable()</code> 함수를 통해 로그 레벨이 활성화 된 경우에만 평가하도록 할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// BAD - 항상 문자열 연결 수행</span>
+<span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Processing "</span> <span class="o">+</span> <span class="n">expensiveMethod</span><span class="o">()</span> <span class="o">+</span> <span class="s">" items"</span><span class="o">);</span>
+
+<span class="c1">// GOOD - 로그 레벨 체크 후 실행</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Processing {} items"</span><span class="o">,</span> <span class="n">expensiveMethod</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="c1">// BETTER - 파라미터화된 메시지 사용</span>
+<span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Processing {} items for user {}"</span><span class="o">,</span>
+             <span class="n">itemCount</span><span class="o">,</span> <span class="n">userId</span><span class="o">);</span>
+
+<span class="c1">// BEST (Java 8+) - Supplier 사용</span>
+<span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Processing items: {}"</span><span class="o">,</span>
+             <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">expensiveMethod</span><span class="o">());</span></code></pre></figure>
+
+<hr />
+
+<h2 id="️-용어">✒️ 용어</h2>
+
+<h6 id="property-placeholder">Property Placeholder</h6>
+
+<p>Spring 및 <code class="language-plaintext highlighter-rouge">Logback</code> 설정에서 자주 사용되는 기능으로, 외부에 정의된 값을 설정 파일이나 환경 변수에서 참조할 수 있도록 해주는 플레이스홀더(변수 대체) 기능이다.</p>
+
+<p>즉, 반복적으로 사용되는 값(예: 로그 디렉토리, 포트 번호, 파일 이름 등)을 한 곳에서 정의하고 다른 곳에서 <code class="language-plaintext highlighter-rouge">${}</code> 문법으로 참조할 수 있게 해줌</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/15/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-36%EC%9D%BC%EC%B0%A8-Spring-Boot-Logging.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/java/spring/2025/10/15/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-36%EC%9D%BC%EC%B0%A8-Spring-Boot-Logging.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

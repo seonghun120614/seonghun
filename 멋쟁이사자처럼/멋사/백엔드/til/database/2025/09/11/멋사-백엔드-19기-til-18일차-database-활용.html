@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>[멋사 백엔드 19기] TIL 18일차 Database 활용</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>[멋사 백엔드 19기] TIL 18일차 Database 활용 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="[멋사 백엔드 19기] TIL 18일차 Database 활용" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<meta property="og:description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description." />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-18%EC%9D%BC%EC%B0%A8-database-%ED%99%9C%EC%9A%A9.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-18%EC%9D%BC%EC%B0%A8-database-%ED%99%9C%EC%9A%A9.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-11T13:32:03+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="[멋사 백엔드 19기] TIL 18일차 Database 활용" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-09-11T13:32:03+00:00","datePublished":"2025-09-11T13:32:03+00:00","description":"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.","headline":"[멋사 백엔드 19기] TIL 18일차 Database 활용","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-18%EC%9D%BC%EC%B0%A8-database-%ED%99%9C%EC%9A%A9.html"},"url":"https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-18%EC%9D%BC%EC%B0%A8-database-%ED%99%9C%EC%9A%A9.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-18%EC%9D%BC%EC%B0%A8-database-%ED%99%9C%EC%9A%A9.html">
+        <h2 class="post-title">[멋사 백엔드 19기] TIL 18일차 Database 활용</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Sep 11, 2025</div><ul class="post-categories"><li>멋쟁이사자처럼</li><li>멋사</li><li>백엔드</li><li>TIL</li><li>Database</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#system-tablemetadata-table">System Table/Metadata Table</a>
+    <ul>
+      <li><a href="#유저-생성">유저 생성</a></li>
+      <li><a href="#권한-부여">권한 부여</a></li>
+      <li><a href="#권한-해제">권한 삭제</a></li>
+    </ul>
+  </li>
+  <li><a href="#sql-기초">SQL 기초</a>
+    <ul>
+      <li><a href="#ddl">DDL</a>
+        <ul>
+          <li><a href="#create-database">CREATE DATABASE</a></li>
+          <li><a href="#create-procedure-and-create-function">CREATE PROCEDURE and CREATE FUNCTION</a></li>
+          <li><a href="#create-table">CREATE TABLE</a></li>
+        </ul>
+      </li>
+      <li><a href="#dml">DML</a>
+        <ul>
+          <li><a href="#select">SELECT</a></li>
+          <li><a href="#함수">함수</a></li>
+          <li><a href="#update">UPDATE</a></li>
+          <li><a href="#delete">DELETE</a></li>
+          <li><a href="#insert">INSERT</a></li>
+          <li><a href="#do">DO</a></li>
+          <li><a href="#call">CALL</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#relational-model">Relational Model</a>
+    <ul>
+      <li><a href="#structure-of-relational-databases">Structure of Relational Databases</a>
+        <ul>
+          <li><a href="#domain-atomicity">Domain Atomicity</a></li>
+          <li><a href="#domain-nullity">Domain Nullity</a></li>
+        </ul>
+      </li>
+      <li><a href="#relational-model-의-한계">Relational Model 의 한계</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<h3 id="system-tablemetadata-table">System Table/Metadata Table</h3>
+
+<p>보통 기본적으로 생성되어 있는 테이블을 시스템 테이블, 메타데이터 테이블이라고 부른다.</p>
+
+<p>여기에는 mysql. 의 명칭으로 시작하는</p>
+<ul>
+  <li>사용자 계정</li>
+  <li>권한</li>
+  <li>스토리지 엔진 정보</li>
+  <li>테이블 구조</li>
+</ul>
+
+<p>등등의 관리에 필요한 정보들이 테이블로 정의되어 있고, 이를 수정하면 사용자 계정이 추가된다던지, 권한이 바뀐다던지 할 때 이 테이블이 수정되게 된다. 하지만 이를 직접 접근해서 수정하면 권한에 문제가 생기기 때문에 보통은 create user / grant / drop user 등으로 관리한다.</p>
+
+<h4 id="유저-생성">유저 생성</h4>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 모든 호스트에서 접속 가능한 사용자</span>
+<span class="k">CREATE</span> <span class="k">USER</span> <span class="s1">'seonghun'</span><span class="o">@</span><span class="s1">'%'</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">'1234'</span><span class="p">;</span>
+
+<span class="c1">-- 로컬에서만 접속 가능한 사용자</span>
+<span class="k">CREATE</span> <span class="k">USER</span> <span class="s1">'seonghun'</span><span class="o">@</span><span class="s1">'localhost'</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">'1234'</span><span class="p">;</span></code></pre></figure>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">seonghun</code> 이라는 <code class="language-plaintext highlighter-rouge">user</code> 속성 그리고 <code class="language-plaintext highlighter-rouge">host</code> 속성으로는 <code class="language-plaintext highlighter-rouge">localhost</code> 로 지정하여 <code class="language-plaintext highlighter-rouge">mysql.user</code> 라는 테이블에 유저를 생성함을 볼 수 있다. 이렇게 생성된 유저는 localhost 에서만 접속 가능하다.</p>
+
+<p>모든 호스트에서 접속이 가능하게 하려면 전자의 명령어에서 와일드카드 %를 쓰자.</p>
+
+<h4 id="권한-부여">권한 부여</h4>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 특정 데이터베이스에 대한 모든 권한</span>
+<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">liondb</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">'seonghun'</span><span class="o">@</span><span class="s1">'%'</span><span class="p">;</span>
+<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">liondb</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">'seonghun'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span></code></pre></figure>
+
+<p>GRANT ON TO 문을 사용하여 특정 데이터베이스 개체에 대한 특정 유저의 접근 권한을 설정할 수 있다.</p>
+
+<p>위 예제는 liondb 라는 명을 가지는 database 의 하위(테이블, 레코드) 모든 개체에 대한 권한을 주는 것을 볼 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 사용자 확인</span>
+<span class="k">SELECT</span> <span class="k">user</span><span class="p">,</span> <span class="k">host</span> <span class="k">FROM</span> <span class="n">mysql</span><span class="p">.</span><span class="k">user</span> <span class="k">WHERE</span> <span class="k">user</span> <span class="o">=</span> <span class="s1">'carami'</span><span class="p">;</span>
+
+<span class="c1">-- 사용자 삭제</span>
+<span class="k">DROP</span> <span class="k">USER</span> <span class="s1">'carami'</span><span class="o">@</span><span class="s1">'%'</span><span class="p">;</span>
+<span class="k">DROP</span> <span class="k">USER</span> <span class="s1">'carami'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="p">;</span></code></pre></figure>
+
+<p>전자의 명령어는 직접 메타테이블을 조회하는 쿼리이지 수정은 하지 않는다. 따라서 그렇게 주의할 작업은 아니며, 하위 제공되어지는 명령어을 사용하자.</p>
+
+<h4 id="권한-해제">권한 해제</h4>
+
+<p>권한을 주는게 있었다면 권한을 빼는 것도 있어야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 모든 권한 취소</span>
+<span class="k">REVOKE</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">liondb</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="s1">'carami'</span><span class="o">@</span><span class="s1">'%'</span><span class="p">;</span>
+
+<span class="c1">-- 특정 권한만 취소</span>
+<span class="k">REVOKE</span> <span class="k">INSERT</span><span class="p">,</span> <span class="k">UPDATE</span> <span class="k">ON</span> <span class="n">liondb</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="s1">'carami'</span><span class="o">@</span><span class="s1">'%'</span><span class="p">;</span>
+
+<span class="c1">-- 권한 적용</span>
+<span class="n">FLUSH</span> <span class="k">PRIVILEGES</span><span class="p">;</span></code></pre></figure>
+
+<p>여기서 FLUSH PRIVILEGES 가 궁금할 수 있는데 bash 같은 거의 환경 변수 설정 수정을 다 하고 실제로 ./zshrc 와 같이 실행을 시켜줘야 적용되는 것처럼 이 또한 해당 명령어를 넣어주어야 한다.</p>
+
+<p>이제 본격적으로 Mysql 을 사용하자.</p>
+
+<h3 id="sql-기초">SQL 기초</h3>
+
+<p>SQL 도 언어이기 때문에 계산이 된다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 수식 계산</span>
+<span class="k">SELECT</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">5</span><span class="p">;</span>
+<span class="k">SELECT</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">2</span><span class="p">.</span><span class="mi">5</span><span class="p">;</span>
+
+<span class="c1">-- 함수 사용</span>
+<span class="k">SELECT</span> <span class="n">SIN</span><span class="p">(</span><span class="n">PI</span><span class="p">()</span><span class="o">/</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">5</span><span class="p">;</span>
+
+<span class="c1">-- 여러 문장 실행</span>
+<span class="k">SELECT</span> <span class="k">VERSION</span><span class="p">();</span> <span class="k">SELECT</span> <span class="n">NOW</span><span class="p">();</span>
+
+<span class="c1">-- 여러 줄에 걸쳐 작성</span>
+<span class="k">SELECT</span> 
+    <span class="k">USER</span><span class="p">(),</span>
+    <span class="k">CURRENT_DATE</span><span class="p">;</span></code></pre></figure>
+
+<p>구문은 보통 ; 로 구분된다. 또한 정해놓은 함수(SIN, COS 등등) 을 사용할 수 있다. 하지만 굳이 이 정도의 계산을 할거였으면 이런 어플리케이션을 만들지 않았을 것이다.</p>
+
+<h4 id="ddl">DDL</h4>
+
+<p>데이터 정의어로 테이블을 생성하자.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- employees 테이블 생성</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">employees</span> <span class="p">(</span>
+    <span class="n">employee_id</span> <span class="nb">INT</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">UNSIGNED</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">first_name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+    <span class="n">last_name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">email</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">phone_number</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+    <span class="n">hire_date</span> <span class="nb">DATE</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">job_id</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">salary</span> <span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">commission_pct</span> <span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="n">manager_id</span> <span class="nb">INT</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">UNSIGNED</span><span class="p">,</span>
+    <span class="n">department_id</span> <span class="nb">INT</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">UNSIGNED</span><span class="p">,</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">employee_id</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="c1">-- 테이블 목록 확인</span>
+<span class="k">SHOW</span> <span class="n">TABLES</span><span class="p">;</span>
+
+<span class="c1">-- 테이블 구조 확인</span>
+<span class="k">DESC</span> <span class="n">employees</span><span class="p">;</span></code></pre></figure>
+
+<p>NOT NULL 로 보이는 것이 <strong>integrity constraints</strong> 중 하나이다.</p>
+
+<h5 id="create-database">CREATE DATABASE</h5>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="err">{</span><span class="k">DATABASE</span> <span class="o">|</span> <span class="k">SCHEMA</span><span class="err">}</span> <span class="p">[</span><span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="n">db_name</span>
+    <span class="p">[</span><span class="n">create_option</span><span class="p">]</span> <span class="p">...</span></code></pre></figure>
+
+<p>정의서를 보면 create database 나 create schema 는 동일하게 동작한다. if not exists 옵션을 통해 이미 같은 데이터베이스가 존재할 시 생성하지 않도록 할 수 도 있다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">create_option</span><span class="p">:</span> <span class="p">[</span><span class="k">DEFAULT</span><span class="p">]</span> <span class="err">{</span>
+    <span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="n">charset_name</span>
+  <span class="o">|</span> <span class="k">COLLATE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="k">collation_name</span>
+  <span class="o">|</span> <span class="n">ENCRYPTION</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="err">{</span><span class="s1">'Y'</span> <span class="o">|</span> <span class="s1">'N'</span><span class="err">}</span>
+<span class="err">}</span></code></pre></figure>
+
+<p>데이터베이스 생성 시 추가 설정 옵션이다. =은 생략 가능하며, 문자열 세트로 사용할 문자 인코딩이나, COLLATE 와 같은 문자 비교 방식(정렬 순서, 대소문자 구분 등) 을 정할 수 있다.</p>
+
+<ul>
+  <li><strong>CHARACTER SET</strong>: DB 에서 사용할 문자 인코딩 설정</li>
+  <li><strong>COLLATE</strong>: 문자 비교 방식 설정 (정렬 순서, 대소문자 구분 등)</li>
+  <li><strong>ENCRYPTION</strong>: DB 파일 자체를 암호화할지 여부</li>
+</ul>
+
+<p>각 옵션에는 DEFAULT 라는 옵션을 넣을 수 있고, charset_name, collation_name 은 다음을 통해 볼 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SHOW</span> <span class="nb">CHARACTER</span> <span class="k">SET</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">---------+----------------------+----------------+</span>
+<span class="o">|</span> <span class="n">Charset</span> <span class="o">|</span> <span class="n">Description</span>          <span class="o">|</span> <span class="k">Default</span> <span class="k">collation</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------+----------------------+----------------+</span>
+<span class="o">|</span> <span class="n">utf8mb4</span> <span class="o">|</span> <span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="n">Unicode</span>        <span class="o">|</span> <span class="n">utf8mb4_0900_ai_ci</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">latin1</span>  <span class="o">|</span> <span class="n">cp1252</span> <span class="n">West</span> <span class="n">European</span> <span class="o">|</span> <span class="n">latin1_swedish_ci</span>  <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------+----------------------+----------------+</span>
+
+<span class="k">SHOW</span> <span class="k">COLLATION</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">---------------------+---------+---------+----------+---------+</span>
+<span class="o">|</span> <span class="k">Collation</span>           <span class="o">|</span> <span class="n">Charset</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Compiled</span> <span class="o">|</span> <span class="n">Sortlen</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------+---------+---------+----------+---------+</span>
+<span class="o">|</span> <span class="n">utf8mb4_general_ci</span>  <span class="o">|</span> <span class="n">utf8mb4</span> <span class="o">|</span> <span class="n">Yes</span>     <span class="o">|</span> <span class="n">Yes</span>      <span class="o">|</span> <span class="mi">1</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">utf8mb4_unicode_ci</span>  <span class="o">|</span> <span class="n">utf8mb4</span> <span class="o">|</span> <span class="k">No</span>      <span class="o">|</span> <span class="n">Yes</span>      <span class="o">|</span> <span class="mi">8</span>       <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------+---------+---------+----------+---------+</span></code></pre></figure>
+
+<h5 id="create-procedure-and-create-function">CREATE PROCEDURE and CREATE FUNCTION</h5>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span>
+    <span class="p">[</span><span class="k">DEFINER</span> <span class="o">=</span> <span class="k">user</span><span class="p">]</span>
+    <span class="k">PROCEDURE</span> <span class="p">[</span><span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="n">sp_name</span> <span class="p">([</span><span class="n">proc_parameter</span><span class="p">[,...]])</span>
+    <span class="p">[</span><span class="n">characteristic</span> <span class="p">...]</span> <span class="n">routine_body</span>
+
+<span class="k">CREATE</span>
+    <span class="p">[</span><span class="k">DEFINER</span> <span class="o">=</span> <span class="k">user</span><span class="p">]</span>
+    <span class="k">FUNCTION</span> <span class="p">[</span><span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="n">sp_name</span> <span class="p">([</span><span class="n">func_parameter</span><span class="p">[,...]])</span>
+    <span class="k">RETURNS</span> <span class="k">type</span>
+    <span class="p">[</span><span class="n">characteristic</span> <span class="p">...]</span> <span class="n">routine_body</span>
+
+<span class="n">proc_parameter</span><span class="p">:</span>
+    <span class="p">[</span> <span class="k">IN</span> <span class="o">|</span> <span class="k">OUT</span> <span class="o">|</span> <span class="k">INOUT</span> <span class="p">]</span> <span class="n">param_name</span> <span class="k">type</span>
+
+<span class="n">func_parameter</span><span class="p">:</span>
+    <span class="n">param_name</span> <span class="k">type</span>
+
+<span class="k">type</span><span class="p">:</span>
+    <span class="k">Any</span> <span class="k">valid</span> <span class="n">MySQL</span> <span class="k">data</span> <span class="k">type</span>
+
+<span class="n">characteristic</span><span class="p">:</span> <span class="err">{</span>
+    <span class="k">COMMENT</span> <span class="s1">'string'</span>
+  <span class="o">|</span> <span class="k">LANGUAGE</span> <span class="k">SQL</span>
+  <span class="o">|</span> <span class="p">[</span><span class="k">NOT</span><span class="p">]</span> <span class="k">DETERMINISTIC</span>
+  <span class="o">|</span> <span class="err">{</span> <span class="k">CONTAINS</span> <span class="k">SQL</span> <span class="o">|</span> <span class="k">NO</span> <span class="k">SQL</span> <span class="o">|</span> <span class="k">READS</span> <span class="k">SQL</span> <span class="k">DATA</span> <span class="o">|</span> <span class="k">MODIFIES</span> <span class="k">SQL</span> <span class="k">DATA</span> <span class="err">}</span>
+  <span class="o">|</span> <span class="k">SQL</span> <span class="k">SECURITY</span> <span class="err">{</span> <span class="k">DEFINER</span> <span class="o">|</span> <span class="k">INVOKER</span> <span class="err">}</span>
+<span class="err">}</span>
+
+<span class="n">routine_body</span><span class="p">:</span>
+    <span class="k">SQL</span> <span class="k">routine</span></code></pre></figure>
+
+<p>길지만 거의 모든 옵션들이 유사하다. DEFINER 는 프로시저를 정의한 계정을 지정할 수 있다.</p>
+
+<ul>
+  <li>([proc_parameter[,…]]): 입력/출력 파라미터 목록</li>
+  <li></li>
+  <li>routine_body; 실제 실행할 SQL 코드 블록</li>
+</ul>
+
+<p>function 은 procedure 와 비슷하지만 무조건 반환값이 있어야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="p">[</span> <span class="k">IN</span> <span class="o">|</span> <span class="k">OUT</span> <span class="o">|</span> <span class="k">INOUT</span> <span class="p">]</span> <span class="n">param_name</span> <span class="k">type</span></code></pre></figure>
+
+<ul>
+  <li>IN: 입력용</li>
+  <li>OUT: 출력용</li>
+  <li>INOUT: 입출력용</li>
+  <li>type: INT, VARCHAR 등 타입</li>
+</ul>
+
+<blockquote>
+  <p>Any valid MySQL data type: MySQL 에서 지원하는 모든 데이터 타입 가능</p>
+</blockquote>
+
+<p><strong>characteristics</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="err">{</span>
+    <span class="k">COMMENT</span> <span class="s1">'string'</span>
+  <span class="o">|</span> <span class="k">LANGUAGE</span> <span class="k">SQL</span>
+  <span class="o">|</span> <span class="p">[</span><span class="k">NOT</span><span class="p">]</span> <span class="k">DETERMINISTIC</span>
+  <span class="o">|</span> <span class="err">{</span> <span class="k">CONTAINS</span> <span class="k">SQL</span> <span class="o">|</span> <span class="k">NO</span> <span class="k">SQL</span> <span class="o">|</span> <span class="k">READS</span> <span class="k">SQL</span> <span class="k">DATA</span> <span class="o">|</span> <span class="k">MODIFIES</span> <span class="k">SQL</span> <span class="k">DATA</span> <span class="err">}</span>
+  <span class="o">|</span> <span class="k">SQL</span> <span class="k">SECURITY</span> <span class="err">{</span> <span class="k">DEFINER</span> <span class="o">|</span> <span class="k">INVOKER</span> <span class="err">}</span>
+<span class="err">}</span></code></pre></figure>
+
+<blockquote>
+  <p>추후에 공부해도 됨</p>
+</blockquote>
+
+<h5 id="create-table">CREATE TABLE</h5>
+
+<p>가장 중요한 DDL 이다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">check_constraint_definition</span><span class="p">:</span>
+    <span class="p">[</span><span class="k">CONSTRAINT</span> <span class="p">[</span><span class="n">symbol</span><span class="p">]]</span> <span class="k">CHECK</span> <span class="p">(</span><span class="n">expr</span><span class="p">)</span> <span class="p">[[</span><span class="k">NOT</span><span class="p">]</span> <span class="n">ENFORCED</span><span class="p">]</span>
+
+<span class="n">reference_definition</span><span class="p">:</span>
+    <span class="k">REFERENCES</span> <span class="n">tbl_name</span> <span class="p">(</span><span class="n">key_part</span><span class="p">,...)</span>
+      <span class="p">[</span><span class="k">MATCH</span> <span class="k">FULL</span> <span class="o">|</span> <span class="k">MATCH</span> <span class="k">PARTIAL</span> <span class="o">|</span> <span class="k">MATCH</span> <span class="k">SIMPLE</span><span class="p">]</span>
+      <span class="p">[</span><span class="k">ON</span> <span class="k">DELETE</span> <span class="n">reference_option</span><span class="p">]</span>
+      <span class="p">[</span><span class="k">ON</span> <span class="k">UPDATE</span> <span class="n">reference_option</span><span class="p">]</span>
+
+<span class="n">reference_option</span><span class="p">:</span>
+    <span class="k">RESTRICT</span> <span class="o">|</span> <span class="k">CASCADE</span> <span class="o">|</span> <span class="k">SET</span> <span class="k">NULL</span> <span class="o">|</span> <span class="k">NO</span> <span class="n">ACTION</span> <span class="o">|</span> <span class="k">SET</span> <span class="k">DEFAULT</span></code></pre></figure>
+
+<p>하나하나씩 살펴본다.</p>
+
+<p><strong>일반 테이블 생성</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="p">[</span><span class="k">TEMPORARY</span><span class="p">]</span> <span class="k">TABLE</span> <span class="p">[</span><span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="n">tbl_name</span>
+    <span class="p">(</span><span class="n">create_definition</span><span class="p">,...)</span>
+    <span class="p">[</span><span class="n">table_options</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">partition_options</span><span class="p">]</span></code></pre></figure>
+
+<ul>
+  <li>TEMPORARY: 임시 테이블 생성</li>
+  <li>create_definition: 컬럼, 인덱스, 제약 조건 등등 정의</li>
+  <li>table_options: 문자셋, 정렬, 스토리지 엔진 등 테이블 옵션</li>
+  <li>partition_options: 파티션 기능 사용 시 옵션</li>
+</ul>
+
+<p><strong>table options</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">table_options</span><span class="p">:</span>
+    <span class="n">table_option</span> <span class="p">[[,]</span> <span class="n">table_option</span><span class="p">]</span> <span class="p">...</span>
+
+<span class="n">table_option</span><span class="p">:</span> <span class="err">{</span>
+    <span class="n">AUTOEXTEND_SIZE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="n">value</span>
+  <span class="o">|</span> <span class="n">AUTO_INCREMENT</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="n">value</span>
+  <span class="o">|</span> <span class="n">AVG_ROW_LENGTH</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="n">value</span>
+  <span class="o">|</span> <span class="p">[</span><span class="k">DEFAULT</span><span class="p">]</span> <span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="n">charset_name</span>
+  <span class="o">|</span> <span class="n">CHECKSUM</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="err">{</span><span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span><span class="err">}</span>
+  <span class="o">|</span> <span class="p">[</span><span class="k">DEFAULT</span><span class="p">]</span> <span class="k">COLLATE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="k">collation_name</span>
+  <span class="o">|</span> <span class="k">COMMENT</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="s1">'string'</span>
+  <span class="o">|</span> <span class="n">COMPRESSION</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="err">{</span><span class="s1">'ZLIB'</span> <span class="o">|</span> <span class="s1">'LZ4'</span> <span class="o">|</span> <span class="s1">'NONE'</span><span class="err">}</span>
+  <span class="o">|</span> <span class="k">CONNECTION</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="s1">'connect_string'</span>
+  <span class="o">|</span> <span class="err">{</span><span class="k">DATA</span> <span class="o">|</span> <span class="k">INDEX</span><span class="err">}</span> <span class="n">DIRECTORY</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="s1">'absolute path to directory'</span>
+  <span class="o">|</span> <span class="n">DELAY_KEY_WRITE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="err">{</span><span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span><span class="err">}</span>
+  <span class="o">|</span> <span class="n">ENCRYPTION</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="err">{</span><span class="s1">'Y'</span> <span class="o">|</span> <span class="s1">'N'</span><span class="err">}</span>
+  <span class="o">|</span> <span class="n">ENGINE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="n">engine_name</span>
+  <span class="o">|</span> <span class="n">ENGINE_ATTRIBUTE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="s1">'string'</span>
+  <span class="o">|</span> <span class="n">INSERT_METHOD</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="err">{</span> <span class="k">NO</span> <span class="o">|</span> <span class="k">FIRST</span> <span class="o">|</span> <span class="k">LAST</span> <span class="err">}</span>
+  <span class="o">|</span> <span class="n">KEY_BLOCK_SIZE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="n">value</span>
+  <span class="o">|</span> <span class="n">MAX_ROWS</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="n">value</span>
+  <span class="o">|</span> <span class="n">MIN_ROWS</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="n">value</span>
+  <span class="o">|</span> <span class="n">PACK_KEYS</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="err">{</span><span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="k">DEFAULT</span><span class="err">}</span>
+  <span class="o">|</span> <span class="n">PASSWORD</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="s1">'string'</span>
+  <span class="o">|</span> <span class="n">ROW_FORMAT</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="err">{</span><span class="k">DEFAULT</span> <span class="o">|</span> <span class="k">DYNAMIC</span> <span class="o">|</span> <span class="nb">FIXED</span> <span class="o">|</span> <span class="n">COMPRESSED</span> <span class="o">|</span> <span class="n">REDUNDANT</span> <span class="o">|</span> <span class="n">COMPACT</span><span class="err">}</span>
+  <span class="o">|</span> <span class="k">START</span> <span class="n">TRANSACTION</span> 
+  <span class="o">|</span> <span class="n">SECONDARY_ENGINE_ATTRIBUTE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="s1">'string'</span>
+  <span class="o">|</span> <span class="n">STATS_AUTO_RECALC</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="err">{</span><span class="k">DEFAULT</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span><span class="err">}</span>
+  <span class="o">|</span> <span class="n">STATS_PERSISTENT</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="err">{</span><span class="k">DEFAULT</span> <span class="o">|</span> <span class="mi">0</span> <span class="o">|</span> <span class="mi">1</span><span class="err">}</span>
+  <span class="o">|</span> <span class="n">STATS_SAMPLE_PAGES</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="n">value</span>
+  <span class="o">|</span> <span class="n">tablespace_option</span>
+  <span class="o">|</span> <span class="k">UNION</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="p">(</span><span class="n">tbl_name</span><span class="p">[,</span><span class="n">tbl_name</span><span class="p">]...)</span>
+<span class="err">}</span></code></pre></figure>
+
+<p>넘어간다.</p>
+
+<p><strong>create_definition</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">create_definition</span><span class="p">:</span> <span class="err">{</span>
+    <span class="n">col_name</span> <span class="n">column_definition</span>
+  <span class="o">|</span> <span class="err">{</span><span class="k">INDEX</span> <span class="o">|</span> <span class="k">KEY</span><span class="err">}</span> <span class="p">[</span><span class="n">index_name</span><span class="p">]</span> <span class="p">[</span><span class="n">index_type</span><span class="p">]</span> <span class="p">(</span><span class="n">key_part</span><span class="p">,...)</span>
+      <span class="p">[</span><span class="n">index_option</span><span class="p">]</span> <span class="p">...</span>
+  <span class="o">|</span> <span class="err">{</span><span class="n">FULLTEXT</span> <span class="o">|</span> <span class="n">SPATIAL</span><span class="err">}</span> <span class="p">[</span><span class="k">INDEX</span> <span class="o">|</span> <span class="k">KEY</span><span class="p">]</span> <span class="p">[</span><span class="n">index_name</span><span class="p">]</span> <span class="p">(</span><span class="n">key_part</span><span class="p">,...)</span>
+      <span class="p">[</span><span class="n">index_option</span><span class="p">]</span> <span class="p">...</span>
+  <span class="o">|</span> <span class="p">[</span><span class="k">CONSTRAINT</span> <span class="p">[</span><span class="n">symbol</span><span class="p">]]</span> <span class="k">PRIMARY</span> <span class="k">KEY</span>
+      <span class="p">[</span><span class="n">index_type</span><span class="p">]</span> <span class="p">(</span><span class="n">key_part</span><span class="p">,...)</span>
+      <span class="p">[</span><span class="n">index_option</span><span class="p">]</span> <span class="p">...</span>
+  <span class="o">|</span> <span class="p">[</span><span class="k">CONSTRAINT</span> <span class="p">[</span><span class="n">symbol</span><span class="p">]]</span> <span class="k">UNIQUE</span> <span class="p">[</span><span class="k">INDEX</span> <span class="o">|</span> <span class="k">KEY</span><span class="p">]</span>
+      <span class="p">[</span><span class="n">index_name</span><span class="p">]</span> <span class="p">[</span><span class="n">index_type</span><span class="p">]</span> <span class="p">(</span><span class="n">key_part</span><span class="p">,...)</span>
+      <span class="p">[</span><span class="n">index_option</span><span class="p">]</span> <span class="p">...</span>
+  <span class="o">|</span> <span class="p">[</span><span class="k">CONSTRAINT</span> <span class="p">[</span><span class="n">symbol</span><span class="p">]]</span> <span class="k">FOREIGN</span> <span class="k">KEY</span>
+      <span class="p">[</span><span class="n">index_name</span><span class="p">]</span> <span class="p">(</span><span class="n">col_name</span><span class="p">,...)</span>
+      <span class="n">reference_definition</span>
+  <span class="o">|</span> <span class="n">check_constraint_definition</span>
+<span class="err">}</span></code></pre></figure>
+
+<p>기본적으로 정의서에서 {} 로 되어 있는건 여러 개가 올 수 있다는 의미다.</p>
+
+<ul>
+  <li>컬럼 정의: col_name column_definition
+    <ul>
+      <li>여러개 올 수 있음</li>
+    </ul>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>인덱스: INDEX</td>
+          <td>KEY [index_name] [index_type] (key_part, …) [index_option]</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>FULLTEXT / SPATIAL 인덱스: 텍스트 검색 또는 공간 데이터 용</li>
+  <li>PRIMARY KEY, UNIQUE, FOREIGN KEY 는 가볍게 읽고 넘기자. symbol 은 해당 constraint 명칭이다.</li>
+</ul>
+
+<p><strong>index</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">index_type</span><span class="p">:</span>
+    <span class="k">USING</span> <span class="err">{</span><span class="n">BTREE</span> <span class="o">|</span> <span class="n">HASH</span><span class="err">}</span>
+
+<span class="n">index_option</span><span class="p">:</span> <span class="err">{</span>
+    <span class="n">KEY_BLOCK_SIZE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="n">value</span>
+  <span class="o">|</span> <span class="n">index_type</span>
+  <span class="o">|</span> <span class="k">WITH</span> <span class="n">PARSER</span> <span class="n">parser_name</span>
+  <span class="o">|</span> <span class="k">COMMENT</span> <span class="s1">'string'</span>
+  <span class="o">|</span> <span class="err">{</span><span class="n">VISIBLE</span> <span class="o">|</span> <span class="n">INVISIBLE</span><span class="err">}</span>
+  <span class="o">|</span><span class="n">ENGINE_ATTRIBUTE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="s1">'string'</span>
+  <span class="o">|</span><span class="n">SECONDARY_ENGINE_ATTRIBUTE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="s1">'string'</span>
+<span class="err">}</span></code></pre></figure>
+
+<p>BTREE, HASH 둘 중 사용할 수 있는데 보통은 HASH 를 사용하는게 빠르지만, 범위 검색이나 정렬에는 부적합하게 된다. 따라서 대부분 BTREE 를 사용하며 이게 기본값이다.</p>
+
+<ul>
+  <li>KEY_BLOCK_SIZE: 인덱스 블록의 크기를 바이트 단위로 지정가능</li>
+</ul>
+
+<p><strong>column_definition</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">column_definition</span><span class="p">:</span> <span class="err">{</span>
+    <span class="n">data_type</span> <span class="p">[</span><span class="k">NOT</span> <span class="k">NULL</span> <span class="o">|</span> <span class="k">NULL</span><span class="p">]</span> <span class="p">[</span><span class="k">DEFAULT</span> <span class="err">{</span><span class="n">literal</span> <span class="o">|</span> <span class="p">(</span><span class="n">expr</span><span class="p">)</span><span class="err">}</span> <span class="p">]</span>
+      <span class="p">[</span><span class="n">VISIBLE</span> <span class="o">|</span> <span class="n">INVISIBLE</span><span class="p">]</span>
+      <span class="p">[</span><span class="n">AUTO_INCREMENT</span><span class="p">]</span> <span class="p">[</span><span class="k">UNIQUE</span> <span class="p">[</span><span class="k">KEY</span><span class="p">]]</span> <span class="p">[[</span><span class="k">PRIMARY</span><span class="p">]</span> <span class="k">KEY</span><span class="p">]</span>
+      <span class="p">[</span><span class="k">COMMENT</span> <span class="s1">'string'</span><span class="p">]</span>
+      <span class="p">[</span><span class="k">COLLATE</span> <span class="k">collation_name</span><span class="p">]</span>
+      <span class="p">[</span><span class="n">COLUMN_FORMAT</span> <span class="err">{</span><span class="nb">FIXED</span> <span class="o">|</span> <span class="k">DYNAMIC</span> <span class="o">|</span> <span class="k">DEFAULT</span><span class="err">}</span><span class="p">]</span>
+      <span class="p">[</span><span class="n">ENGINE_ATTRIBUTE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="s1">'string'</span><span class="p">]</span>
+      <span class="p">[</span><span class="n">SECONDARY_ENGINE_ATTRIBUTE</span> <span class="p">[</span><span class="o">=</span><span class="p">]</span> <span class="s1">'string'</span><span class="p">]</span>
+      <span class="p">[</span><span class="k">STORAGE</span> <span class="err">{</span><span class="n">DISK</span> <span class="o">|</span> <span class="n">MEMORY</span><span class="err">}</span><span class="p">]</span>
+      <span class="p">[</span><span class="n">reference_definition</span><span class="p">]</span>
+      <span class="p">[</span><span class="n">check_constraint_definition</span><span class="p">]</span>
+  <span class="o">|</span> <span class="n">data_type</span>
+      <span class="p">[</span><span class="k">COLLATE</span> <span class="k">collation_name</span><span class="p">]</span>
+      <span class="p">[</span><span class="k">GENERATED</span> <span class="n">ALWAYS</span><span class="p">]</span> <span class="k">AS</span> <span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+      <span class="p">[</span><span class="n">VIRTUAL</span> <span class="o">|</span> <span class="n">STORED</span><span class="p">]</span> <span class="p">[</span><span class="k">NOT</span> <span class="k">NULL</span> <span class="o">|</span> <span class="k">NULL</span><span class="p">]</span>
+      <span class="p">[</span><span class="n">VISIBLE</span> <span class="o">|</span> <span class="n">INVISIBLE</span><span class="p">]</span>
+      <span class="p">[</span><span class="k">UNIQUE</span> <span class="p">[</span><span class="k">KEY</span><span class="p">]]</span> <span class="p">[[</span><span class="k">PRIMARY</span><span class="p">]</span> <span class="k">KEY</span><span class="p">]</span>
+      <span class="p">[</span><span class="k">COMMENT</span> <span class="s1">'string'</span><span class="p">]</span>
+      <span class="p">[</span><span class="n">reference_definition</span><span class="p">]</span>
+      <span class="p">[</span><span class="n">check_constraint_definition</span><span class="p">]</span>
+<span class="err">}</span></code></pre></figure>
+
+<blockquote>
+  <p>NULL &gt; DEFAULT &gt; AUTOINCREMENT &gt; UNIQUE &gt; PRIMARY 혹은<br />
+AS &gt; UNIQUE &gt; PRIMARY 순서</p>
+</blockquote>
+
+<p><strong>SELECT를 통한 테이블 생성</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="p">[</span><span class="k">TEMPORARY</span><span class="p">]</span> <span class="k">TABLE</span> <span class="p">[</span><span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="n">tbl_name</span>
+    <span class="p">[(</span><span class="n">create_definition</span><span class="p">,...)]</span>
+    <span class="p">[</span><span class="n">table_options</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">partition_options</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">IGNORE</span> <span class="o">|</span> <span class="k">REPLACE</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">AS</span><span class="p">]</span> <span class="n">query_expression</span></code></pre></figure>
+
+<ul>
+  <li>AS SELECT 문을 통해 SELECT 결과를 바로 테이블로 생성</li>
+  <li>IGNORE / REPLACE: 기존 테이블과 충돌 처리</li>
+</ul>
+
+<p><strong>LIKE를 통한 기존 테이블을 복제</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CREATE</span> <span class="p">[</span><span class="k">TEMPORARY</span><span class="p">]</span> <span class="k">TABLE</span> <span class="p">[</span><span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span><span class="p">]</span> <span class="n">tbl_name</span>
+    <span class="err">{</span> <span class="k">LIKE</span> <span class="n">old_tbl_name</span> <span class="o">|</span> <span class="p">(</span><span class="k">LIKE</span> <span class="n">old_tbl_name</span><span class="p">)</span> <span class="err">}</span></code></pre></figure>
+
+<p>기존 테이블 구조(컬럼, 인덱스)만 복제하며, 데이터는 복제되지 않는다. 즉 스키마만 복제</p>
+
+<h4 id="dml">DML</h4>
+
+<p>데이터 조작어를 살펴보자.</p>
+
+<h5 id="select">SELECT</h5>
+
+<p><a href="https://dev.mysql.com/doc/refman/8.4/en/select.html">MySQL 8.4 SELECT 문</a>, 위 테이블에 들어갈 레코드들을 조회하는 SELECT 문을 보자.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span>
+    <span class="p">[</span><span class="k">ALL</span> <span class="o">|</span> <span class="k">DISTINCT</span> <span class="o">|</span> <span class="n">DISTINCTROW</span> <span class="p">]</span>
+    <span class="p">[</span><span class="n">HIGH_PRIORITY</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">STRAIGHT_JOIN</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">SQL_SMALL_RESULT</span><span class="p">]</span> <span class="p">[</span><span class="n">SQL_BIG_RESULT</span><span class="p">]</span> <span class="p">[</span><span class="n">SQL_BUFFER_RESULT</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">SQL_NO_CACHE</span><span class="p">]</span> <span class="p">[</span><span class="n">SQL_CALC_FOUND_ROWS</span><span class="p">]</span>
+    <span class="n">select_expr</span> <span class="p">[,</span> <span class="n">select_expr</span><span class="p">]</span> <span class="p">...</span>
+    <span class="p">[</span><span class="n">into_option</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">FROM</span> <span class="n">table_references</span>
+      <span class="p">[</span><span class="n">PARTITION</span> <span class="n">partition_list</span><span class="p">]]</span>
+    <span class="p">[</span><span class="k">WHERE</span> <span class="n">where_condition</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">GROUP</span> <span class="k">BY</span> <span class="p">[</span> <span class="err">{</span><span class="n">col_name</span> <span class="o">|</span> <span class="n">expr</span> <span class="o">|</span> <span class="k">position</span><span class="err">}</span><span class="p">,</span> <span class="p">...</span> <span class="p">[</span><span class="k">WITH</span> <span class="k">ROLLUP</span><span class="p">]</span>
+              <span class="o">|</span> <span class="k">ROLLUP</span> <span class="p">(</span><span class="err">{</span><span class="n">col_name</span> <span class="o">|</span> <span class="n">expr</span> <span class="o">|</span> <span class="k">position</span><span class="err">}</span><span class="p">,</span> <span class="p">...)]</span> <span class="p">]</span>
+    <span class="p">[</span><span class="k">HAVING</span> <span class="n">where_condition</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">WINDOW</span> <span class="n">window_name</span> <span class="k">AS</span> <span class="p">(</span><span class="n">window_spec</span><span class="p">)</span>
+        <span class="p">[,</span> <span class="n">window_name</span> <span class="k">AS</span> <span class="p">(</span><span class="n">window_spec</span><span class="p">)]</span> <span class="p">...]</span>
+    <span class="p">[</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="err">{</span><span class="n">col_name</span> <span class="o">|</span> <span class="n">expr</span> <span class="o">|</span> <span class="k">position</span><span class="err">}</span>
+      <span class="p">[</span><span class="k">ASC</span> <span class="o">|</span> <span class="k">DESC</span><span class="p">],</span> <span class="p">...</span> <span class="p">[</span><span class="k">WITH</span> <span class="k">ROLLUP</span><span class="p">]]</span>
+    <span class="p">[</span><span class="k">LIMIT</span> <span class="err">{</span><span class="p">[</span><span class="k">offset</span><span class="p">,]</span> <span class="k">row_count</span> <span class="o">|</span> <span class="k">row_count</span> <span class="k">OFFSET</span> <span class="k">offset</span><span class="err">}</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">into_option</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">FOR</span> <span class="err">{</span><span class="k">UPDATE</span> <span class="o">|</span> <span class="k">SHARE</span><span class="err">}</span>
+        <span class="p">[</span><span class="k">OF</span> <span class="n">tbl_name</span> <span class="p">[,</span> <span class="n">tbl_name</span><span class="p">]</span> <span class="p">...]</span>
+        <span class="p">[</span><span class="n">NOWAIT</span> <span class="o">|</span> <span class="n">SKIP</span> <span class="n">LOCKED</span><span class="p">]</span>
+      <span class="o">|</span> <span class="k">LOCK</span> <span class="k">IN</span> <span class="k">SHARE</span> <span class="k">MODE</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">into_option</span><span class="p">]</span>
+
+<span class="n">into_option</span><span class="p">:</span> <span class="err">{</span>
+    <span class="k">INTO</span> <span class="n">OUTFILE</span> <span class="s1">'file_name'</span>
+        <span class="p">[</span><span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="n">charset_name</span><span class="p">]</span>
+        <span class="n">export_options</span>
+  <span class="o">|</span> <span class="k">INTO</span> <span class="n">DUMPFILE</span> <span class="s1">'file_name'</span>
+  <span class="o">|</span> <span class="k">INTO</span> <span class="n">var_name</span> <span class="p">[,</span> <span class="n">var_name</span><span class="p">]</span> <span class="p">...</span>
+<span class="err">}</span>
+
+<span class="n">export_options</span><span class="p">:</span>
+    <span class="p">[</span><span class="err">{</span><span class="n">FIELDS</span> <span class="o">|</span> <span class="n">COLUMNS</span><span class="err">}</span>
+        <span class="p">[</span><span class="n">TERMINATED</span> <span class="k">BY</span> <span class="s1">'string'</span><span class="p">]</span>
+        <span class="p">[[</span><span class="n">OPTIONALLY</span><span class="p">]</span> <span class="n">ENCLOSED</span> <span class="k">BY</span> <span class="s1">'char'</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">ESCAPED</span> <span class="k">BY</span> <span class="s1">'char'</span><span class="p">]</span>
+    <span class="p">]</span>
+    <span class="p">[</span><span class="n">LINES</span>
+        <span class="p">[</span><span class="n">STARTING</span> <span class="k">BY</span> <span class="s1">'string'</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">TERMINATED</span> <span class="k">BY</span> <span class="s1">'string'</span><span class="p">]</span>
+    <span class="p">]</span></code></pre></figure>
+
+<p>기본적으로 위처럼 MySQL 문 정의서가 작성되어 있는데, 기본 구조는 다음과 같다:</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span>
+    <span class="p">[</span><span class="k">ALL</span> <span class="o">|</span> <span class="k">DISTINCT</span> <span class="o">|</span> <span class="n">DISTINCTROW</span> <span class="p">]</span>
+    <span class="p">[</span><span class="n">HIGH_PRIORITY</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">STRAIGHT_JOIN</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">SQL_SMALL_RESULT</span><span class="p">]</span> <span class="p">[</span><span class="n">SQL_BIG_RESULT</span><span class="p">]</span> <span class="p">[</span><span class="n">SQL_BUFFER_RESULT</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">SQL_NO_CACHE</span><span class="p">]</span> <span class="p">[</span><span class="n">SQL_CALC_FOUND_ROWS</span><span class="p">]</span>
+    <span class="n">select_expr</span> <span class="p">[,</span> <span class="n">select_expr</span><span class="p">]</span> <span class="p">...</span></code></pre></figure>
+
+<table>
+  <tbody>
+    <tr>
+      <td>[</td>
+      <td> </td>
+      <td>] 는 BNF 에서 쓰이는 표기법인데, 그냥 Data Dictionary 와 유사하다.</td>
+      <td>는 or 을 의미하기 때문에 안의 요소중 하나가 들어간다고 볼 수 있다.</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>ALL / DISTINCT / DISTINCTROW: 중복 행 처리 옵션</li>
+  <li>HIGH_PRIORITY: 테이블이 바쁠 때 먼저 처리</li>
+  <li>STRAIGHT_JOIN: 조인 순서를 강제시키는 옵션</li>
+  <li>SQL_SMALL_RESULT, SQL_BIG_RESULT, SQL_BUFFER_RESULT: 결과 집합 최적화 힌트, 세 옵션 전부 다 들어갈 수 있음</li>
+  <li>SQL_NO_CACHE: 쿼리 캐시 사용 안함</li>
+  <li>SQL_CALC_FOUND_ROWS: LIMIT 와 함께 전체 행 수 계산</li>
+  <li>select_expr [, select_expr] … : 선택할 컬럼 또는 계산식</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="p">[</span><span class="n">into_option</span><span class="p">]</span>
+
+<span class="p">...</span>
+
+<span class="n">into_option</span><span class="p">:</span> <span class="err">{</span>
+    <span class="k">INTO</span> <span class="n">OUTFILE</span> <span class="s1">'file_name'</span>
+        <span class="p">[</span><span class="nb">CHARACTER</span> <span class="k">SET</span> <span class="n">charset_name</span><span class="p">]</span>
+        <span class="n">export_options</span>
+  <span class="o">|</span> <span class="k">INTO</span> <span class="n">DUMPFILE</span> <span class="s1">'file_name'</span>
+  <span class="o">|</span> <span class="k">INTO</span> <span class="n">var_name</span> <span class="p">[,</span> <span class="n">var_name</span><span class="p">]</span> <span class="p">...</span>
+<span class="err">}</span>
+
+<span class="n">export_options</span><span class="p">:</span>
+    <span class="p">[</span><span class="err">{</span><span class="n">FIELDS</span> <span class="o">|</span> <span class="n">COLUMNS</span><span class="err">}</span>
+        <span class="p">[</span><span class="n">TERMINATED</span> <span class="k">BY</span> <span class="s1">'string'</span><span class="p">]</span>
+        <span class="p">[[</span><span class="n">OPTIONALLY</span><span class="p">]</span> <span class="n">ENCLOSED</span> <span class="k">BY</span> <span class="s1">'char'</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">ESCAPED</span> <span class="k">BY</span> <span class="s1">'char'</span><span class="p">]</span>
+    <span class="p">]</span>
+    <span class="p">[</span><span class="n">LINES</span>
+        <span class="p">[</span><span class="n">STARTING</span> <span class="k">BY</span> <span class="s1">'string'</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">TERMINATED</span> <span class="k">BY</span> <span class="s1">'string'</span><span class="p">]</span>
+    <span class="p">]</span></code></pre></figure>
+
+<p>into 는 결과를 내보낼 때 다시 보면 좋을 듯 하다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="p">[</span><span class="k">FROM</span> <span class="n">table_references</span>
+  <span class="p">[</span><span class="n">PARTITION</span> <span class="n">partition_list</span><span class="p">]]</span>
+<span class="p">[</span><span class="k">WHERE</span> <span class="n">where_condition</span><span class="p">]</span></code></pre></figure>
+
+<p>FROM 뒤에 여러 태이블 참조 및 필요 시 특정 파티션 선택 가능</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="p">[</span><span class="k">GROUP</span> <span class="k">BY</span> <span class="p">[</span> <span class="err">{</span><span class="n">col_name</span> <span class="o">|</span> <span class="n">expr</span> <span class="o">|</span> <span class="k">position</span><span class="err">}</span><span class="p">,</span> <span class="p">...</span> <span class="p">[</span><span class="k">WITH</span> <span class="k">ROLLUP</span><span class="p">]</span> <span class="o">|</span> <span class="k">ROLLUP</span> <span class="p">(</span><span class="err">{</span><span class="n">col_name</span> <span class="o">|</span> <span class="n">expr</span> <span class="o">|</span> <span class="k">position</span><span class="err">}</span><span class="p">,</span> <span class="p">...)]</span> <span class="p">]</span>
+<span class="p">[</span><span class="k">HAVING</span> <span class="n">where_condition</span><span class="p">]</span></code></pre></figure>
+
+<p>groupby 와 having 은 서로 같이 사용하며 groupby 만 사용해도 무관하다. having 은  where 절과 마찬가지로 조건문을 넣는다.</p>
+
+<p><strong>사용할 때 살펴보기</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="p">[</span><span class="n">WINDOW</span> <span class="n">window_name</span> <span class="k">AS</span> <span class="p">(</span><span class="n">window_spec</span><span class="p">)</span>
+    <span class="p">[,</span> <span class="n">window_name</span> <span class="k">AS</span> <span class="p">(</span><span class="n">window_spec</span><span class="p">)]</span> <span class="p">...]</span>
+<span class="p">[</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="err">{</span><span class="n">col_name</span> <span class="o">|</span> <span class="n">expr</span> <span class="o">|</span> <span class="k">position</span><span class="err">}</span>
+  <span class="p">[</span><span class="k">ASC</span> <span class="o">|</span> <span class="k">DESC</span><span class="p">],</span> <span class="p">...</span> <span class="p">[</span><span class="k">WITH</span> <span class="k">ROLLUP</span><span class="p">]]</span>
+<span class="p">[</span><span class="k">LIMIT</span> <span class="err">{</span><span class="p">[</span><span class="k">offset</span><span class="p">,]</span> <span class="k">row_count</span> <span class="o">|</span> <span class="k">row_count</span> <span class="k">OFFSET</span> <span class="k">offset</span><span class="err">}</span><span class="p">]</span></code></pre></figure>
+
+<blockquote>
+  <p>SELECT 문은 옵션 → 컬럼 → INTO → FROM → WHERE → GROUP BY → HAVING → WINDOW → ORDER BY → LIMIT → FOR UPDATE 순서로 구성되며 이 순서를 반드시 지키자.</p>
+</blockquote>
+
+<p><strong>DUAL 테이블</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">FROM</span> <span class="n">DUAL</span><span class="p">;</span>
+    <span class="o">-&gt;</span> <span class="mi">2</span></code></pre></figure>
+
+<p>보통 SELECT 만 사용하고 싶을때 뒤에 FROM DUAL 이 생략된다. 즉 단순 계산할 때 <code class="language-plaintext highlighter-rouge">SELECT 1+1</code> 만 넣으면 알아서 FROM DUAL 이 들어가게 된다.</p>
+
+<blockquote>
+  <p>보통 SELET 절에 있는 1+1 과 같은 수식을 expr 라고 하는데, 값을 계산하거나 반환하는 식을 의미한다.<br />
+SELECT 1;          – 숫자 상수<br />
+SELECT ‘hello’;    – 문자열 상수<br />
+SELECT TRUE;       – 논리값<br />
+SELECT 3 + 5;          – 산술 연산<br />
+SELECT salary * 1.1;   – 컬럼과 수치 연산<br />
+SELECT salary / 12;    – 나눗셈<br />
+SELECT SIN(PI()/4);                  – 수학 함수<br />
+SELECT UPPER(first_name);            – 문자열 함수<br />
+SELECT DATE_ADD(hire_date, INTERVAL 1 YEAR);  – 날짜 함수<br />
+SELECT salary &gt; 5000;                        – TRUE/FALSE<br />
+SELECT department_id IN (10, 20, 30);       – IN 연산<br />
+SELECT first_name LIKE ‘S%’;                 – 패턴 매칭<br />
+SELECT NOT (department_id = 90);             – NOT 연산<br />
+SELECT commission_pct IS NULL;      – NULL 체크<br />
+SELECT IFNULL(commission_pct, 0);   – NULL 대체</p>
+</blockquote>
+
+<p><strong>명명된 테이블의 모든 열들을 가져오기</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">t1</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> <span class="n">t2</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="n">t1</span> <span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">t2</span> <span class="p">...</span></code></pre></figure>
+
+<p><strong>명명된 테이블의 모든 열을 가져오되 순서를 정하기</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">t1</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="n">t1</span></code></pre></figure>
+
+<p>이때 t1.* 이 아닌 그냥 *로 하면 오류가 발생한다.</p>
+
+<p><strong>AS 사용하여 별칭 지정하기</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">CONCAT</span><span class="p">(</span><span class="n">last_name</span><span class="p">,</span><span class="s1">', '</span><span class="p">,</span><span class="n">first_name</span><span class="p">)</span> <span class="k">AS</span> <span class="n">full_name</span>
+  <span class="k">FROM</span> <span class="n">mytable</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">full_name</span><span class="p">;</span></code></pre></figure>
+
+<p>AS 를 통해 열 이름을 정할 수 있고, 이를 다시 절에 활용할 수도 있다. 이는 FROM 절에서도 사용가능하다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">CONCAT</span><span class="p">(</span><span class="n">last_name</span><span class="p">,</span><span class="s1">', '</span><span class="p">,</span><span class="n">first_name</span><span class="p">)</span> <span class="k">AS</span> <span class="n">full_name</span>
+  <span class="k">FROM</span> <span class="n">mytable</span> <span class="k">AS</span> <span class="n">t</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">full_name</span><span class="p">;</span></code></pre></figure>
+
+<blockquote>
+  <p>테이블 별칭은 AS 를 생략해도 자동으로 적용이 됨을 알고 있자.</p>
+</blockquote>
+
+<p><strong>SELECT WHERE</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">t1</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">t2</span><span class="p">.</span><span class="n">salary</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="k">AS</span> <span class="n">t1</span><span class="p">,</span> <span class="n">info</span> <span class="k">AS</span> <span class="n">t2</span>
+  <span class="k">WHERE</span> <span class="n">t1</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">t2</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+
+<span class="k">SELECT</span> <span class="n">t1</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">t2</span><span class="p">.</span><span class="n">salary</span> <span class="k">FROM</span> <span class="n">employee</span> <span class="n">t1</span><span class="p">,</span> <span class="n">info</span> <span class="n">t2</span>
+  <span class="k">WHERE</span> <span class="n">t1</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">t2</span><span class="p">.</span><span class="n">name</span><span class="p">;</span></code></pre></figure>
+
+<p>조건문 또한 WHERE 절을 통해 추가 가능하다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- AND 연산</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">salary</span> <span class="o">&gt;=</span> <span class="mi">10000</span> <span class="k">AND</span> <span class="n">department_id</span> <span class="o">=</span> <span class="mi">90</span><span class="p">;</span>
+
+<span class="c1">-- OR 연산</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">department_id</span> <span class="o">=</span> <span class="mi">90</span> <span class="k">OR</span> <span class="n">department_id</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+
+<span class="c1">-- NOT 연산</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="k">NOT</span> <span class="n">department_id</span> <span class="o">=</span> <span class="mi">90</span><span class="p">;</span>
+
+<span class="c1">-- 복합 조건</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="p">(</span><span class="n">department_id</span> <span class="o">=</span> <span class="mi">90</span> <span class="k">OR</span> <span class="n">department_id</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+  <span class="k">AND</span> <span class="n">salary</span> <span class="o">&gt;=</span> <span class="mi">10000</span><span class="p">;</span></code></pre></figure>
+
+<p>자바와는 다르게 OR, AND 를 통해 명제끼리 연결시킨다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- IN 사용</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">department_id</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">110</span><span class="p">);</span>
+
+<span class="c1">-- NOT IN 사용</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">department_id</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 범위 검색</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">salary</span> <span class="k">BETWEEN</span> <span class="mi">5000</span> <span class="k">AND</span> <span class="mi">10000</span><span class="p">;</span>
+
+<span class="c1">-- 날짜 범위</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">hire_date</span> <span class="k">BETWEEN</span> <span class="s1">'2005-01-01'</span> <span class="k">AND</span> <span class="s1">'2005-12-31'</span><span class="p">;</span></code></pre></figure>
+
+<p>날짜 범위는 위와 같이 사용된다.</p>
+
+<p><strong>LIKE</strong></p>
+
+<p>정규표현식처럼 문자열에 대해 문자열의 패턴이 맞는지 확인하도록 조건을 줄 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- S로 시작하는 이름</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">first_name</span> <span class="k">LIKE</span> <span class="s1">'S%'</span><span class="p">;</span>
+
+<span class="c1">-- n으로 끝나는 이름</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">first_name</span> <span class="k">LIKE</span> <span class="s1">'%n'</span><span class="p">;</span>
+
+<span class="c1">-- a를 포함하는 이름</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">first_name</span> <span class="k">LIKE</span> <span class="s1">'%a%'</span><span class="p">;</span>
+
+<span class="c1">-- 두 번째 글자가 o인 이름</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">first_name</span> <span class="k">LIKE</span> <span class="s1">'_o%'</span><span class="p">;</span>
+
+<span class="c1">-- 정확히 5글자인 이름</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">first_name</span> <span class="k">LIKE</span> <span class="s1">'_____'</span><span class="p">;</span>
+
+<span class="c1">-- a로 시작하고 5글자인 이름</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">first_name</span> <span class="k">LIKE</span> <span class="s1">'a____'</span><span class="p">;</span></code></pre></figure>
+
+<p><strong>ORDER BY</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">college</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">seed</span> <span class="k">FROM</span> <span class="n">tournament</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">region</span><span class="p">,</span> <span class="n">seed</span><span class="p">;</span>
+
+<span class="k">SELECT</span> <span class="n">college</span><span class="p">,</span> <span class="n">region</span> <span class="k">AS</span> <span class="n">r</span><span class="p">,</span> <span class="n">seed</span> <span class="k">AS</span> <span class="n">s</span> <span class="k">FROM</span> <span class="n">tournament</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">;</span>
+
+<span class="k">SELECT</span> <span class="n">college</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">seed</span>
+<span class="k">FROM</span> <span class="n">tournament</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">;</span>
+
+<span class="k">SELECT</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">age</span>
+<span class="k">FROM</span> <span class="n">mytable</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">last_name</span> <span class="k">ASC</span><span class="p">,</span> <span class="n">age</span> <span class="k">DESC</span><span class="p">;</span></code></pre></figure>
+
+<p>맨 하위가 의문일 수 있는데, 기본적으로 MySQL 은 <strong>중복된 열의 이름을 허용</strong>한다. 따라서 이를 index 로 지정하는 것을 볼 수 있다.</p>
+
+<p><strong>GROUP BY, HAVING</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">col1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">col2</span> <span class="k">FROM</span> <span class="n">t</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">col2</span> <span class="k">HAVING</span> <span class="n">col2</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span></code></pre></figure>
+
+<p>col2 가 2인 레코드들을 집계하여 보여주는 쿼리이다. 이때 having 절은 group by 와 함께 가져가는 predicate 이다. group by 가 없는데도 having 을 쓰게 되면 문제가 생길 수 있다.</p>
+
+<p><strong>LIMIT</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">tbl</span> <span class="k">LIMIT</span> <span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">;</span>  <span class="o">#</span> <span class="n">Retrieve</span> <span class="k">rows</span> <span class="mi">6</span><span class="o">-</span><span class="mi">15</span></code></pre></figure>
+
+<p>5 이후부터 10개를 가져온다.</p>
+
+<p><strong>Placeholders</strong></p>
+
+<p>플레이스 홀더는 프로그래밍 언어에서 변수와 비슷한 개념이다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SET</span> <span class="o">@</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="k">PREPARE</span> <span class="n">STMT</span> <span class="k">FROM</span> <span class="s1">'SELECT * FROM tbl LIMIT ?'</span><span class="p">;</span>
+<span class="k">EXECUTE</span> <span class="n">STMT</span> <span class="k">USING</span> <span class="o">@</span><span class="n">a</span><span class="p">;</span></code></pre></figure>
+
+<p>STMT 를 중간 코드와 같이 저으이하고, 해당 STMT 를 EXECUTE 문으로 실행함을 볼 수 있다. 인자를 넣을 때는 USING 을 통해 넣어주게 된다.</p>
+
+<p><strong>DISTINCT</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- 중복된 값 제거</span>
+<span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">department_id</span> 
+<span class="k">FROM</span> <span class="n">employees</span><span class="p">;</span>
+
+<span class="c1">-- 여러 컬럼의 조합으로 중복 제거</span>
+<span class="k">SELECT</span> <span class="k">DISTINCT</span> <span class="n">department_id</span><span class="p">,</span> <span class="n">job_id</span>
+<span class="k">FROM</span> <span class="n">employees</span><span class="p">;</span></code></pre></figure>
+
+<p><strong>NULL 처리</strong></p>
+
+<p>자바와는 다르게 sql 은 NULL 을 비교연산자 =, != 으로 못한다. 지정해놓은 IS NULL, IS NOT NULL 을 통해 비교할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="c1">-- NULL인 데이터 찾기</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">commission_pct</span> <span class="k">IS</span> <span class="k">NULL</span><span class="p">;</span>
+
+<span class="c1">-- NULL이 아닌 데이터 찾기</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employees</span> 
+<span class="k">WHERE</span> <span class="n">commission_pct</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">;</span></code></pre></figure>
+
+<h5 id="함수">함수</h5>
+
+<ul>
+  <li>UPPER</li>
+  <li>LOWER</li>
+  <li>CONCAT</li>
+  <li>SUBSTRING</li>
+  <li>LENGTH</li>
+  <li>TRIM, LTRIM, RTRIM</li>
+  <li>
+    <p>LPAD, RPAD</p>
+  </li>
+  <li>ROUND, CEIL, FLOOR</li>
+  <li>ABS</li>
+  <li>MOD</li>
+  <li>POWER</li>
+  <li>SQRT</li>
+  <li>
+    <p>GREATEST, LEAST</p>
+  </li>
+  <li>CURDATE, CURTIME, NOW</li>
+  <li>DATE_FORMAT</li>
+  <li>DATE_ADD, DATE_SUB</li>
+  <li>DATEDIFF</li>
+  <li>YEAR, MONTH, DAY, DAYOFWEEK</li>
+</ul>
+
+<p>위 내용들은 전부 응용 개념이라 많이 사용해봐야 외어지므로 그냥 그러려니 하고 넘어간다.</p>
+
+<h5 id="update">UPDATE</h5>
+
+<p>update-set-where 의 구문으로 보통 외우고 있으면 다 된다. where 절의 expression 넣는 구문은 select 구문과 동일하다. 실제 API 를 보자.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">UPDATE</span> <span class="p">[</span><span class="n">LOW_PRIORITY</span><span class="p">]</span> <span class="p">[</span><span class="k">IGNORE</span><span class="p">]</span> <span class="n">table_reference</span>
+    <span class="k">SET</span> <span class="n">assignment_list</span>
+    <span class="p">[</span><span class="k">WHERE</span> <span class="n">where_condition</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="p">...]</span>
+    <span class="p">[</span><span class="k">LIMIT</span> <span class="k">row_count</span><span class="p">]</span></code></pre></figure>
+
+<ul>
+  <li>[LOW_PRIORITY] : 다른 쿼리보다 실행 우선순위를 낮춤</li>
+  <li>[IGNORE] : 업데이트 중 발생하는 일부 오류를 무시하고 계속 실행</li>
+  <li>table_reference : 업데이트 할 테이블 이름</li>
+  <li>SET assignment_list : 수정할 컬럼과 값을 지정</li>
+  <li>[WHERE where_condition] : 조건을 만족하는 행만 업데이트</li>
+  <li>[ORDER BY …] : 특정 순서대로 행을 업데이트 (특히 LIMIT과 함께 사용)</li>
+  <li>[LIMIT row_count] : 한 번에 업데이트할 행 수 제한</li>
+</ul>
+
+<p>assignment_list 에는 수정할 컬럼들이 들어가는데, assignment 각각은 다음과 같이 정의된다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">assignment</span><span class="p">:</span>
+    <span class="n">col_name</span> <span class="o">=</span> <span class="n">value</span>
+
+<span class="n">value</span><span class="p">:</span>
+    <span class="err">{</span><span class="n">expr</span> <span class="o">|</span> <span class="k">DEFAULT</span><span class="err">}</span></code></pre></figure>
+
+<p>한 컬럼에 대해 어떤 값으로 변경할지 지정하는 곳이다. 여기서 value는 DEFAULT 혹은 표현식이 들어가면 된다.</p>
+
+<h5 id="delete">DELETE</h5>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">DELETE</span> <span class="p">[</span><span class="n">LOW_PRIORITY</span><span class="p">]</span> <span class="p">[</span><span class="n">QUICK</span><span class="p">]</span> <span class="p">[</span><span class="k">IGNORE</span><span class="p">]</span> <span class="k">FROM</span> <span class="n">tbl_name</span> <span class="p">[[</span><span class="k">AS</span><span class="p">]</span> <span class="n">tbl_alias</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">PARTITION</span> <span class="p">(</span><span class="n">partition_name</span> <span class="p">[,</span> <span class="n">partition_name</span><span class="p">]</span> <span class="p">...)]</span>
+    <span class="p">[</span><span class="k">WHERE</span> <span class="n">where_condition</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="p">...]</span>
+    <span class="p">[</span><span class="k">LIMIT</span> <span class="k">row_count</span><span class="p">]</span></code></pre></figure>
+
+<p>LOW_PRIORITY 설명은 생략</p>
+
+<ul>
+  <li>QUICK: 인덱스가 존재하면 더 빠르게 삭제</li>
+  <li>IGNORE: 삭제 과정에서 오류가 발생 시 무시하고 계속 진행할지 여부</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">FROM</span> <span class="n">tbl_name</span> <span class="p">[[</span><span class="k">AS</span><span class="p">]</span> <span class="n">tbl_alias</span><span class="p">]</span>
+<span class="p">[</span><span class="n">PARTITION</span> <span class="p">(</span><span class="n">partition_name</span> <span class="p">[,</span> <span class="n">partition_name</span><span class="p">]</span> <span class="p">...)]</span>
+<span class="p">[</span><span class="k">WHERE</span> <span class="n">where_condition</span><span class="p">]</span></code></pre></figure>
+
+<p>삭제할 테이블 이름 지정 및 파티션 테이블에서 특정 파티션만 대상으로 삭제 가능하며 조건을 만족하는 행만 삭제가 가능하다(생략시 테이블 전체가 삭제되버림).</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="p">[</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="p">...]</span>
+<span class="p">[</span><span class="k">LIMIT</span> <span class="k">row_count</span><span class="p">]</span></code></pre></figure>
+
+<p>삭제 순서를 ORDER 을 통해 지정할 수 있고, 주로 LIMIT 와 함께 사용가능하다.</p>
+
+<h5 id="insert">INSERT</h5>
+
+<p>insert 동작은 좀 복잡하다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">INSERT</span> <span class="p">[</span><span class="n">LOW_PRIORITY</span> <span class="o">|</span> <span class="n">DELAYED</span> <span class="o">|</span> <span class="n">HIGH_PRIORITY</span><span class="p">]</span> <span class="p">[</span><span class="k">IGNORE</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">INTO</span><span class="p">]</span> <span class="n">tbl_name</span>
+    <span class="p">[</span><span class="n">PARTITION</span> <span class="p">(</span><span class="n">partition_name</span> <span class="p">[,</span> <span class="n">partition_name</span><span class="p">]</span> <span class="p">...)]</span>
+    <span class="p">[(</span><span class="n">col_name</span> <span class="p">[,</span> <span class="n">col_name</span><span class="p">]</span> <span class="p">...)]</span>
+    <span class="err">{</span> <span class="err">{</span><span class="k">VALUES</span> <span class="o">|</span> <span class="n">VALUE</span><span class="err">}</span> <span class="p">(</span><span class="n">value_list</span><span class="p">)</span> <span class="p">[,</span> <span class="p">(</span><span class="n">value_list</span><span class="p">)]</span> <span class="p">...</span> <span class="err">}</span>
+    <span class="p">[</span><span class="k">AS</span> <span class="n">row_alias</span><span class="p">[(</span><span class="n">col_alias</span> <span class="p">[,</span> <span class="n">col_alias</span><span class="p">]</span> <span class="p">...)]]</span>
+    <span class="p">[</span><span class="k">ON</span> <span class="n">DUPLICATE</span> <span class="k">KEY</span> <span class="k">UPDATE</span> <span class="n">assignment_list</span><span class="p">]</span>
+
+<span class="k">INSERT</span> <span class="p">[</span><span class="n">LOW_PRIORITY</span> <span class="o">|</span> <span class="n">DELAYED</span> <span class="o">|</span> <span class="n">HIGH_PRIORITY</span><span class="p">]</span> <span class="p">[</span><span class="k">IGNORE</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">INTO</span><span class="p">]</span> <span class="n">tbl_name</span>
+    <span class="p">[</span><span class="n">PARTITION</span> <span class="p">(</span><span class="n">partition_name</span> <span class="p">[,</span> <span class="n">partition_name</span><span class="p">]</span> <span class="p">...)]</span>
+    <span class="k">SET</span> <span class="n">assignment_list</span>
+    <span class="p">[</span><span class="k">AS</span> <span class="n">row_alias</span><span class="p">[(</span><span class="n">col_alias</span> <span class="p">[,</span> <span class="n">col_alias</span><span class="p">]</span> <span class="p">...)]]</span>
+    <span class="p">[</span><span class="k">ON</span> <span class="n">DUPLICATE</span> <span class="k">KEY</span> <span class="k">UPDATE</span> <span class="n">assignment_list</span><span class="p">]</span>
+
+<span class="k">INSERT</span> <span class="p">[</span><span class="n">LOW_PRIORITY</span> <span class="o">|</span> <span class="n">HIGH_PRIORITY</span><span class="p">]</span> <span class="p">[</span><span class="k">IGNORE</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">INTO</span><span class="p">]</span> <span class="n">tbl_name</span>
+    <span class="p">[</span><span class="n">PARTITION</span> <span class="p">(</span><span class="n">partition_name</span> <span class="p">[,</span> <span class="n">partition_name</span><span class="p">]</span> <span class="p">...)]</span>
+    <span class="p">[(</span><span class="n">col_name</span> <span class="p">[,</span> <span class="n">col_name</span><span class="p">]</span> <span class="p">...)]</span>
+    <span class="err">{</span> <span class="k">SELECT</span> <span class="p">...</span> 
+      <span class="o">|</span> <span class="k">TABLE</span> <span class="k">table_name</span> 
+      <span class="o">|</span> <span class="k">VALUES</span> <span class="n">row_constructor_list</span>
+    <span class="err">}</span>
+    <span class="p">[</span><span class="k">ON</span> <span class="n">DUPLICATE</span> <span class="k">KEY</span> <span class="k">UPDATE</span> <span class="n">assignment_list</span><span class="p">]</span>
+
+<span class="n">value</span><span class="p">:</span>
+    <span class="err">{</span><span class="n">expr</span> <span class="o">|</span> <span class="k">DEFAULT</span><span class="err">}</span>
+
+<span class="n">value_list</span><span class="p">:</span>
+    <span class="n">value</span> <span class="p">[,</span> <span class="n">value</span><span class="p">]</span> <span class="p">...</span>
+
+<span class="n">row_constructor_list</span><span class="p">:</span>
+    <span class="k">ROW</span><span class="p">(</span><span class="n">value_list</span><span class="p">)[,</span> <span class="k">ROW</span><span class="p">(</span><span class="n">value_list</span><span class="p">)][,</span> <span class="p">...]</span>
+
+<span class="k">assignment</span><span class="p">:</span>
+    <span class="n">col_name</span> <span class="o">=</span> 
+          <span class="n">value</span>
+        <span class="o">|</span> <span class="p">[</span><span class="n">row_alias</span><span class="p">.]</span><span class="n">col_name</span>
+        <span class="o">|</span> <span class="p">[</span><span class="n">tbl_name</span><span class="p">.]</span><span class="n">col_name</span>
+        <span class="o">|</span> <span class="p">[</span><span class="n">row_alias</span><span class="p">.]</span><span class="n">col_alias</span>
+
+<span class="n">assignment_list</span><span class="p">:</span>
+    <span class="k">assignment</span> <span class="p">[,</span> <span class="k">assignment</span><span class="p">]</span> <span class="p">...</span></code></pre></figure>
+
+<p>INSERT 문은 크게 3가지로 나뉘는데 각각을 보자.</p>
+
+<p><strong>VALUES 를 사용하는 일반 INSERT</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">INSERT</span> <span class="p">[</span><span class="n">LOW_PRIORITY</span> <span class="o">|</span> <span class="n">DELAYED</span> <span class="o">|</span> <span class="n">HIGH_PRIORITY</span><span class="p">]</span> <span class="p">[</span><span class="k">IGNORE</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">INTO</span><span class="p">]</span> <span class="n">tbl_name</span>
+    <span class="p">[</span><span class="n">PARTITION</span> <span class="p">(</span><span class="n">partition_name</span> <span class="p">[,</span> <span class="n">partition_name</span><span class="p">]</span> <span class="p">...)]</span>
+    <span class="p">[(</span><span class="n">col_name</span> <span class="p">[,</span> <span class="n">col_name</span><span class="p">]</span> <span class="p">...)]</span>
+    <span class="err">{</span> <span class="err">{</span><span class="k">VALUES</span> <span class="o">|</span> <span class="n">VALUE</span><span class="err">}</span> <span class="p">(</span><span class="n">value_list</span><span class="p">)</span> <span class="p">[,</span> <span class="p">(</span><span class="n">value_list</span><span class="p">)]</span> <span class="p">...</span> <span class="err">}</span>
+    <span class="p">[</span><span class="k">AS</span> <span class="n">row_alias</span><span class="p">[(</span><span class="n">col_alias</span> <span class="p">[,</span> <span class="n">col_alias</span><span class="p">]</span> <span class="p">...)]]</span>
+    <span class="p">[</span><span class="k">ON</span> <span class="n">DUPLICATE</span> <span class="k">KEY</span> <span class="k">UPDATE</span> <span class="n">assignment_list</span><span class="p">]</span></code></pre></figure>
+
+<ul>
+  <li>DELAYED: 테이블이 바쁠 때 INSERT 를 지연시킨다.</li>
+  <li>IGNORED: 삽입 중 오류 발생 무시하고 실행</li>
+  <li>VALUES / VALUE (value_list) : 삽입할 값
+    <ul>
+      <li>여러 행 삽입 가능: (v1, v2, …) , (v3, v4, …)</li>
+    </ul>
+  </li>
+  <li>ON DUPLICATE KEY UPDATE: 기본키/유니크키 충돌 시 수행 할 업데이트</li>
+</ul>
+
+<blockquote>
+  <p>INSERT-INTO-VALUES 로 자주 사용한다.</p>
+</blockquote>
+
+<p><strong>ON DUPLICATE KEY UPDATE</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">t1</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="k">c</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+  <span class="k">ON</span> <span class="n">DUPLICATE</span> <span class="k">KEY</span> <span class="k">UPDATE</span> <span class="k">c</span><span class="o">=</span><span class="k">c</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="k">UPDATE</span> <span class="n">t1</span> <span class="k">SET</span> <span class="k">c</span><span class="o">=</span><span class="k">c</span><span class="o">+</span><span class="mi">1</span> <span class="k">WHERE</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span></code></pre></figure>
+
+<p>기존에 primary key 혹은 unique 가 a 라는 attribute 이고, 초기 데이터가 a=1 인 행이 이미 있다고 치자, 그러면 (1, 2, 3) 이라는 행을 insert 하는 작업은 비정상적이다. 이때 ON DUPLICATE KEY UPDATE 절로 기존에 있던 행에 대해 업데이트하는 작업을 수행할 수 있다.</p>
+
+<p><strong>SET을 사용하는 INSERT</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">INSERT</span> <span class="p">[</span><span class="n">LOW_PRIORITY</span> <span class="o">|</span> <span class="n">DELAYED</span> <span class="o">|</span> <span class="n">HIGH_PRIORITY</span><span class="p">]</span> <span class="p">[</span><span class="k">IGNORE</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">INTO</span><span class="p">]</span> <span class="n">tbl_name</span>
+    <span class="p">[</span><span class="n">PARTITION</span> <span class="p">(...)]</span>
+    <span class="k">SET</span> <span class="n">assignment_list</span>
+    <span class="p">[</span><span class="k">AS</span> <span class="n">row_alias</span><span class="p">[(</span><span class="n">col_alias</span> <span class="p">...)]]</span>
+    <span class="p">[</span><span class="k">ON</span> <span class="n">DUPLICATE</span> <span class="k">KEY</span> <span class="k">UPDATE</span> <span class="n">assignment_list</span><span class="p">]</span></code></pre></figure>
+
+<p><strong>SELECT / TABLE / VALUES 를 이용한 INSERT</strong></p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">INSERT</span> <span class="p">[</span><span class="n">LOW_PRIORITY</span> <span class="o">|</span> <span class="n">HIGH_PRIORITY</span><span class="p">]</span> <span class="p">[</span><span class="k">IGNORE</span><span class="p">]</span>
+    <span class="p">[</span><span class="k">INTO</span><span class="p">]</span> <span class="n">tbl_name</span>
+    <span class="p">[</span><span class="n">PARTITION</span> <span class="p">(...)]</span>
+    <span class="p">[(</span><span class="n">col_name</span> <span class="p">[,</span> <span class="p">...])]</span>
+    <span class="err">{</span> <span class="k">SELECT</span> <span class="p">...</span> 
+      <span class="o">|</span> <span class="k">TABLE</span> <span class="k">table_name</span> 
+      <span class="o">|</span> <span class="k">VALUES</span> <span class="n">row_constructor_list</span>
+    <span class="err">}</span>
+    <span class="p">[</span><span class="k">ON</span> <span class="n">DUPLICATE</span> <span class="k">KEY</span> <span class="k">UPDATE</span> <span class="n">assignment_list</span><span class="p">]</span>
+
+<span class="n">value</span><span class="p">:</span>
+    <span class="err">{</span><span class="n">expr</span> <span class="o">|</span> <span class="k">DEFAULT</span><span class="err">}</span>
+
+<span class="n">value_list</span><span class="p">:</span>
+    <span class="n">value</span> <span class="p">[,</span> <span class="n">value</span><span class="p">]</span> <span class="p">...</span>
+
+<span class="n">row_constructor_list</span><span class="p">:</span>
+    <span class="k">ROW</span><span class="p">(</span><span class="n">value_list</span><span class="p">)[,</span> <span class="k">ROW</span><span class="p">(</span><span class="n">value_list</span><span class="p">)][,</span> <span class="p">...]</span></code></pre></figure>
+
+<h5 id="do">DO</h5>
+
+<p>표현식을 실행하지만 결과를 반환하지 않는 명령이다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">SLEEP</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span></code></pre></figure>
+
+<p>위의 구문과 아래 구문의 차이는 출력이 있냐 없냐 뿐이다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">DO</span> <span class="n">SLEEP</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span></code></pre></figure>
+
+<h5 id="call">CALL</h5>
+
+<p>이전에 정의해놓은 프로시저(함수)를 호출하고 싶을 때 사용한다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">CALL</span> <span class="n">sp_name</span><span class="p">([</span><span class="k">parameter</span><span class="p">[,...]])</span>
+<span class="k">CALL</span> <span class="n">sp_name</span><span class="p">[()]</span></code></pre></figure>
+
+<p>여기서 [()] 가 되어 있는데, 이는 인자가 필요 없는 함수에 대해 소괄호를 생략해도 된다는 의미이다.</p>
+
+<p>인자를 placeholder 로 사용하여 넣고 함수를 호출하는 예제이다.</p>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">DELIMITER</span> <span class="o">//</span>
+
+<span class="k">CREATE</span> <span class="k">PROCEDURE</span> <span class="n">p</span> <span class="p">(</span><span class="k">OUT</span> <span class="n">ver_param</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">25</span><span class="p">),</span> <span class="k">INOUT</span> <span class="n">incr_param</span> <span class="nb">INT</span><span class="p">)</span>
+<span class="k">BEGIN</span>
+  <span class="o">#</span> <span class="k">Set</span> <span class="n">value</span> <span class="k">of</span> <span class="k">OUT</span> <span class="k">parameter</span>
+  <span class="k">SELECT</span> <span class="k">VERSION</span><span class="p">()</span> <span class="k">INTO</span> <span class="n">ver_param</span><span class="p">;</span>
+  <span class="o">#</span> <span class="k">Increment</span> <span class="n">value</span> <span class="k">of</span> <span class="k">INOUT</span> <span class="k">parameter</span>
+  <span class="k">SET</span> <span class="n">incr_param</span> <span class="o">=</span> <span class="n">incr_param</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">END</span> <span class="o">//</span>
+
+<span class="k">DELIMITER</span> <span class="p">;</span></code></pre></figure>
+
+<blockquote>
+  <p>DELIMITER //: 문장 구분자를 바꾸는 명령, ; 를 //로 바꾸겠다<br />
+OUT: 출력용 파라미터<br />
+INOUT: 입력과 출력 둘 다 가능한 파라미터<br />
+BEGIN: 프로시저 시작<br />
+END //: 프로시저 끝 및 문장의 종료<br />
+DELIMITER ;: 문장의 구분자를 // 에서 ; 로 바꾸겠다.</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SET</span> <span class="o">@</span><span class="k">increment</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CALL</span> <span class="n">p</span><span class="p">(</span><span class="o">@</span><span class="k">version</span><span class="p">,</span> <span class="o">@</span><span class="k">increment</span><span class="p">);</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">@</span><span class="k">version</span><span class="p">,</span> <span class="o">@</span><span class="k">increment</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">----------+------------+</span>
+<span class="o">|</span> <span class="o">@</span><span class="k">version</span> <span class="o">|</span> <span class="o">@</span><span class="k">increment</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">----------+------------+</span>
+<span class="o">|</span> <span class="mi">8</span><span class="p">.</span><span class="mi">4</span><span class="p">.</span><span class="mi">6</span>   <span class="o">|</span>         <span class="mi">11</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">----------+------------+</span></code></pre></figure>
+
+<h3 id="relational-model">Relational Model</h3>
+
+<p>기본적인 SQL 문을 다루는 법은 살펴봤으니 그 뒷단의 이론을 보자.</p>
+
+<h4 id="structure-of-relational-databases">Structure of Relational Databases</h4>
+
+<p>Relational DB 는 여러 개의 테이블로 이루어져 있고, 이런 테이블들의 한 행은 특정 ID 와 그에 대응되는 열들의 값들 간의 <strong>Relation</strong> 으로 표현되는 것을 볼 수 있다.</p>
+
+<p>이러한 Relation 을 기본적으로 수학적 개념이고, 이 관계들에 실체 값들을 즉, 행들을 Tuple 이라고 부르며, 테이블의 개념은 이러한 관계들의 Set 이 되겠다.</p>
+
+<blockquote>
+  <p>Tuple $\in$ Relation $\subset$ Table</p>
+</blockquote>
+
+<p>여기서 튜플은 우리가 다루는 데이터들 일텐데, 데이터의 상태는 항상 바뀌기 마련이다. 따라서 이를 구분하기 위해 <strong>Relation Instance</strong> 라는 개념이 있는데, Relation 의 특정 한 시점을 나타내게 된다.</p>
+
+<p>또한 튜플들의 각 성분에 대해 가질 수 있는 값들의 범위를 <strong>Attribute</strong> 이라고 한다.</p>
+
+<h5 id="domain-atomicity">Domain Atomicity</h5>
+
+<p>도메인이 원자적이어야 한다는 것은 도메인 원소가 더 이상 쪼갤 수 없는 단위(indivisible unit)로 되어야 함을 의미한다.</p>
+
+<p>여기서 중요한 점은 도메인 자체가 무엇이냐가 아니라, <strong>우리가 데이터베이스에서 도메인 원소를 어떻게 다루느냐</strong> 이다. 가령 phone_number 속성이 단일 전화번호 하나만 저장한다고 하더라도, 만약 우리가 그 값을 국가 코드, 지역 코드, 국번호 등으로 쪼개어 다룬다면 이는 여전히 <strong>비원자적(non-atomic)</strong> 값으로 취급되는 것이다.</p>
+
+<h5 id="domain-nullity">Domain Nullity</h5>
+
+<p>이런 원자성만 갖추면 될 것 같지만, 값에는 아무 것도 없는 null 이라는 의미를 가진 값이 존재할 수 있다. 초반의 예제에서는 이게 없다고 가정하고 다루지만, 보통은 null 값을 어떻게 다룰지, 조회하거나 갱신할 때 null 이 미치는 영향들을 추후에 살펴보자.</p>
+
+<h4 id="relational-model-의-한계">Relational Model 의 한계</h4>
+<p>관계형 모델의 비교적 엄격한 구조는 데이터 저장과 처리에서 여러 가지 중요한 실질적 장점을 가져오지만, 엄격한 구조는 잘 정의되어 있고 비교적 <strong>정적인 응용 분야에는 적합</strong>하지만, 데이터뿐만 아니라 <strong>데이터의 유형과 구조 자체가 시간에 따라 변하는 응용 분야에는 적합하지 않다</strong>.</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-18%EC%9D%BC%EC%B0%A8-database-%ED%99%9C%EC%9A%A9.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC/%EB%A9%8B%EC%82%AC/%EB%B0%B1%EC%97%94%EB%93%9C/til/database/2025/09/11/%EB%A9%8B%EC%82%AC-%EB%B0%B1%EC%97%94%EB%93%9C-19%EA%B8%B0-til-18%EC%9D%BC%EC%B0%A8-database-%ED%99%9C%EC%9A%A9.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>

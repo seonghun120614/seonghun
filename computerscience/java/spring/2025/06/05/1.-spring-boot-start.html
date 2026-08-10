@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="kor">
+
+    <head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="icon" href="/seonghun120614/assets/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/seonghun120614/assets/css/style.css">
+<title>1. Spring Boot 처음 시작하기</title>
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Spring Boot 처음 시작하기 | Seonghun’s Blog</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Spring Boot 처음 시작하기" />
+<meta name="author" content="Seonghun Park" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Spring Boot 기본 설명" />
+<meta property="og:description" content="Spring Boot 기본 설명" />
+<link rel="canonical" href="https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/06/05/1.-spring-boot-start.html" />
+<meta property="og:url" content="https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/06/05/1.-spring-boot-start.html" />
+<meta property="og:site_name" content="Seonghun’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-06-05T09:18:53+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Spring Boot 처음 시작하기" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Seonghun Park"},"dateModified":"2025-06-05T09:18:53+00:00","datePublished":"2025-06-05T09:18:53+00:00","description":"Spring Boot 기본 설명","headline":"Spring Boot 처음 시작하기","mainEntityOfPage":{"@type":"WebPage","@id":"https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/06/05/1.-spring-boot-start.html"},"url":"https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/06/05/1.-spring-boot-start.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<script type="text/javascript" src="/seonghun120614/assets/js/darkmode.js"></script>
+
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQTWJRLWGD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-RQTWJRLWGD');
+</script><style>
+            section.about {
+                justify-content: flex-start !important;
+                padding-top: 8vh;
+            }
+            .sidebar-bottom {
+                margin-top: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .sidebar-bottom p { margin: 0; }
+            nav.navigation ul a {
+                border-bottom: none !important;
+                padding: 0.4rem 0 !important;
+                font-size: 0.88rem !important;
+                color: #999 !important;
+                letter-spacing: 0.03em;
+                transition: color 0.15s;
+            }
+            nav.navigation ul a:hover { color: #222 !important; }
+            body.dark nav.navigation ul a { color: #666 !important; }
+            body.dark nav.navigation ul a:hover { color: #eee !important; }
+        </style>
+    </head><body>
+        <div class="bg-canvas" aria-hidden="true">
+            <div class="bg-orb bg-orb-1"></div>
+            <div class="bg-orb bg-orb-2"></div>
+            <div class="bg-orb bg-orb-3"></div>
+            <div class="bg-orb bg-orb-4"></div>
+        </div>
+        <div id="scroll-progress"></div>
+        <main class="container">
+            <section class="about">
+                <div class="about-header condensed">
+                    <div class="about-title">
+                        <a href="/seonghun120614/">
+                            
+                            <img class="light"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            <img class="dark"
+                                src="https://avatars.githubusercontent.com/u/58248012?v=4"
+                                alt="Seonghun Park" />
+                            
+                        </a>
+                        <h2 id="title">
+                            <a href="/seonghun120614/">Seonghun Park</a>
+                        </h2>
+                    </div><p class="tagline">Java Developer</p></div>
+                
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </section>
+            <section class="content">
+                <script>
+window.MathJax = {
+    tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    options: {
+    renderActions: {
+        addMenu: []
+    }
+    }
+};
+</script>
+
+<script type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+.post-title {
+    font-size: 21px !important;
+    line-height: 1.4em !important;
+}
+.post-categories {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+}
+.post-categories li {
+    float: none !important;
+    margin-right: 0 !important;
+    background: #f2f2f2 !important;
+    color: #666 !important;
+    padding: 2px 11px !important;
+    border-radius: 999px !important;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.02em;
+}
+body.dark .post-categories li {
+    background: #252525 !important;
+    color: #999 !important;
+}
+</style><div class="post-container">
+    <a class="post-link" href="/seonghun120614/computerscience/java/spring/2025/06/05/1.-spring-boot-start.html">
+        <h2 class="post-title">1. Spring Boot 처음 시작하기</h2>
+    </a>
+
+    <div class="post-meta">
+        <div class="post-date"><i class="icon-calendar"></i>Jun 5, 2025</div><ul class="post-categories"><li>ComputerScience</li><li>Java</li><li>Spring</li></ul></div>
+
+    <div class="post">
+        <!--more-->
+<p>Spring Boot 기본 설명</p>
+
+<h2 id="-한계점">🪛 한계점</h2>
+
+<p>Java EE 의 복잡성과 비효율성을 극복하기 위해 나온 단순하면서 테스트 가능한 <a href="#POJO">POJO</a> 기반 개발</p>
+
+<p>Java EE 의 한계</p>
+<ul>
+  <li>많은 XML 설정 및 복잡한 라이프사이클 관리</li>
+  <li>비즈니스 로직 작성 시도에도 무거운 클래스 계층 요구</li>
+  <li>테스트 어려움 (EJB 중심 구조)</li>
+</ul>
+
+<p>이로 인해 나온게 Spring Framework 인데, 여기서도 단점은</p>
+<ul>
+  <li>설정이 너무 많다</li>
+  <li>프로젝트 초기 셋업 시간이 길다</li>
+  <li>톰캣 따로 설치 &amp; 배포가 필요하다</li>
+</ul>
+
+<p>이로 인해 나온게 Spring Boot 이다.</p>
+
+<hr />
+
+<h2 id="-목차">📂 목차</h2>
+<ul>
+  <li><a href="#spring-boot">Spring Boot</a>
+    <ul>
+      <li><a href="#spring-boot-1">spring-boot</a></li>
+      <li><a href="#spring-boot-autoconfigure">spring-boot-autoconfigure</a></li>
+      <li><a href="#spring-boot-starter">spring-boot-starter</a></li>
+      <li><a href="#spring-boot-CLI">spring-boot-CLI</a></li>
+      <li><a href="#spring-boot-actuator">spring-boot-actuator</a></li>
+      <li><a href="#spring-boot-actuator-autoconfigure">spring-boot-actuator-autoconfigure</a></li>
+      <li><a href="#spring-boot-test">spring-boot-test</a></li>
+      <li><a href="#spring-boot-loader">spring-boot-loader</a></li>
+      <li><a href="#spring-boot-devtools">spring-boot-devtools</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="-본문">📚 본문</h2>
+
+<p>Spring 을 쉽게 시작하고, 실무 중심으로 접할 수 있도록 ‘거시적인’ 개념을 본다.</p>
+
+<h3 id="spring-boot">Spring Boot</h3>
+
+<p>Spring Boot 는 Spring Framework 의 확장판으로 설정 없이도 어플리케이션을 빠르게 실행할 수 있게 도와준다.</p>
+
+<p>자주 사용하는 Spring 컴포넌트를 보자.</p>
+
+<h4 id="spring-boot-1">spring-boot</h4>
+
+<p>스프링 부트의 기본 컴포넌트로 다른 컴포넌트를 사용할 수 있도록 지원한다.</p>
+
+<p>spring-boot 의 <code class="language-plaintext highlighter-rouge">SpringApplication</code> 클래스는 spring-boot 에 내장된 웹 서버 기능 지원, 어플리케이션 설정 정보 외부화 기능 지원 등의 다양한 서로 다른 컴포넌트들을 연결한다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>항목</th>
+      <th>Spring Boot Application</th>
+      <th>Spring Application</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>설정 방식</td>
+      <td>자동 설정 (<code class="language-plaintext highlighter-rouge">@SpringBootApplication</code>)</td>
+      <td>수동 설정 (XML 또는 Java Config)</td>
+    </tr>
+    <tr>
+      <td>서버 실행</td>
+      <td>내장 Tomcat/Jetty 등 사용, JAR로 실행 가능</td>
+      <td>외부 WAS 필요, WAR로 배포</td>
+    </tr>
+    <tr>
+      <td>실행 진입점</td>
+      <td><code class="language-plaintext highlighter-rouge">main()</code>에서 <code class="language-plaintext highlighter-rouge">SpringApplication.run()</code> 호출</td>
+      <td>외부 서버의 web.xml에서 초기화</td>
+    </tr>
+    <tr>
+      <td>의존성 관리</td>
+      <td><code class="language-plaintext highlighter-rouge">spring-boot-starter-*</code>, BOM으로 버전 관리</td>
+      <td>개별 라이브러리 수동 설정</td>
+    </tr>
+    <tr>
+      <td>개발 생산성</td>
+      <td>빠름 – 설정 없이 바로 시작 가능</td>
+      <td>느림 – 많은 설정 필요</td>
+    </tr>
+    <tr>
+      <td>파일 구조</td>
+      <td><code class="language-plaintext highlighter-rouge">application.yml</code>, Java Config 중심</td>
+      <td><code class="language-plaintext highlighter-rouge">applicationContext.xml</code> 등 XML 설정 사용</td>
+    </tr>
+    <tr>
+      <td>테스트 및 도구</td>
+      <td>DevTools, Actuator 등 내장 도구 제공</td>
+      <td>별도 설정 필요</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="spring-boot-autoconfigure">spring-boot-autoconfigure</h4>
+
+<p><code class="language-plaintext highlighter-rouge">Spring Application</code> 을 자동 구성 할 수 있게 하는 <a href="#component">Component</a>이다.</p>
+
+<p>테스트 환경, 개발 환경, 배포 환경은 서로 다르다. 또한 DB 연결도 어떤 Database 를 쓰는지에 따라 다르다. 그에 맞는 <code class="language-plaintext highlighter-rouge">Spring Application</code> 의 설정 값들을 자동으로 바꾸도록 한다.</p>
+
+<h4 id="spring-boot-starter">spring-boot-starter</h4>
+
+<p>개발자 편의를 위해 제공되는 패키지들의 모음이다.</p>
+
+<p>여러 기술을 개발자에게 제공하여 이 스타터가 없다면 쓸 패키지들을 일일히 다 써서 설정해줘야 한다.</p>
+
+<h4 id="spring-boot-cli">spring-boot-CLI</h4>
+
+<p><a href="#groovy">Groovy</a> 코드를 컴파일하고 실행할 수 있는 개발자 친화적 명령행 도구이다.</p>
+
+<p>파일 내용을 감지하는 기능이 있어 어플리케이션 수정 시 직접 재부팅을 할 필요가 없다.</p>
+
+<h4 id="spring-boot-actuator">spring-boot-actuator</h4>
+
+<p>스프링 부트 어플리케이션을 모니터링한다.</p>
+
+<p>액추에이터 엔드포인트를 제공하고, 어플리케이션의 여러 상태를 감지할 수 있고 미리 정의된 여러 가지 액추에이터 엔드포인트를 사용하거나 커스텀 액추에이터 엔드포인트를 사용하여 새로운 엔드포인트를 만들 수도 있다.</p>
+
+<h4 id="spring-boot-actuator-autoconfigure">spring-boot-actuator-autoconfigure</h4>
+
+<p>클래스를 기반으로 액추에이터 엔드포인트를 자동으로 구성해주는 컴포넌트이다.</p>
+
+<p>만약 Micrometer 의 의존관계가 있다면, 스프링부트가 자동으로 <code class="language-plaintext highlighter-rouge">MetricsEndpoint</code> 를 액추에이터 엔드포인트로 추가해준다.</p>
+
+<h4 id="spring-boot-test">spring-boot-test</h4>
+
+<p>스프링 부트 어플리케이션 테스트 케이스 작성에 필요한 <a href="#annotation">Annotation</a> 과 메서드가 포함되어 있다.</p>
+
+<h4 id="spring-boot-loader">spring-boot-loader</h4>
+
+<p>스프링 부트 어플리케이션을 실행가능한 하나의 JAR 파일로 패키징 하는데 필요한 모든 라이브러리들과 독립 실행형으로 실행되는 내장 웹 서버를 포함하고 있다. 이 컴포넌트는 독립적으로 사용하지 않고, <a href="#maven">Maven</a>, <a href="#gradle">Gradle</a> 플러그인과 함께 사용된다.</p>
+
+<h4 id="spring-boot-devtools">spring-boot-devtools</h4>
+
+<p>스프링 부트 어플리케이션 개발을 도와주는 여러 가지 개발자 도구를 지원한다.</p>
+
+<p>코드 변경 자동 감지, HTML 변경 시 자동 새로고침 LiveReload 기능이 있다.</p>
+
+<hr />
+
+<h2 id="-출처">🔗 출처</h2>
+<ul>
+  <li>도서 <a href="https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=279280319&amp;srsltid=AfmBOoqOq7s5PrLMTe6aMGBXVD7AjNczIgN0e57lelyEY76kueqPkxeK">Spring Boot in Practice</a></li>
+</ul>
+
+<hr />
+
+<h2 id="️-용어">✒️ 용어</h2>
+
+<h6 id="pojo">POJO</h6>
+
+<p>Pain Old Java Object 의 약자로,  지향적인 원리에 충실하면서 환경과 기술에 종속되지 않고, 필요에 따라 재활용될 수 있는 방식으로 설계된 오브젝트이다.</p>
+
+<ul>
+  <li>Java 나 Java 에서 정의한 규정만 따른다.</li>
+  <li>환경에 독립적이어야 한다.</li>
+</ul>
+
+<h6 id="component">Component</h6>
+
+<p>정의된 기능을 수행하고, 재사용이 가능한 소프트웨어 모듈이다.</p>
+
+<p>외부와의 인터페이스가 명확하기 때문에 독립적으로 배포, 수정, 교체, 조립이 가능한 단위다.</p>
+
+<p>Spring 에서는 <strong>중요한 개념으로 클래스에 애너테이션으로 붙여 정의</strong> 할 수 있다.</p>
+
+<h6 id="groovy">Groovy</h6>
+
+<p>Java 를 확장한 동적 객체 지향 프로그래밍 언어이다. 여기서 동적이라는 말은 변수 타입을 컴파일이 아니라 런타임때 정한다. 자바 코드를 그대로 쓸 수도 있고, 스크립팅 언어이다.</p>
+
+<h6 id="annotation">Annotation</h6>
+
+<p>클래스, 메서드, 필드, 파라미터 등에 부착하여 프레임워크나 컴파일러가 특정 작업을 하도록 만드는 기능이다.</p>
+
+<p>책임 분리가 가능하도록 하며, 이 덕분에 Single Responsibility 를 챙겨갈 수 있다.</p>
+
+<p>또한 사용자 정의 애너테이션을 정의할 수도 있다.</p>
+
+<h6 id="maven">Maven</h6>
+
+<p>Java 기반의 프로젝트 빌드 자동화 도구이다.</p>
+
+<p>의존성 관리, 빌드 테스트, 패키징, 배포 등을 스크립트화하여 자동화한다.</p>
+
+<h6 id="gradle">Gradle</h6>
+
+<p>Java 기반의 프로젝트 빌드 자동화 도구이다.</p>
+
+<p>의존성 관리, 빌드 테스트, 패키징, 배포 등을 스크립트화하여 자동화한다.</p>
+
+    </div><div id="disqus_thread" style="margin-top:25px"></div>
+    <script>
+    var disqus_config = function () {
+        this.page.url = 'https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/06/05/1.-spring-boot-start.html';
+        this.page.identifier = 'https://seonghun120614.github.io/seonghun120614/computerscience/java/spring/2025/06/05/1.-spring-boot-start.html';
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://seonghun.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+  </script>
+    <noscript>Please enable JavaScript to view the <a
+            href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+            powered by Disqus.</a></noscript></div>
+<script>
+    mermaid.initialize({startOnLoad:true});
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+</script>
+
+
+            </section>
+            <footer class="condensed">
+                <ul class="social about-footer condensed"><li>
+                        <a
+                            href="https://github.com/seonghun120614"
+                            target="_blank"
+                            rel="noopener"
+                            aria-label="github">
+                            <i class="icon-github-circled"></i>
+                        </a>
+                    </li><li>
+                        <a
+                            href="mailto:seonghun120614@gmail.com"
+                            target="_blank" rel="noopener" aria-label="email">
+                            <i class="icon-mail-alt"></i>
+                        </a>
+                    </li></ul><nav class="navigation about-footer condensed">
+                    <ul>
+                        
+                        <li>
+                            <a href="/seonghun120614/about">About Me</a>
+                        </li>
+                        
+                        <li>
+                            <a href="/seonghun120614/">Posts</a>
+                        </li>
+                        
+                    </ul>
+                </nav><div class="sidebar-bottom about-footer condensed">
+                    <p>&copy; 2026</p><p>Dark Mode
+                        <i class="icon-moon"></i>
+                        <label class="switch" for="dark-toggle">
+                            <input id="dark-toggle" type="checkbox"
+                                class="dark-mode-toggle"
+                                aria-label="Toggle dark mode">
+                            <span class="slider round"
+                                onclick="toggleDarkMode()"></span>
+                        </label>
+                    </p></div>
+                
+            </footer>
+        </main>
+        <script src="/seonghun120614/assets/js/simple-jekyll-search.min.js"></script>
+        <script src="/seonghun120614/assets/js/search.js"></script>
+        
+        <script>
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                document.getElementById('scroll-progress').style.width = scrollPercent + '%';
+            });
+        </script>
+    </body>
+</html>
